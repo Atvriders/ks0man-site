@@ -1,0 +1,121 @@
+<!-- wp:template-part {"slug":"header","tagName":"header","area":"header","className":"maars-site-header"} /-->
+
+<!-- wp:group {"tagName":"main","className":"maars-main maars-archive","style":{"spacing":{"padding":{"top":"1.5rem","bottom":"2.5rem","left":"1rem","right":"1rem"},"blockGap":"1.5rem"}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group maars-main maars-archive" style="padding-top:1.5rem;padding-right:1rem;padding-bottom:2.5rem;padding-left:1rem">
+
+	<!-- wp:heading {"level":1,"className":"maars-archive__title","style":{"typography":{"fontSize":"clamp(1.5rem, 1.1rem + 1.6vw, 2.2rem)","lineHeight":"1.2"}},"textColor":"navy"} -->
+	<h1 class="wp-block-heading maars-archive__title has-navy-color has-text-color" style="font-size:clamp(1.5rem, 1.1rem + 1.6vw, 2.2rem);line-height:1.2">The archive</h1>
+	<!-- /wp:heading -->
+
+	<!-- wp:paragraph {"className":"maars-archive__lede","style":{"typography":{"fontSize":"1.05rem","lineHeight":"1.6"}}} -->
+	<p class="maars-archive__lede" style="font-size:1.05rem;line-height:1.6">Every dated document the Society has published and kept: <strong>266 items</strong> spanning 1998 to 2024 <span aria-hidden="true">·</span> newsletters, meeting minutes, 49 treasurer&#8217;s reports and 6 year-end reports. They are listed newest first, 20 to a page, 14 pages in all.</p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:paragraph {"className":"maars-archive__gaps","style":{"typography":{"fontSize":"0.95rem","lineHeight":"1.6"}}} -->
+	<p class="maars-archive__gaps" style="font-size:0.95rem;line-height:1.6">The gaps are part of the record and are not papered over. <strong>2012 produced nothing at all.</strong> The newest document of any kind is dated 16 January 2024. Where a year is thin, the year is thin <span aria-hidden="true">·</span> <a href="/archive/gaps/">what we know is missing</a>.</p>
+	<!-- /wp:paragraph -->
+
+	<!-- FILTERS. Two taxonomies and a search field, above the list, not hidden behind a control.
+	     The old site's route to a 2003 newsletter was a wall of 26 alphabetical links. -->
+	<!-- wp:group {"tagName":"section","className":"maars-archive-filters","anchor":"maars-archive-filters","style":{"spacing":{"padding":{"top":"1.25rem","bottom":"1.25rem","left":"1.25rem","right":"1.25rem"},"blockGap":"1rem"}},"backgroundColor":"ground","textColor":"ink","layout":{"type":"constrained"}} -->
+	<section class="wp-block-group maars-archive-filters has-ink-color has-ground-background-color has-text-color has-background" id="maars-archive-filters" style="padding-top:1.25rem;padding-right:1.25rem;padding-bottom:1.25rem;padding-left:1.25rem">
+
+		<!-- wp:heading {"level":2,"className":"maars-filters__title","style":{"typography":{"fontSize":"1.1rem","textTransform":"uppercase","letterSpacing":"0.06em"}},"textColor":"navy"} -->
+		<h2 class="wp-block-heading maars-filters__title has-navy-color has-text-color" style="font-size:1.1rem;letter-spacing:0.06em;text-transform:uppercase">Narrow the list</h2>
+		<!-- /wp:heading -->
+
+		<!-- wp:search {"label":"Search the archive","showLabel":true,"placeholder":"Callsign, name, subject, year","width":100,"widthUnit":"%","buttonText":"Search","buttonPosition":"button-outside","query":{"post_type":"maars_publication"},"className":"maars-filters__search"} /-->
+
+		<!-- wp:columns {"className":"maars-filters__facets","style":{"spacing":{"blockGap":{"top":"1rem","left":"2rem"}}}} -->
+		<div class="wp-block-columns maars-filters__facets">
+
+			<!-- wp:column -->
+			<div class="wp-block-column">
+				<!-- wp:heading {"level":3,"className":"maars-facet__title","style":{"typography":{"fontSize":"1rem"}}} -->
+				<h3 class="wp-block-heading maars-facet__title" style="font-size:1rem">By document type</h3>
+				<!-- /wp:heading -->
+
+				<!-- Four terms only: newsletter, minutes, treasurer-report, year-end-report.
+				     A short vocabulary is the point; the old corpus had 25 competing headings. -->
+				<!-- wp:categories {"taxonomy":"maars_doc_type","showPostCounts":true,"showHierarchy":false,"className":"maars-facet maars-facet-doctype"} /-->
+			</div>
+			<!-- /wp:column -->
+
+			<!-- wp:column -->
+			<div class="wp-block-column">
+				<!-- wp:heading {"level":3,"className":"maars-facet__title","style":{"typography":{"fontSize":"1rem"}}} -->
+				<h3 class="wp-block-heading maars-facet__title" style="font-size:1rem">By year</h3>
+				<!-- /wp:heading -->
+
+				<!-- Twenty-six years of terms, so a dropdown rather than a list. 2012 is absent from
+				     this control because 2012 produced nothing, and that absence is the honest answer. -->
+				<!-- wp:categories {"taxonomy":"maars_year","displayAsDropdown":true,"showPostCounts":true,"showHierarchy":false,"className":"maars-facet maars-facet-year"} /-->
+
+				<!-- wp:paragraph {"className":"maars-facet__note","style":{"typography":{"fontSize":"0.85rem","lineHeight":"1.5"}}} -->
+				<p class="maars-facet__note" style="font-size:0.85rem;line-height:1.5">Year counts are the number of surviving documents, not the number of meetings held.</p>
+				<!-- /wp:paragraph -->
+			</div>
+			<!-- /wp:column -->
+
+		</div>
+		<!-- /wp:columns -->
+
+	</section>
+	<!-- /wp:group -->
+
+	<!-- THE LIST. 20 per page over 266 documents is 14 pages, so pagination is numbered, not an
+	     infinite scroll and not a "load more": a researcher must be able to link to page 9 and
+	     come back to it. Query is explicit rather than inherited so the page length is a property
+	     of this template and not of whatever posts_per_page happens to be set to. -->
+	<!-- wp:query {"queryId":21,"query":{"perPage":20,"pages":0,"offset":0,"postType":"maars_publication","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":null,"parents":[],"format":[]},"className":"maars-archive__loop","layout":{"type":"default"}} -->
+	<div class="wp-block-query maars-archive__loop">
+
+		<!-- wp:post-template {"className":"maars-archive__list","style":{"spacing":{"blockGap":"1.25rem"}},"layout":{"type":"default"}} -->
+
+			<!-- wp:group {"tagName":"article","className":"maars-doc","style":{"spacing":{"padding":{"top":"0.9rem","bottom":"0.9rem"},"blockGap":"0.35rem"},"border":{"bottom":{"color":"#DBDBFB","width":"1px","style":"solid"}}},"layout":{"type":"constrained"}} -->
+			<article class="wp-block-group maars-doc" style="border-bottom-color:#DBDBFB;border-bottom-style:solid;border-bottom-width:1px;padding-top:0.9rem;padding-bottom:0.9rem">
+
+				<!-- wp:post-title {"level":2,"isLink":true,"style":{"typography":{"fontSize":"1.15rem","lineHeight":"1.3"}},"textColor":"navy"} /-->
+
+				<!-- wp:group {"tagName":"div","className":"maars-doc__meta","style":{"spacing":{"blockGap":"0.75rem"},"typography":{"fontSize":"0.85rem"}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
+				<div class="wp-block-group maars-doc__meta" style="font-size:0.85rem">
+					<!-- wp:post-date {"format":"j F Y","isLink":false} /-->
+					<!-- wp:post-terms {"term":"maars_doc_type","prefix":"","separator":", ","className":"maars-doc__type"} /-->
+					<!-- wp:post-terms {"term":"maars_year","prefix":"","separator":", ","className":"maars-doc__year"} /-->
+				</div>
+				<!-- /wp:group -->
+
+				<!-- wp:post-excerpt {"moreText":"Read it","excerptLength":34,"style":{"typography":{"fontSize":"0.95rem","lineHeight":"1.55"}}} /-->
+
+			</article>
+			<!-- /wp:group -->
+
+		<!-- /wp:post-template -->
+
+		<!-- wp:spacer {"height":"1rem"} -->
+		<div style="height:1rem" aria-hidden="true" class="wp-block-spacer"></div>
+		<!-- /wp:spacer -->
+
+		<!-- wp:query-pagination {"paginationArrow":"arrow","showLabel":true,"className":"maars-archive__pagination","style":{"spacing":{"blockGap":"0.5rem"},"typography":{"fontSize":"0.95rem"}},"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
+			<!-- wp:query-pagination-previous {"label":"Newer documents"} /-->
+			<!-- wp:query-pagination-numbers /-->
+			<!-- wp:query-pagination-next {"label":"Older documents"} /-->
+		<!-- /wp:query-pagination -->
+
+		<!-- wp:query-no-results -->
+			<!-- wp:paragraph {"className":"maars-empty","style":{"typography":{"lineHeight":"1.6"}}} -->
+			<p class="maars-empty" style="line-height:1.6"><strong>Nothing matched that.</strong> The archive holds 266 documents from 1998 to 2024 and there is nothing at all from 2012, so a search that comes back empty may be telling you the truth about the record rather than about your spelling. Try a single surname or a four-digit year, or <a href="/archive/">start again from the whole list</a>.</p>
+			<!-- /wp:paragraph -->
+		<!-- /wp:query-no-results -->
+
+	</div>
+	<!-- /wp:query -->
+
+	<!-- wp:paragraph {"className":"maars-archive__provenance","style":{"typography":{"fontSize":"0.85rem","lineHeight":"1.55"}}} -->
+	<p class="maars-archive__provenance" style="font-size:0.85rem;line-height:1.55">Each entry is the text of the document as the Society published it, with the original file kept alongside it. Transcription is machine-assisted and unproofed unless the entry says otherwise, so the original is the authority <span aria-hidden="true">·</span> <a href="/privacy/">something here concerns you?</a></p>
+	<!-- /wp:paragraph -->
+
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer","area":"footer","className":"maars-site-footer"} /-->

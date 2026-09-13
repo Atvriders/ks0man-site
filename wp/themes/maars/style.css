@@ -1,0 +1,61 @@
+/*
+Theme Name: MAARS
+Theme URI: https://ks0man.org/
+Author: Manhattan Area Amateur Radio Society
+Author URI: https://ks0man.org/
+Description: Block theme for the Manhattan Area Amateur Radio Society (KSØMAN), Manhattan, Kansas. Built around one idea: the Society's record must never look current when it is not. Every standing fact carries a freshness grade, the homepage leads with a dateline instead of a hero, and the next meeting is computed from the Constitution and SOP (second Friday, 6:30 P.M.) rather than typed in by hand and forgotten.
+Requires at least: 6.7
+Tested up to: 6.7
+Requires PHP: 8.1
+Version: 1.0.0
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: maars
+Tags: one-column, wide-blocks, block-patterns, full-site-editing, accessibility-ready
+
+Palette note — the colours are the club's own, measured, not chosen:
+navy #00008C and newsletter magenta #990066 were read out of the Society's own
+1997-era markup and stylesheets; lavender #DBDBFB is the old notice-band fill.
+Measured contrast on white: navy 15.23:1 (AAA at every size), magenta 8.25:1 (AAA).
+The palette was never the accessibility problem. A white-on-white link rule and
+1,154 images with no alt text were. So the ink is kept and the bugs are gone.
+
+This file carries the theme header. Presets live in theme.json; component styles
+live in assets/css/maars.css.
+*/
+
+/* Utility used by templates and by server-rendered blocks. */
+.screen-reader-text {
+	border: 0;
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+.screen-reader-text:focus {
+	background-color: var(--wp--preset--color--paper, #fff);
+	clip-path: none;
+	color: var(--wp--preset--color--navy, #00008c);
+	display: block;
+	font-size: 1rem;
+	height: auto;
+	inset-block-start: 0.5rem;
+	inset-inline-start: 0.5rem;
+	line-height: 1.5;
+	outline: 3px solid currentColor;
+	outline-offset: 2px;
+	padding: 0.75rem 1rem;
+	text-decoration: underline;
+	width: auto;
+	z-index: 100000;
+}
+
+/* Skip link target must not hide under a sticky masthead. */
+:target {
+	scroll-margin-block-start: 5rem;
+}

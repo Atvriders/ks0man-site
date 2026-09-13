@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MAARS skywave &mdash; WebGL2 harness</title>
+<!--
+  TEST FIXTURE. Not part of the maars theme and not shipped in the image.
+
+  tests/test_webgl.py drives this page. The contract it relies on:
+    #skywave                          the canvas
+    #skywave-wrap                     the canvas's parentElement
+    #band-80 #band-40 #band-20 #band-2  band buttons
+    canvas.dataset.maarsReady === "1"   set by skywave.js after the first frame
+    window.__maarsHarness.contextRequests  every getContext() type asked for
+    document.body.dataset.harnessBand   the band the MODULE reports it is on
+    document.body.dataset.harnessVia    how that band change was delivered
+    document.body.dataset.harnessError  set only when the harness itself failed
+
+  Query parameters, for poking at it by hand:
+    ?band=40      start on a band
+    ?t=ISO8601    freeze the clock so the terminator is deterministic
+-->
+<style>
+  :root {
+    --navy: #00008C; --magenta: #990066; --lavender: #DBDBFB;
+    --ground: #0C0C18; --paper: #14142A; --ink: #EDEDF7; --alarm: #A5171B;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 20px; background: var(--ground); color: var(--ink);
+    font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, "DejaVu Sans", sans-serif;
+  }
+  h1 { font-size: 15px; letter-spacing: .06em; text-transform: uppercase;
+       color: var(--lavender); margin: 0 0 12px; }
+  h1 small { display: block; font-size: 11px; letter-spacing: .04em;
+             text-transform: none; color: #9FA0F2; font-weight: 400; }
+  .maars-skywave {
+    position: relative; width: 960px; max-width: 100%; height: 600px;
+    border: 1px solid rgba(159,160,242,.35); border-radius: 6px; overflow: hidden;
+    background: var(--paper);
+  }
+  .maars-skywave canvas { display: block; width: 100%; height: 100%; }
+  .maars-skywave canvas:focus { outline: 2px solid #F09FD0; outline-offset: -2px; }
+  .maars-skywave--fallback::after {
+    content: "WebGL2 unavailable \2014 static fallback"; position: absolute;
+    inset: 0; display: flex; align-items: center; justify-content: center;
+    color: var(--lavender); background: var(--paper); font-size: 13px;
+  }
+  .bands { display: flex; gap: 8px; margin: 14px 0; flex-wrap: wrap; }
+  .bands button {
+    font: inherit; font-weight: 700; letter-spacing: .04em; cursor: pointer;
+    padding: 8px 14px; border-radius: 4px; color: var(--lavender);
+    background: #1A1A34; border: 1px solid rgba(159,160,242,.45);
+  }
+  .bands button[aria-pressed="true"] {
+    background: var(--magenta); border-color: #F09FD0; color: #fff;
+  }
+  pre#state {
+    margin: 0; padding: 12px; max-width: 960px; overflow: auto;
+    background: #101024; border: 1px solid rgba(159,160,242,.25); border-radius: 4px;
+    color: #9FA0F2; font-size: 12px; white-space: pre-wrap;
+  }
+</style>
+</head>
+<body>
+
+<h1>MAARS skywave harness
+  <small>window.MAARSSkywave.mount() &middot; raw WebGL2 &middot; no libraries &middot; no network</small></h1>
+
+<div class="maars-skywave" id="skywave-wrap">
+  <canvas id="skywave"></canvas>
+</div>
+
+<div class="bands" id="bands">
+  <button type="button" id="band-80" data-band="80m" aria-pressed="false">80 m &middot; 3.920</button>
+  <button type="button" id="band-40" data-band="40m" aria-pressed="false">40 m &middot; 7.260</button>
+  <button type="button" id="band-20" data-band="20m" aria-pressed="false">20 m &middot; 14.290</button>
+  <button type="button" id="band-2"  data-band="2m"  aria-pressed="false">2 m &middot; 147.255</button>
+</div>
+
+<pre id="state">mounting&hellip;</pre>
+
+<script>
+/* Installed BEFORE skywave.js so every context request is recorded. */
+window.__maarsHarness = { contextRequests: [], mounted: false, stateCalls: 0 };
+(function () {
+  var c = document.getElementById('skywave');
+  var orig = c.getContext;
+  c.getContext = function (type) {
+    window.__maarsHarness.contextRequests.push(String(type));
+    return orig.apply(this, arguments);
+  };
+}());
+</script>
+<script src="../wp/themes/maars/assets/js/skywave.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  function fail(msg) {
+    document.body.dataset.harnessError = msg;
+    document.getElementById('state').textContent = 'FAIL: ' + msg;
+  }
+
+  var q = {};
+  location.search.replace(/^\?/, '').split('&').forEach(function (kv) {
+    if (!kv) { return; }
+    var i = kv.indexOf('=');
+    q[decodeURIComponent(i < 0 ? kv : kv.slice(0, i))] =
+      decodeURIComponent(i < 0 ? '' : kv.slice(i + 1));
+  });
+
+  var canvas = document.getElementById('skywave');
+  var out = document.getElementById('state');
+  var buttons = {
+    '80m': document.getElementById('band-80'),
+    '40m': document.getElementById('band-40'),
+    '20m': document.getElementById('band-20'),
+    '2m':  document.getElementById('band-2')
+  };
+
+  window.__maarsState = null;
+  document.body.dataset.harnessVia = 'mount';
+
+  if (!window.MAARSSkywave || typeof window.MAARSSkywave.mount !== 'function') {
+    fail('window.MAARSSkywave.mount is not defined');
+    return;
+  }
+
+  function report(s) {
+    window.__maarsState = s;
+    window.__maarsHarness.stateCalls++;
+    /* The band as the MODULE reports it -- not as the button claims. */
+    document.body.dataset.harnessBand = s.band;
+    out.textContent =
+      'band            ' + s.band + '  (' + s.freqMhz.toFixed(3) + ' MHz, ' + s.net + ')\n' +
+      'headline        ' + s.headline + '\n' +
+      'reflects        ' + s.reflects + (s.layer ? '  via the ' + s.layer + ' layer' : '') + '\n' +
+      'skip distance   ' + (s.skipKm === null ? 'n/a (nothing reflects)' : Math.round(s.skipKm) + ' km') + '\n' +
+      'line of sight   ' + (s.lineOfSightKm ? Math.round(s.lineOfSightKm) + ' km' : 'n/a') + '\n' +
+      'day factor      ' + s.dayFactor.toFixed(3) + '\n' +
+      'foE/foF1/foF2   ' + s.foE.toFixed(1) + ' / ' + s.foF1.toFixed(1) + ' / ' + s.foF2.toFixed(1) + ' MHz\n' +
+      'MUF(3000)       ' + s.muf3000Mhz.toFixed(1) + ' MHz\n' +
+      'D absorption    ' + s.absorptionDbPerHop.toFixed(1) + ' dB/hop\n' +
+      '\naria-label      ' + s.ariaLabel;
+    var k;
+    for (k in buttons) {
+      if (buttons[k]) { buttons[k].setAttribute('aria-pressed', String(k === s.band)); }
+    }
+  }
+
+  var handle;
+  try {
+    handle = window.MAARSSkywave.mount(canvas, {
+      band: q.band || '80m',
+      time: q.t || null,
+      onState: report
+    });
+  } catch (err) {
+    fail('mount() threw: ' + (err && err.message ? err.message : err));
+    return;
+  }
+
+  window.__maarsHandle = handle;
+  window.__maarsHarness.mounted = true;
+
+  if (handle.fallback) {
+    fail('WebGL2 unavailable: mount() returned the no-op fallback handle');
+    return;
+  }
+
+  Object.keys(buttons).forEach(function (id) {
+    var b = buttons[id];
+    if (!b) { return; }
+    b.addEventListener('click', function () {
+      document.body.dataset.harnessVia = 'setBand';
+      handle.setBand(id);
+      /* setBand is a no-op when the band is already selected, so make sure the
+       * reported band is still recorded for the test's benefit. */
+      var s = handle.getState();
+      if (s) { document.body.dataset.harnessBand = s.band; }
+    });
+  });
+}());
+</script>
+</body>
+</html>

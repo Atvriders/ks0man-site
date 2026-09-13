@@ -1,0 +1,1402 @@
+/*
+ * MAARS component styles — Manhattan Area Amateur Radio Society, KSØMAN.
+ *
+ * Ink policy: the palette is the club's own, measured out of its own 1997-era
+ * markup, and every ratio below was computed with the WCAG relative-luminance
+ * formula, not estimated.
+ *
+ *   light  navy #00008C 14.74:1 on ground · magenta #990066 7.98:1
+ *          ink #14142B 17.45:1 · meta #464A63 8.40:1 · alarm #A5171B 7.67:1
+ *          white on alarm 7.67:1 · measured green #0F5C36 8.06:1 on paper
+ *   dark   ink #EDEDF7 16.70:1 on ground · navy #9FA0F2 8.12:1
+ *          magenta #F09FD0 9.78:1 · alarm #FF9E7A 9.64:1 · meta #B9BFD8 10.64:1
+ *
+ * Colour is never the signal. A freshness grade is carried by (1) its sentence,
+ * (2) its band treatment — no band / light band / dark band, which stay apart in
+ * greyscale — and (3) an icon. Hue is redundancy only, because under
+ * deuteranopia the ageing and stale hues collapse onto each other.
+ *
+ * Floors, all deliberate: body text never below 16px, focus rings always two
+ * rings so one of them contrasts on any ground, interactive targets at least
+ * 44px, and nothing scrolls sideways at 390px. Many members are in their
+ * seventies and eighties and read this on a phone in a parking lot.
+ *
+ * Class vocabulary: every selector below is a class that is actually emitted,
+ * either by the render callbacks in maars-core/inc/blocks.php or by the block
+ * templates in ../../templates and ../../parts. Nothing here styles a name that
+ * no file writes, and nothing those files write is left unstyled.
+ */
+
+/* ---------------------------------------------------------------------------
+ * 1. Tokens.
+ *
+ * Every colour this stylesheet uses is defined in the base (non-media) root
+ * block below. The dark block redefines the same names; it never introduces a
+ * name that only exists inside a media query, because a token that is born in
+ * a media query is a token that is undefined for half the audience.
+ *
+ * The base definitions are written on `:where(:root)` — zero specificity — so a
+ * real WordPress global-styles block (`:root`, specificity 0,1,0) still wins and
+ * the site editor keeps control of the palette. On a bare harness page with no
+ * WordPress stylesheet at all, which is how tests/test_webgl.py loads the canvas,
+ * these are what the components resolve against.
+ * ------------------------------------------------------------------------- */
+
+:where(:root) {
+	/* Light palette — the exact hexes pinned by the interface contract. */
+	--wp--preset--color--navy: #00008c;
+	--wp--preset--color--magenta: #990066;
+	--wp--preset--color--lavender: #dbdbfb;
+	--wp--preset--color--ink: #14142b;
+	--wp--preset--color--paper: #ffffff;
+	--wp--preset--color--ground: #fbfbfd;
+	--wp--preset--color--alarm: #a5171b;
+
+	/* System stacks, mirrored from theme.json so a bare page has the same face. */
+	--wp--preset--font-family--display:
+		"Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua",
+		"Bitstream Charter", "Century Schoolbook", Georgia, "Times New Roman", serif;
+	--wp--preset--font-family--text:
+		system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", "Noto Sans", Arial, sans-serif;
+	--wp--preset--font-family--data:
+		ui-monospace, SFMono-Regular, "SF Mono", "Cascadia Mono", "Segoe UI Mono",
+		Menlo, Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace;
+
+	--wp--preset--font-size--dateline: clamp(1.5rem, 1.15rem + 1.6vw, 2.4rem);
+}
+
+:root {
+	color-scheme: light dark;
+
+	--maars-navy: var(--wp--preset--color--navy, #00008c);
+	--maars-magenta: var(--wp--preset--color--magenta, #990066);
+	--maars-lavender: var(--wp--preset--color--lavender, #dbdbfb);
+	--maars-ink: var(--wp--preset--color--ink, #14142b);
+	--maars-paper: var(--wp--preset--color--paper, #fff);
+	--maars-ground: var(--wp--preset--color--ground, #fbfbfd);
+	--maars-alarm: var(--wp--preset--color--alarm, #a5171b);
+
+	/* Derived light tokens. Surfaces and hairlines only — never load-bearing. */
+	--maars-meta: #464a63;
+	--maars-sunk: #eef0fa;
+	--maars-hairline: #c3c8e4;
+	--maars-measured: #0f5c36;
+	--maars-alarm-fill: #a5171b;
+	--maars-alarm-on-fill: #ffffff;
+	--maars-alarm-wash: #fdf1f1;
+	--maars-fresh-wash: #f1f6f2;
+
+	/* The letterbox behind the WebGL2 canvas. Night sky in both schemes: the
+	   scene draws its own sky, so this only shows while the buffer is empty. */
+	--maars-space: #05050f;
+
+	/* Two-ring focus: whichever ground you are on, one ring contrasts. */
+	--maars-focus-outer: #00008c;
+	--maars-focus-inner: #ffffff;
+
+	--maars-radius: 4px;
+	--maars-rule-weight: 6px;
+	--maars-target: 44px;
+
+	--maars-font-display: var(
+		--wp--preset--font-family--display,
+		"Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua",
+		"Bitstream Charter", "Century Schoolbook", Georgia, "Times New Roman", serif
+	);
+	--maars-font-text: var(
+		--wp--preset--font-family--text,
+		system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", "Noto Sans", Arial, sans-serif
+	);
+	--maars-font-data: var(
+		--wp--preset--font-family--data,
+		ui-monospace, SFMono-Regular, "SF Mono", "Cascadia Mono", "Segoe UI Mono",
+		Menlo, Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace
+	);
+}
+
+@media (prefers-color-scheme: dark) {
+	/* `:root:root` (and the body twin) outrank whatever selector WordPress
+	   printed its preset block with, whichever order the stylesheets load in.
+	   Every name set here is also set in the base block above. */
+	:root:root,
+	:root:root body {
+		/* Contract-pinned dark variants. */
+		--wp--preset--color--navy: #9fa0f2;
+		--wp--preset--color--magenta: #f09fd0;
+		--wp--preset--color--ink: #ededf7;
+		--wp--preset--color--paper: #14142a;
+		--wp--preset--color--ground: #0c0c18;
+
+		/* Derived: the lavender notice band and the alarm, lifted to sit on
+		   #0C0C18 without the 1.2:1 disaster a naive inversion produces. */
+		--wp--preset--color--lavender: #23234a;
+		--wp--preset--color--alarm: #ff9e7a;
+
+		--maars-meta: #b9bfd8;
+		--maars-sunk: #1b1b38;
+		--maars-hairline: #444b78;
+		--maars-measured: #7ed8a6;
+		--maars-alarm-fill: #40100f;
+		--maars-alarm-on-fill: #ededf7;
+		--maars-alarm-wash: #221012;
+		--maars-fresh-wash: #101d18;
+
+		--maars-space: #05050f;
+
+		--maars-focus-outer: #ffe08a;
+		--maars-focus-inner: #0c0c18;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+ * 2. Floors that apply to the whole document.
+ * `:where()` keeps specificity at zero so theme.json and the site editor still
+ * win; these are the values a bare page falls back to.
+ * ------------------------------------------------------------------------- */
+
+:where(html) {
+	/* clip, not hidden: no sideways scroll at 390px, sticky still works. */
+	overflow-x: clip;
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
+:where(body) {
+	background-color: var(--maars-ground);
+	color: var(--maars-ink);
+	font-family: var(--maars-font-text);
+	font-size: clamp(1rem, 0.97rem + 0.15vw, 1.125rem); /* never below 16px */
+	line-height: 1.6;
+}
+
+:where(p, li, dd, dt, figcaption, blockquote) {
+	overflow-wrap: break-word;
+}
+
+:where(.maars-dateline, .maars-next-meeting, .maars-fact, .maars-skywave) :where(a) {
+	overflow-wrap: anywhere;
+}
+
+:where(img, svg, video, iframe) {
+	max-width: 100%;
+}
+
+:where(.maars-dateline, .maars-next-meeting, .maars-fact, .maars-skywave)
+	:where(pre, table) {
+	display: block;
+	max-width: 100%;
+	overflow-x: auto;
+}
+
+/* Two-ring focus. Never removed, never reduced to a colour change. */
+:where(a, button, summary, input, select, textarea, [tabindex]):focus-visible {
+	outline: 3px solid var(--maars-focus-outer);
+	outline-offset: 2px;
+	box-shadow: 0 0 0 2px var(--maars-focus-inner);
+	border-radius: 2px;
+}
+
+/* Older browsers without :focus-visible still get a ring. */
+@supports not selector(:focus-visible) {
+	:where(a, button, summary, input, select, textarea, [tabindex]):focus {
+		outline: 3px solid var(--maars-focus-outer);
+		outline-offset: 2px;
+		box-shadow: 0 0 0 2px var(--maars-focus-inner);
+	}
+}
+
+/* The canvas is keyboard-operable (arrows orbit, +/- zoom); it must show it. */
+.maars-skywave__canvas:focus-visible {
+	outline: 3px solid var(--maars-focus-outer);
+	outline-offset: -3px;
+}
+
+/* 44px targets wherever a finger is expected. */
+:where(.wp-block-navigation) :where(a, button),
+.maars-skywave__control,
+:where(.maars-dateline, .maars-next-meeting, .maars-fact, .maars-skywave)
+	:where(button, [role="button"], .wp-block-button__link, summary) {
+	align-items: center;
+	display: inline-flex;
+	justify-content: center;
+	min-height: var(--maars-target);
+	min-width: var(--maars-target);
+	padding-inline: 0.75rem;
+}
+
+/* Callsigns, frequencies, tones, dollar amounts, ISO dates. The club writes its
+   own callsign KSØMAN with a slashed O for a reason; the type system honours it. */
+.maars-wordmark__call,
+.maars-next-meeting__time,
+.maars-skywave__band,
+.maars-skywave__control,
+.maars-doc-record__date,
+.maars-doc-record__year,
+.maars-entry__year,
+.maars-original__file,
+:where(.maars-dateline, .maars-next-meeting, .maars-fact, .maars-doc, .maars-entry)
+	:where(time, code) {
+	font-family: var(--maars-font-data);
+}
+
+/* Numerals stay slashed and tabular even in the text face, so a frequency
+   inside a sentence still lines up and a zero is never read as an O. */
+.maars-wordmark__call,
+.maars-dateline__headline,
+.maars-next-meeting__time,
+.maars-skywave__band,
+.maars-skywave__control,
+.maars-repeater-strip__text,
+.maars-doc-record__date,
+.maars-doc-record__year,
+.maars-entry__year,
+.maars-news__date,
+.maars-fact__detail,
+:where(.maars-dateline, .maars-next-meeting, .maars-fact, .maars-doc, .maars-entry)
+	:where(time, code) {
+	font-variant-numeric: slashed-zero tabular-nums;
+	font-feature-settings: "zero" 1, "tnum" 1;
+}
+
+/* ---------------------------------------------------------------------------
+ * 3. maars/dateline — the honesty device. How long since the Society last
+ *    filed anything. Red, loud and unmissable past 120 days.
+ *
+ *    Emitted classes: .maars-dateline, --fresh/.is-fresh, --stale/.is-stale,
+ *    --empty/.is-empty, __headline, __detail. The block also sets
+ *    data-state, data-maars-days and data-maars-threshold.
+ * ------------------------------------------------------------------------- */
+
+.maars-dateline {
+	background-color: var(--maars-lavender);
+	border-inline-start: var(--maars-rule-weight) solid var(--maars-navy);
+	border-radius: 0 var(--maars-radius) var(--maars-radius) 0;
+	color: var(--maars-ink);
+	display: grid;
+	gap: 0.4rem;
+	margin-block: clamp(1.25rem, 1rem + 1vw, 2rem);
+	padding: clamp(1rem, 0.8rem + 1.4vw, 1.75rem);
+}
+
+/* The sentence itself. This is the largest type on the homepage on purpose. */
+.maars-dateline__headline {
+	color: var(--maars-navy);
+	font-family: var(--maars-font-display);
+	font-size: var(--wp--preset--font-size--dateline, clamp(1.5rem, 1.15rem + 1.6vw, 2.4rem));
+	font-weight: 600;
+	letter-spacing: -0.015em;
+	line-height: 1.12;
+	margin: 0;
+	max-width: 30ch;
+	text-wrap: balance;
+}
+
+.maars-dateline__detail {
+	color: var(--maars-ink);
+	font-size: 0.9375rem;
+	line-height: 1.55;
+	margin: 0;
+	max-width: 62ch;
+}
+
+.maars-dateline a {
+	color: inherit;
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 0.18em;
+}
+
+.maars-dateline a:hover {
+	text-decoration-thickness: 0.18em;
+}
+
+/* Fresh: quiet. Nothing is being claimed, so nothing shouts. */
+.maars-dateline--fresh,
+.maars-dateline.is-fresh {
+	background-color: var(--maars-fresh-wash);
+	border-inline-start-color: var(--maars-measured);
+}
+
+.maars-dateline--fresh .maars-dateline__headline,
+.maars-dateline.is-fresh .maars-dateline__headline {
+	color: var(--maars-measured);
+}
+
+/* Stale: the band goes dark, the rule thickens, an icon appears. Three signals,
+   only one of which is colour. */
+.maars-dateline--stale,
+.maars-dateline.is-stale {
+	background-color: var(--maars-alarm-wash);
+	border-inline-start-color: var(--maars-alarm);
+	border-inline-start-width: calc(var(--maars-rule-weight) + 4px);
+	box-shadow: inset 0 0 0 1px var(--maars-alarm);
+}
+
+.maars-dateline--stale .maars-dateline__headline,
+.maars-dateline.is-stale .maars-dateline__headline {
+	color: var(--maars-alarm);
+}
+
+.maars-dateline--stale .maars-dateline__headline::before,
+.maars-dateline.is-stale .maars-dateline__headline::before {
+	content: "\26A0\FE0E\00A0"; /* warning sign, text presentation */
+	font-family: var(--maars-font-text);
+}
+
+@supports (content: "a" / "b") {
+	.maars-dateline--stale .maars-dateline__headline::before,
+	.maars-dateline.is-stale .maars-dateline__headline::before {
+		content: "\26A0\FE0E\00A0" / "";
+	}
+}
+
+/* Empty: an archive with nothing in it says so. It never prints a
+   reassuring zero, which is the failure this whole block exists to prevent. */
+.maars-dateline--empty,
+.maars-dateline.is-empty {
+	background-color: var(--maars-sunk);
+	border-inline-start-color: var(--maars-meta);
+	border-inline-start-style: dashed;
+}
+
+.maars-dateline--empty .maars-dateline__headline,
+.maars-dateline.is-empty .maars-dateline__headline {
+	color: var(--maars-meta);
+	font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+}
+
+/* Homepage wrapper around the block, so the banner can run edge to edge on a
+   phone while the rest of the page keeps its gutter. */
+.maars-dateline-wrap > .maars-dateline {
+	margin-block: 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * 4. maars/next-meeting — a computed date that shows its working.
+ *    Second Friday, 6:30 P.M., doors 6:00. Constitution and SOP, 11 Dec 2021.
+ *
+ *    Emitted classes: .maars-next-meeting, --unknown/.is-unknown,
+ *    __eyebrow, __date, __time, __rule, __rule-tag, __rule-text.
+ * ------------------------------------------------------------------------- */
+
+.maars-next-meeting {
+	background-color: var(--maars-paper);
+	border: 1px solid var(--maars-hairline);
+	border-block-start: 3px solid var(--maars-navy);
+	border-radius: var(--maars-radius);
+	color: var(--maars-ink);
+	display: grid;
+	gap: 0.4rem;
+	margin-block: clamp(1.25rem, 1rem + 1vw, 2rem);
+	padding: clamp(1rem, 0.8rem + 1.4vw, 1.75rem);
+}
+
+.maars-next-meeting__eyebrow {
+	color: var(--maars-meta);
+	font-family: var(--maars-font-text);
+	font-size: 0.9375rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	line-height: 1.3;
+	margin: 0;
+	text-transform: uppercase;
+}
+
+.maars-next-meeting__date {
+	color: var(--maars-navy);
+	font-family: var(--maars-font-display);
+	font-size: clamp(1.5rem, 1.15rem + 1.75vw, 2.25rem);
+	font-weight: 600;
+	line-height: 1.15;
+	margin: 0;
+	text-wrap: balance;
+}
+
+.maars-next-meeting__time {
+	font-size: inherit;
+	font-weight: 600;
+}
+
+/* The rule that produced the date. This is the point of the block: a visitor
+   can check the arithmetic instead of trusting a number somebody typed in. */
+.maars-next-meeting__rule {
+	align-items: baseline;
+	border-inline-start: 3px solid var(--maars-magenta);
+	color: var(--maars-meta);
+	display: flex;
+	flex-wrap: wrap;
+	font-size: 0.9375rem;
+	gap: 0.5rem;
+	line-height: 1.5;
+	margin: 0.35rem 0 0;
+	max-width: 62ch;
+	padding-inline-start: 0.75rem;
+}
+
+.maars-next-meeting__rule-tag {
+	background-color: var(--maars-magenta);
+	border-radius: 2px;
+	color: var(--maars-paper);
+	flex: none;
+	font-family: var(--maars-font-text);
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	line-height: 1.4;
+	padding: 0.15rem 0.45rem;
+	text-transform: uppercase;
+}
+
+.maars-next-meeting__rule-text {
+	flex: 1 1 20ch;
+}
+
+/* No rule, no date: the block says it could not compute rather than guessing. */
+.maars-next-meeting--unknown,
+.maars-next-meeting.is-unknown {
+	border-block-start-color: var(--maars-alarm);
+}
+
+.maars-next-meeting--unknown .maars-next-meeting__date,
+.maars-next-meeting.is-unknown .maars-next-meeting__date {
+	color: var(--maars-alarm);
+	font-style: italic;
+}
+
+.maars-nextmeeting-wrap > .maars-next-meeting {
+	margin-block: 0;
+}
+
+.maars-nextmeeting__where {
+	color: var(--maars-meta);
+	margin-block: 0.75rem 0;
+	max-width: 62ch;
+}
+
+/* ---------------------------------------------------------------------------
+ * 5. maars/fact — a standing fact and the grade attached to it.
+ *
+ *    Emitted classes: .maars-fact, --measured/--sourced/--unverified,
+ *    .is-stale, __body, __chip, __chip--<grade>, __grade, __detail,
+ *    plus data-grade and data-verified-on.
+ * ------------------------------------------------------------------------- */
+
+.maars-fact {
+	background-color: var(--maars-paper);
+	border: 1px solid var(--maars-hairline);
+	border-radius: var(--maars-radius);
+	color: var(--maars-ink);
+	display: grid;
+	gap: 0.6rem;
+	margin-block: clamp(1rem, 0.85rem + 0.6vw, 1.5rem);
+	padding: clamp(0.875rem, 0.75rem + 0.8vw, 1.25rem);
+}
+
+.maars-fact__body {
+	display: grid;
+	gap: 0.5rem;
+}
+
+.maars-fact__body > :first-child {
+	margin-block-start: 0;
+}
+
+.maars-fact__body > :last-child {
+	margin-block-end: 0;
+}
+
+.maars-fact__body p {
+	margin: 0;
+	max-width: 68ch;
+}
+
+/* Facts of the least reliable kind get a heavier frame, not just a chip. The
+   repeater's site, controller and tone all contradict each other in the record;
+   the design must not render that as an authoritative readout. */
+.maars-fact--unverified {
+	border-color: var(--maars-alarm);
+	border-inline-start-width: 5px;
+}
+
+.maars-fact--sourced {
+	border-inline-start: 5px solid var(--maars-magenta);
+}
+
+.maars-fact--measured {
+	border-inline-start: 5px solid var(--maars-measured);
+}
+
+/* ---------------------------------------------------------------------------
+ * 6. Freshness chips. Band treatment first, icon second, colour third.
+ *      measured   — no band, hairline outline, check mark
+ *      sourced    — light band, magenta rule, section mark
+ *      unverified — dark band, warning sign
+ *
+ *    The chip is a paragraph inside .maars-fact and an inline span inside the
+ *    skywave caption, so it has to read correctly both ways.
+ * ------------------------------------------------------------------------- */
+
+.maars-fact__chip {
+	align-items: baseline;
+	border-radius: var(--maars-radius);
+	display: flex;
+	flex-wrap: wrap;
+	font-family: var(--maars-font-text);
+	font-size: 0.875rem;
+	gap: 0.45em;
+	justify-self: start;
+	line-height: 1.4;
+	margin: 0;
+	padding: 0.35rem 0.7rem;
+}
+
+.maars-fact__grade {
+	flex: none;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.maars-fact__grade::before {
+	content: var(--maars-grade-icon, "");
+	font-family: var(--maars-font-text);
+	font-weight: 700;
+	letter-spacing: 0;
+	padding-inline-end: 0.35em;
+}
+
+@supports (content: "a" / "b") {
+	.maars-fact__grade::before {
+		content: var(--maars-grade-icon, "") / "";
+	}
+}
+
+.maars-fact__detail {
+	flex: 1 1 18ch;
+	font-size: 0.875rem;
+	min-width: 0;
+}
+
+.maars-fact__chip--measured {
+	--maars-grade-icon: "\2713"; /* check mark */
+	background-color: transparent;
+	box-shadow: inset 0 0 0 2px currentcolor;
+	color: var(--maars-measured);
+}
+
+.maars-fact__chip--sourced {
+	--maars-grade-icon: "\00A7"; /* section sign: it came out of a document */
+	background-color: var(--maars-lavender);
+	box-shadow: inset 0 0 0 1px var(--maars-magenta);
+	color: var(--maars-ink);
+}
+
+.maars-fact__chip--unverified {
+	--maars-grade-icon: "\26A0\FE0E"; /* warning sign, text presentation */
+	background-color: var(--maars-alarm-fill);
+	box-shadow: inset 0 0 0 1px var(--maars-alarm);
+	color: var(--maars-alarm-on-fill);
+}
+
+/* A stale fact loses the confident white card. The wash is the ALARM wash only
+   where the claim is actually unverified: a measured fact sitting on a red
+   ground would contradict its own green chip, and the chip is the thing a
+   reader is supposed to believe. Everything else just goes quiet. */
+.maars-fact.is-stale {
+	background-color: var(--maars-sunk);
+}
+
+.maars-fact--unverified.is-stale {
+	background-color: var(--maars-alarm-wash);
+}
+
+/* The repeater strip in the masthead is a maars/fact laid out on one line. */
+.maars-repeater-strip > .maars-fact {
+	background: none;
+	border: 0;
+	border-radius: 0;
+	gap: 0.4rem 0.9rem;
+	margin-block: 0;
+	padding: 0;
+}
+
+.maars-repeater-strip__text {
+	margin: 0;
+	max-width: 80ch;
+}
+
+@media (min-width: 52em) {
+	.maars-repeater-strip > .maars-fact {
+		align-items: baseline;
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.maars-repeater-strip > .maars-fact > .maars-fact__body {
+		flex: 1 1 30ch;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+ * 7. maars/skywave — the WebGL2 propagation scene.
+ *    The teaching point is at 2m: the ray leaves and does not come back.
+ *
+ *    Emitted classes: .maars-skywave, --fallback, __canvas, __controls,
+ *    __control, __caption, __chip, __fallback, __fallback-title, __prose,
+ *    __noscript, __bands, __band, __band--<id>.
+ * ------------------------------------------------------------------------- */
+
+.maars-skywave {
+	background-color: var(--maars-sunk);
+	border: 1px solid var(--maars-hairline);
+	border-radius: var(--maars-radius);
+	color: var(--maars-ink);
+	display: grid;
+	gap: 0.75rem;
+	margin-block: clamp(1.25rem, 1rem + 1vw, 2rem);
+	margin-inline: 0;
+	max-width: 100%;
+	padding: clamp(0.75rem, 0.6rem + 0.8vw, 1.25rem);
+}
+
+.maars-skywave__canvas {
+	background-color: var(--maars-space);
+	border-radius: calc(var(--maars-radius) - 1px);
+	display: block;
+	height: auto;
+	max-width: 100%;
+	touch-action: pan-y; /* drag to orbit, but the page must still scroll */
+	width: 100%;
+}
+
+/* The live band selector. Real buttons carrying data-maars-band, which is what
+   skywave.js delegates on; without these the 2 m teaching point is unreachable
+   in a browser that does have WebGL2. */
+.maars-skywave__controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.maars-skywave__controls > li {
+	margin: 0;
+}
+
+.maars-skywave__control {
+	background-color: var(--maars-paper);
+	border: 2px solid var(--maars-navy);
+	border-radius: var(--maars-radius);
+	color: var(--maars-navy);
+	cursor: pointer;
+	font-family: var(--maars-font-data);
+	font-size: 1rem;
+	font-weight: 700;
+	gap: 0.5ch;
+	padding-block: 0.5rem;
+}
+
+.maars-skywave__control:hover {
+	background-color: var(--maars-lavender);
+}
+
+.maars-skywave__control[aria-pressed="true"] {
+	background-color: var(--maars-navy);
+	color: var(--maars-paper);
+}
+
+/* Not colour alone: the selected band also carries a marker glyph. */
+.maars-skywave__control[aria-pressed="true"]::before {
+	content: "\25B8\00A0"; /* small right-pointing triangle */
+}
+
+@supports (content: "a" / "b") {
+	.maars-skywave__control[aria-pressed="true"]::before {
+		content: "\25B8\00A0" / "";
+	}
+}
+
+.maars-skywave__control-band {
+	font-weight: 700;
+}
+
+.maars-skywave__control-freq {
+	font-weight: 400;
+	opacity: 0.85;
+}
+
+.maars-skywave__caption {
+	color: var(--maars-meta);
+	font-size: 0.9375rem;
+	line-height: 1.55;
+	margin: 0;
+	max-width: 68ch;
+}
+
+/* The caption's chip is inline, so it must not inherit the block chip's grid
+   placement. Everything else about it is the .maars-fact__chip above. */
+.maars-skywave__chip {
+	display: inline-flex;
+	margin-block-start: 0.35rem;
+	vertical-align: baseline;
+}
+
+/* The text version of the scene. Present in the DOM at all times so it is in
+   the accessibility tree and in `curl`; shown when WebGL2 is missing. */
+.maars-skywave__fallback {
+	display: none;
+}
+
+.maars-skywave--fallback .maars-skywave__canvas,
+.maars-skywave--fallback .maars-skywave__controls {
+	display: none;
+}
+
+.maars-skywave--fallback .maars-skywave__fallback {
+	background-color: var(--maars-lavender);
+	border-radius: calc(var(--maars-radius) - 1px);
+	color: var(--maars-ink);
+	display: grid;
+	font-size: 1rem;
+	gap: 0.75rem;
+	line-height: 1.55;
+	padding: clamp(1rem, 0.85rem + 0.8vw, 1.5rem);
+}
+
+.maars-skywave noscript {
+	display: block;
+}
+
+.maars-skywave__noscript {
+	background-color: var(--maars-lavender);
+	border-radius: calc(var(--maars-radius) - 1px);
+	color: var(--maars-ink);
+	display: grid;
+	gap: 0.75rem;
+	line-height: 1.55;
+	padding: clamp(1rem, 0.85rem + 0.8vw, 1.5rem);
+}
+
+.maars-skywave__fallback-title {
+	font-weight: 700;
+	margin: 0;
+	max-width: 62ch;
+}
+
+.maars-skywave__prose {
+	margin: 0;
+	max-width: 68ch;
+}
+
+/* The static band list inside the fallback and the noscript. Not buttons:
+   nothing can be switched here, so nothing may look switchable. */
+.maars-skywave__bands {
+	display: grid;
+	gap: 0.4rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.maars-skywave__band {
+	border-inline-start: 3px solid var(--maars-navy);
+	font-size: 0.9375rem;
+	font-weight: 700;
+	margin: 0;
+	padding-inline-start: 0.6rem;
+}
+
+/* The three HF bands behave the same way — the ionosphere sends them back —
+   so they share one treatment, and 2 m is the exception the whole diagram
+   exists to make. That distinction is in the text list too, not only in the
+   canvas a reader without WebGL2 never sees. */
+.maars-skywave__band--80m,
+.maars-skywave__band--40m,
+.maars-skywave__band--20m {
+	border-inline-start-color: var(--maars-navy);
+}
+
+.maars-skywave__band--2m {
+	border-inline-start-color: var(--maars-magenta);
+	border-inline-start-style: dashed;
+}
+
+.maars-skywave__band[data-current="1"] {
+	background-color: var(--maars-paper);
+	border-inline-start-width: 6px;
+}
+
+.maars-skywave__band[data-current="1"]::after {
+	content: "\00A0\2190\00A0shown"; /* leftwards arrow */
+	color: var(--maars-meta);
+	font-weight: 400;
+}
+
+@supports (content: "a" / "b") {
+	.maars-skywave__band[data-current="1"]::after {
+		content: "\00A0\2190\00A0shown" / "";
+	}
+}
+
+/* The homepage stage the block sits in. */
+.maars-hero__stage > .maars-skywave {
+	margin-block: 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * 8. Masthead, navigation, identity.
+ * ------------------------------------------------------------------------- */
+
+.maars-header {
+	border-block-end: 1px solid var(--maars-hairline);
+}
+
+.maars-identity-row {
+	gap: 1rem 1.5rem;
+}
+
+.maars-wordmark__name {
+	margin: 0;
+}
+
+.maars-wordmark__name a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.maars-wordmark__name a:hover,
+.maars-wordmark__name a:focus-visible {
+	text-decoration: underline;
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 0.2em;
+}
+
+.maars-wordmark__sep {
+	color: var(--maars-magenta);
+}
+
+.maars-wordmark__long {
+	color: var(--maars-meta);
+	margin: 0;
+	max-width: 56ch;
+}
+
+.maars-nav a {
+	text-decoration: none;
+}
+
+.maars-nav a:hover,
+.maars-nav a:focus-visible {
+	text-decoration: underline;
+	text-decoration-thickness: 0.1em;
+	text-underline-offset: 0.25em;
+}
+
+.maars-repeater-strip {
+	border-block-end: 1px solid var(--maars-hairline);
+}
+
+/* ---------------------------------------------------------------------------
+ * 9. Page furniture: front page, section titles, news, empty states.
+ * ------------------------------------------------------------------------- */
+
+/* The template-part wrappers and the per-template body hooks. These are the
+   only place a whole page can be addressed, so the vertical rhythm between
+   major sections is set here rather than repeated on each child. */
+.maars-site-header {
+	display: block;
+}
+
+.maars-site-footer {
+	display: block;
+	margin-block-start: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+}
+
+.maars-main {
+	display: block;
+}
+
+/* The front page stacks full-bleed bands (hero, dateline, meeting, news) and
+   sets its own gutters on each, so it must not inherit the body padding. */
+.maars-front,
+.maars-archive,
+.maars-index {
+	display: block;
+}
+
+.maars-news,
+.maars-about,
+.maars-archive-teaser {
+	margin-block: clamp(1.5rem, 1.2rem + 1.4vw, 2.5rem);
+}
+
+.maars-wordmark {
+	display: grid;
+	gap: 0.15rem;
+	min-width: 0;
+}
+
+.maars-hero {
+	border-block-end: 1px solid var(--maars-hairline);
+}
+
+.maars-hero__title {
+	margin-block: 0;
+	max-width: 22ch;
+}
+
+.maars-hero__lede {
+	margin-block: 0;
+	max-width: 62ch;
+	opacity: 0.92;
+}
+
+.maars-hero__stage {
+	margin-block-start: 0.5rem;
+}
+
+.maars-section__title {
+	border-block-end: 2px solid var(--maars-lavender);
+	margin-block: 0 0.75rem;
+	padding-block-end: 0.35rem;
+}
+
+.maars-about__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+
+.maars-news__list,
+.maars-index__list,
+.maars-archive__list {
+	display: grid;
+	gap: 0;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.maars-news__date,
+.maars-entry__updated,
+.maars-doc__meta {
+	color: var(--maars-meta);
+	font-size: 0.85rem;
+}
+
+.maars-news__thumb img {
+	border-radius: var(--maars-radius);
+	height: auto;
+}
+
+.maars-news__more {
+	margin-block-start: 1rem;
+}
+
+/* An empty result is a statement about the record, not an error. */
+.maars-empty {
+	background-color: var(--maars-sunk);
+	border: 1px dashed var(--maars-hairline);
+	border-radius: var(--maars-radius);
+	margin-block: 1rem;
+	max-width: 68ch;
+	padding: clamp(1rem, 0.85rem + 0.8vw, 1.5rem);
+}
+
+.maars-empty__title {
+	margin-block: 0 0.5rem;
+}
+
+.maars-empty__search {
+	margin-block: 0.75rem 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * 10. The archive: list, facets, provenance.
+ * ------------------------------------------------------------------------- */
+
+.maars-archive__lede,
+.maars-index__termdesc {
+	max-width: 68ch;
+}
+
+/* The gaps line is not small print. 2012 produced nothing, and that fact is
+   part of the record rather than an omission to be tidied away. */
+.maars-archive__gaps {
+	border-inline-start: 3px solid var(--maars-magenta);
+	color: var(--maars-meta);
+	margin-block: 0.75rem 1.25rem;
+	max-width: 68ch;
+	padding-inline-start: 0.75rem;
+}
+
+.maars-archive-filters {
+	border: 1px solid var(--maars-hairline);
+	border-radius: var(--maars-radius);
+	margin-block: 1.5rem;
+}
+
+.maars-filters__title {
+	margin-block: 0 0.75rem;
+}
+
+.maars-filters__facets {
+	margin-block: 0;
+}
+
+.maars-facet__title {
+	margin-block: 0 0.5rem;
+}
+
+.maars-facet,
+.maars-facet-doctype,
+.maars-facet-year {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.maars-facet a,
+.maars-facet-doctype a,
+.maars-facet-year a {
+	background-color: var(--maars-paper);
+	border: 1px solid var(--maars-hairline);
+	border-radius: 999px;
+	display: inline-block;
+	font-size: 0.9375rem;
+	padding: 0.35rem 0.75rem;
+	text-decoration: none;
+}
+
+.maars-facet a:hover,
+.maars-facet-doctype a:hover,
+.maars-facet-year a:hover {
+	background-color: var(--maars-lavender);
+	text-decoration: underline;
+}
+
+.maars-facet-year a {
+	font-family: var(--maars-font-data);
+	font-variant-numeric: slashed-zero tabular-nums;
+}
+
+.maars-facet__note {
+	color: var(--maars-meta);
+	margin-block: 0.75rem 0;
+	max-width: 62ch;
+}
+
+.maars-filters__search {
+	margin-block: 1rem 0;
+}
+
+.maars-doc {
+	border-block-end: 1px solid var(--maars-lavender);
+}
+
+.maars-doc__type,
+.maars-doc__year,
+.maars-entry__year,
+.maars-label {
+	color: var(--maars-meta);
+	font-size: 0.8125rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.maars-archive__pagination,
+.maars-index__pagination {
+	margin-block-start: 1.5rem;
+}
+
+.maars-archive__provenance {
+	border-block-start: 1px solid var(--maars-hairline);
+	color: var(--maars-meta);
+	margin-block-start: 2rem;
+	max-width: 72ch;
+	padding-block-start: 1rem;
+}
+
+.maars-archive-teaser {
+	margin-block: 1rem;
+}
+
+.maars-archive__loop,
+.maars-index__loop,
+.maars-news__loop {
+	margin-block: 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * 11. Index entries and the single-document record.
+ * ------------------------------------------------------------------------- */
+
+.maars-index__title,
+.maars-archive__title {
+	margin-block: 0 0.5rem;
+}
+
+.maars-entry {
+	border-block-end: 1px solid var(--maars-lavender);
+	padding-block: 1rem;
+}
+
+.maars-entry__title {
+	margin-block: 0 0.35rem;
+}
+
+.maars-entry__meta {
+	color: var(--maars-meta);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem 0.75rem;
+	font-size: 0.85rem;
+}
+
+.maars-entry__image img {
+	border-radius: var(--maars-radius);
+	height: auto;
+}
+
+.maars-entry__body {
+	max-width: 72ch;
+}
+
+.maars-breadcrumb,
+.maars-doc-record__back {
+	color: var(--maars-meta);
+	font-size: 0.875rem;
+	margin-block: 0 1rem;
+}
+
+.maars-single-doc .maars-doc-record,
+.maars-doc-record {
+	display: grid;
+	gap: 0.75rem;
+}
+
+.maars-doc-record__title {
+	margin-block: 0;
+	max-width: 34ch;
+}
+
+.maars-doc-record__meta {
+	color: var(--maars-meta);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35rem 1rem;
+	font-size: 0.875rem;
+	margin: 0;
+}
+
+.maars-doc-record__type,
+.maars-doc-record__year,
+.maars-doc-record__date {
+	white-space: nowrap;
+}
+
+/* The transcription rule: machine-assisted, unproofed, original is authority. */
+.maars-doc-record__rule,
+.maars-doc-record__vouch {
+	border-inline-start: 3px solid var(--maars-magenta);
+	color: var(--maars-meta);
+	font-size: 0.9375rem;
+	line-height: 1.55;
+	margin: 0;
+	max-width: 68ch;
+	padding-inline-start: 0.75rem;
+}
+
+.maars-doc-record__dateline > .maars-dateline {
+	margin-block: 0.5rem 0;
+}
+
+.maars-doc-record__body {
+	max-width: 72ch;
+}
+
+.maars-doc-record__image img {
+	border: 1px solid var(--maars-hairline);
+	border-radius: var(--maars-radius);
+	height: auto;
+}
+
+.maars-doc-nav {
+	border-block-start: 1px solid var(--maars-hairline);
+	margin-block-start: 2rem;
+	padding-block-start: 1rem;
+}
+
+/* The original file, kept alongside the transcription, because the scan is the
+   authority and the text is a convenience. */
+.maars-original {
+	background-color: var(--maars-sunk);
+	border: 1px solid var(--maars-hairline);
+	border-radius: var(--maars-radius);
+	margin-block: 1.5rem;
+	padding: clamp(0.875rem, 0.75rem + 0.8vw, 1.25rem);
+}
+
+.maars-original__title {
+	margin-block: 0 0.5rem;
+}
+
+.maars-original__file {
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+.maars-original__note {
+	color: var(--maars-meta);
+	font-size: 0.875rem;
+	margin-block: 0.5rem 0;
+	max-width: 62ch;
+}
+
+/* ---------------------------------------------------------------------------
+ * 12. Footer, including the constitutional note.
+ *     Article III: the reflector is the official organ. Not this website.
+ * ------------------------------------------------------------------------- */
+
+.maars-footer {
+	border-block-start: 1px solid var(--maars-hairline);
+}
+
+.maars-official-organ {
+	border-radius: 0 var(--maars-radius) var(--maars-radius) 0;
+	max-width: 80ch;
+}
+
+.maars-official-organ__quote {
+	margin: 0;
+}
+
+.maars-official-organ__cite {
+	color: var(--maars-meta);
+	margin-block: 0.5rem 0;
+}
+
+.maars-footer-columns {
+	margin-block: 0;
+}
+
+.maars-footer__heading {
+	margin-block: 0 0.5rem;
+}
+
+.maars-footer__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.maars-footer__list li {
+	margin-block: 0.35rem;
+}
+
+.maars-footer__note {
+	color: var(--maars-meta);
+	margin-block: 0.75rem 0;
+	max-width: 48ch;
+}
+
+.maars-footer__rule {
+	border: 0;
+	height: 2px;
+	margin-block: 1rem;
+	opacity: 1;
+}
+
+.maars-lastreviewed {
+	max-width: 80ch;
+}
+
+.maars-lastreviewed__line {
+	margin: 0;
+}
+
+.maars-lastreviewed__copy {
+	color: var(--maars-meta);
+	margin-block: 0.35rem 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * 13. Motion, narrow screens, print.
+ * ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+	.maars-dateline,
+	.maars-next-meeting,
+	.maars-fact,
+	.maars-fact__chip,
+	.maars-skywave,
+	.maars-skywave * {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: 0.001ms !important;
+	}
+}
+
+@media (max-width: 24.375em) { /* 390px */
+	.maars-dateline,
+	.maars-next-meeting,
+	.maars-fact,
+	.maars-skywave {
+		border-radius: 0;
+		margin-inline: 0;
+		max-width: 100%;
+	}
+
+	.maars-skywave__controls {
+		flex-direction: column;
+	}
+
+	.maars-skywave__control {
+		width: 100%;
+	}
+
+	.maars-fact__chip {
+		display: grid;
+		justify-items: start;
+	}
+}
+
+@media print {
+	.maars-dateline,
+	.maars-next-meeting,
+	.maars-fact,
+	.maars-original {
+		background: none !important;
+		border: 1pt solid #000;
+		color: #000;
+	}
+
+	.maars-fact__chip {
+		box-shadow: none;
+		border: 1pt solid #000;
+		color: #000;
+	}
+
+	/* Paper cannot render WebGL, and the text version already says the same
+	   thing, so print the words and drop the canvas. */
+	.maars-skywave__canvas,
+	.maars-skywave__controls,
+	.maars-nav,
+	.maars-archive-filters,
+	.maars-doc-nav {
+		display: none !important;
+	}
+
+	.maars-skywave__fallback {
+		display: block !important;
+	}
+}

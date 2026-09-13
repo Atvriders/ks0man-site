@@ -1,0 +1,79 @@
+<!-- wp:template-part {"slug":"header","tagName":"header","area":"header","className":"maars-site-header"} /-->
+
+<!-- Fallback template. It serves standing pages, news posts, search results, term listings and
+     anything with no more specific template, so it has to read well as one item and as a list. -->
+<!-- wp:group {"tagName":"main","className":"maars-main maars-index","style":{"spacing":{"padding":{"top":"1.5rem","bottom":"2.5rem","left":"1rem","right":"1rem"},"blockGap":"1.25rem"}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group maars-main maars-index" style="padding-top:1.5rem;padding-right:1rem;padding-bottom:2.5rem;padding-left:1rem">
+
+	<!-- wp:query-title {"type":"archive","level":1,"className":"maars-index__title","style":{"typography":{"fontSize":"clamp(1.5rem, 1.1rem + 1.6vw, 2.2rem)","lineHeight":"1.2"}},"textColor":"navy"} /-->
+
+	<!-- wp:query-title {"type":"search","level":1,"className":"maars-index__title","style":{"typography":{"fontSize":"clamp(1.5rem, 1.1rem + 1.6vw, 2.2rem)","lineHeight":"1.2"}},"textColor":"navy"} /-->
+
+	<!-- wp:term-description {"className":"maars-index__termdesc","style":{"typography":{"fontSize":"0.95rem","lineHeight":"1.6"}}} /-->
+
+	<!-- wp:query {"queryId":31,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true,"taxQuery":null,"parents":[],"format":[]},"className":"maars-index__loop","layout":{"type":"default"}} -->
+	<div class="wp-block-query maars-index__loop">
+
+		<!-- wp:post-template {"className":"maars-index__list","style":{"spacing":{"blockGap":"2.5rem"}},"layout":{"type":"default"}} -->
+
+			<!-- wp:group {"tagName":"article","className":"maars-entry","style":{"spacing":{"blockGap":"0.75rem"}},"layout":{"type":"constrained"}} -->
+			<article class="wp-block-group maars-entry">
+
+				<!-- wp:post-title {"level":1,"isLink":true,"className":"maars-entry__title","style":{"typography":{"fontSize":"clamp(1.4rem, 1.1rem + 1.2vw, 2rem)","lineHeight":"1.25"}},"textColor":"navy"} /-->
+
+				<!-- Dates are shown on everything, including standing pages. A page that will not say
+				     when it was last touched is a page asking to be believed on trust, and that is
+				     precisely how the old site came to look current two years after it stopped. -->
+				<!-- wp:group {"tagName":"div","className":"maars-entry__meta","style":{"spacing":{"blockGap":"0.75rem"},"typography":{"fontSize":"0.85rem"}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
+				<div class="wp-block-group maars-entry__meta" style="font-size:0.85rem">
+					<!-- wp:post-date {"format":"j F Y","isLink":false} /-->
+					<!-- wp:post-date {"format":"j F Y","isLink":false,"displayType":"modified","className":"maars-entry__updated"} /-->
+					<!-- wp:post-terms {"term":"maars_year","prefix":"","separator":", ","className":"maars-entry__year"} /-->
+				</div>
+				<!-- /wp:group -->
+
+				<!-- ALT TEXT REQUIRED. One sentence describing the photograph, naming what is
+				     happening rather than repeating the post title. The old site carried 1,154
+				     images with no alt text; do not add the 1,155th. -->
+				<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"16/9","className":"maars-entry__image"} /-->
+
+				<!-- wp:post-content {"className":"maars-entry__body","layout":{"type":"constrained"}} /-->
+
+			</article>
+			<!-- /wp:group -->
+
+		<!-- /wp:post-template -->
+
+		<!-- wp:spacer {"height":"1.5rem"} -->
+		<div style="height:1.5rem" aria-hidden="true" class="wp-block-spacer"></div>
+		<!-- /wp:spacer -->
+
+		<!-- wp:query-pagination {"paginationArrow":"arrow","showLabel":true,"className":"maars-index__pagination","style":{"spacing":{"blockGap":"0.5rem"},"typography":{"fontSize":"0.95rem"}},"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
+			<!-- wp:query-pagination-previous {"label":"Newer"} /-->
+			<!-- wp:query-pagination-numbers /-->
+			<!-- wp:query-pagination-next {"label":"Older"} /-->
+		<!-- /wp:query-pagination -->
+
+		<!-- Serves both an empty search and a missing page. It refuses to end on a dead end: the
+		     archive and the reflector are both one click away. -->
+		<!-- wp:query-no-results -->
+
+			<!-- wp:heading {"level":2,"className":"maars-empty__title","style":{"typography":{"fontSize":"1.35rem"}},"textColor":"magenta"} -->
+			<h2 class="wp-block-heading maars-empty__title has-magenta-color has-text-color" style="font-size:1.35rem">There is nothing here</h2>
+			<!-- /wp:heading -->
+
+			<!-- wp:paragraph {"className":"maars-empty","style":{"typography":{"lineHeight":"1.6"}}} -->
+			<p class="maars-empty" style="line-height:1.6">Either the page has moved or the search found nothing. The Society&#8217;s written record lives in <a href="/archive/">the archive</a>: 266 documents from 1998 to 2024, searchable, with the gaps marked. Anything time-critical goes out on the e-mail reflector rather than here, because Article III of the Constitution makes the reflector the official organ <span aria-hidden="true">·</span> <a href="/join/">how to get on it</a>.</p>
+			<!-- /wp:paragraph -->
+
+			<!-- wp:search {"label":"Search this site","showLabel":true,"placeholder":"Callsign, name, subject, year","buttonText":"Search","buttonPosition":"button-outside","className":"maars-empty__search"} /-->
+
+		<!-- /wp:query-no-results -->
+
+	</div>
+	<!-- /wp:query -->
+
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer","area":"footer","className":"maars-site-footer"} /-->

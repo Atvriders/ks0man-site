@@ -1,0 +1,147 @@
+# Build the ks0man-site image and publish it to GHCR, multi-arch.
+#
+# NOTE FOR FORKS: GitHub disables Actions on a freshly forked repository, so
+# the FIRST build of a fork will not happen on push. Start it by hand once -
+# Actions tab, "build", "Run workflow" - and pushes to master build on their
+# own from then on. The published package also starts out private; make it
+# public once, in the repository's Packages settings, and it stays public.
+#
+# The base image is pinned in the Dockerfile and nowhere else. CI does not get
+# a vote on which WordPress this is.
+name: build
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  image:
+    name: image (amd64 + arm64)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      # A COPY whose source is not in the build context fails the build with a
+      # message about a path that "does not exist or is not in the context",
+      # and it fails it several minutes in, under QEMU. Checking first turns
+      # that into one clear line in one second.
+      - name: Every COPY source in the Dockerfile must exist
+        run: |
+          set -euo pipefail
+          missing=0
+          while read -r src; do
+            [ -n "$src" ] || continue
+            if [ -e "$src" ]; then
+              echo "ok      $src"
+            else
+              echo "::error file=Dockerfile::COPY source does not exist: $src"
+              missing=1
+            fi
+          done < <(grep -E '^COPY[[:space:]]' Dockerfile \
+                    | sed -E 's/^COPY[[:space:]]+//; s/--[a-z-]+=[^[:space:]]+[[:space:]]+//g' \
+                    | awk '{ for (i = 1; i < NF; i++) print $i }')
+          exit "$missing"
+
+      # The one thing CI can check that nothing else can: that the name this
+      # workflow publishes is the name docker-compose.yml pulls. Upstream that
+      # is ghcr.io/atvriders/ks0man-site. On a fork the two legitimately
+      # differ - the fork publishes its own name while compose still points at
+      # upstream - so a fork gets a notice, not a failure.
+      - name: Published image name must match docker-compose.yml
+        env:
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          published="$(printf 'ghcr.io/%s' "$REPOSITORY" | tr '[:upper:]' '[:lower:]')"
+          echo "this workflow publishes: ${published}"
+          if grep -q "image: ${published}:" docker-compose.yml; then
+            echo "docker-compose.yml pulls the same image."
+          elif [ "${published}" = "ghcr.io/atvriders/ks0man-site" ]; then
+            echo "::error file=docker-compose.yml::compose does not pull ${published}"
+            exit 1
+          else
+            echo "::notice::fork build - docker-compose.yml still points at the upstream image"
+          fi
+
+      # arm64 is built under emulation. The image installs no compiled
+      # dependencies, so this stays cheap.
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # From this repository that publishes ghcr.io/atvriders/ks0man-site;
+      # from a fork it publishes ghcr.io/<that owner>/<that repo>, which is
+      # the point of deriving it from github.repository. metadata-action
+      # lowercases the name for us, which matters, because the owner is
+      # spelled Atvriders and container registries are not.
+      - name: Work out tags and labels
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=ref,event=branch
+            type=sha,format=long
+          labels: |
+            org.opencontainers.image.title=ks0man-site
+            org.opencontainers.image.licenses=GPL-2.0-or-later
+
+      - name: Build and push
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          annotations: ${{ steps.meta.outputs.annotations }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: false
+
+      - name: Say what was published
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+          TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          {
+            echo "### ks0man-site image published"
+            echo
+            echo '```'
+            echo "digest: ${DIGEST}"
+            echo '```'
+            echo
+            echo "Tags:"
+            echo '```'
+            echo "${TAGS}"
+            echo '```'
+            echo
+            echo "Run the published image:"
+            echo '```'
+            echo "docker compose pull && docker compose up -d"
+            echo '```'
+            echo
+            echo "To pin this exact build instead, point the \`image:\` line in"
+            echo "docker-compose.yml at one of the tags above."
+          } >> "$GITHUB_STEP_SUMMARY"

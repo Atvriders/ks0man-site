@@ -1,0 +1,464 @@
+{
+  "schema": "maars-content-bundle/1",
+  "kind": "public-seed",
+  "generated": "2026-09-12",
+  "generator": "hand-curated public-safe seed (see tools/build_content.py for the local full-content generator)",
+  "redacted": true,
+  "personal_data": "none",
+  "notes": [
+    "This file is baked into a PUBLIC image on ghcr.io. It contains no personal data of any kind: no names except the founder named in the Society's own published history, no email addresses, no telephone numbers, no street or post-office addresses, no member roster and no memorial text.",
+    "Every technical field about the repeater and the net is graded 'unverified' on purpose. The record stops at 12 January 2024, after two changes that were never confirmed in writing.",
+    "There is deliberately no page at the slug 'on-the-air' or 'archive'. maars-core registers those as post type archives (maars_facility and maars_publication) with top-priority rewrite rules, so a page there would be created and never served.",
+    "The Society generates the full content set locally with tools/build_content.py against its own mirror. That output never enters this repository or the image.",
+    "The four archive records are demonstration stubs, marked \"if_absent\". They share their slugs with the real documents, so loading the full local bundle upgrades them in place and re-running this seed afterwards leaves the real documents alone."
+  ],
+  "site": {
+    "title": "Manhattan Area Amateur Radio Society",
+    "tagline": "KSØMAN · Manhattan, Kansas · since 1976",
+    "timezone": "America/Chicago",
+    "permalink_structure": "/news/%year%/%monthnum%/%postname%/",
+    "front_page_slug": "home",
+    "posts_page_slug": "news",
+    "remove_default_content": true,
+    "menu": {
+      "name": "Primary",
+      "slug": "primary",
+      "locations": [
+        "primary",
+        "primary-menu",
+        "main"
+      ],
+      "items": [
+        {
+          "label": "About",
+          "page": "about"
+        },
+        {
+          "label": "Meetings &amp; Events",
+          "page": "events"
+        },
+        {
+          "label": "On the Air",
+          "url": "/on-the-air/"
+        },
+        {
+          "label": "Storm Spotting",
+          "page": "storm-spotting"
+        },
+        {
+          "label": "News",
+          "page": "news"
+        },
+        {
+          "label": "Archive",
+          "url": "/archive/"
+        },
+        {
+          "label": "Join",
+          "page": "join"
+        }
+      ]
+    }
+  },
+  "terms": [
+    {
+      "taxonomy": "maars_doc_type",
+      "slug": "newsletter",
+      "name": "Newsletter",
+      "description": "A monthly newsletter issued to the membership."
+    },
+    {
+      "taxonomy": "maars_doc_type",
+      "slug": "minutes",
+      "name": "Meeting Minutes",
+      "description": "The Secretary's minutes of a regular, special or annual meeting."
+    },
+    {
+      "taxonomy": "maars_doc_type",
+      "slug": "treasurer-report",
+      "name": "Treasurer's Report",
+      "description": "A monthly statement of income, expenses and balances."
+    },
+    {
+      "taxonomy": "maars_doc_type",
+      "slug": "year-end-report",
+      "name": "Year-End Report",
+      "description": "The annual summary presented to the Society."
+    },
+    {
+      "taxonomy": "maars_facility_kind",
+      "slug": "repeater",
+      "name": "Repeater"
+    },
+    {
+      "taxonomy": "maars_facility_kind",
+      "slug": "net",
+      "name": "Net"
+    },
+    {
+      "taxonomy": "maars_year",
+      "slug": "1999",
+      "name": "1999"
+    },
+    {
+      "taxonomy": "maars_year",
+      "slug": "2015",
+      "name": "2015"
+    },
+    {
+      "taxonomy": "maars_year",
+      "slug": "2023",
+      "name": "2023"
+    },
+    {
+      "taxonomy": "maars_year",
+      "slug": "2024",
+      "name": "2024"
+    },
+    {
+      "taxonomy": "maars_callsign",
+      "slug": "ks0man",
+      "name": "KSØMAN",
+      "description": "The Society callsign. Not a personal callsign."
+    }
+  ],
+  "pages": [
+    {
+      "slug": "home",
+      "title": "Manhattan Area Amateur Radio Society",
+      "menu_order": 0,
+      "meta": {
+        "_maars_grade": "sourced",
+        "_maars_verified_on": "2026-09-12",
+        "_maars_source_file": "mirror/ks0man.com/index.html"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">MAARS &mdash; the Manhattan Area Amateur Radio Society &mdash; has met in Manhattan, Kansas since 7 July 1976. The Society callsign is KS&Oslash;MAN.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>The front page is composed by the theme: the next meeting, the dateline, the recent news and the archive counters are all computed, so none of them can quietly go out of date. This page body is the fallback if that template is ever changed.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>Meetings are open to anyone interested in amateur radio, licensed or not. Second Friday of the month, 6:30 P.M.</p><!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "about",
+      "title": "About the Society",
+      "menu_order": 1,
+      "meta": {
+        "_maars_grade": "sourced",
+        "_maars_verified_on": "2026-09-12",
+        "_maars_source_file": "mirror/ks0man.com/newsletter_03-01.html; mirror/ks0man.com/constitution.pdf"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">The Manhattan Area Amateur Radio Society was formed on <strong>7 July 1976</strong>. The founding meeting was called to order at <strong>7:40 P.M.</strong> by <strong>Leroy Buller, K&Oslash;WA</strong>.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">They settled the noun before they settled the name</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>The first item of business was what to call the thing. The candidates recorded that evening were Flint Hills, Sunflower, Manhattan Area, Big Lakes, Wild Cat, Tuttle Creek and Blue Hills &mdash; &ldquo;and others&rdquo;.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>Before choosing between them, the founders chose the noun. They voted to be a <strong>Society</strong> rather than a Club, and then voted the name Manhattan Area Amateur Radio Society. The S in MAARS has been deliberate for fifty years.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>Meetings were first set for Wednesdays, and the second meeting was called for Wednesday, 4 August 1976. They have been on the second Friday for the whole documented web era, and the 2021 Standard Operating Procedures now fix them there.</p><!-- /wp:paragraph -->\n\n<!-- wp:maars/fact {\"grade\":\"sourced\",\"sourceFile\":\"mirror/ks0man.com/newsletter_03-01.html\"} --><p><strong>Founding account:</strong> One surviving source &mdash; a 25th-anniversary history printed inside the Secretary's Minutes of the March 2001 newsletter</p><p class=\"maars-fact-note\">Single source, uncorroborated. It covers 1976&ndash;1978 only and was never continued in the April, May, June, July or August 2001 issues.</p><!-- /wp:maars/fact -->\n\n<!-- wp:separator --><hr class=\"wp-block-separator has-alpha-channel-opacity\"/><!-- /wp:separator -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Purpose</h2><!-- /wp:heading -->\n\n<!-- wp:quote --><blockquote class=\"wp-block-quote\"><!-- wp:paragraph --><p>&hellip;to secure for members the pleasures and benefits of an association of persons interested in amateur radio and related fields, to further the exchange of information and cooperation between members, to promote knowledge of amateur radio and individual operating efficiency, and to conduct such programs and activities as may advance the general interest and welfare of amateur radio in Manhattan, Kansas and surrounding areas.</p><!-- /wp:paragraph --><cite>Constitution, Article II, Section 1</cite></blockquote><!-- /wp:quote -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Open to all</h2><!-- /wp:heading -->\n\n<!-- wp:quote --><blockquote class=\"wp-block-quote\"><!-- wp:paragraph --><p>Attendance at any Society meeting or other activity is open to all persons interested in any aspect of amateur radio, so long as such persons do not disrupt said meeting or other activity.</p><!-- /wp:paragraph --><cite>Constitution, Article II, Section 2</cite></blockquote><!-- /wp:quote -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">The reflector is the official organ &mdash; not this website</h2><!-- /wp:heading -->\n\n<!-- wp:quote --><blockquote class=\"wp-block-quote\"><!-- wp:paragraph --><p>The Society email reflector is the official organ of the Society.</p><!-- /wp:paragraph --><cite>Constitution, Article III</cite></blockquote><!-- /wp:quote -->\n\n<!-- wp:paragraph --><p>That sentence is load-bearing. Anything that must reach the membership goes out on the reflector. This site is the public record and the front door; it is not how the Society talks to itself. A quiet week here means the webmaster is busy &mdash; it does not mean the Society has gone quiet.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">The record we keep</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>Since 1998 the Society has published <strong>209</strong> newsletters and sets of minutes, <strong>49</strong> treasurer's reports and <strong>6</strong> year-end reports, alongside 27 memorials, 36 member articles and 105 photographs. All of it is in <a href=\"/archive/\">the archive</a>, filed by type and by year.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p><strong>2012 produced nothing at all</strong> &mdash; not a newsletter, not a set of minutes. The newest document of any kind is <strong>January 2024</strong>. Both facts are shown rather than smoothed over, because an archive that hides its gaps is not a record, it is a brochure.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph {\"className\":\"maars-note\"} --><p class=\"maars-note\">More on how any of this is kept current: <a href=\"/about/how-this-site-is-maintained/\">how this site is maintained</a>.</p><!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "officers",
+      "parent": "about",
+      "title": "Officers",
+      "menu_order": 2,
+      "meta": {
+        "_maars_grade": "sourced",
+        "_maars_verified_on": "",
+        "_maars_source_file": "mirror/ks0man.com/constitution.pdf"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">The Society elects four officers each year, and elects a Trustee to hold its FCC registrations.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Elected offices</h2><!-- /wp:heading -->\n\n<!-- wp:list --><ul class=\"wp-block-list\"><!-- wp:list-item --><li><strong>President</strong> &mdash; chairs meetings and sets the venue in consultation with the other officers.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>Vice-President</strong>.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>Secretary</strong> &mdash; keeps the minutes that become this site's archive.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>Treasurer</strong> &mdash; receives dues; membership begins when the Treasurer receives them.</li><!-- /wp:list-item --></ul><!-- /wp:list -->\n\n<!-- wp:paragraph --><p>All four must be members. Terms are one year, by majority vote. The Secretary and the Treasurer may be the same person. (Article VI.)</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Trustee</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>The Trustee's name and callsign register the Society's repeaters and stations with the FCC. The Trustee is nominated by the President in consultation with the other officers and elected by majority vote at a regular meeting, and serves until no longer eligible or until asking to be relieved. (Article X.)</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Auditor</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>The President-elect appoints an Auditor, who must review the books within thirty days and report to the President and then to the Society &mdash; the report to be published in the January newsletter. (Article VI.)</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Names and contact details</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph {\"className\":\"maars-note\"} --><p class=\"maars-note\">This page lists offices, not people. Personal contact details for officers and members are not published on this site. Reach anyone through the Society email reflector or at a meeting. The previous site published four officers' personal email addresses in plain text on its home page; that is the one thing this rebuild was least willing to carry forward.</p><!-- /wp:paragraph -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\",\"sourceFile\":\"extract/pdftext/newsletter_11-23.txt\"} --><p><strong>Current officeholders:</strong> Not published here</p><p class=\"maars-fact-note\">Officers are elected at the November annual meeting. Publish the roles and the election date, never personal contact details.</p><!-- /wp:maars/fact -->"
+    },
+    {
+      "slug": "constitution",
+      "parent": "about",
+      "title": "Constitution &amp; Standard Operating Procedures",
+      "menu_order": 3,
+      "meta": {
+        "_maars_grade": "sourced",
+        "_maars_verified_on": "2026-09-12",
+        "_maars_source_file": "mirror/ks0man.com/constitution.pdf"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">The Society's only governing document is the <em>MAARS Constitution &amp; Standard Operating Procedures</em>, revised <strong>11 December 2021</strong>: eight pages, twelve articles, a Standard Operating Procedures section and a Standing Committees section.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>It was adopted at the regular meeting of 10 December 2021. The changes corrected errors rather than altering the substance, so it was accepted as a revision rather than an amendment. The cover date is one day after the meeting because that is when the PDF was produced.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">The provisions that govern this website</h2><!-- /wp:heading -->\n\n<!-- wp:list --><ul class=\"wp-block-list\"><!-- wp:list-item --><li><strong>Article III &mdash; official organ.</strong> &ldquo;The Society email reflector is the official organ of the Society.&rdquo; Newsletters must be posted to the Society web page, but the reflector is what carries notice.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>Article III &mdash; ten days' notice.</strong> Five actions must be announced at the previous regular meeting and put to the membership in full at least ten days before the vote: a permanent change of meeting date, a temporary change of meeting date, the election or impeachment of an officer, the election or impeachment of a Trustee, and amendment of the constitution. Other newsletters go out at least four working days before a regular meeting.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>Article IV &mdash; meeting types.</strong> Regular, Special and Event. The November regular meeting is also the annual meeting. A Special meeting may be called only on the written request of five members, fourteen days ahead, stating its purpose &mdash; and only that business may be transacted.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>Article V &mdash; membership and dues.</strong> Membership begins when the Treasurer receives the dues and ceases automatically when they are unpaid. Dues are levied by majority vote at the annual meeting and become part of the SOP.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>Article VII &mdash; quorum.</strong> &ldquo;A quorum consists of the members present at a regular or special meeting.&rdquo; There is no minimum number.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>Standard Operating Procedures &mdash; meeting date.</strong> &ldquo;Regular meetings are held on the second Friday of each calendar month at such place as the President, in regular consultation with the other officers, shall order.&rdquo;</li><!-- /wp:list-item --></ul><!-- /wp:list -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Why the quorum rule matters</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>Whoever attends is the quorum. A Society that has met monthly for fifty years never needed a rule to make its meetings valid &mdash; it needed one that keeps them valid when only four people can get there. That is an unusually honest piece of drafting, and it is worth knowing before you decide whether to come.</p><!-- /wp:paragraph -->\n\n<!-- wp:maars/fact {\"grade\":\"sourced\",\"verifiedOn\":\"2026-09-12\",\"sourceFile\":\"mirror/ks0man.com/constitution.pdf\"} --><p><strong>Governing document:</strong> Revised 11 December 2021</p><p class=\"maars-fact-note\">Confirm whether anything has been amended since. Amendments require the Article III notice above, so any change will have gone out on the reflector.</p><!-- /wp:maars/fact -->"
+    },
+    {
+      "slug": "how-this-site-is-maintained",
+      "parent": "about",
+      "title": "How this site is maintained",
+      "menu_order": 4,
+      "meta": {
+        "_maars_grade": "measured",
+        "_maars_verified_on": "2026-09-12",
+        "_maars_source_file": "content/seed.json"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">The site this one replaces looked current. It was not: it advertised a repeater on a tower the machine had left, a controller that had been voted out, a net on a machine reported inoperative, and an autopatch dead since 2015. Nothing on it was a lie. It had simply stopped being checked, and nothing on the page said so.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Every fact carries a grade</h2><!-- /wp:heading -->\n\n<!-- wp:list --><ul class=\"wp-block-list\"><!-- wp:list-item --><li><strong>Measured</strong> &mdash; somebody checked this directly and wrote down when.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>Sourced</strong> &mdash; it comes from a document in the Society's own archive, and the record names the file.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>Unverified</strong> &mdash; it is the last thing written down, and nobody has confirmed it since. Most of the radio infrastructure on this site sits here.</li><!-- /wp:list-item --></ul><!-- /wp:list -->\n\n<!-- wp:paragraph --><p>A grade is not a disclaimer. It is a work list: everything marked unverified is something one member with a radio and ten minutes could turn into a measured fact.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Some things are computed, so they cannot rot</h2><!-- /wp:heading -->\n\n<!-- wp:list --><ul class=\"wp-block-list\"><!-- wp:list-item --><li><strong>The next meeting</strong> is derived from the constitution's rule &mdash; second Friday, 6:30 P.M. &mdash; and shows the rule alongside the date.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>The dateline</strong> counts days since the newest document in the archive and turns red past 120 days. It sits on the front page where it cannot be missed.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>The archive counts</strong> come from the archive itself.</li><!-- /wp:list-item --></ul><!-- /wp:list -->\n\n<!-- wp:paragraph --><p>Nothing that can be derived is typed in twice. Two copies of a fact are two chances for it to disagree with itself &mdash; which is exactly how the old site came to print the net at 8 P.M. in one place and 9 P.M. in another for years.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">What is deliberately not here</h2><!-- /wp:heading -->\n\n<!-- wp:list --><ul class=\"wp-block-list\"><!-- wp:list-item --><li>Members' names, callsigns, addresses, telephone numbers and email addresses.</li><!-- /wp:list-item --><!-- wp:list-item --><li>The membership roster.</li><!-- /wp:list-item --><!-- wp:list-item --><li>Storm-spotter observer post locations.</li><!-- /wp:list-item --><!-- wp:list-item --><li>Memorial text for Silent Keys, which belongs to families rather than to a web server.</li><!-- /wp:list-item --></ul><!-- /wp:list -->\n\n<!-- wp:paragraph {\"className\":\"maars-note\"} --><p class=\"maars-note\">The Society keeps all of that in its own files and builds its own private content locally. This public site is generated from a seed that contains none of it.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">If you find something wrong</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>Say so on the reflector or at a meeting. A correction is more useful than a compliment, and an out-of-date page somebody has flagged is in better shape than one nobody has read.</p><!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "events",
+      "title": "Meetings &amp; Events",
+      "menu_order": 5,
+      "meta": {
+        "_maars_grade": "sourced",
+        "_maars_verified_on": "2026-09-12",
+        "_maars_source_file": "mirror/ks0man.com/constitution.pdf; extract/pdftext/newsletter_01-24.txt"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">Regular meetings are held on the <strong>second Friday of each calendar month</strong>. Doors open at 6:00 P.M.; the meeting is called to order at 6:30 P.M.</p><!-- /wp:paragraph -->\n\n<!-- wp:maars/next-meeting /-->\n\n<!-- wp:paragraph {\"className\":\"maars-note\"} --><p class=\"maars-note\">That date is computed from the rule rather than typed into a page, so it cannot go stale &mdash; and it shows the rule that produced it, so you can check the arithmetic yourself.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Where</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>Manhattan / Riley County Senior Center, at Fourth and Leavenworth. The Society moved there in January 2024.</p><!-- /wp:paragraph -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\",\"sourceFile\":\"extract/pdftext/newsletter_01-24.txt\"} --><p><strong>Meeting venue:</strong> Manhattan / Riley County Senior Center, Fourth and Leavenworth</p><p class=\"maars-fact-note\">Last confirmed in the minutes of 12 January 2024. Confirm the venue and the door time before relying on them.</p><!-- /wp:maars/fact -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Anyone may attend</h2><!-- /wp:heading -->\n\n<!-- wp:quote --><blockquote class=\"wp-block-quote\"><!-- wp:paragraph --><p>Attendance at any Society meeting or other activity is open to all persons interested in any aspect of amateur radio, so long as such persons do not disrupt said meeting or other activity.</p><!-- /wp:paragraph --><cite>Constitution, Article II, Section 2</cite></blockquote><!-- /wp:quote -->\n\n<!-- wp:paragraph --><p>You do not need a licence and you do not need to be a member. A quorum is simply the members present, so the meeting you turn up to is the meeting that decides things.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">The Society's year</h2><!-- /wp:heading -->\n\n<!-- wp:list --><ul class=\"wp-block-list\"><!-- wp:list-item --><li><strong>Second Friday, monthly</strong> &mdash; regular meeting, 6:30 P.M.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>After the meeting</strong> &mdash; the Elmer Hour, an informal help session for anyone with a question. Started March 2022.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>June</strong> &mdash; ARRL Field Day. The Society has run one since at least 1997 and photographed most of them.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>Summer</strong> &mdash; the annual picnic, usually with an equipment auction.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>November</strong> &mdash; the annual meeting: officers are elected and dues are levied.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>December</strong> &mdash; the Christmas gathering.</li><!-- /wp:list-item --></ul><!-- /wp:list -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Where the Society has met</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>A club that has met every month since 1976 has moved a lot. Recorded venues, in order: Rathbone Hall at Kansas State University (to 1998); the Riley County Red Cross (1999&ndash;c. 2008); the Manhattan Church of Christ (2009&ndash;2010); the Blue Township Fire Department (by 2014); the Vista Drive-In (2015&ndash;early 2016); the Manhattan Public Library (2017&ndash;2020); assorted open-air and restaurant venues through the pandemic years, including Keats Park; and the Senior Center from January 2024.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph {\"className\":\"maars-note\"} --><p class=\"maars-note\">Street addresses for private and volunteer locations are deliberately not republished here.</p><!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "storm-spotting",
+      "title": "Storm Spotting",
+      "menu_order": 6,
+      "meta": {
+        "_maars_grade": "sourced",
+        "_maars_verified_on": "",
+        "_maars_source_file": "mirror/ks0man.com/warn.html; extract/pdftext/newsletter_10-23.txt"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">WARN &mdash; the <strong>Weather Amateur Radio Network</strong> &mdash; is a volunteer group of severe-weather observers and net-control operators feeding the Riley County warning system. MAARS members have staffed it for decades.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">How a report reaches the county</h2><!-- /wp:heading -->\n\n<!-- wp:list --><ul class=\"wp-block-list\"><!-- wp:list-item --><li>An observer on post sees something and reports it by radio.</li><!-- /wp:list-item --><!-- wp:list-item --><li>WARN net control &mdash; operating from a station inside the Riley County Emergency Operations Center &mdash; takes the report.</li><!-- /wp:list-item --><!-- wp:list-item --><li>Net control relays it immediately to Riley County Emergency Management staff in the same room.</li><!-- /wp:list-item --><!-- wp:list-item --><li>Emergency Management passes it to county emergency departments and to the public.</li><!-- /wp:list-item --></ul><!-- /wp:list -->\n\n<!-- wp:paragraph --><p>Amateur radio carries the <em>first</em> leg of that chain. That is the whole reason the network exists: a trained eye on the ground, on a radio that works when other things do not.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Training</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>Observers and net-control operators go through classroom training &mdash; tracking and plotting storms on maps, observer safety, radio procedure &mdash; followed by field training as a ride-along with an experienced observer.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>A home-spotter model was proposed in September 2023, so operators could report from their own location instead of driving to an assigned post. Ask at a meeting whether it was adopted.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Observer post locations are not published</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph {\"className\":\"maars-note\"} --><p class=\"maars-note\">The old site listed seventeen observer posts by street address. This one does not, and will not. Post assignments come from WARN, not from a web page.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Status</h2><!-- /wp:heading -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\",\"sourceFile\":\"extract/pdftext/newsletter_10-23.txt\"} --><p><strong>WARN activity:</strong> Meetings recorded through late 2023</p><p class=\"maars-fact-note\">MUST CONFIRM: whether WARN is currently activating, who to ask about joining, and when the next training runs.</p><!-- /wp:maars/fact -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\",\"sourceFile\":\"mirror/ks0man.com/warn.html\"} --><p><strong>Sunday weather net:</strong> Status unknown</p><p class=\"maars-fact-note\">The old site carried the line &ldquo;A weather net is held on Sundays at 8 P.M. on the MAARS repeater&rdquo; inside an HTML comment &mdash; hidden rather than deleted, so it stopped at some unrecorded date. Confirm whether any weather net still runs.</p><!-- /wp:maars/fact -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">During severe weather</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>If you are not a trained spotter, the useful thing is to stay off the repeater while a weather net is running and to take your warnings from the National Weather Service. If you want to be part of the network, come to a meeting and say so.</p><!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "news",
+      "title": "News",
+      "menu_order": 7,
+      "meta": {
+        "_maars_grade": "measured",
+        "_maars_verified_on": "2026-09-12",
+        "_maars_source_file": "mirror/ks0man.com/index.html"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">Society news, newest first. The old site called this Current Topics and ran it as a hand-edited list on the home page, with retired items left behind inside HTML comments.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph {\"className\":\"maars-note\"} --><p class=\"maars-note\">This page lists posts, so the body you are reading shows only if the posts page is ever unset.</p><!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "join",
+      "title": "Join",
+      "menu_order": 8,
+      "meta": {
+        "_maars_grade": "sourced",
+        "_maars_verified_on": "",
+        "_maars_source_file": "mirror/ks0man.com/constitution.pdf; mirror/ks0man.com/members.html"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">You do not need a licence, an antenna or a radio to come to a meeting. Membership is for when you want to stay.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Dues</h2><!-- /wp:heading -->\n\n<!-- wp:list --><ul class=\"wp-block-list\"><!-- wp:list-item --><li><strong>Regular membership &mdash; $20 a year.</strong></li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>Full-time student &mdash; $10 a year.</strong></li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>Family / household &mdash; $30 a year</strong>, covering two licensed adults and all licensed dependent children.</li><!-- /wp:list-item --></ul><!-- /wp:list -->\n\n<!-- wp:paragraph --><p>The membership year runs <strong>1 November to 31 October</strong>. A first-year membership is prorated by the month &mdash; a practice the Society had followed informally for a decade and voted into the Standard Operating Procedures in November 2019.</p><!-- /wp:paragraph -->\n\n<!-- wp:maars/fact {\"grade\":\"sourced\",\"sourceFile\":\"mirror/ks0man.com/constitution.pdf\"} --><p><strong>Dues:</strong> $20 regular / $10 student / $30 family</p><p class=\"maars-fact-note\">Unchanged since at least 1997 and restated in the Standard Operating Procedures of 11 December 2021. Confirm at the November annual meeting, which is where dues are levied.</p><!-- /wp:maars/fact -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">How membership works</h2><!-- /wp:heading -->\n\n<!-- wp:quote --><blockquote class=\"wp-block-quote\"><!-- wp:paragraph --><p>Membership begins when the Treasurer receives the appropriate dues. Dues are due and payable upon joining and thereafter annually before the first day of November of each successive year. Membership automatically ceases when dues are unpaid.</p><!-- /wp:paragraph --><cite>Constitution, Article V, Section 2</cite></blockquote><!-- /wp:quote -->\n\n<!-- wp:paragraph --><p>Dues once paid are not refundable, and a membership cannot be transferred. Withdrawal is by written notice to the Treasurer.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Starting</h2><!-- /wp:heading -->\n\n<!-- wp:list --><ul class=\"wp-block-list\"><!-- wp:list-item --><li>Come to a meeting &mdash; second Friday, 6:30 P.M. Nobody will ask you for anything.</li><!-- /wp:list-item --><!-- wp:list-item --><li>Ask any officer for the current membership application form. The Treasurer takes dues at the meeting.</li><!-- /wp:list-item --><!-- wp:list-item --><li>Ask to be put on the Society email reflector. It is the official organ of the Society and it is where everything that matters is announced.</li><!-- /wp:list-item --></ul><!-- /wp:list -->\n\n<!-- wp:paragraph {\"className\":\"maars-note\"} --><p class=\"maars-note\">Personal contact details for officers and members are not published on this site. Reach anyone through the Society email reflector or at a meeting.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Not licensed yet?</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>Come anyway. Meetings are open to anyone interested in amateur radio, the Elmer Hour after the meeting exists precisely for people with questions, and the Society has run licence classes and volunteer examiner sessions for most of its life.</p><!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "contact",
+      "title": "Contact",
+      "menu_order": 9,
+      "meta": {
+        "_maars_grade": "sourced",
+        "_maars_verified_on": "",
+        "_maars_source_file": "mirror/ks0man.com/constitution.pdf"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">There are three ways to reach the Manhattan Area Amateur Radio Society, and none of them is an email address on a public web page.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Come to a meeting</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>Second Friday of the month, 6:30 P.M., Manhattan / Riley County Senior Center at Fourth and Leavenworth. Doors at 6:00. Anyone may attend.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">The email reflector</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>The reflector is the official organ of the Society under Article III of the constitution. Ask at a meeting to be added; that is deliberately a human step rather than a form.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">On the air</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>Call on the KS&Oslash;MAN repeater, 147.255 MHz, +600 kHz, PL 88.5 &mdash; or check into the weekly net. See <a href=\"/on-the-air/\">On the Air</a>, where every field is graded, because the repeater changed sites recently and the record stops before the change was confirmed.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Why there is no address or telephone number here</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph {\"className\":\"maars-note\"} --><p class=\"maars-note\">The site this replaces published four officers' personal email addresses unobfuscated, seven telephone numbers, a home address, and a forty-one name roster with cities. All of that is real information about real people, and a public web page is a poor place to keep it. It has not been carried across, and the tooling that builds this site refuses to publish it.</p><!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "links",
+      "title": "Links",
+      "menu_order": 10,
+      "meta": {
+        "_maars_grade": "unverified",
+        "_maars_verified_on": "",
+        "_maars_source_file": "mirror/ks0man.com/links-maars.html; mirror/ks0man.com/repeater.html"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">The old site carried a long list of outbound links, four of which no longer resolve at all. A link list is a maintenance liability, so this one is short and graded.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Known dead, and kept here as a record</h2><!-- /wp:heading -->\n\n<!-- wp:list --><ul class=\"wp-block-list\"><!-- wp:list-item --><li><strong>ks0lnk.net</strong> &mdash; the K-Link Repeater Network, linked from the old repeater page and twice from the links page. The domain no longer resolves, and K-Link itself was reported in March 2022 to be winding down: &ldquo;When a piece of equipment fails, it will not be replaced.&rdquo;</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>rcm.k0jpr.net</strong> &mdash; the Kansas repeater directory. Gone.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>list.k0jpr.net</strong> &mdash; a mailing-list sign-up. Gone.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>ks0lnk.wavedsl.net</strong> &mdash; a coverage map for a neighbouring repeater. Gone.</li><!-- /wp:list-item --></ul><!-- /wp:list -->\n\n<!-- wp:paragraph --><p>Those four made up the old site's entire external repeater-reference apparatus. Naming them is more useful than quietly deleting them: anyone following an old bookmark now knows what happened.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Still worth following</h2><!-- /wp:heading -->\n\n<!-- wp:list --><ul class=\"wp-block-list\"><!-- wp:list-item --><li>The ARRL, for licensing, Field Day and the national picture.</li><!-- /wp:list-item --><!-- wp:list-item --><li>The National Weather Service, for the warnings that WARN reports into.</li><!-- /wp:list-item --><!-- wp:list-item --><li>The Kansas Repeater Council, for the current repeater directory.</li><!-- /wp:list-item --></ul><!-- /wp:list -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\",\"sourceFile\":\"mirror/ks0man.com/links-maars.html\"} --><p><strong>Link list:</strong> Not re-checked</p><p class=\"maars-fact-note\">Outbound links rot faster than anything else on a club site. Re-check this page annually and record the date; an unchecked link list is worse than none.</p><!-- /wp:maars/fact -->"
+    },
+    {
+      "slug": "accessibility",
+      "title": "Accessibility",
+      "menu_order": 11,
+      "meta": {
+        "_maars_grade": "measured",
+        "_maars_verified_on": "2026-09-12",
+        "_maars_source_file": "extract/inventory.json"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">This site is built for an ageing membership reading on phones in bad light, which is the same thing as building it for everybody.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Colour</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>The palette is the Society's own, measured from its 1997 stylesheet and kept. Navy #00008C is 15.23:1 against white and magenta #990066 is 8.25:1 &mdash; both AAA at any size. The colours were never the problem.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>The problem was a white-on-white link bug: a navigation rule set links to white and leaked into the page body when a layout table closed early, leaving invisible links on a white background. That is a code defect, not a design choice, and it is fixed by not laying pages out in tables.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Images</h2><!-- /wp:heading -->\n\n<!-- wp:maars/fact {\"grade\":\"measured\",\"verifiedOn\":\"2026-09-12\",\"sourceFile\":\"extract/inventory.json\"} --><p><strong>Alt text:</strong> 1,154 images on the old site had none</p><p class=\"maars-fact-note\">Every image carried across needs a real description. An empty alt attribute is correct only for decoration; on a photograph of Field Day it is a silent failure no automated check will catch for you.</p><!-- /wp:maars/fact -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Layout</h2><!-- /wp:heading -->\n\n<!-- wp:list --><ul class=\"wp-block-list\"><!-- wp:list-item --><li>Every page on the old site overflowed a 390-pixel phone viewport &mdash; measured content widths ran from 508 to 917 pixels. This one reflows to a single column.</li><!-- /wp:list-item --><!-- wp:list-item --><li>Navigation is a real list inside a real nav element, not a four-column table.</li><!-- /wp:list-item --><!-- wp:list-item --><li>The mobile menu is a labelled &ldquo;Menu&rdquo; button rather than a bare hamburger, because icon-only controls test badly with the audience this site actually has.</li><!-- /wp:list-item --><!-- wp:list-item --><li>Every interactive element has a visible focus ring, and a skip link is the first thing you reach with the keyboard.</li><!-- /wp:list-item --></ul><!-- /wp:list -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Tell us what does not work</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>If a page is unreadable for you, say so on the reflector or at a meeting. That is a bug report and it will be treated as one.</p><!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "privacy",
+      "title": "Privacy",
+      "menu_order": 12,
+      "meta": {
+        "_maars_grade": "measured",
+        "_maars_verified_on": "2026-09-12",
+        "_maars_source_file": "content/seed.json"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">The short version: this site does not publish members' personal information, and it does not track you.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">What is not published</h2><!-- /wp:heading -->\n\n<!-- wp:list --><ul class=\"wp-block-list\"><!-- wp:list-item --><li>Members' home addresses, telephone numbers and email addresses.</li><!-- /wp:list-item --><!-- wp:list-item --><li>The membership roster.</li><!-- /wp:list-item --><!-- wp:list-item --><li>Storm-spotter observer post locations.</li><!-- /wp:list-item --><!-- wp:list-item --><li>Officers' personal contact details. Offices are listed by role.</li><!-- /wp:list-item --><!-- wp:list-item --><li>Memorial text for Silent Keys.</li><!-- /wp:list-item --></ul><!-- /wp:list -->\n\n<!-- wp:paragraph --><p>The Society holds membership records because it has to &mdash; membership begins when the Treasurer receives your dues &mdash; but those records live in the Society's own files and are not part of this website.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">What this site collects</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>No analytics, no tracking pixels, no advertising, and no third-party fonts or scripts loaded from anyone else's server. The site sets only the cookies WordPress itself needs, and only if you log in to edit it. Nothing is fetched from a content delivery network, which means no third party is told that you visited.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">If your details are on here</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph {\"className\":\"maars-note\"} --><p class=\"maars-note\">They should not be. Say so on the reflector or at a meeting and they will be removed. The tooling that generates content from the Society's own archive strips email addresses, telephone numbers and street addresses by default, and has to be overridden with two separate command-line flags to do anything else.</p><!-- /wp:paragraph -->"
+    }
+  ],
+  "facilities": [
+    {
+      "slug": "ks0man-147-255-repeater",
+      "title": "KS&Oslash;MAN 147.255 MHz repeater",
+      "menu_order": 0,
+      "terms": {
+        "maars_facility_kind": [
+          "repeater"
+        ],
+        "maars_callsign": [
+          "ks0man"
+        ]
+      },
+      "meta": {
+        "_maars_freq_mhz": "147.255",
+        "_maars_tone_hz": "88.5",
+        "_maars_offset": "+600 kHz (input 147.855 MHz)",
+        "_maars_schedule": "Continuous",
+        "_maars_grade": "unverified",
+        "_maars_verified_on": "",
+        "_maars_source_file": "mirror/ks0man.com/index.html; mirror/ks0man.com/repeater.html; extract/pdftext/newsletter_11-23.txt; extract/pdftext/newsletter_01-24.txt"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">147.255 MHz out, 147.855 MHz in, +600 kHz, CTCSS 88.5 Hz on both ends, open to all licensed amateurs, analog FM on a Motorola Quantar.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph {\"className\":\"maars-lede maars-lede-warn\"} --><p class=\"maars-lede maars-lede-warn\"><strong>Every field on this record is graded unverified.</strong> Two changes landed inside the last documented year and the record stops before either was confirmed: the machine left the KSDB-FM tower in November 2023, and the S-COM 7330 controller was voted out of the system in January 2024 with no replacement decided. Until a licensed member re-measures and dates each value, this record tells you what was last written down &mdash; not what is true today.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">The record</h2><!-- /wp:heading -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\",\"sourceFile\":\"mirror/ks0man.com/index.html\"} --><p><strong>Output:</strong> 147.255 MHz</p><p class=\"maars-fact-note\">Identical in every source in the archive from the 1990s to 2024. Not re-measured since the site move.</p><!-- /wp:maars/fact -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\"} --><p><strong>Input:</strong> 147.855 MHz, +600 kHz</p><!-- /wp:maars/fact -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\"} --><p><strong>CTCSS / PL:</strong> 88.5 Hz, uplink and downlink</p><!-- /wp:maars/fact -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\"} --><p><strong>Access:</strong> Open &mdash; all licensed amateurs welcome</p><!-- /wp:maars/fact -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\",\"sourceFile\":\"extract/pdftext/newsletter_11-23.txt\"} --><p><strong>Hardware:</strong> Motorola Quantar, analog FM</p><p class=\"maars-fact-note\">Confirm transmit power and antenna height at the new site. Every published figure in the archive describes the old KSDB-FM location.</p><!-- /wp:maars/fact -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\",\"sourceFile\":\"extract/pdftext/newsletter_11-23.txt\"} --><p><strong>Site:</strong> A Riley County tower site, since November 2023</p><p class=\"maars-fact-note\">MUST CONFIRM. The minutes say the Quantar came back online; they do not say the move was finished, and the backup machine was down at the time.</p><!-- /wp:maars/fact -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\",\"sourceFile\":\"extract/pdftext/newsletter_01-24.txt\"} --><p><strong>Controller:</strong> None stated</p><p class=\"maars-fact-note\">MUST CONFIRM. The S-COM 7330 was voted out of the system in January 2024 and the record names no replacement. Publish what is actually in the rack, with its identifier and timeout behaviour.</p><!-- /wp:maars/fact -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\",\"sourceFile\":\"mirror/ks0man.com/index.html\"} --><p><strong>Coverage:</strong> Not stated</p><p class=\"maars-fact-note\">Every coverage claim in the archive is tied to the old tower. The new site is reported to be substantially higher, so coverage is probably better than the last published claim &mdash; but nobody has written down a measurement.</p><!-- /wp:maars/fact -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">Using it</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>Priority of use, in order, as the Society has always published it: emergency and priority traffic; system tests and maintenance; public service; nets; mobile and portable stations; fixed stations.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>In a genuine emergency, call 911 first if you can. The repeater supplements the county's communications; it does not replace them.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">What is deliberately not listed</h2><!-- /wp:heading -->\n\n<!-- wp:list --><ul class=\"wp-block-list\"><!-- wp:list-item --><li><strong>The 442.000 MHz Fusion machine.</strong> The old site still advertised it, and a monthly Fusion net on it. The January 2024 minutes record the 70 cm repeater as <em>inoperative</em>. An unverified repeater is not listed as a repeater.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>The autopatch and its speed-dial codes.</strong> Dead since 2015. The old site still printed the full procedure.</li><!-- /wp:list-item --><!-- wp:list-item --><li><strong>Linking to the K-Link network.</strong> Reported in March 2022 to be winding down, and in 2023 the Clay Center repeater was reported unable to link to this one.</li><!-- /wp:list-item --></ul><!-- /wp:list -->"
+    },
+    {
+      "slug": "maars-weekly-net",
+      "title": "MAARS weekly net",
+      "menu_order": 1,
+      "terms": {
+        "maars_facility_kind": [
+          "net"
+        ],
+        "maars_callsign": [
+          "ks0man"
+        ]
+      },
+      "meta": {
+        "_maars_freq_mhz": "147.255",
+        "_maars_tone_hz": "88.5",
+        "_maars_offset": "+600 kHz (input 147.855 MHz)",
+        "_maars_schedule": "Weekly, Tuesdays 8:00 P.M. America/Chicago",
+        "_maars_grade": "unverified",
+        "_maars_verified_on": "",
+        "_maars_source_file": "mirror/ks0man.com/index.html; extract/pdftext/newsletter_12-16.txt; extract/pdftext/newsletter_01-24.txt"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">A directed net on the KS&Oslash;MAN repeater, Tuesday evenings. All amateurs, Technician and above, are welcome to check in.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph {\"className\":\"maars-lede maars-lede-warn\"} --><p class=\"maars-lede maars-lede-warn\"><strong>Graded unverified.</strong> The time is the field the old site was least consistent about, and the control roster has had a standing vacancy.</p><!-- /wp:paragraph -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\",\"sourceFile\":\"extract/pdftext/newsletter_12-16.txt\"} --><p><strong>Schedule:</strong> Tuesdays, 8:00 P.M. Central</p><p class=\"maars-fact-note\">MUST CONFIRM. The net ran at 9:00 P.M. through 2014 and appears at 8:00 P.M. from about 2016; the old site printed both, in different places, for years.</p><!-- /wp:maars/fact -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\"} --><p><strong>Frequency:</strong> 147.255 MHz, +600 kHz, PL 88.5</p><!-- /wp:maars/fact -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\",\"sourceFile\":\"extract/pdftext/newsletter_01-24.txt\"} --><p><strong>Net control:</strong> Rotates by week of the month</p><p class=\"maars-fact-note\">MUST CONFIRM. The identical sentence &mdash; that the first-Tuesday net control position is still available &mdash; appears in the October 2023, November 2023 and January 2024 minutes, with a temporary volunteer filling in. A net with an unfilled control slot is not reliably a net.</p><!-- /wp:maars/fact -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">The swap net</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph --><p>A swap net follows: buy or sell anything you would find in a shack. On-air negotiating is not permitted during the swap net.</p><!-- /wp:paragraph -->\n\n<!-- wp:heading {\"level\":2} --><h2 class=\"wp-block-heading\">What happened to the Thursday youth net</h2><!-- /wp:heading -->\n\n<!-- wp:paragraph {\"className\":\"maars-note\"} --><p class=\"maars-note\">It ran alongside this one until 2014 and then disappeared from the record without ever being cancelled in writing. Neither the old site nor the minutes say when it stopped. If it is coming back it should be listed; if it is not, saying so is better than a ten-year silence.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph {\"className\":\"maars-note\"} --><p class=\"maars-note\">The net-control roster is not published on this site.</p><!-- /wp:paragraph -->"
+    }
+  ],
+  "publications": [
+    {
+      "slug": "newsletter-1999-03-01",
+      "title": "MAARS Monthly Newsletter &mdash; March 1999",
+      "date": "1999-03-01",
+      "if_absent": true,
+      "terms": {
+        "maars_doc_type": [
+          "newsletter"
+        ],
+        "maars_year": [
+          "1999"
+        ]
+      },
+      "meta": {
+        "_maars_doc_date": "1999-03-01",
+        "_maars_grade": "sourced",
+        "_maars_verified_on": "2026-09-12",
+        "_maars_source_file": "mirror/ks0man.com/newsletter_03-99.html"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">This is an archive record. The demonstration image carries the record &mdash; title, date, type, year and the file it derives from &mdash; and not the document body.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>The HTML era. Monthly newsletters were written by hand in HTML 4.0 with table layout and posted straight to the site: headings are bold text inside font tags rather than heading elements, and body copy sits in blockquotes. A converter recovers 98.5% of the words from these files.</p><!-- /wp:paragraph -->\n\n<!-- wp:maars/fact {\"grade\":\"sourced\",\"verifiedOn\":\"2026-09-12\"} --><p><strong>Source file:</strong> mirror/ks0man.com/newsletter_03-99.html</p><p class=\"maars-fact-note\">The Society generates the full text locally with tools/build_content.py against its own mirror. The archive carries members' addresses, telephone numbers and email addresses, so document bodies are never baked into the public image.</p><!-- /wp:maars/fact -->"
+    },
+    {
+      "slug": "minutes-2015-03-13",
+      "title": "Manhattan Area Amateur Radio Society Minutes &mdash; 13 March 2015",
+      "date": "2015-03-13",
+      "if_absent": true,
+      "terms": {
+        "maars_doc_type": [
+          "minutes"
+        ],
+        "maars_year": [
+          "2015"
+        ]
+      },
+      "meta": {
+        "_maars_doc_date": "2015-03-13",
+        "_maars_grade": "sourced",
+        "_maars_verified_on": "2026-09-12",
+        "_maars_source_file": "mirror/ks0man.com/newsletter_03-15.html"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">This is an archive record. The demonstration image carries the record &mdash; title, date, type, year and the file it derives from &mdash; and not the document body.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>The hinge year. From 2015 the monthly document is usually the meeting minutes rather than a newsletter &mdash; but it keeps the newsletter filename. Filing these as newsletters because of the filename is exactly the mistake a unified archive exists to avoid: the type comes from the document, not from what the file is called.</p><!-- /wp:paragraph -->\n\n<!-- wp:maars/fact {\"grade\":\"sourced\",\"verifiedOn\":\"2026-09-12\"} --><p><strong>Source file:</strong> mirror/ks0man.com/newsletter_03-15.html</p><p class=\"maars-fact-note\">The Society generates the full text locally with tools/build_content.py against its own mirror. The archive carries members' addresses, telephone numbers and email addresses, so document bodies are never baked into the public image.</p><!-- /wp:maars/fact -->"
+    },
+    {
+      "slug": "minutes-2023-11-10",
+      "title": "MAARS Club Meeting Minutes &mdash; 10 November 2023",
+      "date": "2023-11-10",
+      "if_absent": true,
+      "terms": {
+        "maars_doc_type": [
+          "minutes"
+        ],
+        "maars_year": [
+          "2023"
+        ]
+      },
+      "meta": {
+        "_maars_doc_date": "2023-11-10",
+        "_maars_grade": "sourced",
+        "_maars_verified_on": "2026-09-12",
+        "_maars_source_file": "mirror/ks0man.com/newsletter_11-23.pdf"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">This is an archive record. The demonstration image carries the record &mdash; title, date, type, year and the file it derives from &mdash; and not the document body.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>The PDF era, and the most consequential document in the archive: this is where the repeater's move off the KSDB-FM tower is recorded. The fact exists only inside a PDF of meeting minutes and contradicts every HTML page on the old site &mdash; which is why a straight page-by-page migration would have faithfully republished a repeater that had already moved.</p><!-- /wp:paragraph -->\n\n<!-- wp:maars/fact {\"grade\":\"sourced\",\"verifiedOn\":\"2026-09-12\"} --><p><strong>Source file:</strong> mirror/ks0man.com/newsletter_11-23.pdf</p><p class=\"maars-fact-note\">The Society generates the full text locally with tools/build_content.py against its own mirror. The archive carries members' addresses, telephone numbers and email addresses, so document bodies are never baked into the public image.</p><!-- /wp:maars/fact -->"
+    },
+    {
+      "slug": "minutes-2024-01-12",
+      "title": "MAARS Club Meeting Minutes &mdash; 12 January 2024",
+      "date": "2024-01-12",
+      "if_absent": true,
+      "terms": {
+        "maars_doc_type": [
+          "minutes"
+        ],
+        "maars_year": [
+          "2024"
+        ]
+      },
+      "meta": {
+        "_maars_doc_date": "2024-01-12",
+        "_maars_grade": "sourced",
+        "_maars_verified_on": "2026-09-12",
+        "_maars_source_file": "mirror/ks0man.com/newsletter_01-24.pdf"
+      },
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">This is an archive record. The demonstration image carries the record &mdash; title, date, type, year and the file it derives from &mdash; and not the document body.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>The newest document in the archive, and therefore the one the dateline counts from. It records the S-COM 7330 controller being voted out of the system with no replacement decided, and the 70 cm machine as inoperative. Nothing later exists.</p><!-- /wp:paragraph -->\n\n<!-- wp:maars/fact {\"grade\":\"sourced\",\"verifiedOn\":\"2026-09-12\"} --><p><strong>Source file:</strong> mirror/ks0man.com/newsletter_01-24.pdf</p><p class=\"maars-fact-note\">The Society generates the full text locally with tools/build_content.py against its own mirror. The archive carries members' addresses, telephone numbers and email addresses, so document bodies are never baked into the public image.</p><!-- /wp:maars/fact -->"
+    }
+  ],
+  "posts": [
+    {
+      "slug": "repeater-moved-off-the-ksdb-fm-tower",
+      "title": "The repeater has moved off the KSDB-FM tower",
+      "date": "2023-11-10",
+      "terms": {
+        "maars_year": [
+          "2023"
+        ]
+      },
+      "meta": {
+        "_maars_doc_date": "2023-11-10",
+        "_maars_grade": "unverified",
+        "_maars_verified_on": "",
+        "_maars_source_file": "mirror/ks0man.com/newsletter_11-23.pdf"
+      },
+      "excerpt": "The Motorola Quantar was taken off the Kansas State KSDB-FM site and moved to a Riley County tower. Reported online; never reported finished.",
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">The Motorola Quantar that has carried 147.255 MHz for years was taken off the KSDB-FM site at Kansas State University and moved to a Riley County tower site.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>The minutes record that it came back online. They do not record that the move was finished: the backup machine was down at the time, and an earlier forecast had put completion in mid-2024.</p><!-- /wp:paragraph -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\",\"sourceFile\":\"mirror/ks0man.com/newsletter_11-23.pdf\"} --><p><strong>Repeater site:</strong> A Riley County tower, since November 2023</p><p class=\"maars-fact-note\">Confirm the site, the antenna height, the transmit power and the coverage. Every published figure in the archive describes the old location and is now either wrong or unknowable.</p><!-- /wp:maars/fact -->\n\n<!-- wp:paragraph --><p>This is the most consequential technical fact in the Society's records, and it existed in exactly one place: a PDF of meeting minutes. Every HTML page on the old website went on describing the KSDB tower.</p><!-- /wp:paragraph -->"
+    },
+    {
+      "slug": "s-com-7330-controller-voted-out",
+      "title": "The S-COM 7330 controller is out of the system",
+      "date": "2024-01-12",
+      "terms": {
+        "maars_year": [
+          "2024"
+        ]
+      },
+      "meta": {
+        "_maars_doc_date": "2024-01-12",
+        "_maars_grade": "unverified",
+        "_maars_verified_on": "",
+        "_maars_source_file": "mirror/ks0man.com/newsletter_01-24.pdf"
+      },
+      "excerpt": "Voted out of the system in January 2024 with no replacement decided in the record. The 70 cm machine was reported inoperative at the same meeting.",
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\">At the meeting of 12 January 2024 the S-COM 7330 controller was voted out of the repeater system. The record names no replacement.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>The same minutes report the Yaesu 70 cm repeater as inoperative, so the 442.000 MHz machine and the monthly Fusion net that ran on it are not listed on this site as operational.</p><!-- /wp:paragraph -->\n\n<!-- wp:maars/fact {\"grade\":\"unverified\",\"sourceFile\":\"mirror/ks0man.com/newsletter_01-24.pdf\"} --><p><strong>Repeater controller:</strong> None stated</p><p class=\"maars-fact-note\">Confirm what is controlling the repeater today, what identifier it sends and what its timeout behaviour is. Until then this field stays empty rather than repeating a controller that has been removed.</p><!-- /wp:maars/fact -->"
+    },
+    {
+      "slug": "where-the-record-stops",
+      "title": "Where the record stops",
+      "date": "2024-01-16",
+      "terms": {
+        "maars_year": [
+          "2024"
+        ]
+      },
+      "meta": {
+        "_maars_doc_date": "2024-01-16",
+        "_maars_grade": "measured",
+        "_maars_verified_on": "2026-09-12",
+        "_maars_source_file": "extract/inventory.json"
+      },
+      "excerpt": "16 January 2024 is the newest content of any kind in the Society's web record. The dateline on the front page counts from here.",
+      "blocks": "<!-- wp:paragraph {\"className\":\"maars-lede\"} --><p class=\"maars-lede\"><strong>16 January 2024</strong> is the date of the newest item of any kind in the Society's web record &mdash; newsletter, minutes, treasurer's report, news item or photograph.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>This post exists to mark that, and to make the point the whole rebuild rests on. The site this one replaces carried no date on its front page. It looked exactly as current on its last day as it had on its first, while quietly describing a repeater on a tower it had left and a controller that had been removed.</p><!-- /wp:paragraph -->\n\n<!-- wp:paragraph --><p>The banner on the front page counts the days from this date. When somebody publishes again, the count resets on its own. Until then a visitor is told the truth immediately, instead of finding it out by driving to a meeting that has moved.</p><!-- /wp:paragraph -->\n\n<!-- wp:maars/fact {\"grade\":\"measured\",\"verifiedOn\":\"2026-09-12\",\"sourceFile\":\"extract/inventory.json\"} --><p><strong>Newest content of any kind:</strong> 16 January 2024</p><p class=\"maars-fact-note\">Measured across the complete site mirror: 151 HTML pages, 166 PDFs and 104 images. Nothing in the corpus is dated later.</p><!-- /wp:maars/fact -->"
+    }
+  ],
+  "people": []
+}

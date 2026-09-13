@@ -1,0 +1,49 @@
+<!-- wp:group {"tagName":"div","className":"maars-header","style":{"spacing":{"padding":{"top":"1.25rem","bottom":"1rem","left":"1rem","right":"1rem"}}},"backgroundColor":"paper","textColor":"ink","layout":{"type":"constrained"}} -->
+<div class="wp-block-group maars-header has-ink-color has-paper-background-color has-text-color has-background" style="padding-top:1.25rem;padding-right:1rem;padding-bottom:1rem;padding-left:1rem">
+
+	<!-- wp:group {"className":"maars-identity-row","style":{"spacing":{"blockGap":"1.5rem"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
+	<div class="wp-block-group maars-identity-row">
+
+		<!-- wp:group {"className":"maars-wordmark","style":{"spacing":{"blockGap":"0.15rem"}},"layout":{"type":"constrained","justifyContent":"left"}} -->
+		<div class="wp-block-group maars-wordmark">
+			<!-- The wordmark is text, not an image. The old site set its identity in a GIF with no alt text. -->
+			<!-- wp:paragraph {"className":"maars-wordmark__name","style":{"typography":{"fontSize":"1.75rem","fontWeight":"700","lineHeight":"1.1","letterSpacing":"0.01em"}},"textColor":"navy"} -->
+			<p class="maars-wordmark__name has-navy-color has-text-color" style="font-size:1.75rem;font-weight:700;letter-spacing:0.01em;line-height:1.1"><a href="/">MAARS</a> <span class="maars-wordmark__sep" aria-hidden="true">·</span> <span class="maars-wordmark__call">KSØMAN</span></p>
+			<!-- /wp:paragraph -->
+
+			<!-- wp:paragraph {"className":"maars-wordmark__long","style":{"typography":{"fontSize":"0.9rem","lineHeight":"1.4"}}} -->
+			<p class="maars-wordmark__long" style="font-size:0.9rem;line-height:1.4">Manhattan Area Amateur Radio Society <span aria-hidden="true">·</span> Manhattan, Kansas <span aria-hidden="true">·</span> founded 7 July 1976</p>
+			<!-- /wp:paragraph -->
+		</div>
+		<!-- /wp:group -->
+
+		<!-- Seven items. Tasks, not an inventory. Nothing here leaves the site: an outbound link in primary
+		     navigation sends the visitor away at the moment they arrived. Outbound links live on /links/. -->
+		<!-- wp:navigation {"className":"maars-nav","overlayMenu":"mobile","hasIcon":false,"icon":"menu","overlayBackgroundColor":"paper","overlayTextColor":"navy","style":{"spacing":{"blockGap":"1.25rem"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"right"}} -->
+			<!-- wp:navigation-link {"label":"About","url":"/about/","kind":"custom","isTopLevelLink":true} /-->
+			<!-- wp:navigation-link {"label":"Meetings & Events","url":"/events/","kind":"custom","isTopLevelLink":true} /-->
+			<!-- wp:navigation-link {"label":"On the Air","url":"/on-the-air/","kind":"custom","isTopLevelLink":true} /-->
+			<!-- wp:navigation-link {"label":"Storm Spotting","url":"/storm-spotting/","kind":"custom","isTopLevelLink":true} /-->
+			<!-- wp:navigation-link {"label":"News","url":"/news/","kind":"custom","isTopLevelLink":true} /-->
+			<!-- wp:navigation-link {"label":"Archive","url":"/archive/","kind":"custom","isTopLevelLink":true} /-->
+			<!-- wp:navigation-link {"label":"Join","url":"/join/","kind":"custom","isTopLevelLink":true} /-->
+		<!-- /wp:navigation -->
+
+	</div>
+	<!-- /wp:group -->
+
+</div>
+<!-- /wp:group -->
+
+<!-- The most consulted fact on the site, on every page, at the top, with its grade attached.
+     Every one of these numbers is UNVERIFIED: the repeater moved off the KSDB-FM tower in
+     November 2023 and the controller was voted out in January 2024, so the chip says so. -->
+<!-- wp:group {"tagName":"div","className":"maars-repeater-strip","style":{"spacing":{"padding":{"top":"0.6rem","bottom":"0.6rem","left":"1rem","right":"1rem"}}},"backgroundColor":"lavender","textColor":"ink","layout":{"type":"constrained"}} -->
+<div class="wp-block-group maars-repeater-strip has-ink-color has-lavender-background-color has-text-color has-background" style="padding-top:0.6rem;padding-right:1rem;padding-bottom:0.6rem;padding-left:1rem">
+	<!-- wp:maars/fact {"grade":"unverified"} -->
+		<!-- wp:paragraph {"className":"maars-repeater-strip__text","style":{"typography":{"fontSize":"0.95rem","lineHeight":"1.4"}}} -->
+		<p class="maars-repeater-strip__text" style="font-size:0.95rem;line-height:1.4"><strong>KSØMAN repeater</strong> 147.255 MHz out / 147.855 MHz in <span aria-hidden="true">·</span> +600 kHz <span aria-hidden="true">·</span> CTCSS 88.5 Hz <span aria-hidden="true">·</span> open to all licensed amateurs <span aria-hidden="true">·</span> <a href="/on-the-air/">what we know and when we last checked</a></p>
+		<!-- /wp:paragraph -->
+	<!-- /wp:maars/fact -->
+</div>
+<!-- /wp:group -->

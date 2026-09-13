@@ -1,0 +1,167 @@
+<!-- wp:template-part {"slug":"header","tagName":"header","area":"header","className":"maars-site-header"} /-->
+
+<!-- wp:group {"tagName":"main","className":"maars-main maars-front","style":{"spacing":{"blockGap":"0px","margin":{"top":"0px","bottom":"0px"}}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group maars-main maars-front" style="margin-top:0px;margin-bottom:0px">
+
+	<!-- 1. HERO: the skywave canvas.
+	     Deliberately not a full screen hero. A hero sized to the whole viewport is a page that
+	     refuses to admit it has content below; on the laptops and tablets this club actually uses
+	     it pushes the next meeting date under the fold, and that date is the one thing most
+	     visitors came for. The stage below is floored at roughly two fifths of the viewport with
+	     hard rem bounds, so it can never swell to a full screen and never collapses to a sliver
+	     on a phone. -->
+	<!-- wp:group {"tagName":"section","className":"maars-hero","style":{"spacing":{"padding":{"top":"1.75rem","bottom":"1.75rem","left":"1rem","right":"1rem"},"blockGap":"1rem"}},"backgroundColor":"ink","textColor":"paper","layout":{"type":"constrained"}} -->
+	<section class="wp-block-group maars-hero has-paper-color has-ink-background-color has-text-color has-background" style="padding-top:1.75rem;padding-right:1rem;padding-bottom:1.75rem;padding-left:1rem">
+
+		<!-- wp:heading {"level":1,"className":"maars-hero__title","style":{"typography":{"fontSize":"clamp(1.6rem, 1.1rem + 2.2vw, 2.6rem)","lineHeight":"1.15","fontWeight":"700"}}} -->
+		<h1 class="wp-block-heading maars-hero__title" style="font-size:clamp(1.6rem, 1.1rem + 2.2vw, 2.6rem);font-weight:700;line-height:1.15">Amateur radio in Manhattan, Kansas since 1976</h1>
+		<!-- /wp:heading -->
+
+		<!-- wp:paragraph {"className":"maars-hero__lede","style":{"typography":{"fontSize":"1.05rem","lineHeight":"1.55"}}} -->
+		<p class="maars-hero__lede" style="font-size:1.05rem;line-height:1.55">This is where the signal goes. Drag the scene to orbit it, then change bands: on 80, 40 and 20 metres the ionosphere bends the wave back to earth, and on 2 metres it does not <span aria-hidden="true">·</span> which is exactly why the KSØMAN repeater sits on a hill and not on the horizon.</p>
+		<!-- /wp:paragraph -->
+
+		<!-- wp:group {"tagName":"div","className":"maars-hero__stage","style":{"dimensions":{"minHeight":"clamp(15rem, 44vh, 26rem)"},"spacing":{"blockGap":"0px"}},"layout":{"type":"constrained"}} -->
+		<div class="wp-block-group maars-hero__stage" style="min-height:clamp(15rem, 44vh, 26rem)">
+			<!-- The block renders its own canvas, band selector and noscript fallback. It draws a
+			     single static frame under prefers-reduced-motion, and when WebGL2 is missing it
+			     flags the parent with its fallback class instead of throwing, so nothing here is
+			     load bearing for the rest of the page. -->
+			<!-- wp:maars/skywave {"band":"80m","caption":"Schematic, not a propagation prediction: shell heights and hop geometry are illustrative, and the four bands are the ones this club actually uses."} /-->
+		</div>
+		<!-- /wp:group -->
+
+	</section>
+	<!-- /wp:group -->
+
+	<!-- 2. DATELINE: the staleness banner, immediately under the hero and above everything else.
+	     It reports how long it has been since the Society published anything at all and turns red
+	     past 120 days. The old site looked current on 12 September 2026 while its newest content
+	     was 16 January 2024. This block is the structural fix for that: the page states its own age
+	     before it states anything else. -->
+	<!-- wp:group {"tagName":"div","className":"maars-dateline-wrap","style":{"spacing":{"padding":{"top":"1rem","bottom":"0.5rem","left":"1rem","right":"1rem"}}},"layout":{"type":"constrained"}} -->
+	<div class="wp-block-group maars-dateline-wrap" style="padding-top:1rem;padding-right:1rem;padding-bottom:0.5rem;padding-left:1rem">
+		<!-- wp:maars/dateline /-->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- 3. NEXT MEETING: computed from the constitutional rule, never typed by hand, and it shows
+	     the rule that produced it so a reader can check the arithmetic. A hand typed date is how a
+	     homepage ends up advertising a meeting that happened two and a half years ago. -->
+	<!-- wp:group {"tagName":"section","className":"maars-nextmeeting-wrap","style":{"spacing":{"padding":{"top":"0.5rem","bottom":"1.5rem","left":"1rem","right":"1rem"},"blockGap":"0.75rem"}},"layout":{"type":"constrained"}} -->
+	<section class="wp-block-group maars-nextmeeting-wrap" style="padding-top:0.5rem;padding-right:1rem;padding-bottom:1.5rem;padding-left:1rem">
+
+		<!-- wp:heading {"level":2,"className":"maars-section__title","style":{"typography":{"fontSize":"1.5rem","lineHeight":"1.2"}},"textColor":"navy"} -->
+		<h2 class="wp-block-heading maars-section__title has-navy-color has-text-color" style="font-size:1.5rem;line-height:1.2">The next meeting</h2>
+		<!-- /wp:heading -->
+
+		<!-- wp:maars/next-meeting {"label":"Second Friday, 6:30 P.M.","showRule":true} /-->
+
+		<!-- wp:paragraph {"className":"maars-nextmeeting__where","style":{"typography":{"fontSize":"0.95rem","lineHeight":"1.55"}}} -->
+		<p class="maars-nextmeeting__where" style="font-size:0.95rem;line-height:1.55">Doors at 6:00 P.M., meeting at 6:30 P.M., at the Manhattan/Riley County Senior Center, 4th &amp; Leavenworth. Everyone is welcome and you do not need a licence to visit <span aria-hidden="true">·</span> <a href="/meetings/">what happens at a meeting</a>.</p>
+		<!-- /wp:paragraph -->
+
+	</section>
+	<!-- /wp:group -->
+
+	<!-- 4. ABOUT THE SOCIETY: short, because the long version is /about/. -->
+	<!-- wp:group {"tagName":"section","className":"maars-about","style":{"spacing":{"padding":{"top":"2rem","bottom":"2rem","left":"1rem","right":"1rem"},"blockGap":"0.85rem"}},"backgroundColor":"ground","textColor":"ink","layout":{"type":"constrained"}} -->
+	<section class="wp-block-group maars-about has-ink-color has-ground-background-color has-text-color has-background" style="padding-top:2rem;padding-right:1rem;padding-bottom:2rem;padding-left:1rem">
+
+		<!-- wp:heading {"level":2,"className":"maars-section__title","style":{"typography":{"fontSize":"1.5rem","lineHeight":"1.2"}},"textColor":"navy"} -->
+		<h2 class="wp-block-heading maars-section__title has-navy-color has-text-color" style="font-size:1.5rem;line-height:1.2">About the Society</h2>
+		<!-- /wp:heading -->
+
+		<!-- wp:paragraph {"style":{"typography":{"lineHeight":"1.6"}}} -->
+		<p style="line-height:1.6">The Manhattan Area Amateur Radio Society was founded at a meeting called to order at 7:40 P.M. on 7 July 1976. The members present voted that it would be a <em>Society</em> and not a club, and that word has survived every revision of the governing documents since. We hold the club callsign KSØMAN, we keep a 2 metre repeater open to any licensed amateur, we train and turn out storm spotters for Riley County, and we meet on the second Friday of the month.</p>
+		<!-- /wp:paragraph -->
+
+		<!-- wp:paragraph {"style":{"typography":{"lineHeight":"1.6"}}} -->
+		<p style="line-height:1.6">Governance is deliberately light. The Constitution and Standing Operating Procedures, revised 11 December 2021, put it plainly in Article VII: <em>&#8220;A quorum consists of the members present.&#8221;</em> Officers are elected annually and are listed here by role.</p>
+		<!-- /wp:paragraph -->
+
+		<!-- wp:buttons {"className":"maars-about__actions","style":{"spacing":{"blockGap":"0.75rem"}}} -->
+		<div class="wp-block-buttons maars-about__actions">
+			<!-- wp:button {"backgroundColor":"navy","textColor":"paper","style":{"border":{"radius":"2px"}}} -->
+			<div class="wp-block-button"><a class="wp-block-button__link has-paper-color has-navy-background-color has-text-color has-background wp-element-button" href="/about/" style="border-radius:2px">About MAARS</a></div>
+			<!-- /wp:button -->
+			<!-- wp:button {"className":"is-style-outline","textColor":"magenta","style":{"border":{"radius":"2px"}}} -->
+			<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-magenta-color has-text-color wp-element-button" href="/join/" style="border-radius:2px">Join the Society</a></div>
+			<!-- /wp:button -->
+		</div>
+		<!-- /wp:buttons -->
+
+	</section>
+	<!-- /wp:group -->
+
+	<!-- 5. RECENT NEWS: proof of life, three items deep. If it is empty it says so in plain words
+	     rather than leaving a tidy gap where a reader assumes activity. -->
+	<!-- wp:group {"tagName":"section","className":"maars-news","style":{"spacing":{"padding":{"top":"2rem","bottom":"1.5rem","left":"1rem","right":"1rem"},"blockGap":"1rem"}},"layout":{"type":"constrained"}} -->
+	<section class="wp-block-group maars-news" style="padding-top:2rem;padding-right:1rem;padding-bottom:1.5rem;padding-left:1rem">
+
+		<!-- wp:heading {"level":2,"className":"maars-section__title","style":{"typography":{"fontSize":"1.5rem","lineHeight":"1.2"}},"textColor":"navy"} -->
+		<h2 class="wp-block-heading maars-section__title has-navy-color has-text-color" style="font-size:1.5rem;line-height:1.2">Recent news</h2>
+		<!-- /wp:heading -->
+
+		<!-- wp:query {"queryId":11,"query":{"perPage":3,"pages":1,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":null,"parents":[],"format":[]},"className":"maars-news__loop","layout":{"type":"default"}} -->
+		<div class="wp-block-query maars-news__loop">
+
+			<!-- wp:post-template {"className":"maars-news__list","style":{"spacing":{"blockGap":"1.25rem"}},"layout":{"type":"grid","columnCount":3,"minimumColumnWidth":"16rem"}} -->
+
+				<!-- ALT TEXT REQUIRED on every featured image. Describe what is happening in the photo
+				     and who or what is in it, in one sentence, e.g. "Two operators logging contacts
+				     under a canopy at Field Day". The old site shipped 1,154 images with no alt text
+				     at all; an empty alt attribute here is a regression, not a default. -->
+				<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"16/9","className":"maars-news__thumb"} /-->
+
+				<!-- wp:post-title {"level":3,"isLink":true,"style":{"typography":{"fontSize":"1.15rem","lineHeight":"1.3"}},"textColor":"navy"} /-->
+
+				<!-- wp:post-date {"format":"j F Y","className":"maars-news__date","style":{"typography":{"fontSize":"0.85rem"}}} /-->
+
+				<!-- wp:post-excerpt {"moreText":"Read this","excerptLength":28,"style":{"typography":{"fontSize":"0.95rem","lineHeight":"1.55"}}} /-->
+
+			<!-- /wp:post-template -->
+
+			<!-- wp:query-no-results -->
+				<!-- wp:paragraph {"className":"maars-empty","style":{"typography":{"lineHeight":"1.6"}}} -->
+				<p class="maars-empty" style="line-height:1.6"><strong>No news has been posted yet.</strong> That is a statement about this website, not about the Society: notices go out on the e-mail reflector first, which Article III makes the official organ. The most recent thing the club published is in <a href="/archive/">the archive</a>.</p>
+				<!-- /wp:paragraph -->
+			<!-- /wp:query-no-results -->
+
+		</div>
+		<!-- /wp:query -->
+
+		<!-- wp:paragraph {"className":"maars-news__more","style":{"typography":{"fontSize":"0.95rem"}}} -->
+		<p class="maars-news__more" style="font-size:0.95rem"><a href="/news/">All news</a></p>
+		<!-- /wp:paragraph -->
+
+	</section>
+	<!-- /wp:group -->
+
+	<!-- 6. INTO THE ARCHIVE: the largest thing the Society owns and the reason the rebuild exists. -->
+	<!-- wp:group {"tagName":"section","className":"maars-archive-teaser","style":{"spacing":{"padding":{"top":"2rem","bottom":"2.5rem","left":"1rem","right":"1rem"},"blockGap":"0.85rem"}},"backgroundColor":"lavender","textColor":"ink","layout":{"type":"constrained"}} -->
+	<section class="wp-block-group maars-archive-teaser has-ink-color has-lavender-background-color has-text-color has-background" style="padding-top:2rem;padding-right:1rem;padding-bottom:2.5rem;padding-left:1rem">
+
+		<!-- wp:heading {"level":2,"className":"maars-section__title","style":{"typography":{"fontSize":"1.5rem","lineHeight":"1.2"}},"textColor":"navy"} -->
+		<h2 class="wp-block-heading maars-section__title has-navy-color has-text-color" style="font-size:1.5rem;line-height:1.2">Twenty-six years of the record</h2>
+		<!-- /wp:heading -->
+
+		<!-- wp:paragraph {"style":{"typography":{"lineHeight":"1.6"}}} -->
+		<p style="line-height:1.6">266 dated documents, 1998 to 2024: newsletters, meeting minutes, 49 treasurer&#8217;s reports and 6 year-end reports, in one searchable list with the gaps left visible. 2012 produced nothing at all and the list says so rather than closing the hole. The newest item of any kind in the whole corpus is dated 16 January 2024.</p>
+		<!-- /wp:paragraph -->
+
+		<!-- wp:buttons -->
+		<div class="wp-block-buttons">
+			<!-- wp:button {"backgroundColor":"navy","textColor":"paper","style":{"border":{"radius":"2px"}}} -->
+			<div class="wp-block-button"><a class="wp-block-button__link has-paper-color has-navy-background-color has-text-color has-background wp-element-button" href="/archive/" style="border-radius:2px">Search the archive</a></div>
+			<!-- /wp:button -->
+		</div>
+		<!-- /wp:buttons -->
+
+	</section>
+	<!-- /wp:group -->
+
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer","area":"footer","className":"maars-site-footer"} /-->

@@ -1,0 +1,114 @@
+# MAARS / KS0MAN - ks0man-site demonstration stack.
+#
+#   docker compose up -d
+#   open http://localhost:8080
+#
+# That is the whole quick start. There is no .env file, no copy step and no
+# value to fill in first: everything the stack needs is written literally in
+# this one file, so what you read here is exactly what runs.
+#
+# Two containers, two named volumes, no bind mounts, no host paths. The site
+# installs and seeds itself on first boot; watch it happen with
+# `docker compose logs -f wordpress`.
+#
+# Everything the site is made of - the maars-core plugin, the maars block
+# theme, the seed content - lives in the image, not in a volume. Only uploads
+# and the database persist. That is deliberate: this project's failure mode is
+# a site that quietly stops matching its source, so the source wins on every
+# boot.
+name: ks0man-site
+
+services:
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    # LOCAL DEVELOPMENT CREDENTIALS, written in the clear on purpose - change every password in this file before this stack is reachable from anywhere but localhost.
+    environment:
+      MARIADB_DATABASE: maars
+      MARIADB_USER: maars
+      MARIADB_PASSWORD: maars_local_dev
+      # No root password to store, rotate or leak. WordPress connects as the
+      # unprivileged user above, which owns the whole maars database.
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
+    volumes:
+      - maars_db:/var/lib/mysql
+    healthcheck:
+      # Ships with the mariadb image. --innodb_initialized is the difference
+      # between "the port answers" and "the database will accept your query".
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  wordpress:
+    image: ghcr.io/atvriders/ks0man-site:latest
+    # Building locally instead of pulling: uncomment the two lines below and
+    # run `docker compose up -d --build`. Nothing else changes.
+    # build:
+    #   context: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      # Change the left-hand number to publish somewhere else, and change
+      # MAARS_SITE_URL below to match: WordPress is told its URL, never left
+      # to guess it.
+      - "8080:80"
+    # LOCAL DEVELOPMENT CREDENTIALS, written in the clear on purpose - change every password in this file before this stack is reachable from anywhere but localhost.
+    environment:
+      # --- database (must agree with the db service above) ------------------
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: maars
+      WORDPRESS_DB_USER: maars
+      WORDPRESS_DB_PASSWORD: maars_local_dev
+      WORDPRESS_TABLE_PREFIX: wp_
+      WORDPRESS_DEBUG: "0"
+      # --- site identity, read by docker/entrypoint.sh on first boot --------
+      MAARS_SITE_URL: http://localhost:8080
+      MAARS_SITE_TITLE: Manhattan Area Amateur Radio Society
+      MAARS_TIMEZONE: America/Chicago
+      # --- first-boot administrator -----------------------------------------
+      # Sign in at http://localhost:8080/wp-login.php with these.
+      MAARS_ADMIN_USER: maars_admin
+      MAARS_ADMIN_PASSWORD: maars_local_dev
+      # Left blank on purpose. This repository and this image are public, so no
+      # address of any kind is committed here; the entrypoint builds a
+      # throwaway no-reply address in the RFC 2606 .invalid domain, which can
+      # never resolve or receive. Set your own here if you want WordPress to be
+      # able to reach you - it stays on your machine.
+      MAARS_ADMIN_EMAIL: ""
+      MAARS_ADMIN_EMAIL_DOMAIN: maars.invalid
+      # --- first-boot behaviour ---------------------------------------------
+      # 1 installs WordPress but skips the demonstration content, leaving an
+      # empty site to point tools/build_content.py at.
+      MAARS_SKIP_SEED: "0"
+      # Two-second attempts at reaching the database before first boot gives up
+      # waiting and lets the failure show in the log.
+      MAARS_DB_WAIT_TRIES: "60"
+      # WP_HOME and WP_SITEURL come from the environment rather than the
+      # database, so the URL is a property of how you started the stack and
+      # cannot go stale inside a volume. Core lives in the image, so let
+      # nothing in wp-admin try to rewrite it.
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_HOME', getenv_docker( 'MAARS_SITE_URL', 'http://localhost:8080' ) );
+        define( 'WP_SITEURL', getenv_docker( 'MAARS_SITE_URL', 'http://localhost:8080' ) );
+        define( 'AUTOMATIC_UPDATER_DISABLED', true );
+        define( 'DISALLOW_FILE_EDIT', true );
+    volumes:
+      # Uploads only. Code and content come from the image on every boot.
+      - maars_uploads:/var/www/html/wp-content/uploads
+    healthcheck:
+      # wp-login.php needs Apache, PHP and the database all three, so this is
+      # a real readiness signal rather than a liveness fig leaf. start_period
+      # covers first-boot install and seeding.
+      test: ["CMD-SHELL", "curl -fsS -o /dev/null http://localhost/wp-login.php || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 150s
+
+volumes:
+  maars_db:
+  maars_uploads:

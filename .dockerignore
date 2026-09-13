@@ -1,0 +1,59 @@
+# Build context for ks0man-site.
+#
+# The Dockerfile COPYs five paths and nothing else, but the whole context is
+# still shipped to the builder, so keep it small and - more importantly - keep
+# it safe. tools/build_content.py generates the club's FULL content from their
+# own private mirror, which contains member names, addresses, phone numbers
+# and e-mail addresses. None of that may ever reach a public image, so both
+# the generator and anything it writes are excluded from the build context.
+
+.git
+.gitignore
+.dockerignore
+.github
+
+# Anything shaped like a credential. There is no .env in this project - every
+# value lives inline in docker-compose.yml - but if someone makes one locally
+# it must not ride along into a public image.
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*_rsa
+id_*
+
+# Not needed to build or to run the image
+*.md
+tests
+tests/out
+docker-compose.yml
+
+# The club's private archive mirror, if it is ever checked out or symlinked
+# inside this tree. It holds member names, addresses, phone numbers and
+# e-mail addresses. It never enters the build context.
+ks0man-migration
+mirror
+study
+**/mirror
+**/study
+
+# Generated club content never enters the image. Only the curated,
+# personal-data-free seed file does.
+content/*
+!content/seed.json
+
+# Only the seeder runs inside the container. build_content.py runs on the
+# club's own machine, against their own mirror, and stays there.
+tools/*
+!tools/seed.php
+
+# Junk
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/node_modules
+**/.DS_Store
+**/.idea
+**/.vscode
+**/*.log
