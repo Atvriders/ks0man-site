@@ -160,16 +160,37 @@ add_action( 'init', 'maars_register_blocks', 10 );
  * @return string Attribute string ready to drop into a tag.
  */
 function maars_blocks_wrapper_attributes( array $extra = array() ): string {
-	if ( function_exists( 'get_block_wrapper_attributes' ) ) {
-		return get_block_wrapper_attributes( $extra );
-	}
-
-	$parts = array();
+	/*
+	 * Only 'class' and 'style' are handed to core. get_block_wrapper_attributes()
+	 * is documented around those two, and relying on it to echo arbitrary
+	 * data-* attributes makes the markup depend on an implementation detail that
+	 * has moved between releases. A dropped data-maars-autostart is silent and
+	 * fatal: the bootstrap selector matches nothing and the canvas never mounts,
+	 * leaving a blank box with no error. So emit them ourselves, always.
+	 */
+	$passthrough = array();
 	foreach ( $extra as $key => $value ) {
-		$parts[] = esc_attr( (string) $key ) . '="' . esc_attr( (string) $value ) . '"';
+		if ( 'class' !== $key && 'style' !== $key ) {
+			$passthrough[ $key ] = $value;
+			unset( $extra[ $key ] );
+		}
 	}
 
-	return implode( ' ', $parts );
+	if ( function_exists( 'get_block_wrapper_attributes' ) ) {
+		$out = get_block_wrapper_attributes( $extra );
+	} else {
+		$parts = array();
+		foreach ( $extra as $key => $value ) {
+			$parts[] = esc_attr( (string) $key ) . '="' . esc_attr( (string) $value ) . '"';
+		}
+		$out = implode( ' ', $parts );
+	}
+
+	foreach ( $passthrough as $key => $value ) {
+		$out .= ( '' === $out ? '' : ' ' ) . esc_attr( (string) $key ) . '="' . esc_attr( (string) $value ) . '"';
+	}
+
+	return $out;
 }
 
 /**
