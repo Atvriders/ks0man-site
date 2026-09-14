@@ -1400,3 +1400,38 @@
 		display: block !important;
 	}
 }
+
+/* ---------------------------------------------------------------------------
+   Headings and links on dark surfaces
+   ---------------------------------------------------------------------------
+   theme.json sets elements.heading.text and elements.link.text to navy, which
+   WordPress emits as `:root :where(h1..h6){color:navy}`. An element rule like
+   that beats the colour a heading would otherwise inherit from its section, so
+   inside a dark group the h1 came out navy #00008C on ink #14142B: a measured
+   1.18:1, far under the 3.0 that large text needs, and effectively invisible.
+
+   That is the same failure as the white-on-white links on the site this one
+   replaces, so it is fixed at the surface rather than patched per block: any
+   heading on a dark surface follows the surface's own text colour, and links
+   there switch to lavender, which is legible on ink.
+
+   Specificity note: WordPress's rule scores (0,1,0) because :where() counts as
+   zero, so a single class plus an element name is enough to win without
+   !important.
+--------------------------------------------------------------------------- */
+.has-ink-background-color :is(h1, h2, h3, h4, h5, h6),
+.maars-hero :is(h1, h2, h3, h4, h5, h6),
+.has-ink-background-color .wp-block-heading,
+.maars-hero .wp-block-heading {
+	color: inherit;
+}
+
+.has-ink-background-color a:not(.wp-element-button):not(.wp-block-button__link),
+.maars-hero a:not(.wp-element-button):not(.wp-block-button__link) {
+	color: var(--wp--preset--color--lavender, #DBDBFB);
+}
+
+.has-ink-background-color a:not(.wp-element-button):hover,
+.maars-hero a:not(.wp-element-button):hover {
+	color: var(--wp--preset--color--paper, #FFFFFF);
+}

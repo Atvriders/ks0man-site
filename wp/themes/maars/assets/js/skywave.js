@@ -1149,7 +1149,11 @@
         stencil: false,
         antialias: true,
         premultipliedAlpha: true,
-        preserveDrawingBuffer: true,
+        /* Costs a full-frame readback on every present. It exists only so
+           automated tests can call canvas.toDataURL(); real visitors should
+           not pay for that, so it is opt-in via data-maars-capture="1". */
+        preserveDrawingBuffer: !!(opts && opts.capture) ||
+          (canvas.dataset && canvas.dataset.maarsCapture === '1'),
         powerPreference: 'default',
         failIfMajorPerformanceCaveat: false
       });
