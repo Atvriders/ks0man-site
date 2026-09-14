@@ -12,7 +12,68 @@
  * together with how well it is known; an archive with nothing in it says so
  * instead of printing a confident zero.
  *
- * All output is escaped. Inner content is filtered with wp_kses_post().
+ * -------------------------------------------------------------------------
+ * VISUAL SYSTEM — "Second Friday" (see DESIGN.md, which is locked)
+ * -------------------------------------------------------------------------
+ * Amateur radio is a record-keeping culture, so the site is a station log. Two
+ * devices carry that, and both are emitted from here:
+ *
+ *   1. THE LOG LINE — one recurring row in logbook conventions: a narrow label
+ *      column, the value, and a quiet trailing column for provenance. It is the
+ *      one memorable thing in the design; everything else stays quiet.
+ *
+ *   2. THE FIGURE SPAN — every callsign, frequency, tone, offset, date, day
+ *      count and dollar amount is wrapped in <span class="maars-fig">, which is
+ *      what puts it in the data face (Fira Code, whose zero is natively
+ *      slashed — KSØMAN is written the way a ham writes it) with tabular
+ *      figures, so columns of numbers line up and a zero is never read as an O.
+ *      Use maars_blocks_fig() / maars_blocks_fig_date(); never hand-write it.
+ *
+ * CLASS VOCABULARY EMITTED BY THIS FILE. The stylesheet
+ * (wp/themes/maars/assets/css/maars.css) is expected to style exactly these,
+ * and this file emits no class the stylesheet does not need:
+ *
+ *   .maars-fig                     the data face + tabular figures. Always on a
+ *                                  <span>, including inside a <time>.
+ *   .maars-log                     a group of log lines (hairline between them)
+ *   .maars-log__line               one entry row. Usable standalone — the
+ *                                  freshness chip is a single row with no
+ *                                  .maars-log ancestor — so do not scope the
+ *                                  row rules under .maars-log.
+ *   .maars-log__label              the narrow first column: what the row is
+ *   .maars-log__value              the wide column: the value
+ *   .maars-log__note               the quiet trailing column: when it was
+ *                                  last checked
+ *   .maars-next-meeting            + --unknown/.is-unknown, __eyebrow, __date,
+ *                                  __time, __rule, __rule-tag, __rule-text
+ *   .maars-dateline                + --fresh/.is-fresh, --stale/.is-stale,
+ *                                  --empty/.is-empty, __headline, __detail;
+ *                                  also data-state, data-maars-days,
+ *                                  data-maars-threshold
+ *   .maars-fact                    + --measured/--sourced/--unverified,
+ *                                  .is-stale, __body, __chip, __chip--<grade>,
+ *                                  __grade, __detail, __checked; also
+ *                                  data-grade and data-verified-on
+ *   .maars-skywave                 + --fallback, __canvas, __controls,
+ *                                  __control, __control-band, __control-freq,
+ *                                  __caption, __chip, __fallback,
+ *                                  __fallback-title, __prose, __noscript,
+ *                                  __bands, __band, __band--<id>
+ *   .screen-reader-text            WordPress core's own visually-hidden class
+ *
+ * The freshness chip is a LABEL, never an alert. Grade word, then what the
+ * grade means, then when it was last checked — in words, in that order. No
+ * emoji, no bare coloured dot: a reader with any colour vision gets the whole
+ * message from the text alone. "Unverified" is an honest description of the
+ * evidence, not a warning siren.
+ *
+ * ESCAPING CONVENTION. Every string reaching the browser is escaped at the
+ * point it is built. A variable whose name ends in `_html` already holds
+ * escaped markup and must not be escaped again; everything else is passed
+ * through esc_html()/esc_attr() on output. Translated strings that carry a
+ * placeholder are escaped first (esc_html__) and then sprintf()'d with
+ * already-escaped fragments, so neither half can smuggle markup. Inner block
+ * content goes through wp_kses_post().
  *
  * @package maars
  */
@@ -194,6 +255,97 @@ function maars_blocks_wrapper_attributes( array $extra = array() ): string {
 }
 
 /**
+ * Wrap a figure — a callsign, frequency, tone, offset, date, day count or
+ * dollar amount — so it renders in the data face with tabular figures.
+ *
+ * This is the site's typographic signature and the reason it is a function
+ * rather than a hand-written span: applied unevenly it reads as a mistake, and
+ * a frequency in the body face has an unslashed zero that an older reader can
+ * mistake for the letter O. Anything that would be written in a logbook column
+ * goes through here.
+ *
+ * @param string $text Plain text figure. Escaped here; never pass markup.
+ * @return string Escaped markup, or '' for an empty figure.
+ */
+function maars_blocks_fig( $text ): string {
+	$text = is_scalar( $text ) ? trim( (string) $text ) : '';
+
+	if ( '' === $text ) {
+		return '';
+	}
+
+	return '<span class="maars-fig">' . esc_html( $text ) . '</span>';
+}
+
+/**
+ * A date as a machine-readable <time> whose visible text is a figure.
+ *
+ * The <time> carries the ISO day for anything parsing the page; the span
+ * inside it is what gets the data face, so the class stays on a span
+ * everywhere in this file rather than sometimes on a <time> and sometimes not.
+ *
+ * @param string $ymd Date in YYYY-MM-DD form.
+ * @return string Escaped markup, or '' when the date is not a real day.
+ */
+function maars_blocks_fig_date( $ymd ): string {
+	$ymd = maars_blocks_normalize_date( $ymd );
+
+	if ( '' === $ymd ) {
+		return '';
+	}
+
+	$display = maars_blocks_format_date( $ymd );
+
+	if ( '' === $display ) {
+		$display = $ymd;
+	}
+
+	return '<time datetime="' . esc_attr( $ymd ) . '">' . maars_blocks_fig( $display ) . '</time>';
+}
+
+/**
+ * Put the club's callsign into the data face inside an already-escaped string.
+ *
+ * KSØMAN is written with a slashed zero on the repeater plate, in the minutes
+ * and on every QSL card, and Fira Code is the face that draws it that way. The
+ * callsign reaches this file inside translated sentences (the 2 m band label,
+ * which is also handed to skywave.js verbatim and therefore must not be split
+ * up at the source), so the only honest place to mark it is in the rendered
+ * output.
+ *
+ * Input must already be escaped: the replacement is a literal token containing
+ * no HTML-special characters, so the only markup this can introduce is the
+ * span it adds. Call it once per string — a second pass would nest spans.
+ *
+ * It does not parse HTML, so it must only ever see plain escaped text. Run it
+ * over arbitrary markup and a callsign living inside an attribute — an href, an
+ * alt, a title — would have a <span> spliced into the middle of that attribute
+ * and the tag would break. That is why block inner content, which arrives as
+ * author HTML through wp_kses_post(), is left alone here: figures inside a
+ * fact's prose are marked up in the template that writes the prose.
+ *
+ * @param string $escaped_html Already-escaped text.
+ * @return string Escaped markup.
+ */
+function maars_blocks_mark_callsign( string $escaped_html ): string {
+	/* Both spellings: the slashed form the club uses, and the plain zero that
+	   appears in file names and in anything typed on a keyboard. */
+	foreach ( array( 'KSØMAN', 'KS0MAN' ) as $call ) {
+		if ( false === strpos( $escaped_html, $call ) ) {
+			continue;
+		}
+
+		$escaped_html = str_replace(
+			$call,
+			'<span class="maars-fig">' . $call . '</span>',
+			$escaped_html
+		);
+	}
+
+	return $escaped_html;
+}
+
+/**
  * The three freshness grades this site recognises.
  *
  * @return array<int,string>
@@ -215,7 +367,8 @@ function maars_blocks_normalize_grade( $grade ): string {
 }
 
 /**
- * Human label for a grade.
+ * Human label for a grade. This word is the whole signal: it has to carry the
+ * meaning with no colour, no icon and no shape helping it.
  *
  * @param string $grade Normalised grade.
  * @return string Translated label.
@@ -234,6 +387,9 @@ function maars_blocks_grade_label( string $grade ): string {
 /**
  * One sentence explaining what a grade means, in plain language.
  *
+ * Written flat and calm on purpose. "Unverified" is a description of the
+ * evidence behind a line in the record, not an error the reader has to act on.
+ *
  * @param string $grade Normalised grade.
  * @return string Translated sentence.
  */
@@ -246,6 +402,49 @@ function maars_blocks_grade_meaning( string $grade ): string {
 		default:
 			return __( 'Nobody has confirmed this. Treat it as history, not as current.', 'maars' );
 	}
+}
+
+/**
+ * The freshness chip: one log line, three columns, words only.
+ *
+ * Grade word, then what the grade means, then when it was last checked. The
+ * chip is a paragraph inside a maars/fact card and an inline span inside the
+ * skywave caption, which is why the tag is a parameter.
+ *
+ * @param string $grade        Normalised grade; anything unknown reads as unverified.
+ * @param string $detail_html  Already-escaped markup: what the grade means.
+ * @param string $checked_html Already-escaped markup: when it was last checked. '' omits the column.
+ * @param string $tag          'p' (default) or 'span'.
+ * @param string $extra_class  Extra class for the chip element, already trusted.
+ * @return string Escaped markup.
+ */
+function maars_blocks_chip( string $grade, string $detail_html, string $checked_html = '', string $tag = 'p', string $extra_class = '' ): string {
+	$grade = maars_blocks_normalize_grade( $grade );
+
+	if ( '' === $grade ) {
+		$grade = 'unverified';
+	}
+
+	$tag = ( 'span' === $tag ) ? 'span' : 'p';
+
+	$classes = 'maars-fact__chip maars-fact__chip--' . $grade . ' maars-log__line';
+	if ( '' !== $extra_class ) {
+		$classes = $extra_class . ' ' . $classes;
+	}
+
+	$out  = '<' . $tag . ' class="' . esc_attr( $classes ) . '" data-grade="' . esc_attr( $grade ) . '">';
+	/* Trailing spaces: see maars_render_next_meeting_block(). A flex row eats
+	   them; an unstyled one needs them to keep the three columns apart. */
+	$out .= '<span class="maars-fact__grade maars-log__label">' . esc_html( maars_blocks_grade_label( $grade ) ) . '</span> ';
+	$out .= '<span class="maars-fact__detail maars-log__value">' . $detail_html . '</span>';
+
+	if ( '' !== $checked_html ) {
+		$out .= ' <span class="maars-fact__checked maars-log__note">' . $checked_html . '</span>';
+	}
+
+	$out .= '</' . $tag . '>';
+
+	return $out;
 }
 
 /**
@@ -361,6 +560,11 @@ function maars_blocks_latest_publication_time(): ?int {
 /**
  * Render the computed next-meeting date plus the rule that produced it.
  *
+ * Two log lines. The first is the entry: the label in the narrow column, the
+ * date as a figure in the wide one. The second is the working — the rule that
+ * produced the date — because a date whose provenance is invisible is the
+ * thing that rotted on the old site.
+ *
  * @param array         $attributes Block attributes.
  * @param string        $content    Inner content (unused).
  * @param WP_Block|null $block      Block instance (unused).
@@ -408,26 +612,48 @@ function maars_render_next_meeting_block( $attributes = array(), $content = '', 
 		$classes .= ' maars-next-meeting--unknown is-unknown';
 	}
 
-	$inner  = '<p class="maars-next-meeting__eyebrow">' . esc_html( $label ) . '</p>';
-	$inner .= '<p class="maars-next-meeting__date">';
-	if ( '' !== $datetime ) {
-		$inner .= '<time class="maars-next-meeting__time" datetime="' . esc_attr( $datetime ) . '">' . esc_html( $text ) . '</time>';
+	/*
+	 * The date is a figure; "Not computed yet" is a sentence and must not be
+	 * dressed up as one. Putting the admission in the data face would make an
+	 * absent date look like a value.
+	 */
+	if ( ! $known ) {
+		$date_html = esc_html( $text );
+	} elseif ( '' !== $datetime ) {
+		$date_html = '<time class="maars-next-meeting__time" datetime="' . esc_attr( $datetime ) . '">'
+			. maars_blocks_fig( $text )
+			. '</time>';
 	} else {
-		$inner .= esc_html( $text );
+		$date_html = maars_blocks_fig( $text );
 	}
-	$inner .= '</p>';
+
+	/*
+	 * The single space between the columns is load-bearing. A log line is a flex
+	 * or grid row, where whitespace between the cells is dropped, so it costs
+	 * nothing there — but if this markup is ever read without the stylesheet
+	 * (curl, Reader mode, a mail client, a stylesheet that has not loaded yet)
+	 * the cells are plain inline spans, and without it the label welds itself to
+	 * the value: "NEXT MEETINGFriday, October 9".
+	 */
+	$lines  = '<div class="maars-log__line">';
+	$lines .= '<span class="maars-log__label maars-next-meeting__eyebrow">' . esc_html( $label ) . '</span> ';
+	$lines .= '<span class="maars-log__value maars-next-meeting__date">' . $date_html . '</span>';
+	$lines .= '</div>';
 
 	if ( $show_rule ) {
 		if ( '' === $rule ) {
 			$rule = __( 'No rule was supplied by maars_next_meeting(), so this date cannot be shown as derived.', 'maars' );
 		}
-		$inner .= '<p class="maars-next-meeting__rule">'
-			. '<span class="maars-next-meeting__rule-tag">' . esc_html__( 'Computed', 'maars' ) . '</span> '
-			. '<span class="maars-next-meeting__rule-text">' . esc_html( $rule ) . '</span>'
-			. '</p>';
+
+		$lines .= '<div class="maars-log__line maars-next-meeting__rule">';
+		$lines .= '<span class="maars-log__label maars-next-meeting__rule-tag">' . esc_html__( 'Computed', 'maars' ) . '</span> ';
+		$lines .= '<span class="maars-log__value maars-next-meeting__rule-text">' . esc_html( $rule ) . '</span>';
+		$lines .= '</div>';
 	}
 
-	return '<div ' . maars_blocks_wrapper_attributes( array( 'class' => $classes ) ) . '>' . $inner . '</div>';
+	return '<div ' . maars_blocks_wrapper_attributes( array( 'class' => $classes ) ) . '>'
+		. '<div class="maars-log">' . $lines . '</div>'
+		. '</div>';
 }
 
 /* -------------------------------------------------------------------------
@@ -509,67 +735,68 @@ function maars_render_dateline_block( $attributes = array(), $content = '', $blo
 		$attrs['data-maars-threshold'] = (string) $threshold;
 
 		if ( 0 === $days ) {
-			$headline = __( 'The club last published today.', 'maars' );
+			$headline_html = esc_html__( 'The club last published today.', 'maars' );
 		} else {
-			$phrase = sprintf(
+			/* The count is a figure; the word "days" around it is not. */
+			$phrase_html = sprintf(
 				/* translators: %s: number of days. */
-				_n( '%s day', '%s days', $days, 'maars' ),
-				number_format_i18n( $days )
+				esc_html( _n( '%s day', '%s days', $days, 'maars' ) ),
+				maars_blocks_fig( number_format_i18n( $days ) )
 			);
 
-			$headline = sprintf(
+			$headline_html = sprintf(
 				/* translators: %s: a duration such as "608 days". */
-				__( 'The club last published %s ago.', 'maars' ),
-				$phrase
+				esc_html__( 'The club last published %s ago.', 'maars' ),
+				$phrase_html
 			);
 
 			if ( $days >= 60 ) {
 				$months = (int) round( $days / 30.44 );
 				if ( $months > 1 ) {
-					$headline .= ' ' . sprintf(
+					$headline_html .= ' ' . sprintf(
 						/* translators: %s: number of months. */
-						__( 'That is about %s months.', 'maars' ),
-						number_format_i18n( $months )
+						esc_html__( 'That is about %s months.', 'maars' ),
+						maars_blocks_fig( number_format_i18n( $months ) )
 					);
 				}
 			}
 		}
 
-		$inner .= '<p class="maars-dateline__headline">' . esc_html( $headline ) . '</p>';
+		$inner .= '<p class="maars-dateline__headline">' . $headline_html . '</p>';
 
-		$detail = $stale
+		$detail_html = $stale
 			? sprintf(
 				/* translators: %s: number of days. */
-				__( 'Past the %s-day freshness threshold. Nothing on this site should be assumed current until it has been checked.', 'maars' ),
-				number_format_i18n( $threshold )
+				esc_html__( 'Past the %s-day freshness threshold. Nothing on this site should be assumed current until it has been checked.', 'maars' ),
+				maars_blocks_fig( number_format_i18n( $threshold ) )
 			)
 			: sprintf(
 				/* translators: %s: number of days. */
-				__( 'Within the %s-day freshness threshold.', 'maars' ),
-				number_format_i18n( $threshold )
+				esc_html__( 'Within the %s-day freshness threshold.', 'maars' ),
+				maars_blocks_fig( number_format_i18n( $threshold ) )
 			);
 
 		if ( $show_date ) {
-			$newest = '';
+			$newest_html = '';
 
 			if ( '' !== $latest_iso ) {
-				$newest = maars_blocks_format_date( $latest_iso );
+				$newest_html = maars_blocks_fig_date( $latest_iso );
 			} elseif ( function_exists( 'wp_date' ) ) {
-				$format = function_exists( 'get_option' ) ? (string) get_option( 'date_format' ) : '';
-				$format = '' !== $format ? $format : 'F j, Y';
-				$newest = (string) wp_date( $format, $latest );
+				$format      = function_exists( 'get_option' ) ? (string) get_option( 'date_format' ) : '';
+				$format      = '' !== $format ? $format : 'F j, Y';
+				$newest_html = maars_blocks_fig( (string) wp_date( $format, $latest ) );
 			}
 
-			if ( '' !== $newest ) {
-				$detail .= ' ' . sprintf(
+			if ( '' !== $newest_html ) {
+				$detail_html .= ' ' . sprintf(
 					/* translators: %s: a formatted date. */
-					__( 'Newest item: %s.', 'maars' ),
-					$newest
+					esc_html__( 'Newest item: %s.', 'maars' ),
+					$newest_html
 				);
 			}
 		}
 
-		$inner .= '<p class="maars-dateline__detail">' . esc_html( $detail ) . '</p>';
+		$inner .= '<p class="maars-dateline__detail">' . $detail_html . '</p>';
 	}
 
 	$attrs['class'] = $classes;
@@ -587,6 +814,10 @@ function maars_render_dateline_block( $attributes = array(), $content = '', $blo
  * Grade resolution order: explicit block attribute, then the post's own
  * freshness state, then 'unverified'. An unlabelled claim is an unverified
  * claim; it is never promoted by omission.
+ *
+ * The chip is one log line under the statement: grade word, what that grade
+ * means, and when it was last checked. All three are words, so the grade
+ * survives greyscale, deuteranopia and a photocopier.
  *
  * @param array         $attributes Block attributes: grade, verifiedOn, sourceFile.
  * @param string        $content    Inner content.
@@ -639,6 +870,27 @@ function maars_render_fact_block( $attributes = array(), $content = '', $block =
 	$age_days = isset( $state['age_days'] ) && null !== $state['age_days'] ? (int) $state['age_days'] : null;
 	$stale    = ! empty( $state['stale'] ) || 'unverified' === $grade;
 
+	/*
+	 * The age has to be the age of the date this chip actually prints. A block
+	 * attribute may override the post's own _maars_verified_on, and the two
+	 * numbers then come off different records: the chip would read "Last
+	 * checked September 13, 2026, 972 days ago" and contradict itself inside
+	 * one sentence. Recompute from the date being shown, and let the staleness
+	 * follow it, so the chip is never more — or less — confident than the date
+	 * beside it.
+	 */
+	if ( '' !== $verified_on && $verified_on !== maars_blocks_normalize_date( $state['verified_on'] ) ) {
+		$age_days = null;
+
+		if ( function_exists( 'maars_days_since_date' ) ) {
+			$recomputed = maars_days_since_date( $verified_on );
+			$age_days   = ( null === $recomputed ) ? null : (int) $recomputed;
+		}
+
+		$threshold = function_exists( 'maars_stale_threshold_days' ) ? (int) maars_stale_threshold_days() : 120;
+		$stale     = ( 'unverified' === $grade ) || ( null === $age_days ) || ( $age_days > $threshold );
+	}
+
 	/* Body. */
 	$body = trim( (string) $content );
 	if ( '' === $body ) {
@@ -647,40 +899,46 @@ function maars_render_fact_block( $attributes = array(), $content = '', $block =
 		$body = wp_kses_post( $body );
 	}
 
-	/* Chip. */
-	$details = array( maars_blocks_grade_meaning( $grade ) );
-
-	if ( '' !== $verified_on ) {
-		$details[] = sprintf(
-			/* translators: %s: a formatted date. */
-			__( 'Checked %s.', 'maars' ),
-			maars_blocks_format_date( $verified_on )
-		);
-	} else {
-		/*
-		 * Any grade with no usable verification date, not just 'unverified'.
-		 * maars_freshness_state() already calls that record stale; if the chip
-		 * stayed silent about it, a "Sourced" badge with no date would read as
-		 * checked. The chip must never be more confident than the state it was
-		 * handed.
-		 */
-		$details[] = __( 'No check on record.', 'maars' );
-	}
-
-	if ( null !== $age_days && $age_days > 0 ) {
-		$details[] = sprintf(
-			/* translators: %s: number of days. */
-			_n( '%s day old.', '%s days old.', $age_days, 'maars' ),
-			number_format_i18n( $age_days )
-		);
-	}
+	/* Chip column 2: what the grade means, then where it came from. */
+	$detail_html = esc_html( maars_blocks_grade_meaning( $grade ) );
 
 	if ( '' !== $source ) {
-		$details[] = sprintf(
+		/* A file name out of the club's own archive is a record locator, so it
+		   is set as a figure like every other logbook column. */
+		$detail_html .= ' ' . sprintf(
 			/* translators: %s: a file name from the club archive. */
-			__( 'Source: %s', 'maars' ),
-			$source
+			esc_html__( 'Source: %s', 'maars' ),
+			maars_blocks_fig( $source )
 		);
+	}
+
+	/* Chip column 3: when it was last checked. Never silent — a "Sourced" chip
+	   with no date would otherwise read as checked. */
+	if ( '' !== $verified_on ) {
+		$date_html = maars_blocks_fig_date( $verified_on );
+
+		if ( null !== $age_days && $age_days > 0 ) {
+			$age_html = sprintf(
+				/* translators: %s: number of days. */
+				esc_html( _n( '%s day', '%s days', $age_days, 'maars' ) ),
+				maars_blocks_fig( number_format_i18n( $age_days ) )
+			);
+
+			$checked_html = sprintf(
+				/* translators: 1: a formatted date. 2: a duration such as "608 days". */
+				esc_html__( 'Last checked %1$s, %2$s ago.', 'maars' ),
+				$date_html,
+				$age_html
+			);
+		} else {
+			$checked_html = sprintf(
+				/* translators: %s: a formatted date. */
+				esc_html__( 'Last checked %s.', 'maars' ),
+				$date_html
+			);
+		}
+	} else {
+		$checked_html = esc_html__( 'No check on record.', 'maars' );
 	}
 
 	$classes = 'maars-fact maars-fact--' . $grade;
@@ -688,14 +946,9 @@ function maars_render_fact_block( $attributes = array(), $content = '', $block =
 		$classes .= ' is-stale';
 	}
 
-	$chip  = '<p class="maars-fact__chip maars-fact__chip--' . esc_attr( $grade ) . '">';
-	$chip .= '<span class="maars-fact__grade">' . esc_html( maars_blocks_grade_label( $grade ) ) . '</span> ';
-	$chip .= '<span class="maars-fact__detail">' . esc_html( implode( ' ', $details ) ) . '</span>';
-	$chip .= '</p>';
-
 	$attrs = array(
-		'class'       => $classes,
-		'data-grade'  => $grade,
+		'class'      => $classes,
+		'data-grade' => $grade,
 	);
 	if ( '' !== $verified_on ) {
 		$attrs['data-verified-on'] = $verified_on;
@@ -703,7 +956,7 @@ function maars_render_fact_block( $attributes = array(), $content = '', $block =
 
 	return '<div ' . maars_blocks_wrapper_attributes( $attrs ) . '>'
 		. '<div class="maars-fact__body">' . $body . '</div>'
-		. $chip
+		. maars_blocks_chip( $grade, $detail_html, $checked_html )
 		. '</div>';
 }
 
@@ -814,7 +1067,7 @@ function maars_blocks_skywave_bootstrap(): void {
 				if ( oc ) { oc.dataset.maarsFallbackReason = 'script-missing'; }
 				var on = orphans[ j ].querySelector( '.maars-skywave__fallback-title' );
 				if ( on ) {
-					on.textContent = 'The 3-D scene\u2019s script did not load, so here is the same thing in words. This is usually a site configuration problem, not a browser one \u2014 check the browser console for a failed request.';
+					on.textContent = 'The 3-D scene’s script did not load, so here is the same thing in words. This is usually a site configuration problem, not a browser one — check the browser console for a failed request.';
 				}
 			}
 			return;
@@ -899,20 +1152,22 @@ function maars_render_skywave_block( $attributes = array(), $content = '', $bloc
 	$aria = __( 'Animated diagram of skywave propagation from Manhattan, Kansas: rays leave the transmitter, refract off the ionospheric layers and return to earth. A text description follows.', 'maars' );
 
 	/* Static band list. This is the teaching content, and it is readable with
-	   no JavaScript, no WebGL2 and no CSS. */
-	$list = '<ul class="maars-skywave__bands">';
+	   no JavaScript, no WebGL2 and no CSS. Each line is a log line: band,
+	   frequency and what the club does there — the band and the frequency are
+	   figures, the purpose is prose. */
+	$list = '<ul class="maars-skywave__bands maars-log">';
 	foreach ( $bands as $entry ) {
-		$line = sprintf(
+		$line_html = sprintf(
 			/* translators: 1: band name such as 80m, 2: frequency in MHz, 3: what the club uses it for. */
-			__( '%1$s — %2$s MHz — %3$s', 'maars' ),
-			$entry['id'],
-			$entry['mhz'],
-			$entry['label']
+			esc_html__( '%1$s — %2$s MHz — %3$s', 'maars' ),
+			maars_blocks_fig( $entry['id'] ),
+			maars_blocks_fig( $entry['mhz'] ),
+			maars_blocks_mark_callsign( esc_html( $entry['label'] ) )
 		);
 
-		$list .= '<li class="maars-skywave__band maars-skywave__band--' . esc_attr( $entry['id'] ) . '"'
+		$list .= '<li class="maars-skywave__band maars-log__line maars-skywave__band--' . esc_attr( $entry['id'] ) . '"'
 			. ( $band === $entry['id'] ? ' data-current="1"' : '' )
-			. '>' . esc_html( $line ) . '</li>';
+			. '>' . $line_html . '</li>';
 	}
 	$list .= '</ul>';
 
@@ -931,8 +1186,8 @@ function maars_render_skywave_block( $attributes = array(), $content = '', $bloc
 				. '<button type="button" class="maars-skywave__control"'
 				. ' data-maars-band="' . esc_attr( $entry['id'] ) . '"'
 				. ' aria-pressed="' . ( $current ? 'true' : 'false' ) . '">'
-				. '<span class="maars-skywave__control-band">' . esc_html( $entry['id'] ) . '</span> '
-				. '<span class="maars-skywave__control-freq">' . esc_html( $entry['mhz'] ) . '</span>'
+				. '<span class="maars-skywave__control-band maars-fig">' . esc_html( $entry['id'] ) . '</span> '
+				. '<span class="maars-skywave__control-freq maars-fig">' . esc_html( $entry['mhz'] ) . '</span>'
 				. '<span class="screen-reader-text"> '
 				. esc_html(
 					sprintf(
@@ -966,10 +1221,15 @@ function maars_render_skywave_block( $attributes = array(), $content = '', $bloc
 		. '</div>'
 		. '</noscript>';
 
-	$chip = '<span class="maars-skywave__chip maars-fact__chip maars-fact__chip--unverified" data-grade="unverified">'
-		. '<span class="maars-fact__grade">' . esc_html( maars_blocks_grade_label( 'unverified' ) ) . '</span> '
-		. '<span class="maars-fact__detail">' . esc_html__( 'The 2 m repeater figures come from the archive and have not been confirmed on the air.', 'maars' ) . '</span>'
-		. '</span>';
+	/* The scene is drawn from archive figures nobody has re-measured, and it
+	   says so in the same calm chip the rest of the site uses. */
+	$chip = maars_blocks_chip(
+		'unverified',
+		esc_html__( 'The 2 m repeater figures come from the archive and have not been confirmed on the air.', 'maars' ),
+		'',
+		'span',
+		'maars-skywave__chip'
+	);
 
 	$canvas = '<canvas class="maars-skywave__canvas"'
 		. ' width="' . esc_attr( (string) $width ) . '"'

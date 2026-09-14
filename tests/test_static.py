@@ -549,6 +549,30 @@ def test_freshness_and_meeting_functions_are_named_per_contract():
 # standalone runner
 # --------------------------------------------------------------------------
 
+def test_font_sources_point_into_the_parent_theme():
+    """The three faces are self-hosted by Twenty Twenty-Five. If a src path is
+    wrong the browser silently falls back to Times and the whole typographic
+    direction evaporates with no error anywhere, so the shape is asserted here."""
+    import json as _json
+
+    d = _json.load(open(REPO / "wp/themes/maars/theme.json"))
+    fams = d["settings"]["typography"]["fontFamilies"]
+    slugs = {f["slug"] for f in fams}
+    assert {"display", "body", "data"} <= slugs, f"missing font slugs: {slugs}"
+    prefix = "/wp-content/themes/twentytwentyfive/assets/fonts/"
+    seen = 0
+    for fam in fams:
+        for face in fam.get("fontFace") or []:
+            src = face.get("src")
+            for one in src if isinstance(src, list) else [src]:
+                assert one.startswith(prefix), (
+                    f"{fam['slug']} font src does not point into the parent theme: {one}"
+                )
+                assert one.endswith(".woff2"), f"not woff2: {one}"
+                seen += 1
+    assert seen >= 3, f"expected at least three @font-face srcs, found {seen}"
+
+
 def _all_checks():
     g = globals()
     return [(name, g[name]) for name in list(g) if name.startswith("test_") and callable(g[name])]
@@ -583,3 +607,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+

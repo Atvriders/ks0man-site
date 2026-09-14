@@ -1,84 +1,160 @@
 <!-- wp:template-part {"slug":"header","tagName":"header","area":"header","className":"maars-site-header"} /-->
 
-<!-- wp:group {"tagName":"main","className":"maars-main maars-single-doc","style":{"spacing":{"padding":{"top":"1.5rem","bottom":"2.5rem","left":"1rem","right":"1rem"},"blockGap":"1.25rem"}},"layout":{"type":"constrained"}} -->
-<main class="wp-block-group maars-main maars-single-doc" style="padding-top:1.5rem;padding-right:1rem;padding-bottom:2.5rem;padding-left:1rem">
+<!-- ONE RECORD. The same log conventions as the archive index, opened out: the entry's
+     three fixed fields set as a ruled header line, then how far anyone has checked it,
+     then the text, then the file the Society actually published. Magenta marks the
+     record, navy is for links. Nothing on this page is below 1.125rem / 18px. -->
+<!-- wp:group {"tagName":"main","className":"maars-main maars-single-doc","style":{"spacing":{"padding":{"top":"2rem","bottom":"3rem","left":"1rem","right":"1rem"},"blockGap":"1.75rem"}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group maars-main maars-single-doc" style="padding-top:2rem;padding-right:1rem;padding-bottom:3rem;padding-left:1rem">
 
-	<!-- wp:paragraph {"className":"maars-breadcrumb","style":{"typography":{"fontSize":"0.85rem"}}} -->
-	<p class="maars-breadcrumb" style="font-size:0.85rem"><a href="/archive/">&#8592; All 266 documents</a></p>
+	<!-- wp:paragraph {"className":"maars-breadcrumb","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.5"}}} -->
+	<p class="maars-breadcrumb" style="font-size:1.125rem;line-height:1.5"><a href="/archive/">&#8592; All 266 documents</a></p>
 	<!-- /wp:paragraph -->
 
-	<!-- wp:group {"tagName":"article","className":"maars-doc-record","style":{"spacing":{"blockGap":"1.25rem"}},"layout":{"type":"constrained"}} -->
+	<!-- wp:group {"tagName":"article","className":"maars-doc-record","style":{"spacing":{"blockGap":"1.5rem"}},"layout":{"type":"constrained"}} -->
 	<article class="wp-block-group maars-doc-record">
 
-		<!-- wp:post-title {"level":1,"isLink":false,"className":"maars-doc-record__title","style":{"typography":{"fontSize":"clamp(1.5rem, 1.1rem + 1.6vw, 2.2rem)","lineHeight":"1.2"}},"textColor":"navy"} /-->
+		<!-- wp:paragraph {"className":"maars-eyebrow maars-doc-record__eyebrow","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.14em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
+		<p class="maars-eyebrow maars-doc-record__eyebrow has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.14em;line-height:1.3;text-transform:uppercase">From the record</p>
+		<!-- /wp:paragraph -->
 
-		<!-- THE HEADER STRIP: when the document is dated, what kind of document it is, and how far
-		     the site is prepared to vouch for it. Three facts, above the text, every time.
-		     The document date is authoritative: maars-core seeds post_date from _maars_doc_date so
-		     that core date blocks, the archive ordering and the year taxonomy all agree. -->
-		<!-- wp:group {"tagName":"div","className":"maars-doc-record__meta","style":{"spacing":{"padding":{"top":"0.9rem","bottom":"0.9rem","left":"1.1rem","right":"1.1rem"},"blockGap":"0.6rem"}},"backgroundColor":"ground","textColor":"ink","layout":{"type":"constrained"}} -->
-		<div class="wp-block-group maars-doc-record__meta has-ink-color has-ground-background-color has-text-color has-background" style="padding-top:0.9rem;padding-right:1.1rem;padding-bottom:0.9rem;padding-left:1.1rem">
+		<!-- wp:post-title {"level":1,"isLink":false,"className":"maars-doc-record__title","style":{"typography":{"fontSize":"clamp(2rem, 1.6rem + 2vw, 2.875rem)","lineHeight":"1.15"}},"textColor":"magenta"} /-->
 
-			<!-- wp:group {"tagName":"div","className":"maars-doc-record__dateline","style":{"spacing":{"blockGap":"0.5rem"},"typography":{"fontSize":"0.95rem"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"}} -->
-			<div class="wp-block-group maars-doc-record__dateline" style="font-size:0.95rem">
+		<!-- THE HEADER LINE: when the document is dated, what kind of document it is, and
+		     which year of the record it belongs to. Three fields, in the data face with
+		     tabular figures, ruled top and bottom like an entry in a station log. The
+		     document date is authoritative: maars-core seeds post_date from _maars_doc_date
+		     so the core date block, the archive ordering and the year taxonomy all agree. -->
+		<!-- wp:group {"tagName":"div","className":"maars-doc-record__meta maars-log__header","style":{"spacing":{"padding":{"top":"1rem","bottom":"1rem"},"blockGap":"2.5rem"},"border":{"top":{"color":"#990066","width":"2px","style":"solid"},"bottom":{"color":"#D7D7E4","width":"1px","style":"solid"}}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top"}} -->
+		<div class="wp-block-group maars-doc-record__meta maars-log__header" style="border-top-color:#990066;border-top-style:solid;border-top-width:2px;border-bottom-color:#D7D7E4;border-bottom-style:solid;border-bottom-width:1px;padding-top:1rem;padding-bottom:1rem">
 
-				<!-- wp:paragraph {"className":"maars-label","style":{"typography":{"fontSize":"0.8rem","textTransform":"uppercase","letterSpacing":"0.06em"}}} -->
-				<p class="maars-label" style="font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase">Document date</p>
+			<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"constrained"}} -->
+			<div class="wp-block-group maars-log__cell">
+				<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
+				<p class="maars-label maars-log__label has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;line-height:1.3;text-transform:uppercase">Document date</p>
 				<!-- /wp:paragraph -->
 
-				<!-- wp:post-date {"format":"j F Y","isLink":false,"className":"maars-doc-record__date"} /-->
-
-				<!-- wp:paragraph {"className":"maars-label","style":{"typography":{"fontSize":"0.8rem","textTransform":"uppercase","letterSpacing":"0.06em"}}} -->
-				<p class="maars-label" style="font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase">Type</p>
-				<!-- /wp:paragraph -->
-
-				<!-- wp:post-terms {"term":"maars_doc_type","prefix":"","separator":", ","className":"maars-doc-record__type"} /-->
-
-				<!-- wp:post-terms {"term":"maars_year","prefix":"","separator":", ","className":"maars-doc-record__year"} /-->
-
+				<!-- wp:post-date {"format":"d M Y","isLink":false,"className":"maars-doc-record__date maars-log__value","style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.35"}},"textColor":"ink","fontFamily":"data"} /-->
 			</div>
 			<!-- /wp:group -->
 
-			<!-- THE FRESHNESS CHIP. It reads _maars_grade and _maars_verified_on off this record and
-			     says measured, sourced or unverified in the reader's face. A 2003 newsletter is not
-			     wrong for being old, but a repeater frequency quoted inside it may be, and the chip
-			     is what keeps the reader from mistaking an archived fact for a current one. -->
-			<!-- wp:maars/fact -->
-				<!-- wp:paragraph {"className":"maars-doc-record__vouch","style":{"typography":{"fontSize":"0.95rem","lineHeight":"1.55"}}} -->
-				<p class="maars-doc-record__vouch" style="font-size:0.95rem;line-height:1.55">This is the Society&#8217;s own document, reproduced as it was published. How far anyone has checked it since is stated below rather than assumed.</p>
+			<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"constrained"}} -->
+			<div class="wp-block-group maars-log__cell">
+				<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
+				<p class="maars-label maars-log__label has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;line-height:1.3;text-transform:uppercase">Type</p>
 				<!-- /wp:paragraph -->
-			<!-- /wp:maars/fact -->
+
+				<!-- wp:post-terms {"term":"maars_doc_type","prefix":"","separator":", ","className":"maars-doc-record__type maars-log__value","style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.35"}},"fontFamily":"data"} /-->
+			</div>
+			<!-- /wp:group -->
+
+			<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"constrained"}} -->
+			<div class="wp-block-group maars-log__cell">
+				<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
+				<p class="maars-label maars-log__label has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;line-height:1.3;text-transform:uppercase">Year of record</p>
+				<!-- /wp:paragraph -->
+
+				<!-- wp:post-terms {"term":"maars_year","prefix":"","separator":", ","className":"maars-doc-record__year maars-log__value","style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.35"}},"fontFamily":"data"} /-->
+			</div>
+			<!-- /wp:group -->
 
 		</div>
 		<!-- /wp:group -->
 
-		<!-- ALT TEXT REQUIRED if this record carries a featured image (a scanned cover page, a photo
-		     from the meeting it describes). Describe the image itself in one sentence; if it is a
-		     scan of the document, say so and say what is legible. 1,154 images on the old site had
-		     no alt text and that is the single largest accessibility defect being repaired here. -->
+		<!-- THE FRESHNESS CHIP. It reads _maars_grade and _maars_verified_on off this record
+		     and says measured, sourced or unverified in the reader's face. A 2003 newsletter
+		     is not wrong for being old, but a repeater frequency quoted inside it may be, and
+		     the chip is what keeps a reader from mistaking an archived fact for a current one.
+		     It is a label, never an alarm: UNVERIFIED is the honest word for a fact nobody has
+		     checked, and it is set in the same calm register as MEASURED. Only the dateline
+		     block is allowed to raise its voice, and only when the record has gone quiet. -->
+		<!-- wp:maars/fact -->
+			<!-- wp:paragraph {"className":"maars-doc-record__vouch","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.6"}}} -->
+			<p class="maars-doc-record__vouch" style="font-size:1.125rem;line-height:1.6">This is the Society&#8217;s own document, reproduced as it was published. How far anyone has checked it since is stated below rather than assumed.</p>
+			<!-- /wp:paragraph -->
+		<!-- /wp:maars/fact -->
+
+		<!-- ALT TEXT REQUIRED if this record carries a featured image (a scanned cover page, a
+		     photograph from the meeting it describes). Describe the image itself in one
+		     sentence; if it is a scan of the document, say so and say what is legible. 1,154
+		     images on the old site had no alt text and that is the single largest
+		     accessibility defect being repaired here. -->
 		<!-- wp:post-featured-image {"isLink":false,"aspectRatio":"16/9","className":"maars-doc-record__image"} /-->
 
 		<!-- wp:post-content {"className":"maars-doc-record__body","layout":{"type":"constrained"}} /-->
 
 		<!-- THE ORIGINAL. The converted text is a convenience; the file the Society actually
-		     published is the authority, and it stays reachable from the record that quotes it. -->
-		<!-- wp:group {"tagName":"section","className":"maars-original","style":{"spacing":{"padding":{"top":"1.1rem","bottom":"1.1rem","left":"1.25rem","right":"1.25rem"},"blockGap":"0.5rem"},"border":{"left":{"color":"#990066","width":"4px","style":"solid"}}},"backgroundColor":"lavender","textColor":"ink","layout":{"type":"constrained"}} -->
-		<section class="wp-block-group maars-original has-ink-color has-lavender-background-color has-text-color has-background" style="border-left-color:#990066;border-left-style:solid;border-left-width:4px;padding-top:1.1rem;padding-right:1.25rem;padding-bottom:1.1rem;padding-left:1.25rem">
+		     published is the authority, and it stays reachable from the record that quotes it.
+		     The three fields are a log line like any other on this site, which means they obey
+		     log conventions: a dash is an entry, and it means no entry. -->
+		<!-- wp:group {"tagName":"section","className":"maars-original","anchor":"the-original-file","style":{"spacing":{"padding":{"top":"1.5rem","bottom":"1.5rem","left":"1.5rem","right":"1.5rem"},"blockGap":"1.25rem"},"border":{"left":{"color":"#990066","width":"4px","style":"solid"},"top":{"color":"#D7D7E4","width":"1px","style":"solid"},"right":{"color":"#D7D7E4","width":"1px","style":"solid"},"bottom":{"color":"#D7D7E4","width":"1px","style":"solid"}}},"backgroundColor":"paper","textColor":"ink","layout":{"type":"constrained"}} -->
+		<section class="wp-block-group maars-original has-ink-color has-paper-background-color has-text-color has-background" id="the-original-file" style="border-top-color:#D7D7E4;border-top-style:solid;border-top-width:1px;border-right-color:#D7D7E4;border-right-style:solid;border-right-width:1px;border-bottom-color:#D7D7E4;border-bottom-style:solid;border-bottom-width:1px;border-left-color:#990066;border-left-style:solid;border-left-width:4px;padding-top:1.5rem;padding-right:1.5rem;padding-bottom:1.5rem;padding-left:1.5rem">
 
-			<!-- wp:heading {"level":2,"className":"maars-original__title","style":{"typography":{"fontSize":"1.05rem","textTransform":"uppercase","letterSpacing":"0.06em"}},"textColor":"magenta"} -->
-			<h2 class="wp-block-heading maars-original__title has-magenta-color has-text-color" style="font-size:1.05rem;letter-spacing:0.06em;text-transform:uppercase">The original file</h2>
+			<!-- wp:heading {"level":2,"className":"maars-original__title","style":{"typography":{"fontSize":"1.5rem","lineHeight":"1.25"}},"textColor":"magenta"} -->
+			<h2 class="wp-block-heading maars-original__title has-magenta-color has-text-color" style="font-size:1.5rem;line-height:1.25">The original file</h2>
 			<!-- /wp:heading -->
 
-			<!-- The binding below asks for _maars_source_file. Core refuses bindings on protected
-			     meta keys, so on a stock install the sentence written into the block is what renders,
-			     and the file name itself reaches the reader through the freshness note above, which
-			     reads the same key server side. A sentence that is true beats a link that is dead. -->
-			<!-- wp:paragraph {"className":"maars-original__file","metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"_maars_source_file"}}}},"style":{"typography":{"fontSize":"0.95rem","lineHeight":"1.55"}}} -->
-			<p class="maars-original__file" style="font-size:0.95rem;line-height:1.55">The name of the file the Society published is carried in the freshness note above, and the file itself sits beside this record in the club&#8217;s own build of the archive.</p>
-			<!-- /wp:paragraph -->
+			<!-- wp:group {"tagName":"div","className":"maars-original__line maars-log__header","style":{"spacing":{"blockGap":"2.5rem"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top"}} -->
+			<div class="wp-block-group maars-original__line maars-log__header">
 
-			<!-- wp:paragraph {"className":"maars-original__note","style":{"typography":{"fontSize":"0.85rem","lineHeight":"1.55"}}} -->
-			<p class="maars-original__note" style="font-size:0.85rem;line-height:1.55">Where the text above was converted from a PDF or a word processor file, the conversion is machine-assisted and may have dropped a table or a signature block. The file is what the Society published; the text is only how you find it. This public demonstration carries the shape of the archive rather than its contents, so the files themselves appear once the club runs the import against its own mirror.</p>
+				<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"constrained"}} -->
+				<div class="wp-block-group maars-log__cell">
+					<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
+					<p class="maars-label maars-log__label has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;line-height:1.3;text-transform:uppercase">File</p>
+					<!-- /wp:paragraph -->
+
+					<!-- The binding asks for _maars_source_file. Core refuses bindings on protected
+					     meta keys, so on a stock install the sentence written into the block is what
+					     renders, and the file name itself still reaches the reader: the freshness
+					     chip above prints it, because that block reads the same key server side. -->
+					<!-- wp:paragraph {"className":"maars-original__file maars-log__value","metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"_maars_source_file"}}}},"style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.4"}},"textColor":"ink","fontFamily":"data"} -->
+					<p class="maars-original__file maars-log__value has-ink-color has-text-color has-data-font-family" style="font-size:1.25rem;line-height:1.4">named in the freshness note above</p>
+					<!-- /wp:paragraph -->
+				</div>
+				<!-- /wp:group -->
+
+				<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"constrained"}} -->
+				<div class="wp-block-group maars-log__cell">
+					<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
+					<p class="maars-label maars-log__label has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;line-height:1.3;text-transform:uppercase">Format</p>
+					<!-- /wp:paragraph -->
+
+					<!-- wp:paragraph {"className":"maars-original__format maars-log__value","style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.4"}},"textColor":"ink","fontFamily":"data"} -->
+					<p class="maars-original__format maars-log__value has-ink-color has-text-color has-data-font-family" style="font-size:1.25rem;line-height:1.4">&#8212; no entry</p>
+					<!-- /wp:paragraph -->
+				</div>
+				<!-- /wp:group -->
+
+				<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"constrained"}} -->
+				<div class="wp-block-group maars-log__cell">
+					<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
+					<p class="maars-label maars-log__label has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;line-height:1.3;text-transform:uppercase">Size</p>
+					<!-- /wp:paragraph -->
+
+					<!-- wp:paragraph {"className":"maars-original__size maars-log__value","style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.4"}},"textColor":"ink","fontFamily":"data"} -->
+					<p class="maars-original__size maars-log__value has-ink-color has-text-color has-data-font-family" style="font-size:1.25rem;line-height:1.4">&#8212; no entry</p>
+					<!-- /wp:paragraph -->
+				</div>
+				<!-- /wp:group -->
+
+			</div>
+			<!-- /wp:group -->
+
+			<!-- The affordance is a real one and it is labelled for what it actually does here.
+			     Padding and type size put it over 48px on both axes without waiting for CSS.
+			     One line changes when the club runs tools/build_content.py against its own
+			     mirror and copies the files in: this href becomes the file's own URL, and the
+			     two dashes above become its format and its size. -->
+			<!-- wp:buttons {"className":"maars-original__actions","style":{"spacing":{"blockGap":"1rem"}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
+			<div class="wp-block-buttons maars-original__actions">
+				<!-- wp:button {"backgroundColor":"navy","textColor":"paper","className":"maars-original__get","style":{"border":{"radius":"2px"},"spacing":{"padding":{"top":"0.9rem","bottom":"0.9rem","left":"1.5rem","right":"1.5rem"}},"typography":{"fontSize":"1.125rem","fontWeight":"600"}}} -->
+				<div class="wp-block-button maars-original__get"><a class="wp-block-button__link has-paper-color has-navy-background-color has-text-color has-background wp-element-button" href="/how-this-site-is-maintained/" style="border-radius:2px;font-size:1.125rem;font-weight:600;padding-top:0.9rem;padding-right:1.5rem;padding-bottom:0.9rem;padding-left:1.5rem">Get the original file</a></div>
+				<!-- /wp:button -->
+			</div>
+			<!-- /wp:buttons -->
+
+			<!-- wp:paragraph {"className":"maars-original__note","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.6"}}} -->
+			<p class="maars-original__note" style="font-size:1.125rem;line-height:1.6">A dash in a log means no entry, and it means that here too. This public demonstration carries the shape of the archive rather than its contents, so the files are not in the image and the button leads to the page that explains how the Society serves them. Where the text above was converted from a PDF or a word processor file the conversion is machine-assisted and may have dropped a table or a signature block, which is why the file, and not the text, is the authority.</p>
 			<!-- /wp:paragraph -->
 
 		</section>
@@ -91,15 +167,27 @@
 	<hr class="wp-block-separator maars-doc-record__rule has-alpha-channel-opacity has-lavender-background-color has-background"/>
 	<!-- /wp:separator -->
 
-	<!-- wp:group {"tagName":"nav","className":"maars-doc-nav","style":{"spacing":{"blockGap":"1rem"},"typography":{"fontSize":"0.95rem"}},"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
-	<nav class="wp-block-group maars-doc-nav" style="font-size:0.95rem">
-		<!-- wp:post-navigation-link {"type":"previous","label":"Previous document","showTitle":true,"arrow":"arrow"} /-->
-		<!-- wp:post-navigation-link {"label":"Next document","showTitle":true,"arrow":"arrow"} /-->
+	<!-- Previous and next inside the archive, named the way the archive names them. WordPress
+	     calls the earlier post "previous"; in a list that runs newest first that is the OLDER
+	     document, so it says so. "Previous" and "Next" on their own tell a reader nothing
+	     about which direction they travel in. Each label ends in a non-breaking space:
+	     core renders the label and the document title as two separate elements inside the
+	     link, the nav is a flex row, and a flex container throws away the whitespace
+	     between its items, so without that one character the link reads
+	     "Older document:Treasurer’s Report". The space inside the label is a
+	     non-breaking one too, so the two words cannot be split across lines and
+	     squeezed into a column while the title sits beside them. The arrows are off
+	     for the same whitespace reason and
+	     because the brief asked for words rather than bare chevrons. -->
+	<!-- wp:group {"tagName":"nav","className":"maars-doc-nav","style":{"spacing":{"blockGap":"1.5rem"},"typography":{"fontSize":"1.125rem","lineHeight":"1.5"}},"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
+	<nav class="wp-block-group maars-doc-nav" style="font-size:1.125rem;line-height:1.5">
+		<!-- wp:post-navigation-link {"type":"previous","label":"Older document: ","showTitle":true,"arrow":"none","className":"maars-doc-nav__older"} /-->
+		<!-- wp:post-navigation-link {"label":"Newer document: ","showTitle":true,"arrow":"none","textAlign":"right","className":"maars-doc-nav__newer"} /-->
 	</nav>
 	<!-- /wp:group -->
 
-	<!-- wp:paragraph {"className":"maars-doc-record__back","style":{"typography":{"fontSize":"0.95rem"}}} -->
-	<p class="maars-doc-record__back" style="font-size:0.95rem"><a href="/archive/">Back to the archive</a> <span aria-hidden="true">·</span> <a href="/privacy/">request a correction or a takedown</a></p>
+	<!-- wp:paragraph {"className":"maars-doc-record__back","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.5"}}} -->
+	<p class="maars-doc-record__back" style="font-size:1.125rem;line-height:1.5"><a href="/archive/">Back to the archive</a> &#8212; <a href="/privacy/">request a correction or a takedown</a></p>
 	<!-- /wp:paragraph -->
 
 </main>

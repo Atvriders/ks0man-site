@@ -1,25 +1,57 @@
-<!-- wp:group {"tagName":"div","className":"maars-header","style":{"spacing":{"padding":{"top":"1.25rem","bottom":"1rem","left":"1rem","right":"1rem"}}},"backgroundColor":"paper","textColor":"ink","layout":{"type":"constrained"}} -->
-<div class="wp-block-group maars-header has-ink-color has-paper-background-color has-text-color has-background" style="padding-top:1.25rem;padding-right:1rem;padding-bottom:1rem;padding-left:1rem">
+<!-- MASTHEAD — two rows, on purpose.
 
-	<!-- wp:group {"className":"maars-identity-row","style":{"spacing":{"blockGap":"1.5rem"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
-	<div class="wp-block-group maars-identity-row">
+     The identity and the seven navigation items used to share one flex row inside a container
+     capped at the theme's 68ch reading measure, so at 1440px the nav ran out of room and broke
+     into two ragged lines: four items, then three. A masthead that cannot hold its own menu
+     reads as unfinished before a single word is read.
 
-		<!-- wp:group {"className":"maars-wordmark","style":{"spacing":{"blockGap":"0.15rem"}},"layout":{"type":"constrained","justifyContent":"left"}} -->
-		<div class="wp-block-group maars-wordmark">
-			<!-- The wordmark is text, not an image. The old site set its identity in a GIF with no alt text. -->
-			<!-- wp:paragraph {"className":"maars-wordmark__name","style":{"typography":{"fontSize":"1.75rem","fontWeight":"700","lineHeight":"1.1","letterSpacing":"0.01em"}},"textColor":"navy"} -->
-			<p class="maars-wordmark__name has-navy-color has-text-color" style="font-size:1.75rem;font-weight:700;letter-spacing:0.01em;line-height:1.1"><a href="/">MAARS</a> <span class="maars-wordmark__sep" aria-hidden="true">·</span> <span class="maars-wordmark__call">KSØMAN</span></p>
-			<!-- /wp:paragraph -->
+     The fix is structural rather than cosmetic. The masthead sets its own wide measure (1180px)
+     instead of inheriting the reading measure, the identity takes the first row alone, and the
+     navigation takes the second row across the full width with a hairline between them. Seven
+     items set in Manrope at 18px with a 1.5rem gap measure 961px, so the row holds at every laptop
+     and desktop width down to about 1100px. Below that it wraps into even left-aligned rows rather
+     than a ragged four-and-three, and below 600px core swaps in the labelled "Menu" button. -->
+<!-- wp:group {"tagName":"div","className":"maars-header","style":{"spacing":{"blockGap":"1.25rem","padding":{"top":"1.75rem","bottom":"0rem","left":"1.5rem","right":"1.5rem"}}},"backgroundColor":"paper","textColor":"ink","layout":{"type":"constrained","contentSize":"1180px"}} -->
+<div class="wp-block-group maars-header has-ink-color has-paper-background-color has-text-color has-background" style="padding-top:1.75rem;padding-right:1.5rem;padding-bottom:0rem;padding-left:1.5rem">
 
-			<!-- wp:paragraph {"className":"maars-wordmark__long","style":{"typography":{"fontSize":"0.9rem","lineHeight":"1.4"}}} -->
-			<p class="maars-wordmark__long" style="font-size:0.9rem;line-height:1.4">Manhattan Area Amateur Radio Society <span aria-hidden="true">·</span> Manhattan, Kansas <span aria-hidden="true">·</span> founded 7 July 1976</p>
-			<!-- /wp:paragraph -->
-		</div>
-		<!-- /wp:group -->
+	<!-- ROW 1 — the identity. Text, never an image: the old site set its name in a GIF with no
+	     alt attribute, so the club's own name was invisible to a screen reader and to search. -->
+	<!-- wp:group {"tagName":"div","className":"maars-wordmark","style":{"spacing":{"blockGap":"0.4rem"}},"layout":{"type":"default"}} -->
+	<div class="wp-block-group maars-wordmark">
 
-		<!-- Seven items. Tasks, not an inventory. Nothing here leaves the site: an outbound link in primary
-		     navigation sends the visitor away at the moment they arrived. Outbound links live on /links/. -->
-		<!-- wp:navigation {"className":"maars-nav","overlayMenu":"mobile","hasIcon":false,"icon":"menu","overlayBackgroundColor":"paper","overlayTextColor":"navy","style":{"spacing":{"blockGap":"1.25rem"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"right"}} -->
+		<!-- Platypi, the display face. KSØMAN is set in Fira Code by .maars-wordmark__call, because
+		     the club writes its callsign with a slashed O and the data face is the only one here
+		     that draws that character with any authority. -->
+		<!-- wp:paragraph {"className":"maars-wordmark__name","fontFamily":"display","style":{"typography":{"fontSize":"clamp(1.875rem, 1.3rem + 2.6vw, 2.75rem)","fontWeight":"700","lineHeight":"1.25","letterSpacing":"0"}},"textColor":"navy"} -->
+		<p class="maars-wordmark__name has-navy-color has-text-color has-display-font-family" style="font-size:clamp(1.875rem, 1.3rem + 2.6vw, 2.75rem);font-weight:700;letter-spacing:0;line-height:1.25"><a href="/">MAARS <span class="maars-wordmark__sep" aria-hidden="true">·</span> <span class="maars-wordmark__call">KSØMAN</span></a></p>
+		<!-- /wp:paragraph -->
+
+		<!-- The one-line descriptor, and it has to stay one line. With the founding date on the end it
+		     wrapped and left "July 1976" orphaned on a line of its own, which reads as a broken
+		     masthead; the date is in the page heading and in About, so it comes off here. Full ink at
+		     18px, not a grey subtitle: on an iPad in a church basement a 14px grey line under a large
+		     heading is the first thing to disappear. -->
+		<!-- wp:paragraph {"className":"maars-wordmark__long","fontSize":"medium","style":{"typography":{"lineHeight":"1.45"}},"textColor":"ink"} -->
+		<p class="maars-wordmark__long has-ink-color has-text-color has-medium-font-size" style="line-height:1.45">Manhattan Area Amateur Radio Society <span aria-hidden="true">·</span> Manhattan, Kansas</p>
+		<!-- /wp:paragraph -->
+
+	</div>
+	<!-- /wp:group -->
+
+	<!-- ROW 2 — the navigation, full width, under a hairline.
+
+	     line-height 2.7 rather than padding is what makes each item 48px tall. Core renders each
+	     navigation link as a blockified flex item, so the line box IS the hit target: 2.7 × the
+	     18px body floor is 48.6px, and because the medium preset's fluid minimum is also 18px it
+	     never drops below that on a narrow screen. Padding on the block would have padded the
+	     container and left the links themselves 22px tall.
+
+	     Seven items, and every one of them stays on this site. An outbound link in primary
+	     navigation sends a visitor away at the moment they arrive; the outbound list lives on
+	     /links/ with the date each entry was last checked. -->
+	<!-- wp:group {"tagName":"div","className":"maars-navbar","style":{"spacing":{"padding":{"top":"0.25rem","bottom":"0.25rem"}},"border":{"top":{"color":"#D7D7E4","width":"1px","style":"solid"}}},"layout":{"type":"default"}} -->
+	<div class="wp-block-group maars-navbar" style="border-top-color:#D7D7E4;border-top-style:solid;border-top-width:1px;padding-top:0.25rem;padding-bottom:0.25rem">
+		<!-- wp:navigation {"className":"maars-nav","ariaLabel":"Primary","overlayMenu":"mobile","hasIcon":false,"overlayBackgroundColor":"paper","overlayTextColor":"navy","fontSize":"medium","style":{"spacing":{"blockGap":{"top":"0px","left":"1.5rem"}},"typography":{"lineHeight":"2.7","fontWeight":"700"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"left"}} -->
 			<!-- wp:navigation-link {"label":"About","url":"/about/","kind":"custom","isTopLevelLink":true} /-->
 			<!-- wp:navigation-link {"label":"Meetings & Events","url":"/events/","kind":"custom","isTopLevelLink":true} /-->
 			<!-- wp:navigation-link {"label":"On the Air","url":"/on-the-air/","kind":"custom","isTopLevelLink":true} /-->
@@ -28,22 +60,8 @@
 			<!-- wp:navigation-link {"label":"Archive","url":"/archive/","kind":"custom","isTopLevelLink":true} /-->
 			<!-- wp:navigation-link {"label":"Join","url":"/join/","kind":"custom","isTopLevelLink":true} /-->
 		<!-- /wp:navigation -->
-
 	</div>
 	<!-- /wp:group -->
 
-</div>
-<!-- /wp:group -->
-
-<!-- The most consulted fact on the site, on every page, at the top, with its grade attached.
-     Every one of these numbers is UNVERIFIED: the repeater moved off the KSDB-FM tower in
-     November 2023 and the controller was voted out in January 2024, so the chip says so. -->
-<!-- wp:group {"tagName":"div","className":"maars-repeater-strip","style":{"spacing":{"padding":{"top":"0.6rem","bottom":"0.6rem","left":"1rem","right":"1rem"}}},"backgroundColor":"lavender","textColor":"ink","layout":{"type":"constrained"}} -->
-<div class="wp-block-group maars-repeater-strip has-ink-color has-lavender-background-color has-text-color has-background" style="padding-top:0.6rem;padding-right:1rem;padding-bottom:0.6rem;padding-left:1rem">
-	<!-- wp:maars/fact {"grade":"unverified"} -->
-		<!-- wp:paragraph {"className":"maars-repeater-strip__text","style":{"typography":{"fontSize":"0.95rem","lineHeight":"1.4"}}} -->
-		<p class="maars-repeater-strip__text" style="font-size:0.95rem;line-height:1.4"><strong>KSØMAN repeater</strong> 147.255 MHz out / 147.855 MHz in <span aria-hidden="true">·</span> +600 kHz <span aria-hidden="true">·</span> CTCSS 88.5 Hz <span aria-hidden="true">·</span> open to all licensed amateurs <span aria-hidden="true">·</span> <a href="/on-the-air/">what we know and when we last checked</a></p>
-		<!-- /wp:paragraph -->
-	<!-- /wp:maars/fact -->
 </div>
 <!-- /wp:group -->

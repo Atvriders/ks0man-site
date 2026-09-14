@@ -1,36 +1,56 @@
 <!-- wp:template-part {"slug":"header","tagName":"header","area":"header","className":"maars-site-header"} /-->
 
-<!-- Fallback template. It serves standing pages, news posts, search results, term listings and
-     anything with no more specific template, so it has to read well as one item and as a list. -->
-<!-- wp:group {"tagName":"main","className":"maars-main maars-index","style":{"spacing":{"padding":{"top":"1.5rem","bottom":"2.5rem","left":"1rem","right":"1rem"},"blockGap":"1.25rem"}},"layout":{"type":"constrained"}} -->
-<main class="wp-block-group maars-main maars-index" style="padding-top:1.5rem;padding-right:1rem;padding-bottom:2.5rem;padding-left:1rem">
+<!-- THE FALLBACK. It serves standing pages, news posts, search results, term listings and
+     anything with no more specific template, so it has to read well as one item and as a
+     list. That is why the loop inherits the main query and renders post-content rather than
+     an excerpt: on /about/ this template is the page.
+     It wears the same log line as the archive, in NAVY rather than magenta. That is the one
+     thing a reader has to be able to tell at a glance on this site: navy is now, magenta is
+     the record. A dateline ruled in navy says "this is current and here is when it was last
+     touched"; the same line ruled in magenta, over on /archive/, says "this is history". -->
+<!-- wp:group {"tagName":"main","className":"maars-main maars-index","style":{"spacing":{"padding":{"top":"2rem","bottom":"3rem","left":"1rem","right":"1rem"},"blockGap":"1.75rem"}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group maars-main maars-index" style="padding-top:2rem;padding-right:1rem;padding-bottom:3rem;padding-left:1rem">
 
-	<!-- wp:query-title {"type":"archive","level":1,"className":"maars-index__title","style":{"typography":{"fontSize":"clamp(1.5rem, 1.1rem + 1.6vw, 2.2rem)","lineHeight":"1.2"}},"textColor":"navy"} /-->
+	<!-- wp:query-title {"type":"archive","level":1,"showPrefix":false,"className":"maars-index__title","style":{"typography":{"fontSize":"clamp(2rem, 1.6rem + 2vw, 2.875rem)","lineHeight":"1.15"}},"textColor":"navy"} /-->
 
-	<!-- wp:query-title {"type":"search","level":1,"className":"maars-index__title","style":{"typography":{"fontSize":"clamp(1.5rem, 1.1rem + 1.6vw, 2.2rem)","lineHeight":"1.2"}},"textColor":"navy"} /-->
+	<!-- wp:query-title {"type":"search","level":1,"className":"maars-index__title","style":{"typography":{"fontSize":"clamp(2rem, 1.6rem + 2vw, 2.875rem)","lineHeight":"1.15"}},"textColor":"navy"} /-->
 
-	<!-- wp:term-description {"className":"maars-index__termdesc","style":{"typography":{"fontSize":"0.95rem","lineHeight":"1.6"}}} /-->
+	<!-- wp:term-description {"className":"maars-index__termdesc","style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.6"}}} /-->
 
-	<!-- wp:query {"queryId":31,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true,"taxQuery":null,"parents":[],"format":[]},"className":"maars-index__loop","layout":{"type":"default"}} -->
-	<div class="wp-block-query maars-index__loop">
+	<!-- wp:query {"queryId":31,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true,"taxQuery":null,"parents":[],"format":[]},"className":"maars-index__loop maars-log","layout":{"type":"default"}} -->
+	<div class="wp-block-query maars-index__loop maars-log">
 
-		<!-- wp:post-template {"className":"maars-index__list","style":{"spacing":{"blockGap":"2.5rem"}},"layout":{"type":"default"}} -->
+		<!-- wp:post-template {"className":"maars-index__list","style":{"spacing":{"blockGap":"3rem"}},"layout":{"type":"default"}} -->
 
-			<!-- wp:group {"tagName":"article","className":"maars-entry","style":{"spacing":{"blockGap":"0.75rem"}},"layout":{"type":"constrained"}} -->
+			<!-- wp:group {"tagName":"article","className":"maars-entry","style":{"spacing":{"blockGap":"1rem"}},"layout":{"type":"constrained"}} -->
 			<article class="wp-block-group maars-entry">
 
-				<!-- wp:post-title {"level":1,"isLink":true,"className":"maars-entry__title","style":{"typography":{"fontSize":"clamp(1.4rem, 1.1rem + 1.2vw, 2rem)","lineHeight":"1.25"}},"textColor":"navy"} /-->
+				<!-- Dates are shown on everything, including standing pages. A page that will not
+				     say when it was last touched is a page asking to be believed on trust, and
+				     that is precisely how the old site came to look current two years after it
+				     stopped. The line is set in the data face with tabular figures, so 01 and 12
+				     take the same width and a zero is never read as an O. -->
+				<!-- wp:group {"tagName":"div","className":"maars-entry__meta maars-log__line","style":{"spacing":{"blockGap":"1.5rem","padding":{"bottom":"0.5rem"}},"border":{"bottom":{"color":"#00008C","width":"2px","style":"solid"}},"typography":{"fontSize":"1.125rem","lineHeight":"1.4"}},"fontFamily":"data","layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"bottom"}} -->
+				<div class="wp-block-group maars-entry__meta maars-log__line has-data-font-family" style="border-bottom-color:#00008C;border-bottom-style:solid;border-bottom-width:2px;font-size:1.125rem;line-height:1.4;padding-bottom:0.5rem">
 
-				<!-- Dates are shown on everything, including standing pages. A page that will not say
-				     when it was last touched is a page asking to be believed on trust, and that is
-				     precisely how the old site came to look current two years after it stopped. -->
-				<!-- wp:group {"tagName":"div","className":"maars-entry__meta","style":{"spacing":{"blockGap":"0.75rem"},"typography":{"fontSize":"0.85rem"}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
-				<div class="wp-block-group maars-entry__meta" style="font-size:0.85rem">
-					<!-- wp:post-date {"format":"j F Y","isLink":false} /-->
-					<!-- wp:post-date {"format":"j F Y","isLink":false,"displayType":"modified","className":"maars-entry__updated"} /-->
-					<!-- wp:post-terms {"term":"maars_year","prefix":"","separator":", ","className":"maars-entry__year"} /-->
+					<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","textTransform":"uppercase"}},"textColor":"navy"} -->
+					<p class="maars-label maars-log__label has-navy-color has-text-color" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase">Published</p>
+					<!-- /wp:paragraph -->
+
+					<!-- wp:post-date {"format":"d M Y","isLink":false,"className":"maars-log__value","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.4"}},"textColor":"ink"} /-->
+
+					<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","textTransform":"uppercase"}},"textColor":"navy"} -->
+					<p class="maars-label maars-log__label has-navy-color has-text-color" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase">Last touched</p>
+					<!-- /wp:paragraph -->
+
+					<!-- wp:post-date {"format":"d M Y","isLink":false,"displayType":"modified","className":"maars-entry__updated maars-log__value","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.4"}},"textColor":"ink"} /-->
+
+					<!-- wp:post-terms {"term":"maars_year","prefix":"","separator":", ","className":"maars-entry__year maars-log__value","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.4"}}} /-->
+
 				</div>
 				<!-- /wp:group -->
+
+				<!-- wp:post-title {"level":1,"isLink":true,"className":"maars-entry__title","style":{"typography":{"fontSize":"clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem)","lineHeight":"1.2"}},"textColor":"navy"} /-->
 
 				<!-- ALT TEXT REQUIRED. One sentence describing the photograph, naming what is
 				     happening rather than repeating the post title. The old site carried 1,154
@@ -44,29 +64,34 @@
 
 		<!-- /wp:post-template -->
 
-		<!-- wp:spacer {"height":"1.5rem"} -->
-		<div style="height:1.5rem" aria-hidden="true" class="wp-block-spacer"></div>
+		<!-- wp:spacer {"height":"2rem"} -->
+		<div style="height:2rem" aria-hidden="true" class="wp-block-spacer"></div>
 		<!-- /wp:spacer -->
 
-		<!-- wp:query-pagination {"paginationArrow":"arrow","showLabel":true,"className":"maars-index__pagination","style":{"spacing":{"blockGap":"0.5rem"},"typography":{"fontSize":"0.95rem"}},"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
+		<!-- Words, not bare chevrons, and the same words the archive uses, because a reader who
+		     has learned "Older" and "Newer" once should not have to learn them again.
+		     CSS contract: .maars-index__pagination a and .page-numbers are 48px minimum on both
+		     axes, and .page-numbers.current is a filled block rather than a heavier weight,
+		     so the page you are on can be seen without comparing it to its neighbours. -->
+		<!-- wp:query-pagination {"paginationArrow":"none","showLabel":true,"className":"maars-index__pagination maars-log__pagination","style":{"spacing":{"blockGap":"1rem"},"typography":{"fontSize":"1.25rem","fontWeight":"600"}},"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
 			<!-- wp:query-pagination-previous {"label":"Newer"} /-->
-			<!-- wp:query-pagination-numbers /-->
+			<!-- wp:query-pagination-numbers {"midSize":2} /-->
 			<!-- wp:query-pagination-next {"label":"Older"} /-->
 		<!-- /wp:query-pagination -->
 
-		<!-- Serves both an empty search and a missing page. It refuses to end on a dead end: the
-		     archive and the reflector are both one click away. -->
+		<!-- Serves both an empty search and a missing page. It refuses to end on a dead end:
+		     the archive and the reflector are both one click away. -->
 		<!-- wp:query-no-results -->
 
-			<!-- wp:heading {"level":2,"className":"maars-empty__title","style":{"typography":{"fontSize":"1.35rem"}},"textColor":"magenta"} -->
-			<h2 class="wp-block-heading maars-empty__title has-magenta-color has-text-color" style="font-size:1.35rem">There is nothing here</h2>
+			<!-- wp:heading {"level":2,"className":"maars-empty__title","style":{"typography":{"fontSize":"1.5rem","lineHeight":"1.25"}},"textColor":"magenta"} -->
+			<h2 class="wp-block-heading maars-empty__title has-magenta-color has-text-color" style="font-size:1.5rem;line-height:1.25">There is nothing here</h2>
 			<!-- /wp:heading -->
 
-			<!-- wp:paragraph {"className":"maars-empty","style":{"typography":{"lineHeight":"1.6"}}} -->
-			<p class="maars-empty" style="line-height:1.6">Either the page has moved or the search found nothing. The Society&#8217;s written record lives in <a href="/archive/">the archive</a>: 266 documents from 1998 to 2024, searchable, with the gaps marked. Anything time-critical goes out on the e-mail reflector rather than here, because Article III of the Constitution makes the reflector the official organ <span aria-hidden="true">·</span> <a href="/join/">how to get on it</a>.</p>
+			<!-- wp:paragraph {"className":"maars-empty","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.6"}}} -->
+			<p class="maars-empty" style="font-size:1.125rem;line-height:1.6">Either the page has moved or the search found nothing. The Society&#8217;s written record lives in <a href="/archive/">the archive</a>: 266 documents from 1998 to 2024, searchable, with the gaps marked. Anything time-critical goes out on the e-mail reflector rather than here, because Article III of the Constitution makes the reflector the official organ &#8212; <a href="/join/">how to get on it</a>.</p>
 			<!-- /wp:paragraph -->
 
-			<!-- wp:search {"label":"Search this site","showLabel":true,"placeholder":"Callsign, name, subject, year","buttonText":"Search","buttonPosition":"button-outside","className":"maars-empty__search"} /-->
+			<!-- wp:search {"label":"Search this site","showLabel":true,"placeholder":"Callsign, name, subject, year","buttonText":"Search","buttonPosition":"button-outside","className":"maars-empty__search","style":{"typography":{"fontSize":"1.125rem"}}} /-->
 
 		<!-- /wp:query-no-results -->
 
