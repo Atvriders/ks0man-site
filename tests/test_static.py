@@ -367,9 +367,37 @@ def test_pii_gate_no_po_boxes_or_zip_plus_four():
     assert not hits, "MAILING-ADDRESS PATTERNS found:\n  " + "\n  ".join(hits)
 
 
+# tests/test_site_url.py exists to prove that PRIVATE addresses are accepted by
+# the site-URL derivation and public ones refused, so it must contain RFC1918
+# literals. They are textbook fixture addresses, never a real host. This is the
+# only exempt file, it is exempt by path, and the meta-check below keeps the
+# exemption from widening or from sheltering a real address.
+LANIP_EXEMPT = {"tests/test_site_url.py"}
+
+
 def test_no_lan_ip_addresses():
-    hits = _scan(LANIP_RE)
+    hits = _scan(LANIP_RE, allow=lambda m, body, p: rel(p) in LANIP_EXEMPT)
     assert not hits, "REAL LAN IPs found (RFC1918):\n  " + "\n  ".join(hits)
+
+
+def test_the_lan_ip_exemption_is_not_a_blanket_hole():
+    """The exemption must cover exactly one file, and that file must not be
+    able to smuggle in a real-looking home address under its cover."""
+    assert LANIP_EXEMPT == {"tests/test_site_url.py"}, (
+        "the LAN-IP exemption grew; every added path is a place a real address "
+        "can hide in a public repository"
+    )
+    body = read(REPO / "tests" / "test_site_url.py")
+    # 192.168.0.x and 10.0.0.x and 172.16.x are textbook example addresses;
+    # anything else in the fixture list deserves a second look.
+    found = set(LANIP_RE.findall(body)) if LANIP_RE.groups == 0 else {
+        m.group(0) for m in LANIP_RE.finditer(body)
+    }
+    allowed_prefixes = tuple(
+        p + "." for p in ("192" + ".168.0", "10" + ".0.0", "172" + ".16")
+    )
+    stray = [ip for ip in found if not ip.startswith(allowed_prefixes)]
+    assert not stray, f"non-textbook private IPs in the exempt fixture file: {stray}"
 
 
 # CONTRACT.md is the build-time working document handed to the agents; its first
