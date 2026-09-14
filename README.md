@@ -49,6 +49,9 @@ docker compose up -d
 
 Then open **http://localhost:8080**.
 
+The stack serves itself on whatever address you actually used. The site URL is auto-detected from the browser's request, so publishing on a LAN address or a different port works with no edit: `http://192.0.2.10:3039` is as valid as `http://localhost:8080`. Pin it by setting `MAARS_SITE_URL` in `docker-compose.yml` only if you are behind a proxy that rewrites the `Host` header.
+
+
 First boot takes a minute or so: MariaDB initialises, WordPress sets itself up, and
 `docker/entrypoint.sh` runs the first-boot seed once. Subsequent starts are quick. To watch it
 happen:

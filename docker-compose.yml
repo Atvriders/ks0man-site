@@ -66,7 +66,11 @@ services:
       WORDPRESS_TABLE_PREFIX: wp_
       WORDPRESS_DEBUG: "0"
       # --- site identity, read by docker/entrypoint.sh on first boot --------
-      MAARS_SITE_URL: http://localhost:8080
+      # Leave BLANK to auto-detect from the browser's own request, which is what
+      # makes this work on any host and port without editing anything -
+      # http://localhost:8080, http://192.0.2.10:3039, whatever. Set it only if
+      # you are behind a proxy that rewrites Host, or you want it pinned.
+      MAARS_SITE_URL: ""
       MAARS_SITE_TITLE: Manhattan Area Amateur Radio Society
       MAARS_TIMEZONE: America/Chicago
       # --- first-boot administrator -----------------------------------------
@@ -92,8 +96,27 @@ services:
       # cannot go stale inside a volume. Core lives in the image, so let
       # nothing in wp-admin try to rewrite it.
       WORDPRESS_CONFIG_EXTRA: |
-        define( 'WP_HOME', getenv_docker( 'MAARS_SITE_URL', 'http://localhost:8080' ) );
-        define( 'WP_SITEURL', getenv_docker( 'MAARS_SITE_URL', 'http://localhost:8080' ) );
+        /*
+         * Serve correct asset URLs on whatever host and port you actually used.
+         * A hardcoded WP_HOME is the classic WordPress deployment failure: the
+         * HTML arrives fine from the address you typed, every script and
+         * stylesheet points at the address someone else typed, and the page
+         * renders stripped with ERR_CONNECTION_REFUSED in the console.
+         */
+        $maars_url = getenv_docker( 'MAARS_SITE_URL', '' );
+        if ( '' === $maars_url && ! empty( $_SERVER['HTTP_HOST'] ) ) {
+            $maars_host = (string) $_SERVER['HTTP_HOST'];
+            /* Host header is attacker-controlled, so accept only host[:port]. */
+            if ( preg_match( '/^[A-Za-z0-9._-]+(:[0-9]{1,5})?$/', $maars_host ) ) {
+                $maars_https = ( ! empty( $_SERVER['HTTPS'] ) && 'off' !== $_SERVER['HTTPS'] )
+                    || ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO'] );
+                $maars_url = ( $maars_https ? 'https://' : 'http://' ) . $maars_host;
+            }
+        }
+        if ( '' !== $maars_url ) {
+            define( 'WP_HOME', $maars_url );
+            define( 'WP_SITEURL', $maars_url );
+        }
         define( 'AUTOMATIC_UPDATER_DISABLED', true );
         define( 'DISALLOW_FILE_EDIT', true );
     volumes:

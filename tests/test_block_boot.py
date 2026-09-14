@@ -129,6 +129,33 @@ def pixels(shot: str):
     return im.size, len(set(px)), statistics.pstdev(grey)
 
 
+def boot_without_script(page_path: str):
+    """Simulate the real-world failure the user hit: the block markup is served
+    correctly but skywave.js never arrives (wrong site URL, 404, blocked CDN).
+    The page must say so, and must NOT blame the browser's WebGL support."""
+    from playwright.sync_api import sync_playwright
+
+    with sync_playwright() as p:
+        b = p.chromium.launch(
+            executable_path=CHROME,
+            args=["--no-sandbox", "--disable-dev-shm-usage"],
+        )
+        pg = b.new_context(viewport={"width": 1100, "height": 760}).new_page()
+        # Kill exactly one request: the scene's script.
+        pg.route("**/skywave.js*", lambda route: route.abort())
+        pg.goto("file://" + page_path, wait_until="load")
+        pg.wait_for_timeout(3500)
+        out = pg.evaluate(
+            """()=>{const c=document.querySelector('canvas.maars-skywave__canvas');
+            const t=document.querySelector('.maars-skywave__fallback-title');
+            return {reason:c?(c.dataset.maarsFallbackReason||null):null,
+                    text:t?t.textContent:'',
+                    wrapFallback:!!document.querySelector('.maars-skywave--fallback')};}"""
+        )
+        b.close()
+    return out
+
+
 def main() -> int:
     os.makedirs(OUT, exist_ok=True)
     print("ks0man-site block-boot gate — the plugin's real markup, in a browser\n")
@@ -166,6 +193,20 @@ def main() -> int:
     checks.append(("no page or console errors", not errs))
     checks.append((f"canvas is not blank (>{MIN_COLORS} colours)", colors > MIN_COLORS))
     checks.append((f"canvas is not blank (stdev >{MIN_STDEV})", stdev > MIN_STDEV))
+
+    # The regression that matters: a missing script must not be reported as a
+    # missing WebGL2. This is the exact defect that shipped.
+    nos = boot_without_script(path)
+    print(f"  script-blocked: reason={nos['reason']!r}")
+    print(f"  script-blocked: text={nos['text'][:90]!r}\n")
+    checks.append(("script-missing is detected as its own reason",
+                   nos["reason"] == "script-missing"))
+    checks.append(("fallback falls back when the script is blocked",
+                   nos["wrapFallback"] is True))
+    checks.append(("fallback does NOT blame the browser's WebGL support",
+                   "webgl" not in nos["text"].lower()))
+    checks.append(("fallback points at site configuration instead",
+                   "configuration" in nos["text"].lower()))
 
     failed = 0
     for name, ok in checks:

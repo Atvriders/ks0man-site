@@ -787,7 +787,9 @@ function maars_blocks_skywave_bootstrap(): void {
 			root.maarsSkywave = window.MAARSSkywave.mount( canvas, opts );
 		} catch ( err ) {
 			canvas.dataset.maarsMounted = '';
+			canvas.dataset.maarsFallbackReason = 'mount-threw';
 			root.classList.add( 'maars-skywave--fallback' );
+			if ( window.console && window.console.error ) { window.console.error( 'maars/skywave failed to mount:', err ); }
 		}
 	}
 
@@ -808,6 +810,12 @@ function maars_blocks_skywave_bootstrap(): void {
 			var orphans = document.querySelectorAll( '.maars-skywave[data-maars-autostart="1"]' );
 			for ( var j = 0; j < orphans.length; j++ ) {
 				orphans[ j ].classList.add( 'maars-skywave--fallback' );
+				var oc = orphans[ j ].querySelector( 'canvas.maars-skywave__canvas' );
+				if ( oc ) { oc.dataset.maarsFallbackReason = 'script-missing'; }
+				var on = orphans[ j ].querySelector( '.maars-skywave__fallback-title' );
+				if ( on ) {
+					on.textContent = 'The 3-D scene\u2019s script did not load, so here is the same thing in words. This is usually a site configuration problem, not a browser one \u2014 check the browser console for a failed request.';
+				}
 			}
 			return;
 		}
@@ -945,7 +953,7 @@ function maars_render_skywave_block( $attributes = array(), $content = '', $bloc
 		. '</p>';
 
 	$fallback = '<div class="maars-skywave__fallback">'
-		. '<p class="maars-skywave__fallback-title">' . esc_html__( 'Your browser has no WebGL2, so here is the same thing in words.', 'maars' ) . '</p>'
+		. '<p class="maars-skywave__fallback-title">' . esc_html__( 'The propagation diagram is not being drawn, so here is the same thing in words.', 'maars' ) . '</p>'
 		. $prose
 		. $list
 		. '</div>';

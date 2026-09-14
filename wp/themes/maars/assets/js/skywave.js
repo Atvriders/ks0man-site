@@ -27,6 +27,16 @@
 (function (global) {
   'use strict';
 
+
+  /* Why the canvas is not being drawn. Shown verbatim in place of the
+     fallback's first line, so the page never blames the wrong thing. */
+  var REASON_TEXT = {
+    'no-webgl2': 'This browser could not create a WebGL2 drawing surface, so here is the same thing in words.',
+    'gl-init-failed': 'The 3-D scene could not start on this graphics driver, so here is the same thing in words.',
+    'script-missing': 'The 3-D scene\u2019s script did not load, so here is the same thing in words. This is usually a site configuration problem, not a browser one \u2014 check the browser console for a failed request.',
+    'mount-threw': 'The 3-D scene hit an error while starting, so here is the same thing in words.',
+    'unknown': 'The 3-D scene is not being drawn, so here is the same thing in words.'
+  };
   if (!global || typeof global.document === 'undefined') { return; }
 
   var VERSION = '1.0.0';
@@ -1116,9 +1126,19 @@
     }
     var parent = canvas.parentElement || canvas.parentNode || null;
 
-    function markFallback() {
+    function markFallback(reason) {
       if (parent && parent.classList) { parent.classList.add('maars-skywave--fallback'); }
-      try { canvas.dataset.maarsFallback = '1'; } catch (e) { /* detached */ }
+      try {
+        canvas.dataset.maarsFallback = '1';
+        /* Say WHICH failure this was. "No WebGL2" is only one of several ways
+           to end up here, and reporting it for all of them sends people to
+           debug a browser that was never the problem. */
+        canvas.dataset.maarsFallbackReason = reason || 'unknown';
+      } catch (e) { /* detached */ }
+      if (parent) {
+        var note = parent.querySelector('.maars-skywave__fallback-title');
+        if (note && REASON_TEXT[reason]) { note.textContent = REASON_TEXT[reason]; }
+      }
     }
 
     var gl = null;
@@ -1136,7 +1156,7 @@
     } catch (e) { gl = null; }
 
     if (!gl) {
-      markFallback();
+      markFallback('no-webgl2');
       return noopHandle();
     }
 
@@ -1824,7 +1844,7 @@
       if (destroyed) { return; }
       contextLost = false;
       R = createResources();
-      if (!R || !R.ok) { markFallback(); return; }
+      if (!R || !R.ok) { markFallback('gl-init-failed'); return; }
       geometryDirty = true;
       labelsDirty = true;
       requestFrame();
