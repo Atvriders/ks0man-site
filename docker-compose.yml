@@ -1,7 +1,7 @@
 # MAARS / KS0MAN - ks0man-site demonstration stack.
 #
 #   docker compose up -d
-#   open http://localhost:8080
+#   open http://localhost:3039
 #
 # That is the whole quick start. There is no .env file, no copy step and no
 # value to fill in first: everything the stack needs is written literally in
@@ -55,7 +55,7 @@ services:
       # Change the left-hand number to publish somewhere else, and change
       # MAARS_SITE_URL below to match: WordPress is told its URL, never left
       # to guess it.
-      - "8080:80"
+      - "3039:80"
     # LOCAL DEVELOPMENT CREDENTIALS, written in the clear on purpose - change every password in this file before this stack is reachable from anywhere but localhost.
     environment:
       # --- database (must agree with the db service above) ------------------
@@ -68,7 +68,7 @@ services:
       # --- site identity, read by docker/entrypoint.sh on first boot --------
       # Leave BLANK to auto-detect from the browser's own request, which is what
       # makes this work on any host and port without editing anything -
-      # http://localhost:8080, http://192.0.2.10:3039, whatever. Set it only if
+      # http://localhost:3039, http://192.0.2.10:3039, whatever. Set it only if
       # you are behind a proxy that rewrites Host, or you want it pinned.
       MAARS_SITE_URL: ""
       # Extra hostnames to accept in the Host header, space or comma separated.
@@ -79,7 +79,7 @@ services:
       MAARS_SITE_TITLE: Manhattan Area Amateur Radio Society
       MAARS_TIMEZONE: America/Chicago
       # --- first-boot administrator -----------------------------------------
-      # Sign in at http://localhost:8080/wp-login.php with these.
+      # Sign in at http://localhost:3039/wp-login.php with these.
       MAARS_ADMIN_USER: maars_admin
       MAARS_ADMIN_PASSWORD: maars_local_dev
       # Left blank on purpose. This repository and this image are public, so no

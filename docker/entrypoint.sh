@@ -122,7 +122,7 @@ exit($link ? 0 : 1);
 maars_first_boot() {
 	local failed=0
 
-	local site_url="${MAARS_SITE_URL:-http://localhost:8080}"
+	local site_url="${MAARS_SITE_URL:-http://localhost:3039}"
 	local site_title="${MAARS_SITE_TITLE:-Manhattan Area Amateur Radio Society}"
 	local admin_user="${MAARS_ADMIN_USER:-maars_admin}"
 	# Assembled from two parts on purpose. This image is public, so no address

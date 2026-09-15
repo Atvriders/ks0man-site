@@ -15,7 +15,7 @@ visible instead of hiding it.
 |---|---|
 | The live site | ks0man.com is the 1997 hand-written site and is still live. ks0man.org is an empty WordPress install with a sample page. This touches neither. |
 | A finished site | It ships a demonstration slice of content, not the club's 27 years of documents. See [What ships, and what does not](#what-ships-and-what-does-not). |
-| A hosting migration | Nothing here deploys anywhere. It runs on your laptop, on port 8080, and stops when you stop it. |
+| A hosting migration | Nothing here deploys anywhere. It runs on your laptop, on port 3039, and stops when you stop it. |
 | A decision | Nine questions still block a real launch and none of them are technical. See [Open questions](#open-questions-that-still-block-a-launch). |
 
 ---
@@ -47,9 +47,9 @@ cd ks0man-site
 docker compose up -d
 ```
 
-Then open **http://localhost:8080**.
+Then open **http://localhost:3039**.
 
-The stack serves itself on whatever address you actually used. The site URL is auto-detected from the browser's request, so publishing on a LAN address or a different port works with no edit: `http://192.0.2.10:3039` is as valid as `http://localhost:8080`. Pin it by setting `MAARS_SITE_URL` in `docker-compose.yml` only if you are behind a proxy that rewrites the `Host` header.
+The stack serves itself on whatever address you actually used. The site URL is auto-detected from the browser's request, so publishing on a LAN address or a different port works with no edit: `http://192.0.2.10:3039` is as valid as `http://localhost:3039`. Pin it by setting `MAARS_SITE_URL` in `docker-compose.yml` only if you are behind a proxy that rewrites the `Host` header.
 
 
 First boot takes a minute or so: MariaDB initialises, WordPress sets itself up, and
@@ -70,7 +70,7 @@ docker compose down -v       # stop, delete the database volume, next boot re-se
 There is no `.env` file and nothing to fill in first. Every value the stack needs — database
 name, database password, the administrator account — is written literally in
 `docker-compose.yml`, under a comment saying so, so the one file you read is the whole
-configuration. Sign in at **http://localhost:8080/wp-login.php** as `maars_admin` with the
+configuration. Sign in at **http://localhost:3039/wp-login.php** as `maars_admin` with the
 password on that line.
 
 Those are local-development credentials. They are fine on a laptop and they are not fine
@@ -293,7 +293,7 @@ CI runs both suites and then builds and publishes the image. The workflow is
 
 | Path | What it is |
 |---|---|
-| `docker-compose.yml` | The site image plus `mariadb:11.4`; publishes the site on port 8080. |
+| `docker-compose.yml` | The site image plus `mariadb:11.4`; publishes the site on port 3039. |
 | `Dockerfile` | `wordpress:6.7-php8.3-apache` plus the plugin, the theme and the seed. |
 | `docker/entrypoint.sh` | Wraps the base image's entrypoint and runs the first-boot seed once. |
 | `wp/plugins/maars-core/` | The club's own plugin — everything the rebuild adds to WordPress lives here. Plugin header in `maars-core.php`, real work in `inc/`. |

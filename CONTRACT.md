@@ -122,13 +122,12 @@ Fonts: theme.json fontFamilies only; system stacks (no webfont downloads in the 
   development values and must be changed before the stack is exposed beyond localhost.
 - Do NOT use `${VAR:-default}` interpolation for the credentials; the point of this amendment is
   that everything needed is visible in the one file.
-- The port may stay interpolated as `${MAARS_PORT:-8080}` ONLY if it also works with no .env present.
-  Simpler is better: a literal `8080:80` is acceptable and preferred.
+- The published port is a literal `3039:80`. No interpolation, so it works with no .env present.
 - docker/entrypoint.sh must read exactly the variable names compose sets; no others.
 - tests/test_static.py must NOT expect .env.example, and its PII/secret gate must allow these
   clearly-labelled local-dev credentials while still failing on anything that looks like a real
   secret, key, token or personal address.
-- README quick start becomes: `docker compose up -d`, then open http://localhost:8080. No copy step.
+- README quick start becomes: `docker compose up -d`, then open http://localhost:3039. No copy step.
 
 ## Tests
 tests/test_static.py  — pure-python: asserts file map exists, no PII regexes anywhere in repo,
