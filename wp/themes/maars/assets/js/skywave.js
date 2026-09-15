@@ -62,23 +62,23 @@
    * ------------------------------------------------------------------- */
   var BANDS = [
     {
-      key: '80', id: '80m', name: '80 M', mhz: 3.920,
-      net: 'KANSAS SIDEBAND NET',
+      key: '80', id: '80m', name: '80 m', mhz: 3.920,
+      net: 'Kansas Sideband Net',
       spoken: '80 metres, 3.920 megahertz, the Kansas Sideband Net'
     },
     {
-      key: '40', id: '40m', name: '40 M', mhz: 7.260,
-      net: 'KANSAS WEATHER NET',
+      key: '40', id: '40m', name: '40 m', mhz: 7.260,
+      net: 'Kansas Weather Net',
       spoken: '40 metres, 7.260 megahertz, the Kansas Weather Net'
     },
     {
-      key: '20', id: '20m', name: '20 M', mhz: 14.290,
-      net: 'DAYTIME DX',
+      key: '20', id: '20m', name: '20 m', mhz: 14.290,
+      net: 'Daytime DX',
       spoken: '20 metres, 14.290 megahertz, daytime D X'
     },
     {
-      key: '2', id: '2m', name: '2 M', mhz: 147.255,
-      net: 'KS\u00d8MAN REPEATER',
+      key: '2', id: '2m', name: '2 m', mhz: 147.255,
+      net: 'KS\u00d8MAN repeater',
       spoken: '2 metres, 147.255 megahertz, the KS0MAN repeater',
       /* 147.255 MHz out / 147.855 in / +600 kHz / 88.5 Hz CTCSS. The machine
        * moved off the KSDB-FM tower to a Riley County site in Nov 2023 and
@@ -113,8 +113,7 @@
     navyLight: '#9FA0F2',
     paperDim: 'rgba(219,219,251,0.62)',
     alarm: '#F2A0A2',
-    panel: 'rgba(12,12,24,0.72)',
-    panelEdge: 'rgba(159,160,242,0.30)'
+    panel: 'rgba(12,12,24,0.72)'
   };
 
   /* =====================================================================
@@ -738,7 +737,20 @@
     '  } else {',
     '    ndc = aAnchor.xy;',
     '  }',
-    '  vec2 px = (ndc * 0.5 + 0.5) * uViewport + aOffPx + aCorner * aSizePx;',
+    /* Keep a scene-anchored label whole. Without this the quad is drawn
+       wherever its anchor projects, so a label near the edge of the frame gets
+       sliced by it: at 2 m the critical-frequency line lost its first eleven
+       characters off the left of the canvas and read "t 16x the critical
+       frequency". A word cut in half by the frame is the kind of thing a
+       careful reader notices and a careless one ships. The corner plates
+       (mode 1) are already placed against the edges and are left alone. */
+    '  vec2 org = (ndc * 0.5 + 0.5) * uViewport + aOffPx;',
+    '  if (aMode < 0.5) {',
+    '    vec2 pad = vec2(6.0);',
+    '    vec2 hi = max(uViewport - aSizePx - pad, pad);',
+    '    org = clamp(org, min(pad, hi), hi);',
+    '  }',
+    '  vec2 px = org + aCorner * aSizePx;',
     '  gl_Position = vec4((px / uViewport) * 2.0 - 1.0, 0.0, 1.0);',
     '  vUV = vec2(mix(aUV.x, aUV.z, aCorner.x), mix(aUV.w, aUV.y, aCorner.y));',
     '  vOpacity = aOpacity;',
@@ -870,21 +882,6 @@
 
   function fontFor(px, weight) { return (weight || 600) + ' ' + px + 'px ' + FONT_STACK; }
 
-  function roundRectPath(ctx, x, y, w, h, r) {
-    r = Math.min(r, w / 2, h / 2);
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.lineTo(x + w - r, y);
-    ctx.arcTo(x + w, y, x + w, y + r, r);
-    ctx.lineTo(x + w, y + h - r);
-    ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
-    ctx.lineTo(x + r, y + h);
-    ctx.arcTo(x, y + h, x, y + h - r, r);
-    ctx.lineTo(x, y + r);
-    ctx.arcTo(x, y, x + r, y, r);
-    ctx.closePath();
-  }
-
   /**
    * items: [{ lines: [{ text, px, color, weight, gap }], panel: bool }]
    * Returns { canvas, boxes: [{x,y,w,h}] } in device pixels.
@@ -931,12 +928,12 @@
       var ox = b.x + (it.panel ? pad : Math.round(3 * dpr));
       var oy = b.y + (it.panel ? pad : Math.round(3 * dpr));
       if (it.panel) {
+        /* A flat plate, square-cornered and unbordered: enough to hold the
+           type off the scene, and not another rounded card with a hairline
+           round it. The site has one bordered container per screen and this
+           was not it. */
         cx.fillStyle = CSS.panel;
-        roundRectPath(cx, b.x + 0.5, b.y + 0.5, b.w - 1, b.h - 1, Math.round(5 * dpr));
-        cx.fill();
-        cx.strokeStyle = CSS.panelEdge;
-        cx.lineWidth = Math.max(1, dpr);
-        cx.stroke();
+        cx.fillRect(b.x, b.y, b.w, b.h);
       }
       for (j = 0; j < it.lines.length; j++) {
         ln = it.lines[j];
@@ -977,9 +974,9 @@
     return null;
   }
   function dayWord(day) {
-    if (day > 0.75) { return 'DAY AT MANHATTAN'; }
-    if (day < 0.12) { return 'NIGHT AT MANHATTAN'; }
-    return 'TWILIGHT AT MANHATTAN';
+    if (day > 0.75) { return 'Daytime at Manhattan'; }
+    if (day < 0.12) { return 'Night at Manhattan'; }
+    return 'Twilight at Manhattan';
   }
 
   /* =====================================================================
@@ -1051,16 +1048,15 @@
   function headlineFor(st) {
     var s = st.scan;
     if (!s.anyReflect) {
-      if (st.band.vhf) { return 'ESCAPES TO SPACE \u00b7 LINE OF SIGHT ONLY'; }
-      return 'BAND CLOSED \u00b7 EVERY RAY ESCAPES';
+      if (st.band.vhf) { return 'Escapes to space. Line of sight only.'; }
+      return 'Band closed: every ray escapes.';
     }
-    var head = s.skipKm < 120
-      ? s.skipLayer + ' REFLECTION \u00b7 NO SKIP ZONE (NVIS)'
-      : s.skipLayer + ' REFLECTION \u00b7 SKIP ZONE ' + fmtInt(s.skipKm) + ' KM';
-    if (st.absDb > 18) {
-      head += ' \u00b7 ' + Math.round(st.absDb) + ' dB D-LAYER LOSS';
-    }
-    return head;
+    /* The D-layer loss is not repeated here. It is stated once, beside the D
+       shell that causes it, which is where a reader can see what it applies
+       to. Revision 2 had it in three places at once. */
+    return s.skipKm < 120
+      ? s.skipLayer + ' reflection, no skip zone (NVIS).'
+      : s.skipLayer + ' reflection, skip zone ' + fmtInt(s.skipKm) + ' km.';
   }
 
   function describeAria(st) {
@@ -1393,16 +1389,36 @@
 
     function layerLine(id, h, fo) {
       if (fo <= 0) {
-        return id + ' ' + h + ' KM \u00b7 ABSENT';
+        return id + ' layer, ' + h + ' km \u2014 absent';
       }
-      return id + ' ' + h + ' KM \u00b7 fo' + id + ' ' + fo.toFixed(1) + ' MHz';
+      return id + ' layer, ' + h + ' km \u2014 fo' + id + ' ' + fo.toFixed(1) + ' MHz';
     }
 
     function rebuildLabels() {
       labelsDirty = false;
       if (!R || !R.ok) { return; }
       var st = state, items = [], defs = [];
-      var ui = clamp(vw / (960 * dpr), 0.72, 1.2);
+
+      /* THE TYPE FLOOR.
+       *
+       * Every label in this scene is read by the same eyes that read the page
+       * around it, and none of it is decoration: the layer heights and the
+       * critical frequencies ARE the lesson. Measured on the front page before
+       * this: at 1440px the annotations rasterised at 13px, and at 390px, where
+       * the canvas is 358 CSS px wide, the scale factor was allowed to fall to
+       * 0.72 and drew them at 7.6px. Seven-point-six pixels, for an audience
+       * whose oldest members are ninety.
+       *
+       * So the scale may grow on a large canvas and may never shrink, and the
+       * sizes below start at the same 15px floor the stylesheet keeps. A narrow
+       * canvas cannot hold 15px annotations without burying the picture, so it
+       * shows the band readout and nothing else; the words it drops are in the
+       * caption and the band table underneath, at 18px, where they were always
+       * more legible anyway.
+       */
+      var ui = clamp(vw / (960 * dpr), 1, 1.25);
+      var BODY = 15;                    /* the floor; never go under it */
+      var HEAD = 20;                    /* the band readout */
       var wide = vw / dpr > 620;
       var tall = vh / dpr > 380;
 
@@ -1416,83 +1432,113 @@
 
       var warn = (!st.scan.anyReflect) || st.absDb > 18;
 
-      add([
-        { text: st.band.name + '  ' + st.band.mhz.toFixed(3) + ' MHz', px: 19, color: CSS.lavender, weight: 700 },
-        { text: st.band.net, px: 11.5, color: CSS.magentaLt, weight: 700 },
-        { text: st.headline, px: 11.5, color: warn ? CSS.alarm : CSS.navyLight, weight: 600 }
-      ], true, { mode: 1, align: 'tl' });
+      var readout = [
+        { text: st.band.name + '  ' + st.band.mhz.toFixed(3) + ' MHz', px: HEAD,
+          color: CSS.lavender, weight: 700 }
+      ];
+
+      /* The net's name is on the page in words; what a narrow canvas keeps is
+         the line that changes with the band, because that is the teaching. */
+      if (wide) {
+        readout.push({ text: st.band.net, px: BODY, color: CSS.magentaLt, weight: 700 });
+      }
+
+      readout.push({ text: st.headline, px: BODY,
+                     color: warn ? CSS.alarm : CSS.navyLight, weight: 600 });
+
+      add(readout, true, { mode: 1, align: 'tl' });
 
       if (wide && tall) {
         add([
-          { text: dayWord(st.day), px: 12, color: CSS.lavender, weight: 700 },
+          { text: dayWord(st.day), px: BODY, color: CSS.lavender, weight: 700 },
           { text: 'foE ' + st.foE.toFixed(1) + '  foF1 ' + (st.foF1 > 0 ? st.foF1.toFixed(1) : '\u2014') +
-                  '  foF2 ' + st.foF2.toFixed(1) + ' MHz', px: 11, color: CSS.paperDim, weight: 600 },
-          { text: 'MUF(3000) ' + st.muf3000.toFixed(1) + ' MHz \u00b7 D-LAYER ' +
-                  Math.round(st.absDb) + ' dB/HOP', px: 11, color: CSS.paperDim, weight: 600 },
-          { text: fmtUTC(st.date), px: 10.5, color: CSS.paperDim, weight: 600 }
+                  '  foF2 ' + st.foF2.toFixed(1) + ' MHz', px: BODY, color: CSS.paperDim, weight: 600 },
+          { text: 'MUF(3000) ' + st.muf3000.toFixed(1) + ' MHz', px: BODY,
+            color: CSS.paperDim, weight: 600 },
+          { text: fmtUTC(st.date), px: BODY, color: CSS.paperDim, weight: 600 }
         ], true, { mode: 1, align: 'tr' });
       }
 
-      add([
-        { text: 'ILLUSTRATIVE MODEL \u2014 SECANT LAW, VIRTUAL HEIGHTS.', px: 10.5, color: CSS.paperDim, weight: 600 },
-        { text: 'NOT A PROPAGATION PREDICTION.', px: 10.5, color: CSS.alarm, weight: 700 }
-      ], true, { mode: 1, align: 'bl' });
+      /* No disclaimer plate here. The caption under the canvas already reads
+         "Schematic, not a propagation prediction", in 18px type a reader can
+         actually read, and saying it twice in one frame was the same repetition
+         the rest of the page had removed. */
 
       if (wide) {
         add([
-          { text: 'ALTITUDES \u00d7' + st.exag + ' \u00b7 DRAG OR ARROW KEYS TO ORBIT', px: 10.5, color: CSS.paperDim, weight: 600 }
-        ], true, { mode: 1, align: 'br' });
+          { text: 'Altitudes \u00d7' + st.exag + '. Arrow keys orbit the scene.',
+            px: BODY, color: CSS.paperDim, weight: 600 }
+        ], false, { mode: 1, align: 'bl' });
       }
 
-      add([{ text: 'MANHATTAN, KANSAS \u00b7 KS\u00d8MAN', px: 11.5, color: CSS.lavender, weight: 700 }],
-        false, { mode: 0, kind: 'site' });
+      /* The town, not the town welded to the callsign with an interpunct. The
+         callsign is in the masthead, in the lede above and on the 2 m button. */
+      if (wide) {
+        add([{ text: 'Manhattan, Kansas', px: BODY, color: CSS.lavender, weight: 700 }],
+          false, { mode: 0, kind: 'site' });
+      }
 
-      if (tall) {
-        var L = st.iono, colats = [0.34, 0.34, 0.34, 0.34], k;
+      if (wide && tall) {
+        /* Fanned, not stacked. All four sat at the same colatitude and were
+           separated only by their altitudes, which works at 12px type and
+           collides at the floor size: D at 75 km and E at 110 km are 35 km
+           apart and their labels are 20px tall. Spreading them along the shell
+           — the lowest layer furthest round the curve — separates them by
+           screen position rather than by being small. */
+        var L = st.iono, colats = [0.47, 0.39, 0.32, 0.25], k;
         for (k = 0; k < 4; k++) {
           var active = (L[k].id === st.activeLayer);
           var absorbing = (L[k].id === 'D' && st.absDb > 6);
           add([{
             text: L[k].id === 'D'
               ? (st.day > 0.15
-                  ? 'D 75 KM \u00b7 ABSORBS ' + Math.round(st.absDb / 2) + ' dB EACH WAY'
-                  : 'D 75 KM \u00b7 GONE AT NIGHT')
+                  ? (Math.round(st.absDb / 2) > 0
+                      ? 'D layer, 75 km \u2014 absorbs ' + Math.round(st.absDb / 2) + ' dB each way'
+                      : 'D layer, 75 km \u2014 no measurable absorption here')
+                  : 'D layer, 75 km \u2014 gone at night')
               : layerLine(L[k].id, L[k].h, L[k].fo),
-            px: 10.5,
-            color: active ? CSS.magentaLt : (absorbing ? CSS.alarm : CSS.paperDim),
+            px: BODY,
+            color: active ? CSS.magentaLt : (absorbing ? CSS.lavender : CSS.paperDim),
             weight: active ? 700 : 600
           }], false, { mode: 0, kind: 'layer', h: L[k].h, colat: colats[k] });
         }
       }
 
-      if (st.scan.anyReflect && st.scan.skipKm > 60) {
-        add([{ text: 'SKIP ZONE \u00b7 NOTHING LANDS INSIDE ' + fmtInt(st.scan.skipKm) + ' KM',
-               px: 11, color: CSS.alarm, weight: 700 }],
-          false, { mode: 0, kind: 'ground', km: st.scan.skipKm, azOff: 0, oy: -22 });
-      } else if (st.scan.anyReflect) {
-        add([{ text: 'NO SKIP ZONE \u00b7 NVIS COVERS THE GROUND UNDER YOU',
-               px: 11, color: CSS.magentaLt, weight: 700 }],
-          false, { mode: 0, kind: 'ground', km: 520, azOff: 0, oy: -22 });
-      }
+      /* Ground and sky annotations are sentences, and a sentence at the floor
+         size is wider than a phone's canvas. They belong to the wide view.
+         They are also swung round the site's azimuth rather than left at 0, so
+         that a sentence and the layer labels — which fan out on the other side
+         — cannot land on top of each other now that both are 15px. */
+      if (wide) {
+        if (st.scan.anyReflect && st.scan.skipKm > 60) {
+          add([{ text: 'Skip zone: nothing lands inside ' + fmtInt(st.scan.skipKm) + ' km',
+                 px: BODY, color: CSS.magentaLt, weight: 700 }],
+            false, { mode: 0, kind: 'ground', km: st.scan.skipKm, azOff: -1.15, oy: -22 });
+        } else if (st.scan.anyReflect) {
+          add([{ text: 'No skip zone: NVIS covers the ground under you',
+                 px: BODY, color: CSS.magentaLt, weight: 700 }],
+            false, { mode: 0, kind: 'ground', km: 520, azOff: -1.15, oy: -22 });
+        }
 
-      /* Only claim a landing point when enough of the ray survives to get there. */
-      if (st.hopKm && st.hopKm > 250 && st.absDb < 26) {
-        add([{ text: 'FIRST HOP LANDS AT ' + fmtInt(st.hopKm) + ' KM',
-               px: 10.5, color: CSS.magentaLt, weight: 700 }],
-          false, { mode: 0, kind: 'ground', km: st.hopKm, azOff: -1.05, oy: -20 });
-      }
+        /* Only claim a landing point when enough of the ray survives to get there. */
+        if (st.hopKm && st.hopKm > 250 && st.absDb < 26) {
+          add([{ text: 'First hop lands at ' + fmtInt(st.hopKm) + ' km',
+                 px: BODY, color: CSS.magentaLt, weight: 700 }],
+            false, { mode: 0, kind: 'ground', km: st.hopKm, azOff: -1.05, oy: -20 });
+        }
 
-      if (st.losKm) {
-        add([{ text: 'RADIO HORIZON \u2248 ' + Math.round(st.losKm) + ' KM (UNVERIFIED SITE)',
-               px: 11, color: CSS.magentaLt, weight: 700 }],
-          false, { mode: 0, kind: 'ground', km: st.losKm, azOff: 0, oy: -30 });
-        add([{ text: '147.255 MHz IS \u2248' + Math.round(st.band.mhz / Math.max(st.foF2, 0.1)) +
-                     '\u00d7 THE CRITICAL FREQUENCY \u2014 NO REFRACTION',
-               px: 11, color: CSS.alarm, weight: 700 }],
-          false, { mode: 0, kind: 'sky', alt: 1500, colat: 0.36, azOff: -0.78 });
-      } else if (!st.scan.anyReflect) {
-        add([{ text: 'EVERY RAY PENETRATES \u2014 BAND CLOSED', px: 11, color: CSS.alarm, weight: 700 }],
-          false, { mode: 0, kind: 'sky', alt: 1300, colat: 0.34, azOff: -0.78 });
+        if (st.losKm) {
+          add([{ text: 'Radio horizon about ' + Math.round(st.losKm) + ' km (site unverified)',
+                 px: BODY, color: CSS.magentaLt, weight: 700 }],
+            false, { mode: 0, kind: 'ground', km: st.losKm, azOff: 0, oy: -30 });
+          add([{ text: '147.255 MHz is about ' + Math.round(st.band.mhz / Math.max(st.foF2, 0.1)) +
+                       '\u00d7 the critical frequency, so nothing refracts',
+                 px: BODY, color: CSS.alarm, weight: 700 }],
+            false, { mode: 0, kind: 'sky', alt: 1500, colat: 0.36, azOff: -0.78 });
+        } else if (!st.scan.anyReflect) {
+          add([{ text: 'Every ray penetrates: the band is closed', px: BODY, color: CSS.alarm, weight: 700 }],
+            false, { mode: 0, kind: 'sky', alt: 1300, colat: 0.34, azOff: -0.78 });
+        }
       }
 
       var atlas = buildAtlas(items, dpr);

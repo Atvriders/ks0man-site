@@ -1,161 +1,178 @@
 <!-- wp:template-part {"slug":"header","tagName":"header","area":"header","className":"maars-site-header"} /-->
 
-<!-- ONE RECORD. The same log conventions as the archive index, opened out: the entry's
-     three fixed fields set as a ruled header line, then how far anyone has checked it,
-     then the text, then the file the Society actually published. Magenta marks the
-     record, navy is for links. Nothing on this page is below 1.125rem / 18px. -->
-<!-- wp:group {"tagName":"main","className":"maars-main maars-single-doc","style":{"spacing":{"padding":{"top":"2rem","bottom":"3rem","left":"1rem","right":"1rem"},"blockGap":"1.75rem"}},"layout":{"type":"constrained"}} -->
+<!-- ONE RECORD — revision 2.
+
+     One document out of the archive, opened out: what it is dated, what kind of
+     document it is, and which year of the record it belongs to; then how far anyone
+     has checked it; then the text; then a word about the file it came from.
+
+     What changed in this revision:
+
+     NO EYEBROW. "FROM THE RECORD" sat above the title in tracked-out capitals and
+     said nothing the magenta heading underneath it did not already say.
+
+     NO CAPITALS ON THE FIELD NAMES. "DOCUMENT DATE", "TYPE", "YEAR OF RECORD" were
+     set in the data face in capitals with 0.12em of tracking, which made three
+     labels louder than the three facts they labelled. They are now sentence case at
+     the note size in the reading face, under the value rather than shouting at it.
+     The class .maars-label is deliberately NOT used: maars.css puts that class in
+     capitals, and a label that has to be argued out of its own stylesheet is a
+     label in the wrong class.
+
+     NO BOX. "The original file" was a bordered, tinted panel holding a three-cell
+     log line of which two cells read "— no entry" and the third read "named in the
+     freshness note above". Three fields, no information. It is now a hairline, a
+     quiet heading and one honest sentence.
+
+     THE DATA FACE IS FOR DATA. The document date and the year are figures and stay
+     in Fira Code with tabular figures and a slashed zero. The document TYPE is a
+     noun and comes out of the data face; so does every date written into prose.
+
+     Nothing on this page is below 1.125rem / 18px, and the layout is flow rather
+     than constrained so that a paragraph capped at the reading measure starts at
+     the same left edge as the heading above it instead of being centred under it. -->
+<!-- CSS CONTRACT, shared with maars.css:
+       .maars-fieldname          a field name: sentence case, body size, weight 400.
+                                 NOT .maars-label, which maars.css sets in capitals.
+       .maars-doc-record__kind   the document type. Reading face, sentence case; it
+                                 is a noun. (.maars-doc-record__type, which is in the
+                                 data-face list, is deliberately not used any more.)
+       .maars-doc-record__yearterm  a year, carried by .maars-fig, which is the
+                                 site's own figure class: data face, slashed zero,
+                                 tabular, and no link colour of its own, so the term
+                                 links navy like every other link.
+       Both term values in the record strip render as a bare 25px-tall anchor.
+       Give `.maars-doc-record__meta a { display:inline-flex; align-items:center;
+       min-height:48px }` so a finger has something to hit; the label above is a
+       paragraph and is unaffected. -->
+<!-- wp:group {"tagName":"main","className":"maars-main maars-single-doc","style":{"spacing":{"padding":{"top":"2rem","bottom":"3rem","left":"1rem","right":"1rem"},"blockGap":"1.75rem"}},"layout":{"type":"default"}} -->
 <main class="wp-block-group maars-main maars-single-doc" style="padding-top:2rem;padding-right:1rem;padding-bottom:3rem;padding-left:1rem">
 
+	<!-- The way back, in words. An arrow glued to the front of a link is a
+	     picture of the idea "back" standing in for the word, and it is read
+	     aloud by a screen reader as "left arrow" or as nothing at all. The
+	     sentence says where the link goes and how big the thing at the other
+	     end is, which is more than the arrow was doing. -->
 	<!-- wp:paragraph {"className":"maars-breadcrumb","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.5"}}} -->
-	<p class="maars-breadcrumb" style="font-size:1.125rem;line-height:1.5"><a href="/archive/">&#8592; All 266 documents</a></p>
+	<p class="maars-breadcrumb" style="font-size:1.125rem;line-height:1.5"><a href="/archive/">Back to all 266 documents</a></p>
 	<!-- /wp:paragraph -->
 
-	<!-- wp:group {"tagName":"article","className":"maars-doc-record","style":{"spacing":{"blockGap":"1.5rem"}},"layout":{"type":"constrained"}} -->
+	<!-- wp:group {"tagName":"article","className":"maars-doc-record","style":{"spacing":{"blockGap":"1.5rem"}},"layout":{"type":"default"}} -->
 	<article class="wp-block-group maars-doc-record">
-
-		<!-- wp:paragraph {"className":"maars-eyebrow maars-doc-record__eyebrow","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.14em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
-		<p class="maars-eyebrow maars-doc-record__eyebrow has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.14em;line-height:1.3;text-transform:uppercase">From the record</p>
-		<!-- /wp:paragraph -->
 
 		<!-- wp:post-title {"level":1,"isLink":false,"className":"maars-doc-record__title","style":{"typography":{"fontSize":"clamp(2rem, 1.6rem + 2vw, 2.875rem)","lineHeight":"1.15"}},"textColor":"magenta"} /-->
 
-		<!-- THE HEADER LINE: when the document is dated, what kind of document it is, and
-		     which year of the record it belongs to. Three fields, in the data face with
-		     tabular figures, ruled top and bottom like an entry in a station log. The
-		     document date is authoritative: maars-core seeds post_date from _maars_doc_date
-		     so the core date block, the archive ordering and the year taxonomy all agree. -->
-		<!-- wp:group {"tagName":"div","className":"maars-doc-record__meta maars-log__header","style":{"spacing":{"padding":{"top":"1rem","bottom":"1rem"},"blockGap":"2.5rem"},"border":{"top":{"color":"#990066","width":"2px","style":"solid"},"bottom":{"color":"#D7D7E4","width":"1px","style":"solid"}}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top"}} -->
-		<div class="wp-block-group maars-doc-record__meta maars-log__header" style="border-top-color:#990066;border-top-style:solid;border-top-width:2px;border-bottom-color:#D7D7E4;border-bottom-style:solid;border-bottom-width:1px;padding-top:1rem;padding-bottom:1rem">
+		<!-- THE RECORD STRIP: when the document is dated, what kind of document it is,
+		     and which year of the record it belongs to. Three label-over-value cells
+		     between two hairlines, which is a ruled line and not a box. The document
+		     date is authoritative: maars-core seeds post_date from _maars_doc_date, so
+		     the core date block, the archive ordering and the year taxonomy all agree. -->
+		<!-- wp:group {"tagName":"div","className":"maars-doc-record__meta maars-log__header","style":{"spacing":{"padding":{"top":"0.9rem","bottom":"0.9rem"},"blockGap":"2.5rem"},"border":{"top":{"color":"#D7D7E4","width":"1px","style":"solid"},"bottom":{"color":"#D7D7E4","width":"1px","style":"solid"}}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top"}} -->
+		<div class="wp-block-group maars-doc-record__meta maars-log__header" style="border-top-color:#D7D7E4;border-top-style:solid;border-top-width:1px;border-bottom-color:#D7D7E4;border-bottom-style:solid;border-bottom-width:1px;padding-top:0.9rem;padding-bottom:0.9rem">
 
-			<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"constrained"}} -->
+			<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.15rem"}},"layout":{"type":"default"}} -->
 			<div class="wp-block-group maars-log__cell">
-				<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
-				<p class="maars-label maars-log__label has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;line-height:1.3;text-transform:uppercase">Document date</p>
+				<!-- wp:paragraph {"className":"maars-fieldname","style":{"typography":{"fontSize":"1.125rem","fontWeight":"400","letterSpacing":"0","lineHeight":"1.4","textTransform":"none"}},"textColor":"ink"} -->
+				<p class="maars-fieldname has-ink-color has-text-color" style="font-size:1.125rem;font-weight:400;letter-spacing:0;line-height:1.4;text-transform:none">Document date</p>
 				<!-- /wp:paragraph -->
 
-				<!-- wp:post-date {"format":"d M Y","isLink":false,"className":"maars-doc-record__date maars-log__value","style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.35"}},"textColor":"ink","fontFamily":"data"} /-->
+				<!-- wp:post-date {"format":"d M Y","isLink":false,"className":"maars-doc-record__date","style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.35"}},"textColor":"ink","fontFamily":"data"} /-->
 			</div>
 			<!-- /wp:group -->
 
-			<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"constrained"}} -->
+			<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.15rem"}},"layout":{"type":"default"}} -->
 			<div class="wp-block-group maars-log__cell">
-				<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
-				<p class="maars-label maars-log__label has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;line-height:1.3;text-transform:uppercase">Type</p>
+				<!-- wp:paragraph {"className":"maars-fieldname","style":{"typography":{"fontSize":"1.125rem","fontWeight":"400","letterSpacing":"0","lineHeight":"1.4","textTransform":"none"}},"textColor":"ink"} -->
+				<p class="maars-fieldname has-ink-color has-text-color" style="font-size:1.125rem;font-weight:400;letter-spacing:0;line-height:1.4;text-transform:none">Type of document</p>
 				<!-- /wp:paragraph -->
 
-				<!-- wp:post-terms {"term":"maars_doc_type","prefix":"","separator":", ","className":"maars-doc-record__type maars-log__value","style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.35"}},"fontFamily":"data"} /-->
+				<!-- A type is a noun, so it is set in the reading face. -->
+				<!-- wp:post-terms {"term":"maars_doc_type","prefix":"","separator":", ","className":"maars-doc-record__kind","style":{"typography":{"fontSize":"1.375rem","fontWeight":"600","letterSpacing":"0","lineHeight":"1.35","textTransform":"none"}}} /-->
 			</div>
 			<!-- /wp:group -->
 
-			<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"constrained"}} -->
+			<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.15rem"}},"layout":{"type":"default"}} -->
 			<div class="wp-block-group maars-log__cell">
-				<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
-				<p class="maars-label maars-log__label has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;line-height:1.3;text-transform:uppercase">Year of record</p>
+				<!-- wp:paragraph {"className":"maars-fieldname","style":{"typography":{"fontSize":"1.125rem","fontWeight":"400","letterSpacing":"0","lineHeight":"1.4","textTransform":"none"}},"textColor":"ink"} -->
+				<p class="maars-fieldname has-ink-color has-text-color" style="font-size:1.125rem;font-weight:400;letter-spacing:0;line-height:1.4;text-transform:none">Year of record</p>
 				<!-- /wp:paragraph -->
 
-				<!-- wp:post-terms {"term":"maars_year","prefix":"","separator":", ","className":"maars-doc-record__year maars-log__value","style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.35"}},"fontFamily":"data"} /-->
+				<!-- wp:post-terms {"term":"maars_year","prefix":"","separator":", ","className":"maars-fig maars-doc-record__yearterm","style":{"typography":{"fontSize":"1.375rem","fontWeight":"600","lineHeight":"1.35"}},"fontFamily":"data"} /-->
 			</div>
 			<!-- /wp:group -->
 
 		</div>
 		<!-- /wp:group -->
 
-		<!-- THE FRESHNESS CHIP. It reads _maars_grade and _maars_verified_on off this record
-		     and says measured, sourced or unverified in the reader's face. A 2003 newsletter
-		     is not wrong for being old, but a repeater frequency quoted inside it may be, and
-		     the chip is what keeps a reader from mistaking an archived fact for a current one.
-		     It is a label, never an alarm: UNVERIFIED is the honest word for a fact nobody has
-		     checked, and it is set in the same calm register as MEASURED. Only the dateline
-		     block is allowed to raise its voice, and only when the record has gone quiet. -->
+		<!-- HOW FAR ANYONE HAS CHECKED IT. The block reads _maars_grade and
+		     _maars_verified_on off this record and states the grade and the date in one
+		     quiet line under the sentence. A 2003 newsletter is not wrong for being
+		     old, but a repeater frequency quoted inside it may be, and that line is
+		     what keeps a reader from mistaking an archived fact for a current one. It
+		     is a label and never an alarm. The sentence here is one line, because the
+		     block already says when the record was last checked and a page that says
+		     the same thing twice has said it once too often. -->
 		<!-- wp:maars/fact -->
-			<!-- wp:paragraph {"className":"maars-doc-record__vouch","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.6"}}} -->
-			<p class="maars-doc-record__vouch" style="font-size:1.125rem;line-height:1.6">This is the Society&#8217;s own document, reproduced as it was published. How far anyone has checked it since is stated below rather than assumed.</p>
+			<!-- wp:paragraph {"className":"maars-doc-record__vouch","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.65"}}} -->
+			<p class="maars-doc-record__vouch" style="font-size:1.125rem;line-height:1.65">This is the Society&#8217;s own document, reproduced as it was published.</p>
 			<!-- /wp:paragraph -->
 		<!-- /wp:maars/fact -->
 
-		<!-- ALT TEXT REQUIRED if this record carries a featured image (a scanned cover page, a
-		     photograph from the meeting it describes). Describe the image itself in one
-		     sentence; if it is a scan of the document, say so and say what is legible. 1,154
-		     images on the old site had no alt text and that is the single largest
-		     accessibility defect being repaired here. -->
+		<!-- ALT TEXT REQUIRED if this record carries a featured image (a scanned cover
+		     page, a photograph from the meeting it describes). Describe the image
+		     itself in one sentence; if it is a scan of the document, say so and say
+		     what is legible. 1,154 images on the old site had no alt text and that is
+		     the single largest accessibility defect being repaired here. -->
 		<!-- wp:post-featured-image {"isLink":false,"aspectRatio":"16/9","className":"maars-doc-record__image"} /-->
 
-		<!-- wp:post-content {"className":"maars-doc-record__body","layout":{"type":"constrained"}} /-->
+		<!-- wp:post-content {"className":"maars-doc-record__body","layout":{"type":"default"}} /-->
 
-		<!-- THE ORIGINAL. The converted text is a convenience; the file the Society actually
-		     published is the authority, and it stays reachable from the record that quotes it.
-		     The three fields are a log line like any other on this site, which means they obey
-		     log conventions: a dash is an entry, and it means no entry. -->
-		<!-- wp:group {"tagName":"section","className":"maars-original","anchor":"the-original-file","style":{"spacing":{"padding":{"top":"1.5rem","bottom":"1.5rem","left":"1.5rem","right":"1.5rem"},"blockGap":"1.25rem"},"border":{"left":{"color":"#990066","width":"4px","style":"solid"},"top":{"color":"#D7D7E4","width":"1px","style":"solid"},"right":{"color":"#D7D7E4","width":"1px","style":"solid"},"bottom":{"color":"#D7D7E4","width":"1px","style":"solid"}}},"backgroundColor":"paper","textColor":"ink","layout":{"type":"constrained"}} -->
-		<section class="wp-block-group maars-original has-ink-color has-paper-background-color has-text-color has-background" id="the-original-file" style="border-top-color:#D7D7E4;border-top-style:solid;border-top-width:1px;border-right-color:#D7D7E4;border-right-style:solid;border-right-width:1px;border-bottom-color:#D7D7E4;border-bottom-style:solid;border-bottom-width:1px;border-left-color:#990066;border-left-style:solid;border-left-width:4px;padding-top:1.5rem;padding-right:1.5rem;padding-bottom:1.5rem;padding-left:1.5rem">
+		<!-- THE ORIGINAL. The converted text is a convenience; the file the Society
+		     published is the authority, and it stays reachable from the record that
+		     quotes it. A hairline and a heading are enough to set it apart; it was a
+		     bordered, tinted panel, and the panel held three fields of which two were
+		     dashes. -->
+		<!-- wp:group {"tagName":"section","className":"maars-original","anchor":"the-original-file","style":{"spacing":{"padding":{"top":"1.5rem"},"blockGap":"1rem"},"border":{"top":{"color":"#D7D7E4","width":"1px","style":"solid"}}},"layout":{"type":"default"}} -->
+		<section class="wp-block-group maars-original" id="the-original-file" style="border-top-color:#D7D7E4;border-top-style:solid;border-top-width:1px;padding-top:1.5rem">
 
-			<!-- wp:heading {"level":2,"className":"maars-original__title","style":{"typography":{"fontSize":"1.5rem","lineHeight":"1.25"}},"textColor":"magenta"} -->
-			<h2 class="wp-block-heading maars-original__title has-magenta-color has-text-color" style="font-size:1.5rem;line-height:1.25">The original file</h2>
+			<!-- wp:heading {"level":2,"className":"maars-original__title","style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.25"}},"textColor":"magenta"} -->
+			<h2 class="wp-block-heading maars-original__title has-magenta-color has-text-color" style="font-size:1.375rem;line-height:1.25">The original file</h2>
 			<!-- /wp:heading -->
 
-			<!-- wp:group {"tagName":"div","className":"maars-original__line maars-log__header","style":{"spacing":{"blockGap":"2.5rem"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top"}} -->
-			<div class="wp-block-group maars-original__line maars-log__header">
+			<!-- The file name comes from _maars_source_file. Core refuses bindings on
+			     protected meta keys, so on a stock install the sentence written into the
+			     block is what renders; when the club runs tools/build_content.py against
+			     its own mirror this line fills with the real file name. A sentence that
+			     is true beats a field that pretends to a figure it has not got. -->
+			<!-- The field name, because without it the bound value renders as a lone
+			     em dash floating under a heading, which reads as a rendering fault
+			     rather than as an empty field. Same class, same quiet weight and
+			     same sentence case as the three field names in the record strip
+			     above, so a reader meets the pattern twice on one page and it means
+			     the same thing both times. -->
+			<!-- wp:paragraph {"className":"maars-fieldname","style":{"typography":{"fontSize":"1.125rem","fontWeight":"400","letterSpacing":"0","lineHeight":"1.4","textTransform":"none"}},"textColor":"ink"} -->
+			<p class="maars-fieldname has-ink-color has-text-color" style="font-size:1.125rem;font-weight:400;letter-spacing:0;line-height:1.4;text-transform:none">File name</p>
+			<!-- /wp:paragraph -->
 
-				<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"constrained"}} -->
-				<div class="wp-block-group maars-log__cell">
-					<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
-					<p class="maars-label maars-log__label has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;line-height:1.3;text-transform:uppercase">File</p>
-					<!-- /wp:paragraph -->
+			<!-- wp:paragraph {"className":"maars-original__file","metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"_maars_source_file"}}}},"style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.4"}},"textColor":"ink","fontFamily":"data"} -->
+			<p class="maars-original__file has-ink-color has-text-color has-data-font-family" style="font-size:1.25rem;line-height:1.4">&#8212;</p>
+			<!-- /wp:paragraph -->
 
-					<!-- The binding asks for _maars_source_file. Core refuses bindings on protected
-					     meta keys, so on a stock install the sentence written into the block is what
-					     renders, and the file name itself still reaches the reader: the freshness
-					     chip above prints it, because that block reads the same key server side. -->
-					<!-- wp:paragraph {"className":"maars-original__file maars-log__value","metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"_maars_source_file"}}}},"style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.4"}},"textColor":"ink","fontFamily":"data"} -->
-					<p class="maars-original__file maars-log__value has-ink-color has-text-color has-data-font-family" style="font-size:1.25rem;line-height:1.4">named in the freshness note above</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:group -->
+			<!-- wp:paragraph {"className":"maars-original__note","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.65"}}} -->
+			<p class="maars-original__note" style="font-size:1.125rem;line-height:1.65">A dash in a log means no entry, and it means that here too: this public demonstration carries the shape of the archive rather than its contents, so the files themselves are not in it. Where the text above was converted from a PDF or a word processor file the conversion is machine-assisted and may have dropped a table or a signature block, which is why the file, and not the text, is the authority.</p>
+			<!-- /wp:paragraph -->
 
-				<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"constrained"}} -->
-				<div class="wp-block-group maars-log__cell">
-					<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
-					<p class="maars-label maars-log__label has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;line-height:1.3;text-transform:uppercase">Format</p>
-					<!-- /wp:paragraph -->
-
-					<!-- wp:paragraph {"className":"maars-original__format maars-log__value","style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.4"}},"textColor":"ink","fontFamily":"data"} -->
-					<p class="maars-original__format maars-log__value has-ink-color has-text-color has-data-font-family" style="font-size:1.25rem;line-height:1.4">&#8212; no entry</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:group -->
-
-				<!-- wp:group {"tagName":"div","className":"maars-log__cell","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"constrained"}} -->
-				<div class="wp-block-group maars-log__cell">
-					<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
-					<p class="maars-label maars-log__label has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;line-height:1.3;text-transform:uppercase">Size</p>
-					<!-- /wp:paragraph -->
-
-					<!-- wp:paragraph {"className":"maars-original__size maars-log__value","style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.4"}},"textColor":"ink","fontFamily":"data"} -->
-					<p class="maars-original__size maars-log__value has-ink-color has-text-color has-data-font-family" style="font-size:1.25rem;line-height:1.4">&#8212; no entry</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:group -->
-
-			</div>
-			<!-- /wp:group -->
-
-			<!-- The affordance is a real one and it is labelled for what it actually does here.
-			     Padding and type size put it over 48px on both axes without waiting for CSS.
-			     One line changes when the club runs tools/build_content.py against its own
-			     mirror and copies the files in: this href becomes the file's own URL, and the
-			     two dashes above become its format and its size. -->
+			<!-- The affordance is a real one and it is labelled for what it actually does
+			     here. Padding and type size put it over 48px on both axes without waiting
+			     for CSS. One line changes when the club copies its own files in: this
+			     href becomes the file's own URL. -->
 			<!-- wp:buttons {"className":"maars-original__actions","style":{"spacing":{"blockGap":"1rem"}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
 			<div class="wp-block-buttons maars-original__actions">
 				<!-- wp:button {"backgroundColor":"navy","textColor":"paper","className":"maars-original__get","style":{"border":{"radius":"2px"},"spacing":{"padding":{"top":"0.9rem","bottom":"0.9rem","left":"1.5rem","right":"1.5rem"}},"typography":{"fontSize":"1.125rem","fontWeight":"600"}}} -->
-				<div class="wp-block-button maars-original__get"><a class="wp-block-button__link has-paper-color has-navy-background-color has-text-color has-background wp-element-button" href="/how-this-site-is-maintained/" style="border-radius:2px;font-size:1.125rem;font-weight:600;padding-top:0.9rem;padding-right:1.5rem;padding-bottom:0.9rem;padding-left:1.5rem">Get the original file</a></div>
+				<div class="wp-block-button maars-original__get"><a class="wp-block-button__link has-paper-color has-navy-background-color has-text-color has-background wp-element-button" href="/how-this-site-is-maintained/" style="border-radius:2px;font-size:1.125rem;font-weight:600;padding-top:0.9rem;padding-right:1.5rem;padding-bottom:0.9rem;padding-left:1.5rem">How the Society serves its files</a></div>
 				<!-- /wp:button -->
 			</div>
 			<!-- /wp:buttons -->
-
-			<!-- wp:paragraph {"className":"maars-original__note","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.6"}}} -->
-			<p class="maars-original__note" style="font-size:1.125rem;line-height:1.6">A dash in a log means no entry, and it means that here too. This public demonstration carries the shape of the archive rather than its contents, so the files are not in the image and the button leads to the page that explains how the Society serves them. Where the text above was converted from a PDF or a word processor file the conversion is machine-assisted and may have dropped a table or a signature block, which is why the file, and not the text, is the authority.</p>
-			<!-- /wp:paragraph -->
 
 		</section>
 		<!-- /wp:group -->
@@ -167,18 +184,18 @@
 	<hr class="wp-block-separator maars-doc-record__rule has-alpha-channel-opacity has-lavender-background-color has-background"/>
 	<!-- /wp:separator -->
 
-	<!-- Previous and next inside the archive, named the way the archive names them. WordPress
-	     calls the earlier post "previous"; in a list that runs newest first that is the OLDER
-	     document, so it says so. "Previous" and "Next" on their own tell a reader nothing
-	     about which direction they travel in. Each label ends in a non-breaking space:
-	     core renders the label and the document title as two separate elements inside the
-	     link, the nav is a flex row, and a flex container throws away the whitespace
-	     between its items, so without that one character the link reads
-	     "Older document:Treasurer’s Report". The space inside the label is a
-	     non-breaking one too, so the two words cannot be split across lines and
-	     squeezed into a column while the title sits beside them. The arrows are off
-	     for the same whitespace reason and
-	     because the brief asked for words rather than bare chevrons. -->
+	<!-- Previous and next inside the archive, named the way the archive names them.
+	     WordPress calls the earlier post "previous"; in a list that runs newest first
+	     that is the OLDER document, so it says so. "Previous" and "Next" on their own
+	     tell a reader nothing about which direction they travel in. Each label ends
+	     in a non-breaking space: core renders the label and the document title as two
+	     separate elements inside the link, the nav is a flex row, and a flex
+	     container throws away the whitespace between its items, so without that one
+	     character the link reads "Older document:Treasurer's Report". The space
+	     inside the label is a non-breaking one too, so the two words cannot be split
+	     across lines and squeezed into a column while the title sits beside them. The
+	     arrows are off for the same whitespace reason and because the brief asked for
+	     words rather than bare chevrons. -->
 	<!-- wp:group {"tagName":"nav","className":"maars-doc-nav","style":{"spacing":{"blockGap":"1.5rem"},"typography":{"fontSize":"1.125rem","lineHeight":"1.5"}},"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
 	<nav class="wp-block-group maars-doc-nav" style="font-size:1.125rem;line-height:1.5">
 		<!-- wp:post-navigation-link {"type":"previous","label":"Older document: ","showTitle":true,"arrow":"none","className":"maars-doc-nav__older"} /-->
@@ -186,8 +203,11 @@
 	</nav>
 	<!-- /wp:group -->
 
-	<!-- wp:paragraph {"className":"maars-doc-record__back","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.5"}}} -->
-	<p class="maars-doc-record__back" style="font-size:1.125rem;line-height:1.5"><a href="/archive/">Back to the archive</a> &#8212; <a href="/privacy/">request a correction or a takedown</a></p>
+	<!-- maars.css gives .maars-doc-record__back `margin-block: 0 1rem`, which beats
+	     the flow gap and leaves this line touching the document navigation above it.
+	     The margin is written here so the two do not run together. -->
+	<!-- wp:paragraph {"className":"maars-doc-record__back","style":{"spacing":{"margin":{"top":"2rem"}},"typography":{"fontSize":"1.125rem","lineHeight":"1.5"}}} -->
+	<p class="maars-doc-record__back" style="margin-top:2rem;font-size:1.125rem;line-height:1.5"><a href="/archive/">Back to the archive</a>, or <a href="/privacy/">request a correction or a takedown</a>.</p>
 	<!-- /wp:paragraph -->
 
 </main>

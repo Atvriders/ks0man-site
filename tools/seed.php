@@ -812,6 +812,19 @@ function maars_seed_options( $site, $home_id, $posts_id, &$stats ) {
 		$options['gmt_offset']      = '';
 	}
 
+	/*
+	 * The date format is a design decision, not a preference. Every date the
+	 * templates write by hand is day-month-year — "16 January 2024",
+	 * "11 December 2021" — and so is every date in the Society's own minutes.
+	 * WordPress defaults to "F j, Y", and the one date nobody writes by hand
+	 * is the one the freshness chip prints, so on a stock install the site
+	 * said "Last checked January 12, 2024" one line under "16 January 2024".
+	 * One option fixes every generated date at once.
+	 */
+	if ( ! empty( $site['date_format'] ) ) {
+		$options['date_format'] = $site['date_format'];
+	}
+
 	if ( $home_id > 0 ) {
 		$options['show_on_front'] = 'page';
 		$options['page_on_front'] = $home_id;

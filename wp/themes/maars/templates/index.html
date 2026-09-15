@@ -1,14 +1,47 @@
 <!-- wp:template-part {"slug":"header","tagName":"header","area":"header","className":"maars-site-header"} /-->
 
-<!-- THE FALLBACK. It serves standing pages, news posts, search results, term listings and
-     anything with no more specific template, so it has to read well as one item and as a
-     list. That is why the loop inherits the main query and renders post-content rather than
-     an excerpt: on /about/ this template is the page.
-     It wears the same log line as the archive, in NAVY rather than magenta. That is the one
-     thing a reader has to be able to tell at a glance on this site: navy is now, magenta is
-     the record. A dateline ruled in navy says "this is current and here is when it was last
-     touched"; the same line ruled in magenta, over on /archive/, says "this is history". -->
-<!-- wp:group {"tagName":"main","className":"maars-main maars-index","style":{"spacing":{"padding":{"top":"2rem","bottom":"3rem","left":"1rem","right":"1rem"},"blockGap":"1.75rem"}},"layout":{"type":"constrained"}} -->
+<!-- THE FALLBACK — revision 2.
+
+     It serves standing pages, news posts, search results, term listings and anything
+     with no more specific template, so it has to read well as one item and as a
+     list. That is why the loop inherits the main query and renders post-content
+     rather than an excerpt: on /about/ this template is the page.
+
+     What changed in this revision:
+
+     THE DATELINE STOPPED SHOUTING. "PUBLISHED" and "LAST TOUCHED" were set in the
+     data face in capitals with 0.12em of tracking, over a 2px navy rule, above a
+     heading — three competing voices before a single word of the entry. They are now
+     two quiet words at the body size, and the whole line is in the reading face:
+     "16 January 2024" is a written date, and a written date is not a log column.
+
+     ONE RULE PER ENTRY. The meta line drew a 2px rule and the entry drew a hairline
+     underneath itself, so every item on the page was fenced top and bottom. The
+     hairline between entries is the only rule here now.
+
+     THE YEAR TERM CAME OFF. It printed "2023" beside a date that already said 2023,
+     in capitals, in magenta.
+
+     ONE LEFT EDGE. The layout is flow rather than constrained: WordPress's
+     constrained layout writes margin-left/right:auto on every direct child, and
+     maars.css caps a paragraph at the reading measure, so the two together centred
+     each paragraph under a heading that stayed at the left edge. -->
+<!-- CSS CONTRACT, shared with maars.css:
+       .maars-entry            draws the hairline BETWEEN entries and nothing else.
+       .maars-entry__when      the dateline row. Tabular figures, no data FACE: a
+                               written date is a sentence, not a column.
+                               (.maars-entry__meta, which sets the whole row in Fira
+                               Code, is deliberately not used any more.)
+       .maars-fieldname        a field name. Sentence case, note size, weight 400.
+                               NOT .maars-label, which maars.css sets in capitals.
+       .maars-log__pagination  48px targets on a and .page-numbers, and
+                               .page-numbers.current a filled block, not a heavier
+                               weight. The page numbers are figures and stay
+                               tabular; "Newer entries" and "Older entries" are
+                               words, which is why this control does not carry
+                               .maars-index__pagination — that class sets the whole
+                               thing in the data face. -->
+<!-- wp:group {"tagName":"main","className":"maars-main maars-index","style":{"spacing":{"padding":{"top":"2rem","bottom":"3rem","left":"1rem","right":"1rem"},"blockGap":"1.75rem"}},"layout":{"type":"default"}} -->
 <main class="wp-block-group maars-main maars-index" style="padding-top:2rem;padding-right:1rem;padding-bottom:3rem;padding-left:1rem">
 
 	<!-- wp:query-title {"type":"archive","level":1,"showPrefix":false,"className":"maars-index__title","style":{"typography":{"fontSize":"clamp(2rem, 1.6rem + 2vw, 2.875rem)","lineHeight":"1.15"}},"textColor":"navy"} /-->
@@ -17,70 +50,86 @@
 
 	<!-- wp:term-description {"className":"maars-index__termdesc","style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.6"}}} /-->
 
-	<!-- wp:query {"queryId":31,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true,"taxQuery":null,"parents":[],"format":[]},"className":"maars-index__loop maars-log","layout":{"type":"default"}} -->
-	<div class="wp-block-query maars-index__loop maars-log">
+	<!-- wp:query {"queryId":31,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true,"taxQuery":null,"parents":[],"format":[]},"className":"maars-index__loop","layout":{"type":"default"}} -->
+	<div class="wp-block-query maars-index__loop">
 
-		<!-- wp:post-template {"className":"maars-index__list","style":{"spacing":{"blockGap":"3rem"}},"layout":{"type":"default"}} -->
+		<!-- Why this list is a constrained layout at 100%: WordPress wraps every entry
+		     of a loop in an <li>, and maars.css caps every li inside .maars-main at the
+		     68ch reading measure, because an li is usually a line of prose. An entry is
+		     not. Left as it was, each entry was cropped to 68ch and pinned to the left
+		     of the column with a dead gutter beside it. Declaring the layout here makes
+		     WordPress print a rule of its own for this container — max-width:100% on
+		     each child, at class specificity — which beats the reading measure without
+		     an !important anywhere. -->
+		<!-- wp:post-template {"className":"maars-index__list","style":{"spacing":{"blockGap":"0rem"}},"layout":{"type":"constrained","contentSize":"100%","wideSize":"100%"}} -->
 
-			<!-- wp:group {"tagName":"article","className":"maars-entry","style":{"spacing":{"blockGap":"1rem"}},"layout":{"type":"constrained"}} -->
+			<!-- wp:group {"tagName":"article","className":"maars-entry","style":{"spacing":{"blockGap":"0.85rem"}},"layout":{"type":"default"}} -->
 			<article class="wp-block-group maars-entry">
 
-				<!-- Dates are shown on everything, including standing pages. A page that will not
-				     say when it was last touched is a page asking to be believed on trust, and
-				     that is precisely how the old site came to look current two years after it
-				     stopped. The line is set in the data face with tabular figures, so 01 and 12
-				     take the same width and a zero is never read as an O. -->
-				<!-- wp:group {"tagName":"div","className":"maars-entry__meta maars-log__line","style":{"spacing":{"blockGap":"1.5rem","padding":{"bottom":"0.5rem"}},"border":{"bottom":{"color":"#00008C","width":"2px","style":"solid"}},"typography":{"fontSize":"1.125rem","lineHeight":"1.4"}},"fontFamily":"data","layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"bottom"}} -->
-				<div class="wp-block-group maars-entry__meta maars-log__line has-data-font-family" style="border-bottom-color:#00008C;border-bottom-style:solid;border-bottom-width:2px;font-size:1.125rem;line-height:1.4;padding-bottom:0.5rem">
+				<!-- Dates are shown on everything, including standing pages. A page that
+				     will not say when it was last touched is a page asking to be believed
+				     on trust, and that is precisely how the old site came to look current
+				     two years after it stopped. "16 January 2024" is a written date and
+				     not a log column, so it stays in the reading face; the row keeps
+				     tabular numerals through .maars-log__line so the figures still line
+				     up between one entry and the next. The archive's own list is the
+				     place for "16 Jan 2024" in Fira Code, because there it is a column. -->
+				<!-- wp:group {"tagName":"div","className":"maars-entry__when maars-log__line","style":{"spacing":{"blockGap":"0.6rem"},"typography":{"fontSize":"1.125rem","lineHeight":"1.5"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"bottom"}} -->
+				<div class="wp-block-group maars-entry__when maars-log__line" style="font-size:1.125rem;line-height:1.5">
 
-					<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","textTransform":"uppercase"}},"textColor":"navy"} -->
-					<p class="maars-label maars-log__label has-navy-color has-text-color" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase">Published</p>
+					<!-- wp:paragraph {"className":"maars-fieldname","style":{"typography":{"fontSize":"1.125rem","fontWeight":"400","letterSpacing":"0","lineHeight":"1.5","textTransform":"none"}},"textColor":"ink"} -->
+					<p class="maars-fieldname has-ink-color has-text-color" style="font-size:1.125rem;font-weight:400;letter-spacing:0;line-height:1.5;text-transform:none">Published</p>
 					<!-- /wp:paragraph -->
 
-					<!-- wp:post-date {"format":"d M Y","isLink":false,"className":"maars-log__value","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.4"}},"textColor":"ink"} /-->
+					<!-- wp:post-date {"format":"j F Y","isLink":false,"className":"maars-entry__date","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.5"}},"textColor":"ink"} /-->
 
-					<!-- wp:paragraph {"className":"maars-label maars-log__label","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","textTransform":"uppercase"}},"textColor":"navy"} -->
-					<p class="maars-label maars-log__label has-navy-color has-text-color" style="font-size:1.125rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase">Last touched</p>
+					<!-- wp:paragraph {"className":"maars-fieldname","style":{"typography":{"fontSize":"1.125rem","fontWeight":"400","letterSpacing":"0","lineHeight":"1.5","textTransform":"none"}},"textColor":"ink"} -->
+					<p class="maars-fieldname has-ink-color has-text-color" style="font-size:1.125rem;font-weight:400;letter-spacing:0;line-height:1.5;text-transform:none">Last touched</p>
 					<!-- /wp:paragraph -->
 
-					<!-- wp:post-date {"format":"d M Y","isLink":false,"displayType":"modified","className":"maars-entry__updated maars-log__value","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.4"}},"textColor":"ink"} /-->
-
-					<!-- wp:post-terms {"term":"maars_year","prefix":"","separator":", ","className":"maars-entry__year maars-log__value","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.4"}}} /-->
+					<!-- wp:post-date {"format":"j F Y","isLink":false,"displayType":"modified","className":"maars-entry__updated","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.5"}}} /-->
 
 				</div>
 				<!-- /wp:group -->
 
-				<!-- wp:post-title {"level":1,"isLink":true,"className":"maars-entry__title","style":{"typography":{"fontSize":"clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem)","lineHeight":"1.2"}},"textColor":"navy"} /-->
+				<!-- LEVEL 2, NOT 1. This block sits inside a loop, and a loop renders it
+				     once per entry: at level 1 a ten-item listing shipped eleven <h1>s, so
+				     a reader navigating by heading heard "heading level one" eleven times
+				     and learned nothing about the shape of the page. Measured at 1440px:
+				     eleven h1 elements before this change, one after it. The size is set
+				     inline and does not move — this is a structure change, not a visual
+				     one. When this template serves a single page or post the loop runs
+				     once and that one title IS the page title, so functions.php promotes
+				     it back to <h1> for that case only; see
+				     maars_theme_promote_singular_entry_title(). -->
+				<!-- wp:post-title {"level":2,"isLink":true,"className":"maars-entry__title","style":{"typography":{"fontSize":"clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem)","lineHeight":"1.2"}},"textColor":"navy"} /-->
 
-				<!-- ALT TEXT REQUIRED. One sentence describing the photograph, naming what is
-				     happening rather than repeating the post title. The old site carried 1,154
-				     images with no alt text; do not add the 1,155th. -->
+				<!-- ALT TEXT REQUIRED. One sentence describing the photograph, naming what
+				     is happening rather than repeating the post title. The old site carried
+				     1,154 images with no alt text; do not add the 1,155th. -->
 				<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"16/9","className":"maars-entry__image"} /-->
 
-				<!-- wp:post-content {"className":"maars-entry__body","layout":{"type":"constrained"}} /-->
+				<!-- wp:post-content {"className":"maars-entry__body","layout":{"type":"default"}} /-->
 
 			</article>
 			<!-- /wp:group -->
 
 		<!-- /wp:post-template -->
 
-		<!-- wp:spacer {"height":"2rem"} -->
-		<div style="height:2rem" aria-hidden="true" class="wp-block-spacer"></div>
-		<!-- /wp:spacer -->
-
-		<!-- Words, not bare chevrons, and the same words the archive uses, because a reader who
-		     has learned "Older" and "Newer" once should not have to learn them again.
-		     CSS contract: .maars-index__pagination a and .page-numbers are 48px minimum on both
-		     axes, and .page-numbers.current is a filled block rather than a heavier weight,
-		     so the page you are on can be seen without comparing it to its neighbours. -->
-		<!-- wp:query-pagination {"paginationArrow":"none","showLabel":true,"className":"maars-index__pagination maars-log__pagination","style":{"spacing":{"blockGap":"1rem"},"typography":{"fontSize":"1.25rem","fontWeight":"600"}},"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
-			<!-- wp:query-pagination-previous {"label":"Newer"} /-->
-			<!-- wp:query-pagination-numbers {"midSize":2} /-->
-			<!-- wp:query-pagination-next {"label":"Older"} /-->
+		<!-- Words, not bare chevrons, and the same manners the archive uses, because a
+		     reader who has learned "Older" and "Newer" once should not have to learn
+		     them again. "Entries" rather than "posts" because this template also serves
+		     pages, search results and term listings. -->
+		<!-- wp:query-pagination {"paginationArrow":"none","showLabel":true,"className":"maars-log__pagination","style":{"spacing":{"blockGap":"1rem","padding":{"top":"1.25rem"}},"border":{"top":{"color":"#D7D7E4","width":"1px","style":"solid"}},"typography":{"fontSize":"1.25rem","fontWeight":"600"}},"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
+			<!-- wp:query-pagination-previous {"label":"Newer entries"} /-->
+			<!-- The page numbers are figures, so they are the one part of this
+			     control in the data face; the words either side of them are words. -->
+			<!-- wp:query-pagination-numbers {"midSize":2,"fontFamily":"data"} /-->
+			<!-- wp:query-pagination-next {"label":"Older entries"} /-->
 		<!-- /wp:query-pagination -->
 
-		<!-- Serves both an empty search and a missing page. It refuses to end on a dead end:
-		     the archive and the reflector are both one click away. -->
+		<!-- Serves both an empty search and a missing page. It refuses to end on a dead
+		     end: the archive and the reflector are both one click away. -->
 		<!-- wp:query-no-results -->
 
 			<!-- wp:heading {"level":2,"className":"maars-empty__title","style":{"typography":{"fontSize":"1.5rem","lineHeight":"1.25"}},"textColor":"magenta"} -->

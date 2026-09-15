@@ -5,11 +5,43 @@
  * THE IDEA
  * Amateur radio is a record-keeping culture. Every contact is logged: date,
  * time in UTC, callsign, frequency, mode. This Society's 48-year archive is a
- * logbook, so the site is built as a station log — a short panel of what is
- * true NOW, each fact carrying when it was last checked, and beneath it the
- * RECORD. The one memorable device is the log line (section 5). Everything
- * else is deliberately quiet: no gradients, no drop shadows beyond a hairline,
- * 2px radius used sparingly, no decorative numbering.
+ * logbook, so the site states what is true NOW, each fact carrying when it was
+ * last checked, and then the record. The one bold element is the propagation
+ * scene; everything else is deliberately quiet.
+ *
+ * WHAT REVISION 2 CHANGED, AND WHY. Revision 1 shipped and was measured.
+ *
+ *   NO SHOUTED LABELS. Every tracked-out capitalised eyebrow is gone —
+ *   STANDING FACTS, NEXT MEETING, MEETING, REPEATER, NET, COMPUTED, SOURCED,
+ *   THE RECORD. A label that earns its place is sentence case, quieter ink and
+ *   no letter-spacing, and it is never larger than the value it labels. Most
+ *   of them turned out not to earn it: the heading above a block already says
+ *   what the block is, so the label was deleted rather than restyled.
+ *
+ *   RULES, NOT BOXES. A hairline between two rows says the same thing a border
+ *   round each of them says, in one line instead of eight, and it does not
+ *   nest. Revision 1 was a tinted panel holding white cards holding bordered
+ *   chips: three frames deep before a reader reached a fact. At most one
+ *   bordered container per screen now, and only where it genuinely holds
+ *   something apart (the archive's filter panel). No dashed edges anywhere: a
+ *   dash reads as unfinished, not as provisional.
+ *
+ *   THE PROVENANCE LINE IS FURNITURE. One quiet line under the value —
+ *   "Sourced. Last checked January 12, 2024 — 977 days ago." — in the same
+ *   quiet ink as any other note. Colour only when the fact is genuinely stale,
+ *   and the grade word carries the meaning on its own, so nothing is lost in
+ *   greyscale or to a reader who cannot see the hue.
+ *
+ *   THE DATA FACE IS FOR FIGURES. Fira Code goes on .maars-fig and on <code>,
+ *   which is callsigns, frequencies, tones, offsets, counts and money. A prose
+ *   date is a sentence and stays in the reading face.
+ *
+ *   ONE SPACING SCALE. Section 1b declares five steps and this file uses no
+ *   other vertical length. A component owns the space inside itself; the band
+ *   it sits in owns the space around it. Nothing pads a padded thing.
+ *
+ *   ONE COLUMN. Section 3 is the whole layout: a centred column, one left
+ *   edge, one right edge, at every width.
  *
  * AUDIENCE
  * Licensed amateurs aged 30 to 90, read on phones in parking lots and on iPads
@@ -29,24 +61,30 @@
  *          navy #9FA0F2 8.12:1 · magenta #F09FD0 9.78:1 · rust #F2A07A 9.33:1
  *          lavender band #23234A carries ink at 12.80:1
  *
- * COLOUR IS NEVER THE SIGNAL. A freshness grade is carried by three redundant
- * channels: (1) the word — Measured / Sourced / Unverified; (2) the band —
- * solid fill / outlined / no fill, which stay apart in greyscale; (3) a marker
- * whose border style differs (solid box, outlined box, dashed box). Hue is
- * redundancy only, because under deuteranopia magenta and rust converge.
- * An UNVERIFIED chip is an honest label, not a warning siren, and is styled
- * as one.
+ * COLOUR IS NEVER THE SIGNAL. A freshness grade is carried by the WORD —
+ * Measured, Sourced, Unverified — spelled out in the reading face at the head
+ * of the provenance line. Revision 1 carried it in three drawn channels as
+ * well (a fill, a frame, a marker box) and the result was a chip that shouted
+ * at a reader about a fact nobody had re-measured. The word survives
+ * greyscale, deuteranopia, a photocopier and a screen reader, and it is the
+ * only channel this file relies on. Hue is used once, for the stale state, and
+ * never alone: a stale line also says "Unverified", or prints a date years
+ * old, or says "No check on record".
  *
  * CLASS VOCABULARY. Every selector here is a class something actually emits:
  * the render callbacks in maars-core/inc/blocks.php, the block templates in
  * ../../templates and ../../parts, or the log-line contract documented in
  * section 5. Nothing here styles a name no file writes.
  *
- * !important POLICY. Two places, both commented at the point of use, and
- * nowhere else:
- *   1. the prefers-reduced-motion kill switch, which has to beat an inline
+ * !important POLICY. Three places, in file order, each commented at the point
+ * of use, and nowhere else. Every one of them is beating an !important or an
+ * inline style that this file cannot reach on specificity:
+ *   1. section 3's flush-left rule, because WordPress's constrained layout
+ *      centres a block with `margin-left: auto !important` and a reading
+ *      measure is a cap on a line, not an instruction to centre a column;
+ *   2. the prefers-reduced-motion kill switch, which has to beat an inline
  *      animation a block or the editor brought with it;
- *   2. the dark band at the end of this file, because WordPress prints its
+ *   3. the dark band at the end of this file, because WordPress prints its
  *      preset colour utilities (.has-ink-background-color and friends) with
  *      !important of its own, and there is no other way to keep a dark band
  *      dark in both colour schemes without styling a component inside a media
@@ -195,6 +233,10 @@
 	--maars-band-edge: transparent; /* the band needs no frame on a pale page */
 	--maars-on-band: #ffffff;       /* text on the dark band        18.03:1 */
 	--maars-on-band-link: #dbdbfb;  /* links on the dark band       13.34:1 */
+	/* The quiet ink on the dark band. --maars-meta there measures 2.08:1 and
+	   rust 2.17:1, so a provenance line printed in either would be the same
+	   class of failure this file exists to keep out. */
+	--maars-on-band-meta: #b9bdd8;  /* notes on the dark band        9.73:1 */
 	--maars-space: #05050f;         /* letterbox behind the WebGL2 canvas */
 
 	/* --- Focus. 3px navy, 2px offset, never removed. The halo is a second
@@ -219,17 +261,39 @@
 	--maars-text-h3: clamp(1.3125rem, 1.22rem + 0.46vw, 1.625rem);
 	--maars-text-h2: clamp(1.5rem, 1.33rem + 0.86vw, 2.125rem);
 	--maars-text-h1: clamp(1.875rem, 1.56rem + 1.6vw, 3rem);
-	/* Secondary prose — a chip, a caption, a provenance note. Flat 18px: it is
-	   the floor, and it is never allowed to drift under it to make room. */
+	/* Secondary prose — a caption, a provenance line, a footnote. Flat 18px: it
+	   is the floor, and it is never allowed to drift under it to make room. */
 	--maars-text-note: 1.125rem;
-	/* SHORT uppercase field labels only — MEETING, DATE, COMPUTED. Never a
-	   sentence: a sentence uses --maars-text-note or --maars-text-body. */
-	--maars-text-label: 1rem;
+	/*
+	 * A field label: "Date", "Callsign", "Next meeting". Also 18px, because the
+	 * floor is the floor and a label is text a 78-year-old has to read. It is
+	 * made quiet by CASE, WEIGHT and INK — sentence case, 600, meta — and never
+	 * by shrinking it under the floor or tracking it out into capitals. It is
+	 * always smaller than the value it labels, because the value is 20px body
+	 * or larger.
+	 */
+	--maars-text-label: 1.125rem;
 	--maars-leading: 1.65;
 	--maars-measure: 68ch;          /* 66–72ch */
 
-	/* --- Space, shape, motion -------------------------------------------- */
+	/* --- Space. ONE scale, and the only vertical lengths in this file. ----
+	 *
+	 * Revision 1 had no scale: a band padded 2.75rem held a card padded 1.35rem
+	 * holding a chip padded 0.45rem, and every one of those was a clamp() of
+	 * its own. The homepage came out 6,363px tall for about a screen and a half
+	 * of information. The rule now is that a component owns the space INSIDE
+	 * itself and nothing else, the band it sits in owns the space AROUND it,
+	 * and both of them spend it out of these five steps.
+	 */
+	--maars-space-1: 0.35rem;   /* a line and the line under it */
+	--maars-space-2: 0.6rem;    /* inside a row */
+	--maars-space-3: 1rem;      /* between rows */
+	--maars-space-4: 1.5rem;    /* between a block and the next block */
+	--maars-space-5: clamp(1.5rem, 1.25rem + 1vw, 2rem);   /* between bands */
+
+	/* --- Shape, measure, motion ------------------------------------------ */
 	--maars-gutter: clamp(1rem, 0.6rem + 2vw, 2rem);
+	--maars-column: 72rem;          /* the one column; see section 3 */
 	--maars-radius: 2px;
 	--maars-target: 48px;
 	--maars-hairline: 1px;
@@ -279,6 +343,7 @@
 		--maars-band-edge: #3d3d63;
 		--maars-on-band: #ededf7;   /* 15.52:1 on the band */
 		--maars-on-band-link: #dbdbfb; /* 13.36:1 — the light lavender, not the band */
+		--maars-on-band-meta: #b9bdd8; /* 9.74:1 on the band */
 		--maars-space: #05050f;
 
 		--maars-focus: #9fa0f2;     /* still navy — the dark variant. 8.12:1 on ground */
@@ -362,6 +427,30 @@
 	max-width: 100%;
 }
 
+/*
+ * The visually-hidden class. maars-core/inc/blocks.php names this as "the
+ * theme's visually-hidden class" and puts the label a screen reader is still
+ * owed inside it — "Next meeting: " before the computed date, now that the
+ * printed eyebrow is gone. WordPress ships a .screen-reader-text of its own in
+ * the block library, but a theme whose markup depends on a class must define
+ * it: if that stylesheet is ever dequeued, the label must go quiet, not land
+ * in the middle of the page.
+ *
+ * clip-path, not display:none and not width:0 — the text has to stay in the
+ * accessibility tree and stay reachable to a screen reader's cursor.
+ */
+.screen-reader-text {
+	border: 0;
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
 /* A table or a code block may be wider than the page; it gets its own scroller
    so the document body never does. */
 :where(.maars-main) :where(pre, table) {
@@ -406,11 +495,17 @@
 /*
  * 48px targets wherever a finger is expected. The brief's floor, and the
  * reason it is 48 and not 44: a 70-year-old thumb on a bus.
+ *
+ * A LINK INSIDE A SENTENCE IS NOT IN THIS LIST. "Check <a>meetings and
+ * events</a> before you rely on it" is prose, and giving that anchor a 48px
+ * box would open a hole in the line it sits in and push the sentence apart.
+ * WCAG 2.5.5 exempts an inline link for exactly that reason. What is in the
+ * list is everything a reader aims at: navigation, buttons, pagination, a term
+ * in a facet list, an entry's title, the masthead, a breadcrumb.
  */
 :where(.wp-block-navigation) :where(a, button),
 .maars-skywave__control,
 :where(.maars-main, .maars-footer) :where(.wp-block-button__link, .wp-element-button),
-:where(.maars-archive__pagination, .maars-index__pagination) :where(a, .page-numbers),
 :where(.maars-dateline, .maars-next-meeting, .maars-fact, .maars-skywave)
 	:where(button, [role="button"], summary) {
 	align-items: center;
@@ -419,6 +514,37 @@
 	min-height: var(--maars-target);
 	min-width: var(--maars-target);
 	padding-inline: 0.9rem;
+}
+
+/*
+ * And the targets that are text rather than controls: the masthead, an entry's
+ * title in a list, a term, a breadcrumb, the link out of a log row. These get
+ * the 48px height and nothing else — no centring, no minimum width and no side
+ * padding, because each one is a line of type that has to start where the type
+ * around it starts. The height is what a finger needs; the rest would move the
+ * words.
+ */
+.maars-wordmark__name a,
+.maars-entry__title a,
+.maars-index__title a,
+.maars-log__title a,
+.maars-log__kind a,
+.maars-doc-record__kind a,
+.maars-doc-record__yearterm a,
+.maars-breadcrumb a,
+.maars-doc-record__back a,
+.maars-doc-nav a,
+.maars-news__more a,
+/* The one link out of the on-the-air section. Measured at 1440px before it was
+   added here: 565 x 27px, the only control on the front page under the 48px
+   floor — everything else on that page already cleared it. It is a standalone
+   line of type, so it belongs in this list rather than in the control list
+   above. */
+.maars-onair__more a,
+.maars-termlist a {
+	align-items: center;
+	display: inline-flex;
+	min-height: var(--maars-target);
 }
 
 /* Form controls in the archive filters are targets too, and a 16px input is
@@ -430,30 +556,114 @@
 }
 
 /* ---------------------------------------------------------------------------
- * 3. The gutter. One rule, one token, one declaration — the only side padding
- *    this stylesheet sets on a page-level wrapper. Everything below inherits
- *    the inset instead of inventing its own, which is what keeps the page from
- *    scrolling sideways at 390px.
+ * 3. THE COLUMN. One centred column, one left edge, one right edge, at every
+ *    width. This section is the whole layout.
+ *
+ * THE BUG THIS FIXES. Revision 1's archive page sat left of centre with a dead
+ * gutter down the right-hand side, and the cause was two column widths on one
+ * page. WordPress's constrained layout gives a band's children
+ * `max-width: var(--wp--style--global--content-size)` with auto side margins,
+ * while a band marked alignwide gets the much larger wide-size. So the
+ * masthead's text was centred inside a 68ch column starting 241px in, and the
+ * filter panel and the log beneath it started at 64px and ran to 1216px. Two
+ * left edges, 177px apart, and a right-hand gutter that belonged to neither.
+ *
+ * Worse, content-size was declared in `ch`, which resolves against each
+ * element's OWN font size: the 18px eyebrow measured 735px and the 20px lede
+ * measured 797px, so even the centred column had a ragged right edge.
+ *
+ * THE FIX. Both layout sizes become 100%, so every band and every child of a
+ * band fills the one column that .maars-main establishes, and WordPress's auto
+ * side margins resolve to zero because nothing is narrower than its parent any
+ * more. Text is held to a reading measure by section 2 instead — a cap on the
+ * paragraph, not a centring of it, so a paragraph starts at the same left edge
+ * as the heading above it. `:root:root` is 0-2-0 and beats the `:root` block
+ * WordPress prints these in, whichever order the two stylesheets load in.
+ *
+ * functions.php passes this file to add_editor_style(), so these two lines also
+ * take effect inside the block editor. That is intended: the editor then lays a
+ * band out the way a visitor will see it. Anyone who wants the editor's content
+ * width back changes it here, in one place, and gets the front end with it.
  * ------------------------------------------------------------------------- */
 
+:root:root {
+	--wp--style--global--content-size: 100%;
+	--wp--style--global--wide-size: 100%;
+}
+
+/*
+ * THE SIDE INSET. The header and footer bands are full-bleed, so the hairline
+ * that closes each of them runs the width of the window; main is the column
+ * itself. Each of the three is inset by one gutter, and nothing inside them
+ * adds a second one.
+ */
 .maars-header,
 .maars-main > *,
 .maars-footer {
 	padding-inline: var(--maars-gutter);
 }
 
+.maars-main {
+	margin-inline: auto;
+	max-width: var(--maars-column);
+	width: 100%;
+}
+
 /*
- * And one column cap. It is set on .maars-main itself rather than on each band
- * inside it, so a paragraph that also carries its own reading measure starts
- * at the gutter instead of being centred inside the cap — which is what
- * happens when the same element is handed both `margin-inline: auto` and a
- * max-width narrower than its parent.
+ * And the cap, which is the part revision 1 had wrong. The content of the
+ * header and of the footer is capped to the COLUMN MINUS ITS GUTTERS — that
+ * is, to exactly the width of main's content — so the masthead, every band on
+ * the page and the colophon share one left edge and one right edge at every
+ * viewport width. Capping them to the full column instead, as revision 1 did,
+ * put the footer's columns a whole gutter to the left of everything above
+ * them: a 32px step at the bottom of every page.
+ *
+ * `width: 100%` matters: without it a grid or flex parent can size one of
+ * these to its content and the auto margins then centre a column narrower than
+ * the page, which is the defect at the head of this section in miniature.
  */
-.maars-main,
 .maars-header > *,
 .maars-footer > * {
 	margin-inline: auto;
-	max-width: 74rem;
+	max-width: calc(var(--maars-column) - 2 * var(--maars-gutter));
+	width: 100%;
+}
+
+/*
+ * A band's own content also fills the band. This repeats the fix above for the
+ * case where WordPress's layout stylesheet is not present at all — the
+ * standalone harnesses in tests/ load this file with no WordPress around it —
+ * and it is written with :where() so that any component rule below, and any
+ * reading measure, still wins.
+ */
+:where(.maars-main, .maars-header, .maars-footer)
+	:where(.is-layout-constrained, .is-layout-flow, .wp-block-column)
+	> :where(div, section, aside, figure, form, ul, ol, nav, h1, h2, h3, h4, hr) {
+	max-width: 100%;
+}
+
+/*
+ * AND THE LEFT EDGE ITSELF. The first of this file's three !important
+ * declarations, and the one that finishes the defect described above.
+ *
+ * WordPress's constrained layout does not only cap a child's width, it centres
+ * it: `margin-left: auto !important; margin-right: auto !important`, with the
+ * !important in core, where it has been since 5.9. So the moment a paragraph
+ * carries a reading measure of its own — which every paragraph on this site
+ * does, because a 1,088px line is unreadable — that paragraph is centred
+ * inside its band while the heading above it is not, and the page grows a
+ * second left edge and a dead gutter down the right. That is precisely the
+ * defect: on the archive the heading sat at 112px, the lede at 207px and the
+ * document list at 80px. Three left edges on one page.
+ *
+ * A measure is a CAP on a line of text, not an instruction to centre a block,
+ * and there is no way to say so over an !important except with one. So: inside
+ * the three page regions, a child of a constrained container is flush. Its
+ * measure still holds, because this touches margins and nothing else.
+ */
+.maars-main > *,
+:is(.maars-main, .maars-header, .maars-footer) :where(.is-layout-constrained) > * {
+	margin-inline: 0 !important;
 }
 
 /* ---------------------------------------------------------------------------
@@ -476,14 +686,18 @@
 }
 
 /* ===========================================================================
- * 5. THE LOG LINE — the signature.
+ * 5. THE LOG LINE.
  *
- * One recurring row in real logbook conventions: fixed columns, the data face,
- * tabular figures, slashed zeros, a hairline between entries. It carries the
- * archive index, the record strip on a single document, the computed meeting
- * and the freshness chip. It is not decoration — it encodes that this Society
- * keeps records — and it is the one place in this stylesheet where boldness is
- * spent. Everything else stays quiet.
+ * One recurring row in real logbook conventions: fixed columns, tabular
+ * figures, slashed zeros, a hairline between entries. It carries the archive
+ * index and the record strip on a single document. It encodes that this
+ * Society keeps records, and it does it with rules and alignment rather than
+ * with boxes. The one bold element on the site is the propagation scene in
+ * section 9; a log row that competed with it would be a log row calmed.
+ *
+ * It no longer carries the computed meeting or the freshness chip. Both were
+ * facts dressed as table rows, under labels in capitals, and neither is a row
+ * in a list of anything. See sections 6 and 8.
  *
  * ---------------------------------------------------------------------------
  * THE VOCABULARY, which is shared with maars-core/inc/blocks.php (which
@@ -496,24 +710,24 @@
  *     .maars-log__head    the ruled column head. Hidden below the breakpoint,
  *                         where each field labels itself instead.
  *     .maars-log__col     one heading in that head (+ --col-date, --col-type,
- *                         --col-title, --col-file).
+ *                         --col-title).
  *     .maars-log__entries the list the rows sit in.
  *     .maars-log__row     one entry. Grid, aligned to the head above it.
- *     .maars-log__date · __type · __title · __file    the four fields.
+ *     .maars-log__date, __kind, __title    the three fields.
+ *     .maars-log__pagination  the numbered control under the list.
  *
  *   A LABELLED LINE — one record, a field at a time. Usable standalone: the
- *   freshness chip is a single line with no .maars-log ancestor, so NONE of
- *   the line rules are scoped under .maars-log.
- *     .maars-log__line    one line.
- *     .maars-log__label   the narrow first column: what the line is.
- *     .maars-log__value   the wide column: the value.
- *     .maars-log__note    the quiet trailing column: when it was last checked.
+ *   skywave band list is a group of these with no .maars-log__row anywhere, so
+ *   NONE of the line rules are scoped under .maars-log.
+ *     .maars-log__line    one line. The field name inside it is a
+ *                         .maars-fieldname; the value is whatever the template
+ *                         puts there.
  *     .maars-log__header  a strip of such lines above a document.
  *     .maars-log__cell    one label-over-value pair inside that strip.
  *
  * Column widths are a custom property, so a template sets its own shape
  * without a new class: --maars-log-columns on the .maars-log element. The
- * default is the archive's — date, type, document, original file.
+ * default is the archive's — date, type, document.
  *
  * The figure span, .maars-fig, is emitted by the plugin around every callsign,
  * frequency, tone, offset, date, day count and dollar amount. It is what puts
@@ -521,64 +735,74 @@
  * ======================================================================== */
 
 /*
- * THE FIGURE. Fira Code, because its zero is natively slashed — the Society
- * writes its callsign KSØMAN and the type honours it — and tabular, because a
- * column of figures that does not line up is a column nobody checks.
+ * THE FIGURE, and the whole of the data face.
+ *
+ * Fira Code, because its zero is natively slashed — the Society writes its
+ * callsign KSØMAN and the type honours it — and tabular, because a column of
+ * figures that does not line up is a column nobody checks.
+ *
+ * A FIGURE IS A CALLSIGN, A FREQUENCY, A TONE, AN OFFSET, A GRID SQUARE, A
+ * COUNT OR AN AMOUNT OF MONEY. It is nothing else. Revision 1 put the data
+ * face on whole elements — the archive's Date and Type columns, the news date,
+ * the band list, the computed meeting — and the result was prose set in a
+ * monospace: "Friday, October 9, 2026 at 6:30 P.M." reading like a part
+ * number, and the word "Minutes" reading like a file name. A date written out
+ * in words is a sentence.
+ *
+ * So the face is applied to two things and no others: .maars-fig, the span the
+ * plugin wraps a figure in, and <code>, which is what a template writes round
+ * a figure inside a sentence. <time> is deliberately NOT in this list: a
+ * <time> holds "January 12, 2024", which is prose with a machine-readable
+ * attribute attached, and the plugin marks the figures inside it itself.
  */
 .maars-fig,
-.maars-log__date,
-.maars-log__type,
-.maars-log__file,
-.maars-log__col,
-.maars-log__label,
-.maars-wordmark__call,
-.maars-doc-record__date,
-.maars-doc-record__type,
-.maars-doc-record__year,
-.maars-doc__type,
-.maars-entry__year,
-.maars-news__date,
-.maars-original__file,
-.maars-original__format,
-.maars-original__size,
-.maars-skywave__band,
-.maars-skywave__control {
+:where(.maars-main, .maars-header, .maars-footer) :where(code, kbd) {
+	font-family: var(--maars-font-data);
+	font-size: 1em;
+	font-variant-numeric: slashed-zero tabular-nums;
+	font-feature-settings: "zero" 1, "tnum" 1;
+}
+
+/* The callsign in the masthead is a figure that happens to be the identity. */
+.maars-wordmark__call {
 	font-family: var(--maars-font-data);
 	font-variant-numeric: slashed-zero tabular-nums;
 	font-feature-settings: "zero" 1, "tnum" 1;
 }
 
 /*
- * Figures stay tabular and slashed even in the text face, so a frequency
- * inside a sentence still reads as a frequency. (.maars-log__value is not
- * given the data FACE here: in the record strip the template already asks for
- * it through theme.json's `data` preset, and in the freshness chip the value
- * is a sentence, which belongs in the reading face.)
+ * A record locator — the name, format and size of the original file in the
+ * archive — is a figure in the logbook sense: it is copied, compared and typed
+ * back in, so it is set in the face that makes a zero a zero.
+ */
+.maars-original__file {
+	font-family: var(--maars-font-data);
+	font-variant-numeric: slashed-zero tabular-nums;
+	font-feature-settings: "zero" 1, "tnum" 1;
+}
+
+/*
+ * Everything else that holds a number keeps the tabular, slashed FIGURES
+ * without changing FACE, so a year in a list still lines up with the year
+ * under it and a zero is still never an O, while the words around it stay in
+ * the reading face where they belong.
  */
 .maars-log,
 .maars-log__line,
-.maars-log__value,
+.maars-log__date,
 .maars-dateline__headline,
 .maars-dateline__detail,
-.maars-next-meeting,
-.maars-fact__detail,
-.maars-fact__checked,
-.maars-logline__value,
-.maars-logline__note,
-.maars-entry__meta,
+.maars-next-meeting__date,
+.maars-next-meeting__rule,
+.maars-fact__chip,
+.maars-entry__date,
+.maars-news__date,
+.maars-doc-record__date,
+.maars-skywave__band,
+.maars-skywave__control,
+.maars-spec,
+.maars-termlist,
 .maars-lastreviewed__line {
-	font-variant-numeric: slashed-zero tabular-nums;
-	font-feature-settings: "zero" 1, "tnum" 1;
-}
-
-/*
- * A date is a <time> and a figure is a <code>, wherever they appear. Both go
- * into the data face, at the size of the sentence around them and with no
- * box: a frequency inside a paragraph is a figure, not a code sample.
- */
-:where(.maars-main, .maars-header, .maars-footer) :where(time, code, kbd) {
-	font-family: var(--maars-font-data);
-	font-size: 1em;
 	font-variant-numeric: slashed-zero tabular-nums;
 	font-feature-settings: "zero" 1, "tnum" 1;
 }
@@ -593,13 +817,21 @@
  * ------------------------------------------------------------------------- */
 
 .maars-log {
-	/* date | type | document | original file — the archive's shape, and the
-	   default. A template with different fields sets its own value. */
-	--maars-log-columns: 9rem 11rem minmax(0, 1fr) 15rem;
-	--maars-log-gap: clamp(0.75rem, 0.45rem + 1.1vw, 1.5rem);
-	/* Opt-in fixed label column for .maars-log__line groups; auto by default,
-	   because a chip's label is as wide as its word. */
-	--maars-log-label: auto;
+	/*
+	 * date | type | document — the archive's shape, and the default. A template
+	 * with different fields sets its own value on the .maars-log element, which
+	 * the archive does.
+	 *
+	 * Every track is a minmax() with a floor of 0. Written as fixed widths, a
+	 * row cannot shrink below the sum of them plus its gaps, and between the
+	 * stacking breakpoint at 640px and about 700px the last column hangs past
+	 * the edge of the page and is clipped — measured at 640px on the
+	 * four-column version of this list, where the head's "Original file" ended
+	 * at 670 in a 640px window. A track that cannot shrink is a track that
+	 * overflows.
+	 */
+	--maars-log-columns: minmax(0, 8rem) minmax(0, 10.5rem) minmax(0, 1fr);
+	--maars-log-gap: var(--maars-space-4);
 
 	color: var(--maars-ink);
 }
@@ -633,7 +865,8 @@
 	/* The fallback is repeated rather than inherited: a row is usable on its
 	   own, with no .maars-log ancestor, and an undefined custom property here
 	   would drop the whole declaration and quietly unstack the columns. */
-	grid-template-columns: var(--maars-log-columns, 9rem 11rem minmax(0, 1fr) 15rem);
+	grid-template-columns: var(--maars-log-columns,
+		minmax(0, 8rem) minmax(0, 10.5rem) minmax(0, 1fr));
 	row-gap: 0.35rem;
 }
 
@@ -681,27 +914,32 @@
 	box-shadow: inset 4px 0 0 0 var(--maars-magenta);
 }
 
+/* The ruled column head is four quiet labels, not four small headlines. The
+   rule under it is drawn by the template and is the only line it needs. */
 .maars-log__col {
-	color: var(--maars-magenta);        /* the record's own colour, 8.25:1 on paper */
-	margin: 0;
+	align-self: end;
 }
 
 /*
  * Each heading is bound to the column it heads rather than relying on document
  * order, so a cell added to the head can never slide the whole rule out of
  * step with the entries beneath it. The mapping belongs with the default
- * --maars-log-columns above: date, type, document, original file.
+ * --maars-log-columns above: date, type, document.
  */
 .maars-log__col-date { grid-column: 1; }
 .maars-log__col-type { grid-column: 2; }
 .maars-log__col-title { grid-column: 3; }
-.maars-log__col-file { grid-column: 4; }
 
-/* The four fields. Figures never break mid-token; the document title is prose
-   and wraps like prose. */
+/*
+ * The three fields. The date is the one piece of data on the row — 01 Mar 1999
+ * and 12 Jan 2024 occupy the same width, so twenty of them make a column a
+ * reader can run a finger down — and the template asks for the data face on it
+ * alone. The kind of document is a NOUN: reading face, sentence case, no
+ * tracking. Revision 1 set it in Fira Code and in capitals, so "Minutes" read
+ * like a file name.
+ */
 .maars-log__date,
-.maars-log__type,
-.maars-log__file {
+.maars-log__kind {
 	color: var(--maars-ink);
 	line-height: 1.45;
 	margin: 0;
@@ -709,11 +947,6 @@
 
 .maars-log__date {
 	white-space: nowrap;
-}
-
-.maars-log__type {
-	color: var(--maars-magenta);
-	font-weight: 600;
 }
 
 .maars-log__title {
@@ -727,17 +960,12 @@
 	text-decoration-thickness: max(1px, 0.06em);
 }
 
-.maars-log__file {
-	color: var(--maars-meta);           /* 8.66:1 on paper — provenance, quietly */
-	overflow-wrap: anywhere;
-}
-
-/* Pagination under a log is part of the log: figures, tabular, and a real
-   target for every page number. */
-.maars-log__pagination {
-	font-variant-numeric: slashed-zero tabular-nums;
-}
-
+/*
+ * Pagination under a log. The page NUMBERS are figures and the template asks
+ * for the data face on those alone; "Newer documents" and "Older documents"
+ * are words and stay in the reading face, which is why nothing here sets a
+ * family. Every control is a 48px target on both axes.
+ */
 .maars-log__pagination a,
 .maars-log__pagination .page-numbers {
 	align-items: center;
@@ -764,7 +992,7 @@
 
 .maars-log__line {
 	align-items: baseline;
-	column-gap: clamp(0.6rem, 0.45rem + 0.5vw, 1rem);
+	column-gap: var(--maars-space-3);
 	display: flex;
 	flex-wrap: wrap;
 	margin: 0;
@@ -780,30 +1008,44 @@
 	padding-block-start: 0.6rem;
 }
 
-.maars-log__label {
-	color: var(--maars-magenta);
+/*
+ * THE QUIET LABEL. This is the replacement for every tracked-out capitalised
+ * eyebrow revision 1 carried — STANDING FACTS, NEXT MEETING, MEETING, REPEATER,
+ * NET, COMPUTED, SOURCED, THE RECORD — and it is the only label treatment left
+ * in this file.
+ *
+ * Sentence case, because that is how the word is written in the markup and how
+ * a reader reads it. No letter-spacing, because tracking is what turned these
+ * into signage. 600 rather than 700, because the weight only has to separate
+ * the label from its value. 18px, because the floor is the floor: a label is
+ * made quiet by case, weight and ink, never by dropping under the size a
+ * seventy-year-old can read.
+ *
+ * .maars-log__col   is the archive's ruled column head: Date, Type, Document.
+ * .maars-fieldname  is a field name in a record strip: "Document date".
+ * Both are written in sentence case by the template, and neither carries a
+ * colour here — the templates set their own, magenta for the record's own
+ * column head and ink for a field name, and both are measured.
+ */
+.maars-log__col,
+.maars-fieldname {
 	flex: none;
+	font-family: var(--maars-font-text);
+	/* 18px, and this is the declaration that enforces it: the archive's head
+	   carries an inline 1rem, but that is set on the HEAD, and a value a child
+	   inherits always loses to one declared on the child itself. */
 	font-size: var(--maars-text-label);
-	font-weight: 700;
-	letter-spacing: 0.12em;
-	line-height: 1.3;
+	font-weight: 600;
+	letter-spacing: normal;
+	line-height: 1.4;
 	margin: 0;
-	min-width: var(--maars-log-label, auto);
-	text-transform: uppercase;
+	text-transform: none;
 }
 
-.maars-log__value {
-	flex: 1 1 auto;
-	margin: 0;
-	min-width: 0;
-}
-
-.maars-log__note {
-	color: var(--maars-meta);
-	flex: 0 1 auto;
-	font-size: var(--maars-text-note);
-	margin: 0;
-	min-width: 0;
+/* A field name is the quieter of the two: it labels one value rather than a
+   whole column, so it does not take the extra weight. */
+.maars-fieldname {
+	font-weight: 400;
 }
 
 /*
@@ -813,7 +1055,7 @@
  */
 .maars-log__header {
 	align-items: start;
-	column-gap: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+	column-gap: var(--maars-space-5);
 	row-gap: 1rem;
 }
 
@@ -868,14 +1110,16 @@
 		grid-template-columns: minmax(0, 7.5rem) minmax(0, 1fr);
 	}
 
+	/* Sentence case, meta ink, the reading face: the same quiet label as
+	   everywhere else. The template writes data-label="Date", not "DATE". */
 	.maars-log__row > [data-label]::before {
-		color: var(--maars-magenta);
+		color: var(--maars-meta);
 		content: attr(data-label);
-		font-family: var(--maars-font-data);
+		font-family: var(--maars-font-text);
 		font-size: var(--maars-text-label);
-		font-weight: 700;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
+		font-weight: 600;
+		letter-spacing: normal;
+		text-transform: none;
 	}
 
 	/* The document leads the stack, at reading size. */
@@ -896,13 +1140,13 @@
 		display: none;
 	}
 
-	/* A labelled line stacks too: the label sits over its value rather than
-	   beside it, which is the only thing that fits at 390px. */
+	/* A labelled line stacks too: the field name sits over its value rather
+	   than beside it, which is the only thing that fits at 390px. */
 	.maars-log__line {
-		column-gap: 0.6rem;
+		column-gap: var(--maars-space-2);
 	}
 
-	.maars-log__label {
+	.maars-fieldname {
 		flex-basis: 100%;
 		min-width: 0;
 	}
@@ -912,46 +1156,60 @@
  * 6. THE FRESHNESS SYSTEM.
  *
  * The reason this site exists. Every standing fact states how far anyone has
- * checked it, and the site must never look current when it is not. It must
- * also never look like an error: an UNVERIFIED chip is an honest label, so it
- * is styled as a label — calm, small, no red, no icon that reads as a warning.
+ * checked it, and the site must never look current when it is not.
  *
- * Three redundant channels, none of them hue:
- *   WORD    Measured / Sourced / Unverified, always spelled out.
- *   BAND    a solid dark fill · a solid frame on paper · a dashed frame on
- *           paper. Those three stay apart in greyscale, which is the test that
- *           matters, and none of them depends on the surface behind the chip.
- *   MARKER  a small box whose border differs: filled · solid outline · dashed.
- * The colour is the fourth channel and it is redundancy only, because under
- * deuteranopia magenta and rust converge on each other.
+ * WHAT REVISION 1 GOT WRONG HERE. The provenance line was a bordered, coloured
+ * chip with a grade word in tracked capitals, a drawn marker box, an
+ * explanatory sentence, an internal archive path and a date — four lines of
+ * furniture, framed, sitting under a one-line fact and outweighing it. It read
+ * as an alarm. It is not an alarm. "Nobody has re-measured the repeater since
+ * January 2024" is an honest description of the evidence, and the club is
+ * better served by a page that says so quietly than by a page that flashes.
+ *
+ * WHAT IT IS NOW. One line, in the quiet ink every other note on the site uses:
+ *
+ *     Sourced. Last checked January 12, 2024 — 977 days ago.
+ *
+ * THE WORD IS THE SIGNAL. Measured / Sourced / Unverified, spelled out, in the
+ * reading face, first on the line. It survives greyscale, deuteranopia, a
+ * photocopier and a screen reader, because it is a word. Colour is used for
+ * exactly one thing — the stale state — and it is never the only thing saying
+ * so, because a stale line also says "Unverified" or prints a date years old.
+ * What each grade means is explained once on the page, in a footnote, rather
+ * than repeated beside every fact; the plugin puts it in a title attribute for
+ * a reader who wants it in place.
  *
  * Emitted by maars_render_fact_block(): .maars-fact, --measured/--sourced/
  * --unverified, .is-stale, __body, __chip, __chip--<grade>, __grade, __detail,
- * plus data-grade and data-verified-on.
+ * __checked, plus data-grade and data-verified-on.
  * ======================================================================== */
 
+/*
+ * A fact is not a box. It has no frame, no fill and no rule down its edge: it
+ * is a piece of text with a quiet line under it saying how well it is known.
+ * Revision 1's dashed left border is gone entirely — a dash reads as
+ * unfinished, and it was drawn in the grade's colour, which made the colour
+ * the signal after all.
+ *
+ * Where two facts do sit directly against each other with nothing between
+ * them, a hairline separates them. A rule between two rows says what a box
+ * round each of them says, and it does not nest.
+ */
 .maars-fact {
-	--maars-grade: var(--maars-rule);
-	border-inline-start: 4px solid var(--maars-grade);
 	display: grid;
-	gap: 0.6rem;
+	gap: var(--maars-space-2);
 	margin: 0;
-	padding-inline-start: clamp(0.75rem, 0.6rem + 0.5vw, 1.1rem);
 }
 
-.maars-fact--measured { --maars-grade: var(--maars-navy); }
-.maars-fact--sourced { --maars-grade: var(--maars-magenta); }
-
-/* Dashed, because "nobody has confirmed this" is a provisional state and the
-   rule says so without saying it in red. */
-.maars-fact--unverified {
-	--maars-grade: var(--maars-rust);
-	border-inline-start-style: dashed;
+.maars-fact + .maars-fact {
+	border-block-start: var(--maars-hairline) solid var(--maars-rule);
+	margin-block-start: var(--maars-space-3);
+	padding-block-start: var(--maars-space-3);
 }
 
 .maars-fact__body {
 	display: grid;
-	gap: 0.6rem;
+	gap: var(--maars-space-2);
 	margin: 0;
 }
 
@@ -964,125 +1222,79 @@
 }
 
 /*
- * The chip. Small, quiet, and readable at arm's length. It sits under the fact
- * it grades, not over it, because the fact is the thing the reader came for.
+ * THE PROVENANCE LINE. One line, under the fact it grades, in the same quiet
+ * ink as any other note on the page: no border, no fill, no padding, no
+ * marker. It is furniture. The fact is what the reader came for.
+ *
+ * 8.66:1 on paper, 8.04:1 on ground, 6.41:1 on lavender — quiet is a matter of
+ * weight and size here, never of a grey nobody can read.
  */
 .maars-fact__chip {
-	--maars-grade: var(--maars-rust);
-	--maars-log-label: auto;          /* the grade word is as wide as the word */
-	align-items: baseline;
-	background-color: var(--maars-paper);
-	/* A frame of its own, so the shorthand deliberately resets the hairline a
-	   .maars-log__line would otherwise carry from section 5. */
-	border: 2px solid var(--maars-grade);
-	border-radius: var(--maars-radius);
-	color: var(--maars-grade);
-	column-gap: 0.7ch;
-	display: inline-flex;
-	flex-wrap: wrap;
+	color: var(--maars-meta);
+	display: block;
 	font-family: var(--maars-font-text);
 	font-size: var(--maars-text-note);
-	line-height: 1.45;
+	font-weight: 400;
+	line-height: 1.5;
 	margin: 0;
-	padding: 0.45rem 0.75rem;
-	row-gap: 0.15rem;
-	width: fit-content;
-}
-
-.maars-fact__grade {
-	align-items: center;
-	color: inherit;                   /* not the magenta a bare log label takes */
-	display: inline-flex;
-	flex: none;
-	font-family: var(--maars-font-data);
-	font-weight: 700;
-	gap: 0.7ch;
-	letter-spacing: 0.1em;
-	min-width: 0;
-	text-transform: uppercase;
-	white-space: nowrap;
+	max-width: var(--maars-measure);
 }
 
 /*
- * The marker. A drawn box, not a glyph: no font has to have it, no screen
- * reader has to ignore it, and it carries the grade in its border style, which
- * survives greyscale, deuteranopia and a photocopier.
+ * The grade word: Measured / Sourced / Unverified. It leads the line and it
+ * carries the whole meaning on its own, which is why it is spelled out rather
+ * than drawn. 600 is enough to make it the first thing read on the line; it is
+ * not a different colour from the sentence it starts, because a word that has
+ * to be seen in colour to be understood is not a word.
  */
-.maars-fact__grade::before {
-	border: 2px solid currentColor;
-	content: "";
-	display: inline-block;
-	flex: none;
-	height: 0.72em;
-	width: 0.72em;
+.maars-fact__grade {
+	font-weight: 600;
 }
 
-.maars-fact__detail {
-	color: inherit;
-	font-family: var(--maars-font-text);
-	font-weight: 400;
-}
-
-/* When it was last checked. The quiet trailing column of the chip's own log
-   line, in the same ink as the rest of the chip: a date the reader can act on
-   is not small print. */
+.maars-fact__detail,
 .maars-fact__checked {
 	color: inherit;
-	font-family: var(--maars-font-text);
 	font-weight: 400;
 }
 
-
-
-/* MEASURED — checked against the thing itself. A solid band: the heaviest of
-   the three in greyscale, and navy because navy is NOW. 15.23:1. */
-.maars-fact__chip--measured {
-	--maars-grade: var(--maars-navy);
-	background-color: var(--maars-navy);
-	border-color: var(--maars-navy);
-	color: var(--maars-paper);
-}
-
-.maars-fact__chip--measured .maars-fact__grade::before {
-	background-color: currentColor;
-}
-
-/* SOURCED — taken from a club document. Outlined on paper: the middle weight.
-   Magenta because magenta is THE RECORD. 8.25:1 on paper. */
-.maars-fact__chip--sourced {
-	--maars-grade: var(--maars-magenta);
-	background-color: var(--maars-paper);
-	border-color: var(--maars-magenta);
-	color: var(--maars-magenta);
-}
-
 /*
- * UNVERIFIED — nobody has confirmed it. A dashed rule and a dashed marker on
- * the same paper as SOURCED: the two are told apart by the shape of the frame,
- * not by the hue, which is what a colour-blind reader needs and what a
- * photocopy keeps. Rust, and nothing about it says alarm. 8.31:1 on paper.
+ * STALE. The one place colour is spent in this system, and it is never spent
+ * alone: a stale line already says "Unverified", or prints a check date years
+ * old, or says "No check on record". Rust — 8.31:1 on paper, 7.71:1 on ground,
+ * 6.15:1 on lavender — and nothing about it says alarm. There is no red on
+ * this site's facts, because "nobody has re-measured it" is not an error.
  *
- * The fill is paper rather than transparent on purpose. This chip also appears
- * in the skywave caption, which sits on the dark hero band; transparent put
- * rust on ink at a measured 2.17:1 there, which is the same class of bug this
- * whole stylesheet exists to keep out.
+ * The grade selector is on the chip as well as the fact: the chip appears on
+ * its own in the skywave caption, with no .maars-fact wrapper to carry state.
  */
-.maars-fact__chip--unverified {
-	--maars-grade: var(--maars-rust);
-	background-color: var(--maars-paper);
-	border-color: var(--maars-rust);
-	border-style: dashed;
+/*
+ * FINAL PASS: rust is now spent only where a date has actually aged.
+ *
+ * The rule below used to colour every unverified chip as well, and on the
+ * homepage that was three provenance lines out of three — a hue on everything
+ * signals nothing, and rust on every fact read as a page full of warnings. The
+ * brief is exact about this: colour it only when genuinely stale.
+ *
+ * "Unverified / no check on record" is a statement about the evidence, not
+ * about decay; blocks.php says so in as many words. So it keeps the quiet meta
+ * ink and the word carries it, which is the argument the rest of this section
+ * already makes. The attribute selector is the test: maars/fact writes
+ * data-verified-on ONLY when a real date was printed, so this fires exactly
+ * when a check date exists AND has aged past the threshold — the one case
+ * where a reader is being told something the word alone does not say.
+ */
+.maars-fact.is-stale[data-verified-on] .maars-fact__chip {
 	color: var(--maars-rust);
 }
 
-.maars-fact__chip--unverified .maars-fact__grade::before {
-	border-style: dashed;
-}
-
-/* A stale record is still a record. It is marked, not alarmed: the left rule
-   goes dashed so the state is visible in the shape of the thing. */
-.maars-fact.is-stale {
-	border-inline-start-style: dashed;
+/*
+ * And on the dark band, where rust measures 2.17:1 and meta 2.08:1, the line
+ * takes the band's own quiet ink at 9.73:1. The grade is still the word, so
+ * nothing is lost by the hue going away here.
+ */
+.maars-hero .maars-fact__chip,
+.has-ink-background-color .maars-fact__chip {
+	color: var(--maars-on-band-meta);
 }
 
 /* ---------------------------------------------------------------------------
@@ -1099,35 +1311,38 @@
  * data-maars-threshold. The wrapper is role="status".
  * ------------------------------------------------------------------------- */
 
+/*
+ * Not a box. A marked note: one solid rule down the left edge and the text
+ * beside it, which is the same device the archive uses for its gaps note, so
+ * the site has one way of marking something rather than three. The band it
+ * sits in provides the space around it; it provides none of its own.
+ */
 .maars-dateline {
 	--maars-dateline-accent: var(--maars-navy);
-	background-color: var(--maars-paper);
-	border: var(--maars-hairline) solid var(--maars-rule);
-	border-inline-start: 6px solid var(--maars-dateline-accent);
-	border-radius: var(--maars-radius);
+	border-inline-start: 4px solid var(--maars-dateline-accent);
 	color: var(--maars-ink);
 	display: grid;
-	gap: 0.4rem;
-	margin-block: clamp(0.75rem, 0.6rem + 0.7vw, 1.25rem);
-	padding: clamp(1rem, 0.85rem + 0.9vw, 1.5rem);
+	gap: var(--maars-space-1);
+	margin: 0;
+	padding-inline-start: var(--maars-space-3);
 }
 
 .maars-dateline__headline {
 	color: var(--maars-dateline-accent);
 	font-family: var(--maars-font-display);
-	font-size: clamp(1.375rem, 1.14rem + 1.15vw, 1.875rem);
+	font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);
 	font-weight: 700;
 	letter-spacing: -0.01em;
-	line-height: 1.2;
+	line-height: 1.25;
 	margin: 0;
 	max-width: 42ch;
 	text-wrap: balance;
 }
 
 .maars-dateline__detail {
-	color: var(--maars-ink);
-	font-size: var(--maars-text-body);
-	line-height: var(--maars-leading);
+	color: var(--maars-meta);
+	font-size: var(--maars-text-note);
+	line-height: 1.55;
 	margin: 0;
 	max-width: var(--maars-measure);
 }
@@ -1143,16 +1358,18 @@
 }
 
 /*
- * Past the threshold. The ground changes — rust on its own wash, 7.52:1 — so
- * the state survives greyscale without the hue, and the rule stays solid:
- * a dashed edge this heavy starts to read as hazard tape, and this is the site
- * telling the truth about itself, which is the most credible thing on the
+ * Past the threshold. The rule and the headline go rust, and a wash is laid
+ * behind the note so the state survives greyscale without the hue. The edge
+ * stays solid: a dashed edge this heavy reads as hazard tape, and this is the
+ * site telling the truth about itself, which is the most credible thing on the
  * page. The sentence is the alarm, and the sentence is enough.
  */
 .maars-dateline--stale,
 .maars-dateline.is-stale {
 	--maars-dateline-accent: var(--maars-rust);
 	background-color: var(--maars-rust-wash);
+	padding-block: var(--maars-space-2);
+	padding-inline-end: var(--maars-space-3);
 }
 
 .maars-dateline--stale .maars-dateline__detail,
@@ -1171,101 +1388,74 @@
 	color: var(--maars-ink);
 }
 
-.maars-dateline-wrap > .maars-dateline {
-	margin-block-start: 0;
-}
-
 /* ---------------------------------------------------------------------------
- * 8. maars/next-meeting — the computed date, and the rule that produced it.
+ * 8. maars/next-meeting — THE ONE THING A VISITOR CAME FOR.
  *
- * Lavender is the standing-fact panel, so this is where it lives. The date is
- * in the data face because a date is a figure; the derivation is in the text
- * face because it is a sentence. A hand-typed date is how a homepage ends up
- * advertising a meeting that happened two and a half years ago.
+ * Somebody opening this site on the second Thursday of the month came to find
+ * out when the meeting is. So it is the largest thing on the page and it is
+ * stated once. Revision 1 stated it twice at equal weight — a boxed card
+ * reading NEXT MEETING, and a row underneath repeating the second-Friday rule
+ * — and set the date in the data face, where "Friday, October 9, 2026 at
+ * 6:30 P.M." read like a part number.
  *
- * Emitted: .maars-next-meeting, --unknown/.is-unknown, __eyebrow, __date,
- * __time, __rule, __rule-tag, __rule-text.
+ * It is a sentence, so it is in the reading face. It is the answer, so it is
+ * set at display size in navy, which is this site's colour for NOW. It is not
+ * a row in a log and it is not in a box: there is nothing to separate it from,
+ * because it is first.
+ *
+ * The label is gone from the page and lives in .screen-reader-text, which the
+ * plugin writes: a reader hearing the page linearly still gets "Next meeting:"
+ * before the date, and nobody has to read the word NEXT MEETING in capitals to
+ * understand that a date under a club masthead is a meeting.
+ *
+ * The rule that computed the date follows it, quietly. It is there so a member
+ * can check the arithmetic — that is the whole argument for computing the date
+ * instead of typing it — but it is provenance, so it is set like provenance.
+ *
+ * Emitted: .maars-next-meeting, --unknown/.is-unknown, __date, __rule,
+ * __rule-text.
  * ------------------------------------------------------------------------- */
 
-/*
- * A paper log card with navy down its edge, because it sits on the lavender
- * standing-fact band and because the next meeting is the site's clearest
- * statement of NOW. Navy on paper is 15.23:1, ink on paper 18.03:1.
- */
 .maars-next-meeting {
-	background-color: var(--maars-paper);
-	border: var(--maars-hairline) solid var(--maars-rule);
-	border-inline-start: 6px solid var(--maars-navy);
-	border-radius: var(--maars-radius);
 	color: var(--maars-ink);
 	display: grid;
-	gap: 0.5rem;
-	margin-block: clamp(1rem, 0.85rem + 0.7vw, 1.5rem) 0;
-	padding: clamp(1rem, 0.85rem + 0.9vw, 1.4rem);
-}
-
-/* The eyebrow is this line's label column. Navy, because the next meeting is
-   the site's clearest statement of NOW. 11.27:1 on lavender. */
-.maars-next-meeting__eyebrow {
-	color: var(--maars-navy);
-	font-family: var(--maars-font-data);
-	font-size: var(--maars-text-label);
-	font-weight: 700;
-	letter-spacing: 0.1em;
+	gap: var(--maars-space-1);
 	margin: 0;
-	text-transform: uppercase;
 }
 
+/* Navy on paper 15.23:1, on ground 14.14:1. Display face, because this is the
+   one line on the page that is allowed to be a headline. */
 .maars-next-meeting__date {
 	color: var(--maars-navy);
-	font-size: clamp(1.3125rem, 1.1rem + 1.05vw, 1.75rem);
-	font-weight: 600;
-	line-height: 1.25;
+	font-family: var(--maars-font-display);
+	font-size: clamp(1.75rem, 1.35rem + 2vw, 2.75rem);
+	font-weight: 700;
+	letter-spacing: -0.015em;
+	line-height: 1.15;
 	margin: 0;
+	max-width: 20ch;
+	text-wrap: balance;
 }
 
-.maars-next-meeting__time {
-	font-family: var(--maars-font-data);
-	font-variant-numeric: slashed-zero tabular-nums;
-	letter-spacing: -0.01em;
-}
-
+/* Provenance, in the same quiet ink as a freshness line, because that is what
+   it is: 8.66:1 on paper, 8.04:1 on ground. */
 .maars-next-meeting__rule {
-	color: var(--maars-ink);          /* 18.03:1 on paper */
+	color: var(--maars-meta);
 	font-size: var(--maars-text-note);
 	line-height: 1.5;
-}
-
-/* "Computed" is a claim about provenance, so it is chipped like one. */
-.maars-next-meeting__rule-tag {
-	--maars-log-label: auto;
-	border: 2px solid var(--maars-navy);
-	border-radius: var(--maars-radius);
-	color: var(--maars-navy);
-	flex: none;
-	font-family: var(--maars-font-data);
-	font-weight: 700;
-	letter-spacing: 0.1em;
-	min-width: 0;
-	padding: 0.15rem 0.5rem;
-	text-transform: uppercase;
+	margin: 0;
+	max-width: var(--maars-measure);
 }
 
 .maars-next-meeting__rule-text {
 	font-family: var(--maars-font-text);
-	max-width: var(--maars-measure);
 }
 
-.maars-next-meeting--unknown,
-.maars-next-meeting.is-unknown {
-	background-color: var(--maars-rust-wash);
-}
-
+/* No date could be computed. Rust, not red, and the sentence the block writes
+   says so in words. */
 .maars-next-meeting--unknown .maars-next-meeting__date,
-.maars-next-meeting.is-unknown .maars-next-meeting__date,
-.maars-next-meeting--unknown .maars-next-meeting__eyebrow,
-.maars-next-meeting.is-unknown .maars-next-meeting__eyebrow {
-	color: var(--maars-rust);         /* 7.52:1 on the wash */
+.maars-next-meeting.is-unknown .maars-next-meeting__date {
+	color: var(--maars-rust);         /* 8.31:1 on paper */
 }
 
 
@@ -1283,17 +1473,18 @@
  * __fallback-title, __prose, __noscript, __bands, __band, __band--<id>.
  * ------------------------------------------------------------------------- */
 
+/*
+ * No frame and no fill. The canvas is a dark rectangle on a dark band and it
+ * is its own edge; a hairline box round it was a box round a box, and on the
+ * hero it drew a second frame 12px inside the band's own.
+ */
 .maars-skywave {
-	background-color: var(--maars-sunk);
-	border: var(--maars-hairline) solid var(--maars-rule);
-	border-radius: var(--maars-radius);
-	color: var(--maars-ink);
+	color: inherit;
 	display: grid;
-	gap: 0.85rem;
-	margin-block: clamp(1rem, 0.8rem + 0.9vw, 1.75rem);
-	margin-inline: 0;
+	gap: var(--maars-space-2);
+	margin: 0;
 	max-width: 100%;
-	padding: clamp(0.75rem, 0.6rem + 0.8vw, 1.25rem);
+	padding: 0;
 }
 
 .maars-skywave__canvas {
@@ -1316,7 +1507,7 @@
 .maars-skywave__controls {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.5rem;
+	gap: var(--maars-space-1);
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -1333,7 +1524,9 @@
 	border-radius: var(--maars-radius);
 	color: var(--maars-navy);
 	cursor: pointer;
-	font-family: var(--maars-font-data);
+	/* The band and the frequency inside the button are .maars-fig and carry the
+	   data face themselves; the button is not a figure. */
+	font-family: var(--maars-font-text);
 	font-size: var(--maars-text-note);
 	font-variant-numeric: slashed-zero tabular-nums;
 	font-weight: 600;
@@ -1376,18 +1569,17 @@
 	display: grid;
 	font-family: var(--maars-font-text);
 	font-size: var(--maars-text-note);
-	gap: 0.5rem;
+	gap: var(--maars-space-1);
 	justify-items: start;
 	line-height: 1.55;
 	margin: 0;
 	max-width: var(--maars-measure);
 }
 
-/* The caption's chip is inline in the markup but a block in the layout, so it
-   does not have to fight the caption's own line box. Everything else about it
-   is .maars-fact__chip. */
+/* The caption's provenance line is a span in the markup and a line in the
+   layout. Everything else about it is .maars-fact__chip. */
 .maars-skywave__chip {
-	display: inline-flex;
+	display: block;
 }
 
 /* The scene in words. Always in the DOM; shown when WebGL2 is missing. */
@@ -1407,9 +1599,9 @@
 	color: var(--maars-ink);
 	display: grid;
 	font-size: var(--maars-text-body);
-	gap: 0.75rem;
+	gap: var(--maars-space-2);
 	line-height: var(--maars-leading);
-	padding: clamp(1rem, 0.85rem + 0.8vw, 1.5rem);
+	padding: var(--maars-space-3);
 }
 
 .maars-skywave noscript {
@@ -1439,11 +1631,17 @@
 	padding: 0;
 }
 
+/* A list of four records with a hairline between them: the log line in its
+   smallest form, and the only rules in the scene. */
 .maars-skywave__band {
 	font-size: var(--maars-text-note);
 	line-height: 1.5;
 	margin: 0;
-	padding-block: 0.55rem;
+	padding-block: var(--maars-space-2);
+}
+
+.maars-skywave__band + .maars-skywave__band {
+	border-block-start: var(--maars-hairline) solid var(--maars-rule);
 }
 
 /* 80, 40 and 20 metres all do the same thing: the wave comes back. */
@@ -1473,10 +1671,6 @@
 	.maars-skywave__band[data-current="1"]::after {
 		content: "\00A0\2190\00A0shown" / "";
 	}
-}
-
-.maars-hero__stage > .maars-skywave {
-	margin-block: 0;
 }
 
 /* ---------------------------------------------------------------------------
@@ -1516,17 +1710,28 @@
 	letter-spacing: 0.01em;
 }
 
-.maars-wordmark__sep {
-	color: var(--maars-meta);
-	font-family: var(--maars-font-text);
-	padding-inline: 0.15em;
+/*
+ * The identity, on two lines rather than one line stitched together with
+ * interpuncts. Revision 1 read "MAARS · KSØMAN" and, under it,
+ * "Manhattan Area Amateur Radio Society · Manhattan, Kansas". A middle dot is
+ * not punctuation; it is what you reach for when you have not decided whether
+ * two things are one thing. They are two things, so they are two lines.
+ */
+.maars-wordmark__where {
+	display: grid;
+	gap: 0;
 }
 
-.maars-wordmark__long {
+.maars-wordmark__long,
+.maars-wordmark__place {
 	color: var(--maars-ink);
 	line-height: 1.45;
 	margin: 0;
 	max-width: 60ch;
+}
+
+.maars-wordmark__place {
+	color: var(--maars-meta);           /* 8.66:1 on paper */
 }
 
 /* The navigation takes its own row under a hairline the template draws, so the
@@ -1562,7 +1767,7 @@
 
 .maars-main {
 	display: block;
-	padding-block-end: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+	padding-block-end: var(--maars-space-5);
 }
 
 .maars-front,
@@ -1576,24 +1781,12 @@
 }
 
 /*
- * The eyebrow. A one-word statement of which half of the site you are in, set
- * in the data face like a column head because that is what it is. Magenta when
- * it labels the record, navy when it labels the present.
+ * There is no eyebrow rule here, and that is deliberate. Revision 1 had one on
+ * nearly every block — STANDING FACTS, NEXT MEETING, THE RECORD — and not one
+ * of them said anything the heading underneath it did not. The best eyebrow is
+ * no eyebrow, so the class is gone from the templates and the rule is gone
+ * from here.
  */
-.maars-eyebrow {
-	font-family: var(--maars-font-data);
-	font-size: var(--maars-text-label);
-	font-weight: 700;
-	letter-spacing: 0.14em;
-	line-height: 1.3;
-	margin: 0;
-	text-transform: uppercase;
-}
-
-.maars-archive__eyebrow,
-.maars-doc-record__eyebrow {
-	color: var(--maars-magenta);        /* 8.25:1 on paper — the record */
-}
 
 .maars-archive__masthead {
 	display: block;
@@ -1616,13 +1809,15 @@
 	   visible on the only surface where navy fails. */
 	--maars-focus: var(--maars-on-band-link);
 	--maars-focus-halo: var(--maars-band);
-	padding-block: clamp(1.75rem, 1.4rem + 1.8vw, 3rem);
+	padding-block: var(--maars-space-5);
 }
 
+/* h2 scale, not h1: the largest thing on the front page is the meeting date,
+   and a section heading that outran it would be arguing with the brief. */
 .maars-hero__title {
 	color: inherit;
 	font-family: var(--maars-font-display);
-	font-size: var(--maars-text-h1);
+	font-size: var(--maars-text-h2);
 	font-weight: 700;
 	margin-block: 0;
 	max-width: 22ch;
@@ -1637,14 +1832,7 @@
 }
 
 .maars-hero__stage {
-	margin-block-start: 1.25rem;
-}
-
-/* On the dark band the scene's frame is the band itself, not a light card. */
-.maars-hero .maars-skywave {
-	background-color: transparent;
-	border-color: var(--maars-on-band-link);
-	color: inherit;
+	margin-block-start: var(--maars-space-3);
 }
 
 /*
@@ -1657,102 +1845,167 @@
 	color: var(--maars-on-band);
 }
 
+/*
+ * The bands. One step off the scale, the same one for every band, and the only
+ * vertical space between two sections. Revision 1 gave each band its own
+ * clamp() and then let the components inside them add margins of their own on
+ * top; that is how a homepage reaches 6,363px.
+ */
 .maars-about,
 .maars-news,
 .maars-archive-teaser {
-	padding-block: clamp(1.75rem, 1.4rem + 1.6vw, 2.75rem);
+	padding-block: var(--maars-space-5);
 }
 
 /* ---------------------------------------------------------------------------
- * 11b. The standing facts — the panel that answers what is true NOW.
+ * 11b. The front page.
  *
- * Lavender is the standing-fact panel in the palette, so the band is lavender
- * and each entry sits on it as a paper log card. The freshness grade is
- * attached to the entry, not to the page, which is the whole argument: the
- * meeting is sourced, the repeater is unverified, and the panel says both
- * without raising its voice at either.
+ * Revision 1 opened with a lavender panel holding three white cards, each card
+ * holding a bordered chip, each row labelled MEETING or REPEATER or NET in
+ * tracked capitals, and the second-Friday rule stated twice. Three frames deep
+ * and 6,363px tall.
+ *
+ * Revision 2 is two bands and no boxes at all. The lede answers the question
+ * that brought the visitor — when is the meeting — and on the air states the
+ * two standing facts as what they are: a specification and a schedule, ruled
+ * apart, each carrying its own provenance line. Lavender is not spent on
+ * either; it is left for the panels that need a surface of their own.
  * ------------------------------------------------------------------------- */
 
-.maars-standing {
-	background-color: var(--maars-lavender);
+/* THE LEDE. The meeting, and the least furniture that can carry it. */
+.maars-lede {
 	color: var(--maars-ink);
-	padding-block: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
+	padding-block: var(--maars-space-5);
 }
 
-.maars-standing__label {
-	color: var(--maars-ink);            /* 13.34:1 on lavender */
+/*
+ * The headline is deliberately subordinate to the date under it. A member who
+ * already knows what MAARS is should be able to read past this line, and the
+ * template sets it at 1.375–1.75rem to make that possible.
+ */
+.maars-lede__title {
 	margin: 0;
+	max-width: 34ch;
 }
 
-.maars-standing__title {
-	margin-block: 0.5rem 0;
-}
-
-.maars-standing__lede {
-	line-height: 1.55;
-	margin-block: 0.75rem 0;
+/* The venue. Body-large, because it is the second half of the answer. */
+.maars-lede__venue {
+	line-height: 1.5;
+	margin: 0;
 	max-width: var(--maars-measure);
 }
 
-.maars-standing__footnote {
-	color: var(--maars-ink);
+/* What is known about the venue, and what a member should do about it. */
+.maars-lede__note {
+	color: var(--maars-meta);           /* 8.66:1 on paper, 8.04:1 on ground */
+	font-size: var(--maars-text-note);
 	line-height: 1.55;
-	margin-block-start: 1.25rem;
+	margin: 0;
+	max-width: var(--maars-measure);
+}
+
+/* ON THE AIR. Two entries, a hairline between them, no box around either. */
+.maars-onair {
+	color: var(--maars-ink);
+	padding-block: var(--maars-space-5);
+}
+
+/* Size and leading are the template's, which sets them inline; the heading
+   conventions in section 2 own the face. This owns the space around it. */
+.maars-onair__name {
+	margin: 0;
+}
+
+.maars-onair__prose {
+	line-height: var(--maars-leading);
+	margin: 0;
 	max-width: var(--maars-measure);
 }
 
 /*
- * One standing fact, as a log card: a fixed field column in the data face, the
- * value beside it, the provenance under the value, and the freshness chip at
- * the foot. The card is also a .maars-fact, so its left rule is already the
- * grade's colour and its dash is already the grade's dash; everything added
- * here is the paper it sits on.
+ * THE SPECIFICATION. Revision 1 wrote this as one sentence stitched out of
+ * middle dots: "KSØMAN · 147.255 MHz out, 147.855 MHz in · +600 kHz · CTCSS
+ * 88.5 Hz on both ends · open to all licensed amateurs." A specification is
+ * not a sentence. It is a list of labelled values, and it is set as one: the
+ * field name in quiet ink on the left, the figure beside it, a hairline
+ * between rows and no box anywhere.
+ *
+ * The label is an inline-block with a minimum width rather than a grid column,
+ * because the value is a run of text and <code> elements inside one list item
+ * — a grid would make five items out of it and lose the sentence.
  */
-.maars-logline {
-	background-color: var(--maars-paper);
-	border-block: var(--maars-hairline) solid var(--maars-rule);
-	border-inline-end: var(--maars-hairline) solid var(--maars-rule);
-	border-radius: var(--maars-radius);
-	gap: 0.85rem;
-	margin-block: 1rem 0;
-	padding: clamp(1rem, 0.85rem + 0.8vw, 1.35rem);
-	padding-inline-start: clamp(0.9rem, 0.75rem + 0.6vw, 1.25rem);
-}
-
-.maars-logline__row {
-	margin-block: 0;
-}
-
-.maars-logline__keycol {
-	flex-grow: 0;
-}
-
-.maars-logline__key {
-	color: var(--maars-navy);           /* 15.23:1 on paper */
+.maars-spec {
+	display: grid;
+	list-style: none;
 	margin: 0;
+	padding: 0;
 }
 
-.maars-logline__valcol {
-	min-width: 0;
-}
-
-.maars-logline__value {
-	line-height: 1.55;
+.maars-spec li {
+	line-height: 1.5;
 	margin: 0;
 	max-width: var(--maars-measure);
+	padding-block: var(--maars-space-1);
 }
 
-/* What is known about the value, and how well. Quiet, but never grey-on-grey:
-   8.66:1 on paper. */
-.maars-logline__note {
+.maars-spec li + li {
+	border-block-start: var(--maars-hairline) solid var(--maars-rule);
+}
+
+.maars-spec strong {
+	color: var(--maars-meta);           /* the quiet label, 8.66:1 on paper */
+	display: inline-block;
+	font-size: var(--maars-text-label);
+	font-weight: 600;
+	min-width: 7.5rem;
+	padding-inline-end: var(--maars-space-2);
+}
+
+/*
+ * On a phone the label column is a line of its own. 7.5rem of the 390px screen
+ * left about 180px for the value, so "147.855 MHz, a +600 kHz offset" broke
+ * after the frequency and the remainder hung back at the left margin, under
+ * the label, reading as a fifth field.
+ */
+@media (max-width: 29.99em) {
+	.maars-spec strong {
+		display: block;
+		min-width: 0;
+		padding-inline-end: 0;
+	}
+}
+
+/*
+ * The separator between two entries. WordPress's own separator is a 2px border
+ * at 40% opacity, which is a grey nobody chose; this is the same hairline
+ * every other rule on the site is drawn with.
+ */
+.maars-hairline {
+	background-color: transparent;
+	border: 0;
+	border-block-start: var(--maars-hairline) solid var(--maars-rule);
+	height: 0;
+	margin-block: var(--maars-space-3);
+	opacity: 1;
+	width: 100%;
+}
+
+/*
+ * THE MECHANISM, EXPLAINED ONCE. Revision 1 explained what the grades mean in
+ * the lede, again in a panel footnote, and again in a bordered chip beside
+ * every single fact. This is the one telling, at the foot of the facts, where
+ * a reader who has just met a check date can use it.
+ */
+.maars-footnote {
 	color: var(--maars-meta);
+	font-size: var(--maars-text-note);
 	line-height: 1.55;
-	margin-block: 0.5rem 0;
+	margin: 0;
 	max-width: var(--maars-measure);
 }
 
 .maars-about__actions {
-	margin-block-start: 1.25rem;
+	margin-block-start: var(--maars-space-3);
 }
 
 /* Buttons. Square-ish, 2px rule, 48px tall, no gradient and no shadow. */
@@ -1770,7 +2023,7 @@
 }
 
 .maars-news__list {
-	gap: clamp(1.25rem, 1rem + 1vw, 2rem);
+	gap: var(--maars-space-4);
 }
 
 .maars-news__date,
@@ -1782,27 +2035,22 @@
 
 .maars-news__more {
 	font-weight: 600;
-	margin-block-start: 1.25rem;
+	margin-block-start: var(--maars-space-3);
 }
 
 /* An empty list says so in words rather than leaving a tidy gap a reader
-   mistakes for activity. */
+   mistakes for activity. The words are enough; it needs no box. */
 .maars-empty {
-	background-color: var(--maars-paper);
-	border: var(--maars-hairline) solid var(--maars-rule);
-	border-inline-start: 6px solid var(--maars-magenta);
-	border-radius: var(--maars-radius);
 	line-height: var(--maars-leading);
-	padding: clamp(1rem, 0.85rem + 0.8vw, 1.5rem);
 }
 
 .maars-empty__title {
 	font-weight: 700;
-	margin-block: 0 0.5rem;
+	margin-block: 0 var(--maars-space-1);
 }
 
 .maars-empty__search {
-	margin-block-start: 1rem;
+	margin-block-start: var(--maars-space-3);
 }
 
 /* ---------------------------------------------------------------------------
@@ -1824,73 +2072,112 @@
 	padding-inline-start: 1rem;
 }
 
-.maars-archive-filters {
-	border: var(--maars-hairline) solid var(--maars-rule);
-	border-radius: var(--maars-radius);
-	margin-block: clamp(1rem, 0.8rem + 0.9vw, 1.75rem);
+/*
+ * NARROWING THE LIST. Revision 1 fenced the search field and the two facet
+ * lists inside a bordered panel, so the archive opened with a box holding
+ * boxes above a list. It is a ruled band now, like every other band on the
+ * page: the rule above it is drawn by the template and is all the separation
+ * it needs.
+ */
+.maars-archive__narrow {
+	padding-block-end: var(--maars-space-4);
 }
 
 .maars-filters__title {
-	margin-block: 0 0.75rem;
+	margin-block: 0 var(--maars-space-2);
 }
 
 .maars-filters__facets {
-	margin-block-start: 1rem;
+	margin-block-start: var(--maars-space-3);
 }
 
 .maars-facet__title {
-	margin-block: 0 0.5rem;
+	margin-block: 0 var(--maars-space-1);
 }
 
-.maars-facet,
-.maars-facet-doctype,
-.maars-facet-year {
+/*
+ * THE TERM LISTS, and the bug they carried.
+ *
+ * WordPress's categories block writes the count as a bare text node AFTER the
+ * link: <li><a>Meeting Minutes</a> (3)</li>. Revision 1 gave that anchor
+ * `display: flex` to make it a 48px target, which made it a block, which threw
+ * the count onto a line of its own — so the list read
+ *
+ *     Minutes
+ *     (3)
+ *
+ * and a reader scanning four document types saw eight items. THE ANCHOR MUST
+ * NEVER BE THE FLEX CONTAINER. The row is the <li>, the anchor stretches
+ * inside it, and the count sits at the end of the row where it belongs.
+ *
+ * The list is held to about 22rem so the count lands near its term rather than
+ * a column away, and the ruled rows make it read as a column of records. Above
+ * 48em the 26-year list runs in two columns, so it is 13 rows tall instead of
+ * 26 — a facet list nobody can see the bottom of is a facet list nobody uses.
+ */
+.maars-termlist {
 	display: grid;
 	font-family: var(--maars-font-text);
-	gap: 0.1rem;
 	list-style: none;
 	margin: 0;
+	max-width: 22rem;
 	padding: 0;
 }
 
-.maars-facet a,
-.maars-facet-doctype a,
-.maars-facet-year a {
+.maars-termlist li {
 	align-items: center;
-	color: var(--maars-navy);
+	border-block-end: var(--maars-hairline) solid var(--maars-rule);
+	column-gap: var(--maars-space-3);
 	display: flex;
+	justify-content: space-between;
+	margin: 0;
 	min-height: var(--maars-target);
-	padding-block: 0.25rem;
 }
 
-.maars-facet a:hover,
-.maars-facet-doctype a:hover,
-.maars-facet-year a:hover {
+.maars-termlist a {
+	align-items: center;
+	align-self: stretch;
+	color: var(--maars-navy);
+	display: flex;
+	flex: 1 1 auto;
+}
+
+.maars-termlist a:hover {
 	text-decoration-thickness: max(2px, 0.11em);
 }
 
-/* Twenty-six years of terms, so this one is a select. It is still a target. */
-.maars-facet-year select,
-.maars-facet select {
-	border: 2px solid var(--maars-navy);
-	border-radius: var(--maars-radius);
-	color: var(--maars-ink);
-	background-color: var(--maars-paper);
-	max-width: 100%;
-	padding: 0.5rem 0.6rem;
-	width: 100%;
+/*
+ * The count keeps the row's own ink, and there is no rule for it here because
+ * there is nothing to hang one on: WordPress writes it as a bare text node
+ * inside the <li>, with no element and no class round it, so it cannot be
+ * selected at all. It is 18px on the page ground at 16.74:1, it sits at the
+ * end of its row, and .maars-termlist below puts it in tabular figures so
+ * (160) and (6) line up down the column. A rule that cannot match is worse
+ * than no rule, because the next person believes it.
+ */
+
+@media (min-width: 48em) {
+	.maars-termlist--year {
+		column-gap: var(--maars-space-4);
+		/* TWO. Twelve was a typo and it was catastrophic: each <li> became a
+		   1/12th-width cell, so every "1998 (4)" wrapped one character to a
+		   line and the whole facet shattered into a field of loose digits.
+		   Rendered and looked at, not inferred. */
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		max-width: 34rem;
+	}
 }
 
 .maars-facet__note {
 	color: var(--maars-meta);
 	font-size: var(--maars-text-note);
 	line-height: 1.5;
-	margin-block-start: 0.75rem;
+	margin-block-start: var(--maars-space-2);
 	max-width: 46ch;
 }
 
 .maars-filters__search {
-	margin-block-end: 1rem;
+	margin-block-end: var(--maars-space-3);
 }
 
 .maars-filters__search .wp-block-search__input {
@@ -1935,10 +2222,22 @@
  * An entry in a list. The archive's .maars-doc is also a .maars-log__row and
  * draws its own hairline in the template, so the rule here is written only for
  * the entries that are not log lines — the news and index loops.
+ *
+ * A LIST ITEM IN A LOOP IS NOT PROSE. Section 2 caps every li inside main at
+ * the reading measure, which is right for a bulleted list in an article and
+ * wrong for a query loop, where WordPress wraps each entry in an <li>: it
+ * cropped every row of the archive to 68ch and left a dead gutter down the
+ * right of all fourteen pages. A row fills its list.
  */
+.maars-log li,
+.maars-log__entries > li,
+.wp-block-post-template > li {
+	max-width: 100%;
+}
+
 .maars-entry {
 	border-block-end: var(--maars-hairline) solid var(--maars-rule);
-	padding-block: clamp(0.9rem, 0.75rem + 0.5vw, 1.25rem);
+	padding-block: var(--maars-space-3);
 }
 
 .maars-entry:last-child {
@@ -1949,41 +2248,17 @@
 	margin: 0;
 }
 
-.maars-entry__meta {
-	align-items: baseline;
-	column-gap: 1rem;
-	display: flex;
-	flex-wrap: wrap;
-	font-family: var(--maars-font-data);
-	font-variant-numeric: slashed-zero tabular-nums;
-	row-gap: 0.25rem;
+/* The dateline row on a news or index entry: a field name, the date it was
+   published, a field name, the date it was last touched. Figures stay tabular
+   so the two dates line up; neither is given the data face, because a date
+   written out in words is a sentence. */
+.maars-entry__when {
+	row-gap: var(--maars-space-1);
 }
 
-.maars-doc__type,
-.maars-entry__year {
-	color: var(--maars-magenta);        /* 8.25:1 on paper — the record */
-	font-family: var(--maars-font-text);
-	font-size: var(--maars-text-label);
-	font-weight: 700;
-	letter-spacing: 0.07em;
+.maars-entry__date,
+.maars-entry__updated {
 	margin: 0;
-	text-transform: uppercase;
-}
-
-.maars-doc__type a,
-.maars-entry__year a {
-	color: inherit;
-}
-
- /* A field name in a record strip: the same label manners, quieter ink. */
-.maars-label {
-	color: var(--maars-meta);           /* 8.66:1 on paper, 8.04:1 on ground */
-	font-family: var(--maars-font-text);
-	font-size: var(--maars-text-label);
-	font-weight: 700;
-	letter-spacing: 0.07em;
-	margin: 0;
-	text-transform: uppercase;
 }
 
 .maars-entry__title,
@@ -2001,32 +2276,20 @@
 	max-width: var(--maars-measure);
 }
 
-.maars-archive__pagination,
-.maars-index__pagination {
-	border-block-start: var(--maars-hairline) solid var(--maars-rule);
-	font-family: var(--maars-font-data);
-	font-variant-numeric: slashed-zero tabular-nums;
-	margin-block-start: 1.5rem;
-	padding-block-start: 1rem;
-}
-
-.maars-archive__provenance,
-.maars-archive__loop + .maars-archive__provenance {
-	color: var(--maars-meta);
+/* How the list was made, said once, at the foot of it. */
+.maars-archive__provenance {
+	color: var(--maars-meta);           /* 8.04:1 on ground */
 	line-height: var(--maars-leading);
-	margin-block-start: 1.75rem;
+	margin-block-start: var(--maars-space-4);
 	max-width: var(--maars-measure);
 }
 
-/* The way into the record. Paper, with the record's own rule down its edge —
-   lavender is reserved for the standing-fact panel and is not borrowed here. */
+/* The way into the record: a band like the two above it, separated by a rule
+   rather than fenced off in a card. Magenta carries the heading and the button
+   inside it, which is all the marking it needs. */
 .maars-archive-teaser {
-	background-color: var(--maars-paper);
-	border: var(--maars-hairline) solid var(--maars-rule);
-	border-inline-start: 6px solid var(--maars-magenta);
-	border-radius: var(--maars-radius);
+	border-block-start: var(--maars-hairline) solid var(--maars-rule);
 	color: var(--maars-ink);
-	margin-block-start: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
 }
 
 /* ---------------------------------------------------------------------------
@@ -2051,24 +2314,29 @@
 	margin-block: 0.35rem 1rem;
 }
 
-/* The header strip: when the document is dated, what it is, and how far the
-   site will vouch for it. Three facts, above the text, every time. It is a
-   .maars-log__header, so its columns come from section 5; the template draws
-   the magenta rule above it. */
+/* The header strip: when the document is dated, what it is, and what year of
+   the record it belongs to. Three facts, above the text, every time. It is a
+   .maars-log__header, so its cells come from section 5. */
 .maars-doc-record__meta {
 	display: flex;
 }
 
-.maars-doc-record__type,
-.maars-doc-record__year,
-.maars-doc-record__date {
-	font-weight: 600;
+/*
+ * The document's date and its kind are values, and they are set as values: the
+ * reading face, sentence case, no tracking. Revision 1 put both in Fira Code
+ * under capitalised labels, so "Minutes" read like a file name. The year is a
+ * figure and carries .maars-fig, which is what puts it — and only it — in the
+ * data face.
+ */
+.maars-doc-record__date,
+.maars-doc-record__kind,
+.maars-doc-record__yearterm {
 	margin: 0;
 }
 
-.maars-doc-record__type a,
-.maars-doc-record__year a {
-	color: var(--maars-magenta);
+.maars-doc-record__kind a,
+.maars-doc-record__yearterm a {
+	color: var(--maars-magenta);        /* 8.25:1 on paper — the record */
 }
 
 .maars-doc-record__vouch {
@@ -2093,7 +2361,7 @@
 	background-color: var(--maars-rule);
 	border: 0;
 	height: 1px;
-	margin-block: clamp(1.5rem, 1.2rem + 1.2vw, 2.5rem);
+	margin-block: var(--maars-space-5);
 }
 
 /* Older and newer, named the way the archive names them: "previous" in a list
@@ -2125,7 +2393,7 @@
 .maars-original {
 	border-radius: var(--maars-radius);
 	display: block;
-	margin-block: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
+	margin-block: var(--maars-space-5);
 }
 
 .maars-original__title {
@@ -2135,13 +2403,7 @@
 /* Three fields — file, format, size — as one log line. A dash is an entry in a
    log, and it means no entry; nothing here pretends to a figure it has not
    got. */
-.maars-original__line {
-	margin-block: 1.25rem;
-}
-
-.maars-original__file,
-.maars-original__format,
-.maars-original__size {
+.maars-original__file {
 	color: var(--maars-ink);
 	line-height: 1.4;
 	margin: 0;
@@ -2168,7 +2430,7 @@
 
 .maars-footer {
 	border-block-start: var(--maars-hairline) solid var(--maars-rule);
-	padding-block: clamp(2rem, 1.6rem + 2vw, 3.25rem);
+	padding-block: var(--maars-space-5);
 }
 
 /*
@@ -2176,14 +2438,27 @@
  * the official organ, so a silent website is not a governance failure and must
  * not pretend to be the channel of record.
  */
+/*
+ * REVISION 2, FINAL PASS — the lavender plate is gone.
+ *
+ * This was the last tinted panel on the site, 1,088 x 245px of pale lavender
+ * at the foot of every page, and it was the second-boldest thing on any
+ * screen after the propagation scene. The brief allows one bold element and
+ * this was not it.
+ *
+ * Nothing is lost by removing it. A quotation is already marked as one by the
+ * quotation marks round it, by the display face it is set in and by the
+ * citation underneath naming Article III and the date it was revised. What is
+ * left is the same device the archive's gap note uses: a rule down the edge,
+ * turned ninety degrees from the hairlines that separate rows. The site now
+ * has exactly one filled block on it, and it is the scene.
+ */
 .maars-official-organ {
-	background-color: var(--maars-lavender);
-	border-inline-start: 6px solid var(--maars-navy);
-	border-radius: var(--maars-radius);
+	border-inline-start: 3px solid var(--maars-navy);
 	color: var(--maars-ink);
 	display: grid;
-	gap: 0.5rem;
-	margin-block-end: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
+	gap: var(--maars-space-1);
+	margin-block-end: var(--maars-space-4);
 }
 
 .maars-official-organ__quote {
@@ -2208,22 +2483,32 @@
  * came across, and the footer says so in words rather than leaving a gap.
  */
 .maars-postal {
-	margin-block-start: 1.5rem;
+	display: grid;
+	gap: 0;
+	margin-block-start: var(--maars-space-4);
 }
 
-.maars-postal__identity {
+/* Name, callsign, county: three lines, because they are three facts. Revision
+   1 joined them with middle dots. */
+.maars-postal__identity,
+.maars-postal__call,
+.maars-postal__place {
 	line-height: 1.45;
 	margin: 0;
 	max-width: var(--maars-measure);
 }
 
+.maars-postal__place {
+	color: var(--maars-meta);           /* 8.04:1 on ground */
+}
+
 .maars-footer-columns {
-	gap: 1.75rem 2.5rem;
+	gap: var(--maars-space-4) var(--maars-space-5);
 	margin-block-start: 0;
 }
 
 .maars-footer__heading {
-	margin-block: 0 0.6rem;
+	margin-block: 0 var(--maars-space-2);
 }
 
 .maars-footer__list {
@@ -2248,7 +2533,7 @@
 .maars-footer__note {
 	color: var(--maars-meta);
 	line-height: var(--maars-leading);
-	margin-block-start: 0.85rem;
+	margin-block-start: var(--maars-space-2);
 	max-width: 46ch;
 }
 
@@ -2256,7 +2541,7 @@
 	background-color: var(--maars-rule);
 	border: 0;
 	height: 1px;
-	margin-block: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
+	margin-block: var(--maars-space-5);
 }
 
 /*
@@ -2267,7 +2552,7 @@
  */
 .maars-lastreviewed {
 	display: grid;
-	gap: 0.5rem;
+	gap: var(--maars-space-1);
 }
 
 .maars-lastreviewed__line {
@@ -2295,26 +2580,25 @@
 	}
 
 	.maars-dateline,
-	.maars-next-meeting,
-	.maars-fact,
+	.maars-archive-filters,
 	.maars-original,
 	.maars-log {
 		background-color: transparent;
 		border-color: #000000;
 	}
 
-	.maars-fact__chip {
-		background-color: transparent;
-		border-color: #000000;
+	/* The provenance line prints as what it is on screen: one quiet sentence,
+	   in black, under the fact. The grade word carries it, so nothing is lost
+	   on a photocopier. */
+	.maars-fact__chip,
+	.maars-next-meeting__rule {
 		color: #000000;
 	}
 
-	.maars-fact__chip--measured .maars-fact__grade::before {
-		background-color: #000000;
-	}
-
+	.maars-spec li + li,
+	.maars-entry,
 	.maars-log__row {
-		border-block-start-color: #000000;
+		border-color: #000000;
 	}
 
 	.maars-skywave__canvas,
@@ -2370,7 +2654,7 @@
 /*
  * And the band itself.
  *
- * THE ONE PLACE THIS FILE OVERRIDES WORDPRESS WITH !important, and the reason:
+ * THE LAST OF THE THREE !important DECLARATIONS, and the reason:
  * WordPress prints its preset colour utilities as
  * `.has-ink-background-color{background-color:var(--wp--preset--color--ink) !important}`.
  * In dark mode the ink preset legitimately becomes #EDEDF7 — it is the text
@@ -2388,4 +2672,93 @@
 .maars-hero.has-ink-background-color {
 	background-color: var(--maars-band) !important;
 	color: var(--maars-on-band) !important;
+}
+
+/* ===========================================================================
+ * 17. THE FRONT PAGE AT READING WIDTH — and the last of defect 8.
+ *
+ * Every band on this site is capped at the reading measure, 68ch, because a
+ * 1,088px line is not readable. On a phone that cap does nothing; on a 1,440px
+ * screen the column is 1,152px wide and the prose in it is 660px wide, so 42%
+ * of the page is empty down its whole length and the page runs on for two
+ * screens more than it has words for. Revision 1 answered the empty space by
+ * growing the type and the padding, which is how the homepage reached 6,363px.
+ * The answer is to put two bands where one was.
+ *
+ * TWO, never three. Half of 1,088px is about 48 characters, which is inside
+ * the 45–75ch a person actually reads in; a third is 30 characters, which is a
+ * newspaper column, and this page is read by people in their eighties on an
+ * iPad. Legibility is the floor and the floor does not move to save pixels.
+ *
+ * The two are 5:7, not 6:6, and the wide side changes hands between the rows.
+ * Prose needs the measure and a date or a list of titles does not: the
+ * repeater's paragraphs and the founding story get seven twelfths (about 53
+ * characters), the meeting date and the news list get five. Measured over the
+ * whole page that one ratio is worth 190px against an even split, and it is
+ * worth it in the other direction too — nothing on the page is now set
+ * narrower than about 38 characters.
+ *
+ * WHAT SITS BESIDE WHAT is an editorial decision, not a packing problem:
+ *
+ *   row 1  the meeting  |  what is on the air. Both are "now", and they are
+ *          the two things a member opens this site to check. The meeting stays
+ *          in the first column and first in source order, at 44px against the
+ *          26px heading beside it, so it is still the largest thing and still
+ *          the first thing under the masthead. Beside it, the repeater's four
+ *          figures are now on the same screen instead of a scroll below it.
+ *   row 2  the scene, full width. It is the one bold element on the site and
+ *          the one thing here that is better for being wide.
+ *   row 3  the founding  |  recent news. Two quiet blocks of equal weight.
+ *   row 4  the archive, full width, last, in its own colour. It is the largest
+ *          thing the Society owns and it is the page's closing sentence.
+ *
+ * Below 64em none of this applies and the page is the single column it has
+ * always been: at that width two columns of 48ch do not fit either.
+ *
+ * The lines BETWEEN the columns are rules, not boxes — the same hairline that
+ * separates rows, turned ninety degrees. .maars-onair carries a top border
+ * from the template for the single-column case; beside the meeting that border
+ * would draw a line over one half of one row, so here it becomes the vertical
+ * rule between the two. Nothing gains an edge it did not already have.
+ * ------------------------------------------------------------------------- */
+
+@media (min-width: 64em) {
+	.maars-front {
+		align-items: start;
+		column-gap: var(--maars-space-5);
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+	}
+
+	.maars-front > .maars-lede {
+		grid-column: 1 / 6;
+	}
+
+	.maars-front > .maars-onair {
+		border-block-start: 0;
+		border-inline-start: var(--maars-hairline) solid var(--maars-rule);
+		grid-column: 6 / -1;
+		padding-inline-start: var(--maars-space-5);
+	}
+
+	.maars-front > .maars-hero {
+		grid-column: 1 / -1;
+	}
+
+	.maars-front > .maars-about {
+		border-block-start: var(--maars-hairline) solid var(--maars-rule);
+		grid-column: 1 / 8;
+	}
+
+	.maars-front > .maars-news {
+		border-block-start: var(--maars-hairline) solid var(--maars-rule);
+		border-inline-start: var(--maars-hairline) solid var(--maars-rule);
+		grid-column: 8 / -1;
+		padding-inline-start: var(--maars-space-5);
+	}
+
+	.maars-front > .maars-archive-teaser {
+		border-block-start: var(--maars-hairline) solid var(--maars-rule);
+		grid-column: 1 / -1;
+	}
 }

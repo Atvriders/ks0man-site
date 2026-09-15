@@ -1,201 +1,201 @@
 <!-- wp:template-part {"slug":"header","tagName":"header","area":"header","className":"maars-site-header"} /-->
 
-<!-- THE FRONT PAGE, in the order a member actually needs it.
+<!-- THE FRONT PAGE, revision 2.
 
-     The scene used to be first. It is not any more, and the reason is the brief: this page's job
-     is to tell a member what is true now. Somebody opening this site on the second Thursday of the
-     month came for one thing, and it was not a picture. So the standing facts lead, the site states
-     its own age second, and the propagation scene is the third beat with a heading that says what
-     it is. A decoration nobody can interpret is worse than no decoration.
+     One question brought the visitor here: when is the next meeting. So that is the first thing
+     under the masthead and the largest thing on the page, and it is stated exactly once. Revision
+     one stated it twice at the same weight, in a box beside another box, under a shouted label,
+     and explained the mechanism again beside every fact until the page was 6,363px tall.
 
-     Every band below is a child of .maars-main, which means maars.css gives it the page gutter and
-     the 74rem cap. Nothing here sets its own side padding or its own measure; the stylesheet owns
-     width, this file owns structure and words. -->
+     What changed, in order:
+       The "Standing facts" eyebrow is gone, and so is the tinted panel it sat on.
+       Nothing stands between the masthead and the meeting now. The Society's own headline,
+       "Amateur radio in Manhattan, Kansas since 1976", has moved down to the founding story,
+       which is the paragraph it was always describing.
+       The meeting is stated once. The block prints the rule that computes it, so the row that
+       used to repeat "second Friday of the month" underneath has been deleted.
+       The lavender panel and the white cards inside it are gone. Entries are separated by a
+       hairline and by space, which is what a rule is for.
+       The mechanism is explained in one sentence, at the foot of the facts, once.
+       Every section heading is capped below the size of the meeting date, so nothing further
+       down the page outshouts the one thing the visitor came for.
+
+     Every band below is a child of .maars-main, which means maars.css gives it the page gutter
+     and the column cap. Nothing here sets its own side padding or its own measure; the
+     stylesheet owns width, this file owns structure, words and vertical rhythm.
+
+     Dates that are read as sentences stay in the reading face. Callsigns, frequencies, offsets
+     and tones are figures and are wrapped in <code>, which is the only thing on this page that
+     asks for Fira Code, whose zero is natively slashed. A prose date is not a figure, and is
+     never wrapped. -->
 <!-- wp:group {"tagName":"main","className":"maars-main maars-front","style":{"spacing":{"blockGap":"0px","margin":{"top":"0px","bottom":"0px"}}},"layout":{"type":"default"}} -->
 <main class="wp-block-group maars-main maars-front" style="margin-top:0px;margin-bottom:0px">
 
-	<!-- 1. THE STANDING FACTS — the log.
+	<!-- 1. THE NEXT MEETING.
 
-	     Lavender is the standing-fact panel in the palette, and the three entries sit on it as white
-	     log cards: a fixed field column in the data face, the figures beside it, and the freshness
-	     grade attached to each entry rather than to the page. An UNVERIFIED chip here is an honest
-	     label on a fact the club has not re-measured, not a warning siren, so nothing shouts.
+	     The date is computed by the block from the Society's own rule and prints that rule
+	     underneath, so a reader can check the arithmetic rather than trust a number somebody
+	     typed. A hand-typed date is how a homepage ends up advertising a meeting that happened
+	     two years ago.
 
-	     Frequencies, tones and times are wrapped in <code>, and dates in <time>, because maars.css
-	     sets Fira Code with slashed-zero tabular figures on exactly those elements inside a fact.
-	     That is how a zero stops being an O and a column of figures lines up.
+	     The venue is the part that moves. It moved in January 2024, so it is the part that carries
+	     a grade and a check date, and the block attaches both. No source file is passed: the chip
+	     would then print an archive path such as extract/pdftext/minutes_01-24.txt, which means
+	     nothing to a member. The file that backs the claim is on the record page, where somebody
+	     chasing provenance is already standing. -->
+	<!-- wp:group {"tagName":"section","className":"maars-lede","style":{"spacing":{"blockGap":"0.6rem","padding":{"top":"1.75rem","bottom":"1.75rem"}}},"layout":{"type":"default"}} -->
+	<section class="wp-block-group maars-lede" style="padding-top:1.75rem;padding-bottom:1.75rem">
 
-	     No sourceFile is passed to these three. The chip would then print an archive path such as
-	     extract/pdftext/newsletter_01-24.txt, which means nothing to a member and turns a calm
-	     label into three lines of debug output. Grade and check date are the claim; the file that
-	     backs it is on the record page, where somebody chasing provenance is already standing. -->
-	<!-- wp:group {"tagName":"section","className":"maars-standing","style":{"spacing":{"blockGap":"1rem","padding":{"top":"2rem","bottom":"2.25rem"}}},"backgroundColor":"lavender","textColor":"ink","layout":{"type":"default"}} -->
-	<section class="wp-block-group maars-standing has-ink-color has-lavender-background-color has-text-color has-background" style="padding-top:2rem;padding-bottom:2.25rem">
-
-		<!-- wp:paragraph {"className":"maars-label maars-standing__label","style":{"typography":{"fontSize":"1rem","fontWeight":"700","letterSpacing":"0.08em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"ink"} -->
-		<p class="maars-label maars-standing__label has-ink-color has-text-color" style="font-size:1rem;font-weight:700;letter-spacing:0.08em;line-height:1.3;text-transform:uppercase">Standing facts</p>
-		<!-- /wp:paragraph -->
-
-		<!-- wp:heading {"level":1,"className":"maars-standing__title","style":{"typography":{"lineHeight":"1.1"}},"textColor":"navy"} -->
-		<h1 class="wp-block-heading maars-standing__title has-navy-color has-text-color" style="line-height:1.1">Amateur radio in Manhattan, Kansas since 1976</h1>
+		<!-- Two words, and they have to be on the screen. The block renders the date at
+		     display size and hands "Next meeting" to a screen reader only, which leaves a
+		     sighted visitor looking at a large date with nothing saying what it is a date
+		     for. This heading says it, in sentence case, at a size deliberately under the
+		     date's: the label is small, the answer is large. -->
+		<!-- wp:heading {"level":1,"className":"maars-lede__title","style":{"typography":{"fontSize":"clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem)","lineHeight":"1.3"}},"textColor":"navy"} -->
+		<h1 class="wp-block-heading maars-lede__title has-navy-color has-text-color" style="font-size:clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);line-height:1.3">Next meeting</h1>
 		<!-- /wp:heading -->
 
-		<!-- wp:paragraph {"className":"maars-standing__lede","fontSize":"large","style":{"typography":{"lineHeight":"1.55"}},"textColor":"ink"} -->
-		<p class="maars-standing__lede has-ink-color has-text-color has-large-font-size" style="line-height:1.55">Everything in this panel carries the date it was last checked. The meeting date is computed from the Society&#8217;s own rule rather than typed into a page, so it cannot quietly go out of date the way the old site did.</p>
-		<!-- /wp:paragraph -->
-
-		<!-- The computed date. It prints the rule that produced it, so a reader can check the
-		     arithmetic instead of trusting a number somebody once typed. A hand-typed date is how a
-		     homepage ends up advertising a meeting that happened two and a half years ago. -->
 		<!-- wp:maars/next-meeting {"label":"Next meeting","showRule":true} /-->
 
-		<!-- LOG LINE 1 — the meeting. The rule above is fixed by the constitution; the venue is the
-		     part that moves, and it moved in January 2024, so it is the part that carries a date. -->
-		<!-- wp:maars/fact {"grade":"sourced","verifiedOn":"2024-01-12","className":"maars-logline"} -->
-			<!-- wp:columns {"className":"maars-logline__row","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-			<div class="wp-block-columns maars-logline__row" style="margin-top:0;margin-bottom:0">
-				<!-- wp:column {"width":"10rem","className":"maars-logline__keycol"} -->
-				<div class="wp-block-column maars-logline__keycol" style="flex-basis:10rem">
-					<!-- wp:paragraph {"className":"maars-logline__key","fontFamily":"data","style":{"typography":{"fontSize":"1rem","fontWeight":"700","letterSpacing":"0.1em","lineHeight":"1.5","textTransform":"uppercase"}},"textColor":"navy"} -->
-					<p class="maars-logline__key has-navy-color has-text-color has-data-font-family" style="font-size:1rem;font-weight:700;letter-spacing:0.1em;line-height:1.5;text-transform:uppercase">Meeting</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:column -->
-				<!-- wp:column {"className":"maars-logline__valcol"} -->
-				<div class="wp-block-column maars-logline__valcol">
-					<!-- wp:paragraph {"className":"maars-logline__value","style":{"typography":{"lineHeight":"1.55"}}} -->
-					<p class="maars-logline__value" style="line-height:1.55">Second Friday of the month, called to order at <code>6:30 P.M.</code>, doors at <code>6:00 P.M.</code> <span aria-hidden="true">·</span> Manhattan / Riley County Senior Center, Fourth and Leavenworth.</p>
-					<!-- /wp:paragraph -->
-					<!-- wp:paragraph {"className":"maars-logline__note maars-log__note","style":{"typography":{"lineHeight":"1.55"}}} -->
-					<p class="maars-logline__note maars-log__note" style="line-height:1.55">The Society moved to the Senior Center in January 2024 and the venue is confirmed in the minutes of <time datetime="2024-01-12">12 January 2024</time>, not since. Confirm the venue and the door time before you rely on them <span aria-hidden="true">·</span> <a href="/events/">meetings and events</a>.</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:column -->
-			</div>
-			<!-- /wp:columns -->
+		<!-- wp:maars/fact {"grade":"sourced","verifiedOn":"2024-01-12","className":"maars-lede__where"} -->
+			<!-- wp:paragraph {"className":"maars-lede__venue","fontSize":"large","style":{"spacing":{"margin":{"top":"0.6rem"}},"typography":{"lineHeight":"1.5"}}} -->
+			<p class="maars-lede__venue has-large-font-size" style="margin-top:0.6rem;line-height:1.5">Doors open half an hour before, at the Manhattan / Riley County Senior Center, Fourth and Leavenworth.</p>
+			<!-- /wp:paragraph -->
 		<!-- /wp:maars/fact -->
 
-		<!-- LOG LINE 2 — the repeater. Every figure here is graded unverified on purpose: the machine
-		     left the KSDB-FM tower in November 2023 and the controller was voted out in January 2024,
-		     and the record stops before either change was confirmed on the air. -->
-		<!-- wp:maars/fact {"grade":"unverified","className":"maars-logline"} -->
-			<!-- wp:columns {"className":"maars-logline__row","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-			<div class="wp-block-columns maars-logline__row" style="margin-top:0;margin-bottom:0">
-				<!-- wp:column {"width":"10rem","className":"maars-logline__keycol"} -->
-				<div class="wp-block-column maars-logline__keycol" style="flex-basis:10rem">
-					<!-- wp:paragraph {"className":"maars-logline__key","fontFamily":"data","style":{"typography":{"fontSize":"1rem","fontWeight":"700","letterSpacing":"0.1em","lineHeight":"1.5","textTransform":"uppercase"}},"textColor":"navy"} -->
-					<p class="maars-logline__key has-navy-color has-text-color has-data-font-family" style="font-size:1rem;font-weight:700;letter-spacing:0.1em;line-height:1.5;text-transform:uppercase">Repeater</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:column -->
-				<!-- wp:column {"className":"maars-logline__valcol"} -->
-				<div class="wp-block-column maars-logline__valcol">
-					<!-- wp:paragraph {"className":"maars-logline__value","style":{"typography":{"lineHeight":"1.55"}}} -->
-					<p class="maars-logline__value" style="line-height:1.55"><code>KSØMAN</code> <span aria-hidden="true">·</span> <code>147.255 MHz</code> out, <code>147.855 MHz</code> in <span aria-hidden="true">·</span> <code>+600 kHz</code> <span aria-hidden="true">·</span> CTCSS <code>88.5 Hz</code> on both ends <span aria-hidden="true">·</span> open to all licensed amateurs.</p>
-					<!-- /wp:paragraph -->
-					<!-- wp:paragraph {"className":"maars-logline__note maars-log__note","style":{"typography":{"lineHeight":"1.55"}}} -->
-					<p class="maars-logline__note maars-log__note" style="line-height:1.55">The machine left the KSDB-FM tower in November 2023 and the controller was voted out of the system in January 2024. Nobody has re-measured since, so this is what was last written down rather than what is true today <span aria-hidden="true">·</span> <a href="/on-the-air/">the full record, field by field</a>.</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:column -->
-			</div>
-			<!-- /wp:columns -->
-		<!-- /wp:maars/fact -->
-
-		<!-- LOG LINE 3 — the net. The hour is the field the old site was least consistent about, and
-		     saying so is more useful than picking one and sounding certain. -->
-		<!-- wp:maars/fact {"grade":"unverified","className":"maars-logline"} -->
-			<!-- wp:columns {"className":"maars-logline__row","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-			<div class="wp-block-columns maars-logline__row" style="margin-top:0;margin-bottom:0">
-				<!-- wp:column {"width":"10rem","className":"maars-logline__keycol"} -->
-				<div class="wp-block-column maars-logline__keycol" style="flex-basis:10rem">
-					<!-- wp:paragraph {"className":"maars-logline__key","fontFamily":"data","style":{"typography":{"fontSize":"1rem","fontWeight":"700","letterSpacing":"0.1em","lineHeight":"1.5","textTransform":"uppercase"}},"textColor":"navy"} -->
-					<p class="maars-logline__key has-navy-color has-text-color has-data-font-family" style="font-size:1rem;font-weight:700;letter-spacing:0.1em;line-height:1.5;text-transform:uppercase">Net</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:column -->
-				<!-- wp:column {"className":"maars-logline__valcol"} -->
-				<div class="wp-block-column maars-logline__valcol">
-					<!-- wp:paragraph {"className":"maars-logline__value","style":{"typography":{"lineHeight":"1.55"}}} -->
-					<p class="maars-logline__value" style="line-height:1.55">Weekly, Tuesdays at <code>8:00 P.M.</code> Central <span aria-hidden="true">·</span> a directed net on the <code>KSØMAN</code> repeater <span aria-hidden="true">·</span> all amateurs, Technician and above, are welcome to check in.</p>
-					<!-- /wp:paragraph -->
-					<!-- wp:paragraph {"className":"maars-logline__note maars-log__note","style":{"typography":{"lineHeight":"1.55"}}} -->
-					<p class="maars-logline__note maars-log__note" style="line-height:1.55">The net ran at <code>9:00 P.M.</code> through 2014 and appears at <code>8:00 P.M.</code> from about 2016. The old site printed both, in different places, for years <span aria-hidden="true">·</span> <a href="/on-the-air/">the full record, field by field</a>.</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:column -->
-			</div>
-			<!-- /wp:columns -->
-		<!-- /wp:maars/fact -->
-
-		<!-- wp:paragraph {"className":"maars-standing__footnote","style":{"typography":{"lineHeight":"1.55"}},"textColor":"ink"} -->
-		<p class="maars-standing__footnote has-ink-color has-text-color" style="line-height:1.55"><strong>Measured</strong> means somebody checked it against the thing itself. <strong>Sourced</strong> means it came out of a club document. <strong>Unverified</strong> means nobody has confirmed it and you should treat it as history <span aria-hidden="true">·</span> <a href="/about/how-this-site-is-maintained/">how this site is maintained</a>.</p>
+		<!-- wp:paragraph {"className":"maars-lede__note"} -->
+		<p class="maars-lede__note">The Society moved there in January 2024 and the room has not been confirmed in writing since. Check <a href="/events/">meetings and events</a> before you rely on it.</p>
 		<!-- /wp:paragraph -->
 
 	</section>
 	<!-- /wp:group -->
 
-	<!-- 2. THE DATELINE — the site stating its own age before it states anything else.
+	<!-- 2. ON THE AIR.
 
-	     No heading above it. The block writes its own sentence, carries role="status", and maars.css
-	     gives the stale state a rust band and a dashed edge rather than a red alarm box, because
-	     this is the site telling the truth about itself and that is the most credible thing on the
-	     page. The old site looked current on 12 September 2026 with nothing newer than 16 January
-	     2024 on it; this block is the structural fix for exactly that. -->
-	<!-- wp:group {"tagName":"section","className":"maars-dateline-wrap","style":{"spacing":{"padding":{"top":"1.75rem","bottom":"0.5rem"}}},"layout":{"type":"default"}} -->
-	<section class="wp-block-group maars-dateline-wrap" style="padding-top:1.75rem;padding-bottom:0.5rem">
-		<!-- wp:maars/dateline /-->
+	     Two entries, a hairline between them, and no box around either. The repeater is a
+	     specification, so it is set as labelled values rather than as a sentence stitched together
+	     out of middle dots: a member programming a handheld is looking for one number, and a list
+	     hands it over without being read. Every figure in it is graded unverified on purpose. The
+	     machine left the KSDB-FM tower in November 2023 and the controller was voted out of the
+	     system in January 2024, and the written record stops before either change was confirmed on
+	     the air, so what is printed is what was last written down rather than what is true today.
+	     The grade says exactly that, without raising its voice. -->
+	<!-- wp:group {"tagName":"section","className":"maars-onair","style":{"spacing":{"blockGap":"0.9rem","padding":{"top":"1.75rem","bottom":"1.75rem"}},"border":{"top":{"color":"#D7D7E4","width":"1px","style":"solid"}}},"layout":{"type":"default"}} -->
+	<section class="wp-block-group maars-onair" style="border-top-color:#D7D7E4;border-top-style:solid;border-top-width:1px;padding-top:1.75rem;padding-bottom:1.75rem">
+
+		<!-- wp:heading {"level":2,"className":"maars-section__title","style":{"typography":{"fontSize":"clamp(1.375rem, 1.25rem + 0.55vw, 1.625rem)","lineHeight":"1.25"}},"textColor":"navy"} -->
+		<h2 class="wp-block-heading maars-section__title has-navy-color has-text-color" style="font-size:clamp(1.375rem, 1.25rem + 0.55vw, 1.625rem);line-height:1.25">On the air</h2>
+		<!-- /wp:heading -->
+
+		<!-- wp:maars/fact {"grade":"unverified","className":"maars-onair__entry"} -->
+			<!-- wp:heading {"level":3,"className":"maars-onair__name","style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.3"}}} -->
+			<h3 class="wp-block-heading maars-onair__name" style="font-size:1.25rem;line-height:1.3">The KSØMAN repeater</h3>
+			<!-- /wp:heading -->
+
+			<!-- wp:list {"className":"maars-spec"} -->
+			<ul class="wp-block-list maars-spec">
+				<!-- wp:list-item --><li><strong>Output</strong> <code>147.255 MHz</code></li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><strong>Input</strong> <code>147.855 MHz</code>, a <code>+600 kHz</code> offset</li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><strong>Tone</strong> CTCSS <code>88.5 Hz</code>, transmit and receive</li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><strong>Access</strong> open to any licensed amateur</li><!-- /wp:list-item -->
+			</ul>
+			<!-- /wp:list -->
+
+			<!-- wp:paragraph {"className":"maars-onair__prose"} -->
+			<p class="maars-onair__prose">Nobody has re-measured any of it since the machine left the KSDB-FM tower in November 2023 and the controller was voted out of the system in January 2024.</p>
+			<!-- /wp:paragraph -->
+		<!-- /wp:maars/fact -->
+
+		<!-- wp:separator {"className":"maars-hairline is-style-wide"} -->
+		<hr class="wp-block-separator has-alpha-channel-opacity maars-hairline is-style-wide"/>
+		<!-- /wp:separator -->
+
+		<!-- The hour is the field the old site was least consistent about, and saying so is more
+		     useful than picking one and sounding certain. -->
+		<!-- wp:maars/fact {"grade":"unverified","className":"maars-onair__entry"} -->
+			<!-- wp:heading {"level":3,"className":"maars-onair__name","style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.3"}}} -->
+			<h3 class="wp-block-heading maars-onair__name" style="font-size:1.25rem;line-height:1.3">The Tuesday net</h3>
+			<!-- /wp:heading -->
+
+			<!-- wp:paragraph {"className":"maars-onair__prose"} -->
+			<p class="maars-onair__prose">A directed net runs on the repeater every Tuesday at 8:00 P.M. Central, and any amateur, Technician and above, is welcome to check in. It ran at 9:00 P.M. through 2014 and appears at 8:00 P.M. from about 2016; the old site printed both hours, in different places, for years.</p>
+			<!-- /wp:paragraph -->
+		<!-- /wp:maars/fact -->
+
+		<!-- ONE link out of this section, not one per entry. Both entries linked to
+		     /on-the-air/ under the identical words "The full record, field by field",
+		     which is two targets with one name: a screen reader reads the same link
+		     text twice and a reader learns nothing from the second. Said once, after
+		     both entries, it covers both. -->
+		<!-- wp:paragraph {"className":"maars-onair__more"} -->
+		<p class="maars-onair__more"><a href="/on-the-air/">Both records in full, field by field, each with its own check date</a></p>
+		<!-- /wp:paragraph -->
+
+		<!-- The mechanism, once. Revision one explained it in the lede, again in a panel footnote
+		     and again beside each fact; three tellings of one idea is how a page grows to six
+		     thousand pixels. One sentence, at the foot of the facts, where a reader who has just
+		     met a check date can use it. -->
+		<!-- wp:paragraph {"className":"maars-footnote","style":{"spacing":{"margin":{"top":"1.25rem"}}}} -->
+		<p class="maars-footnote" style="margin-top:1.25rem">Every fact on this page says how well it is known and when a person last checked it. <a href="/about/how-this-site-is-maintained/">How this site is maintained</a>.</p>
+		<!-- /wp:paragraph -->
+
 	</section>
 	<!-- /wp:group -->
 
-	<!-- 3. THE SCENE — third, and labelled.
+	<!-- 3. THE SCENE. The one bold element on the site, under a heading that says what it is,
+	     because an unexplained animation on a club homepage is furniture. The teaching point is at
+	     2 metres: the ray leaves and does not come back, which is the reason the repeater is on a
+	     hill. The block renders its own canvas, its band list, a fallback for a browser with no
+	     WebGL2 and a noscript fallback, and draws a single static frame under
+	     prefers-reduced-motion. Nothing else on this page depends on it.
 
-	     It was the top of the page. It is the third beat now, and it has a heading and a sentence
-	     that say what it is and what it is for, because an unexplained animation on a club homepage
-	     is furniture. The teaching point is at 2 metres: the ray leaves and does not come back,
-	     which is the reason the repeater is on a hill. -->
-	<!-- wp:group {"tagName":"section","className":"maars-hero","style":{"spacing":{"blockGap":"0.75rem"}},"backgroundColor":"ink","textColor":"paper","layout":{"type":"default"}} -->
+	     The canvas is asked for at 1280 by 560 rather than 16:9. A hop is a horizon-shaped event,
+	     so the wider frame is the truer one, and it returns about 150px of page to a reader who is
+	     scrolling to find the net. -->
+	<!-- wp:group {"tagName":"section","className":"maars-hero","style":{"spacing":{"blockGap":"0.6rem"}},"backgroundColor":"ink","textColor":"paper","layout":{"type":"default"}} -->
 	<section class="wp-block-group maars-hero has-paper-color has-ink-background-color has-text-color has-background">
 
 		<!-- On this band the heading inherits the surface colour: theme.json colours every heading
-		     navy, and navy on ink measures 1.18:1 where large text needs 3.0. maars.css fixes it for
-		     .maars-hero and .has-ink-background-color, and tests/test_contrast.py asserts the fix by
-		     name so neither direction of that bug can come back. -->
-		<!-- wp:heading {"level":2,"className":"maars-hero__title","style":{"typography":{"lineHeight":"1.15"}}} -->
-		<h2 class="wp-block-heading maars-hero__title" style="line-height:1.15">Where the signal goes</h2>
+		     navy, and navy on ink measures 1.18:1 where large text needs 3.0. maars.css fixes it
+		     for .maars-hero and .has-ink-background-color, and tests/test_contrast.py asserts the
+		     fix by name so neither direction of that bug can come back. -->
+		<!-- wp:heading {"level":2,"className":"maars-hero__title","style":{"typography":{"fontSize":"clamp(1.375rem, 1.25rem + 0.55vw, 1.625rem)","lineHeight":"1.25"}}} -->
+		<h2 class="wp-block-heading maars-hero__title" style="font-size:clamp(1.375rem, 1.25rem + 0.55vw, 1.625rem);line-height:1.25">Where the signal goes</h2>
 		<!-- /wp:heading -->
 
 		<!-- wp:paragraph {"className":"maars-hero__lede"} -->
-		<p class="maars-hero__lede">A drawing of skywave propagation from Manhattan, Kansas. Drag it to orbit the scene, then change bands: on 80, 40 and 20 metres the ionosphere bends the wave back to earth hundreds of miles away, and on 2 metres it does not. The ray leaves and never returns &#8212; which is exactly why the KSØMAN repeater sits on a hill and not on the horizon.</p>
+		<p class="maars-hero__lede">Drag to orbit the scene, then change bands. On 80, 40 and 20 metres the ionosphere bends the wave back to earth hundreds of miles away; on 2 metres it does not, which is why the <code>KSØMAN</code> repeater sits on a hill.</p>
 		<!-- /wp:paragraph -->
 
-		<!-- The block renders its own canvas, its static band list, a fallback for a browser with no
-		     WebGL2 and a noscript fallback, and draws a single frame under prefers-reduced-motion.
-		     Nothing else on this page depends on it. -->
-		<!-- wp:group {"tagName":"div","className":"maars-hero__stage","style":{"dimensions":{"minHeight":"clamp(15rem, 42vh, 26rem)"},"spacing":{"blockGap":"0px"}},"layout":{"type":"default"}} -->
-		<div class="wp-block-group maars-hero__stage" style="min-height:clamp(15rem, 42vh, 26rem)">
-			<!-- wp:maars/skywave {"band":"80m","caption":"Schematic, not a propagation prediction: the shell heights and the hop geometry are illustrative, and the four bands are the ones this club actually uses."} /-->
+		<!-- wp:group {"tagName":"div","className":"maars-hero__stage","style":{"dimensions":{"minHeight":"clamp(13rem, 36vh, 22rem)"},"spacing":{"blockGap":"0px"}},"layout":{"type":"default"}} -->
+		<div class="wp-block-group maars-hero__stage" style="min-height:clamp(13rem, 36vh, 22rem)">
+			<!-- wp:maars/skywave {"band":"80m","width":1280,"height":560,"caption":"Schematic, not a propagation prediction: the shell heights and the hop geometry are illustrative, and the four bands are the ones this club actually uses."} /-->
 		</div>
 		<!-- /wp:group -->
 
 	</section>
 	<!-- /wp:group -->
 
-	<!-- 4. ABOUT THE SOCIETY — short, because the long version is /about/. The founding sentence is
-	     the Society's own, out of the 25th-anniversary history printed in the March 2001 minutes. -->
-	<!-- wp:group {"tagName":"section","className":"maars-about","style":{"spacing":{"blockGap":"0.9rem"}},"layout":{"type":"default"}} -->
-	<section class="wp-block-group maars-about">
+	<!-- 4. ABOUT THE SOCIETY. Two paragraphs, because the long version is /about/. The founding
+	     sentence is the Society's own, out of the 25th-anniversary history printed in the March
+	     2001 minutes, and it is the reason the noun in the name is Society.
 
-		<!-- wp:heading {"level":2,"className":"maars-section__title","textColor":"navy"} -->
-		<h2 class="wp-block-heading maars-section__title has-navy-color has-text-color">About the Society</h2>
+	     The heading is the site's own headline, moved here from above the meeting. It is a better
+	     heading for the founding story than "About the Society" was, and above the meeting it was
+	     one line of throat-clearing in front of the one thing the visitor came for. -->
+	<!-- wp:group {"tagName":"section","className":"maars-about","style":{"spacing":{"blockGap":"0.8rem","padding":{"top":"1.75rem","bottom":"1.75rem"}}},"layout":{"type":"default"}} -->
+	<section class="wp-block-group maars-about" style="padding-top:1.75rem;padding-bottom:1.75rem">
+
+		<!-- wp:heading {"level":2,"className":"maars-section__title","style":{"typography":{"fontSize":"clamp(1.375rem, 1.25rem + 0.55vw, 1.625rem)","lineHeight":"1.25"}},"textColor":"navy"} -->
+		<h2 class="wp-block-heading maars-section__title has-navy-color has-text-color" style="font-size:clamp(1.375rem, 1.25rem + 0.55vw, 1.625rem);line-height:1.25">Amateur radio in Manhattan, Kansas since 1976</h2>
 		<!-- /wp:heading -->
 
 		<!-- wp:paragraph -->
-		<p>The Manhattan Area Amateur Radio Society was formed on <strong>7 July 1976</strong>, at a founding meeting called to order at <code>7:40 P.M.</code> by Leroy Buller, <code>KØWA</code>. Before the founders chose a name they chose the noun: they voted to be a <em>Society</em> rather than a club, and the S in MAARS has been deliberate ever since.</p>
+		<p>The Manhattan Area Amateur Radio Society was formed on 7 July 1976, at a founding meeting called to order at 7:40 P.M. by Leroy Buller, <code>KØWA</code>. Before the founders chose a name they chose the noun: they voted to be a <em>Society</em> rather than a club, and the S in MAARS has been deliberate ever since.</p>
 		<!-- /wp:paragraph -->
 
 		<!-- wp:paragraph -->
-		<p>We hold the club callsign <code>KSØMAN</code>, we keep a 2 metre repeater open to any licensed amateur, we train and turn out storm spotters for Riley County, and we have met on the second Friday of the month for the whole documented web era. Governance is deliberately light: under Article VII a quorum consists of the members present, so the meeting you turn up to is the meeting that decides things.</p>
+		<p>We hold the club callsign <code>KSØMAN</code>, we keep the repeater open to any licensed amateur, and we train and turn out storm spotters for Riley County. Under Article VII a quorum is the members present, so the meeting you turn up to is the meeting that decides things.</p>
 		<!-- /wp:paragraph -->
 
 		<!-- wp:buttons {"className":"maars-about__actions","style":{"spacing":{"blockGap":"0.75rem"}}} -->
@@ -212,47 +212,50 @@
 	</section>
 	<!-- /wp:group -->
 
-	<!-- 5. RECENT NEWS — proof of life, three entries deep, as a ruled list rather than a card grid.
+	<!-- 5. RECENT NEWS, under the site's own statement of its age.
 
-	     No thumbnails here on purpose. The old site shipped 1,154 images with no alt text at all, and
-	     a photograph on the front page would have to earn a real one-sentence description of what is
-	     happening and who is in it before it could ship. Photographs live on the news entries
-	     themselves, where somebody writing the post can describe them.
+	     The dateline block writes its own sentence and carries role="status". It sits here rather
+	     than in a band of its own, because "the Society last published something N days ago" is
+	     the honest heading for a news list, and because a whole section for one sentence is how a
+	     page gets tall.
 
-	     If the list is empty it says so in plain words. A tidy gap reads as activity. -->
-	<!-- wp:group {"tagName":"section","className":"maars-news","style":{"spacing":{"blockGap":"1rem"}},"layout":{"type":"default"}} -->
-	<section class="wp-block-group maars-news">
+	     Dates and titles, no excerpts and no thumbnails. An excerpt on a front page is the first
+	     paragraph of something a reader has not decided to read yet, and three of them cost 200px
+	     to say what three titles already said. The old site also shipped 1,154 images with no alt
+	     text at all, and a photograph here would have to earn a real one-sentence description of
+	     what is happening and who is in it before it could ship.
 
-		<!-- wp:heading {"level":2,"className":"maars-section__title","textColor":"navy"} -->
-		<h2 class="wp-block-heading maars-section__title has-navy-color has-text-color">Recent news</h2>
+	     If the list is empty it says so in plain words: a tidy gap reads as activity. -->
+	<!-- wp:group {"tagName":"section","className":"maars-news","style":{"spacing":{"blockGap":"0.9rem","padding":{"top":"1.75rem","bottom":"1.75rem"}}},"layout":{"type":"default"}} -->
+	<section class="wp-block-group maars-news" style="padding-top:1.75rem;padding-bottom:1.75rem">
+
+		<!-- wp:heading {"level":2,"className":"maars-section__title","style":{"typography":{"fontSize":"clamp(1.375rem, 1.25rem + 0.55vw, 1.625rem)","lineHeight":"1.25"}},"textColor":"navy"} -->
+		<h2 class="wp-block-heading maars-section__title has-navy-color has-text-color" style="font-size:clamp(1.375rem, 1.25rem + 0.55vw, 1.625rem);line-height:1.25">Recent news</h2>
 		<!-- /wp:heading -->
+
+		<!-- wp:maars/dateline /-->
 
 		<!-- wp:query {"queryId":11,"query":{"perPage":3,"pages":1,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":null,"parents":[],"format":[]},"className":"maars-news__loop","layout":{"type":"default"}} -->
 		<div class="wp-block-query maars-news__loop">
 
 			<!-- wp:post-template {"className":"maars-news__list","layout":{"type":"default"}} -->
 
-				<!-- wp:group {"tagName":"article","className":"maars-entry","style":{"spacing":{"blockGap":"0.4rem"}},"layout":{"type":"default"}} -->
+				<!-- wp:group {"tagName":"article","className":"maars-entry","style":{"spacing":{"blockGap":"0.2rem"}},"layout":{"type":"default"}} -->
 				<article class="wp-block-group maars-entry">
 					<!-- wp:post-date {"format":"j F Y","className":"maars-news__date"} /-->
-					<!-- wp:post-title {"level":3,"isLink":true,"className":"maars-entry__title","fontSize":"x-large","textColor":"navy"} /-->
-					<!-- wp:post-excerpt {"moreText":"Read this","excerptLength":32} /-->
+					<!-- wp:post-title {"level":3,"isLink":true,"className":"maars-entry__title","style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.3"}},"textColor":"navy"} /-->
 				</article>
 				<!-- /wp:group -->
 
 			<!-- /wp:post-template -->
 
 			<!-- wp:query-no-results -->
-				<!-- wp:group {"tagName":"div","className":"maars-empty","style":{"spacing":{"blockGap":"0.5rem"}},"layout":{"type":"default"}} -->
-				<div class="wp-block-group maars-empty">
-					<!-- wp:paragraph {"className":"maars-empty__title"} -->
-					<p class="maars-empty__title">No news has been posted here yet.</p>
-					<!-- /wp:paragraph -->
-					<!-- wp:paragraph -->
-					<p>That is a statement about this website and not about the Society. Notices go out on the e-mail reflector first, which Article III makes the official organ. The most recent thing the club published is in <a href="/archive/">the archive</a>.</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:group -->
+				<!-- wp:paragraph {"className":"maars-empty__title"} -->
+				<p class="maars-empty__title">No news has been posted here yet.</p>
+				<!-- /wp:paragraph -->
+				<!-- wp:paragraph -->
+				<p>That is a statement about this website and not about the Society. Notices go out on the e-mail reflector first, which Article III makes the official organ, and the most recent thing the club published is in <a href="/archive/">the archive</a>.</p>
+				<!-- /wp:paragraph -->
 			<!-- /wp:query-no-results -->
 
 		</div>
@@ -265,18 +268,18 @@
 	</section>
 	<!-- /wp:group -->
 
-	<!-- 6. INTO THE RECORD — the largest thing the Society owns, and the reason the rebuild exists.
+	<!-- 6. INTO THE RECORD. The largest thing the Society owns, and the reason the rebuild exists.
 	     Magenta is the record's colour and it carries the button here; navy stays the present tense
 	     everywhere else on the page. They are never swapped. -->
-	<!-- wp:group {"tagName":"section","className":"maars-archive-teaser","style":{"spacing":{"blockGap":"0.9rem"}},"layout":{"type":"default"}} -->
-	<section class="wp-block-group maars-archive-teaser">
+	<!-- wp:group {"tagName":"section","className":"maars-archive-teaser","style":{"spacing":{"blockGap":"0.8rem","padding":{"top":"1.75rem","bottom":"1.75rem"}}},"layout":{"type":"default"}} -->
+	<section class="wp-block-group maars-archive-teaser" style="padding-top:1.75rem;padding-bottom:1.75rem">
 
-		<!-- wp:heading {"level":2,"className":"maars-section__title","textColor":"magenta"} -->
-		<h2 class="wp-block-heading maars-section__title has-magenta-color has-text-color">Twenty-six years of the record</h2>
+		<!-- wp:heading {"level":2,"className":"maars-section__title","style":{"typography":{"fontSize":"clamp(1.375rem, 1.25rem + 0.55vw, 1.625rem)","lineHeight":"1.25"}},"textColor":"magenta"} -->
+		<h2 class="wp-block-heading maars-section__title has-magenta-color has-text-color" style="font-size:clamp(1.375rem, 1.25rem + 0.55vw, 1.625rem);line-height:1.25">Twenty-six years of the record</h2>
 		<!-- /wp:heading -->
 
 		<!-- wp:paragraph -->
-		<p>Since 1998 the Society has published <strong>209 newsletters and sets of minutes</strong>, <strong>49 treasurer&#8217;s reports</strong> and <strong>6 year-end reports</strong>, and all of it is here, filed by type and by year, with the gaps left visible. <strong>2012 produced nothing at all</strong> and the list says so rather than closing the hole. The newest document of any kind is dated <time datetime="2024-01-16">16 January 2024</time>.</p>
+		<p>Since 1998 the Society has published <strong>209 newsletters and sets of minutes</strong>, <strong>49 treasurer&#8217;s reports</strong> and <strong>6 year-end reports</strong>, filed here by type and by year with the gaps left visible: <strong>2012 produced nothing at all</strong>, and the list says so rather than closing the hole. The newest document of any kind is dated 16 January 2024.</p>
 		<!-- /wp:paragraph -->
 
 		<!-- wp:buttons {"style":{"spacing":{"blockGap":"0.75rem"}}} -->

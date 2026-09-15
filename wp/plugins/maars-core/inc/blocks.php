@@ -13,39 +13,56 @@
  * instead of printing a confident zero.
  *
  * -------------------------------------------------------------------------
- * VISUAL SYSTEM — "Second Friday" (see DESIGN.md, which is locked)
+ * VISUAL SYSTEM — revision 2 (see DESIGN.md)
  * -------------------------------------------------------------------------
- * Amateur radio is a record-keeping culture, so the site is a station log. Two
- * devices carry that, and both are emitted from here:
+ * Revision 1 shouted. Every block wore a tracked-out ALL-CAPS eyebrow, every
+ * fact carried a bordered coloured chip, and a prose date was set in the data
+ * face so it read like a part number. Revision 2 takes all of that off. The
+ * rules this file now renders to:
  *
- *   1. THE LOG LINE — one recurring row in logbook conventions: a narrow label
- *      column, the value, and a quiet trailing column for provenance. It is the
- *      one memorable thing in the design; everything else stays quiet.
+ *   1. NO EYEBROWS. Nothing in this file emits a shouted label above a value.
+ *      The heading above the block already says what the block is; a second
+ *      label in capitals is noise at the exact size a 78-year-old is trying to
+ *      read past. Where a label is still owed to a screen reader and nowhere
+ *      else, it goes in .screen-reader-text.
  *
- *   2. THE FIGURE SPAN — every callsign, frequency, tone, offset, date, day
- *      count and dollar amount is wrapped in <span class="maars-fig">, which is
- *      what puts it in the data face (Fira Code, whose zero is natively
- *      slashed — KSØMAN is written the way a ham writes it) with tabular
- *      figures, so columns of numbers line up and a zero is never read as an O.
- *      Use maars_blocks_fig() / maars_blocks_fig_date(); never hand-write it.
+ *   2. THE DATA FACE IS FOR FIGURES ONLY. <span class="maars-fig"> — Fira Code
+ *      with tabular, natively slashed zeros — goes on callsigns, frequencies,
+ *      tones, offsets, counts and money, so KSØMAN is written the way a ham
+ *      writes it and a column of numbers lines up. It does NOT go on prose.
+ *      "Friday, October 9, 2026 at 6:30 P.M." and "12 January 2024" are
+ *      sentences; they stay in the body face. maars_blocks_fig() marks a
+ *      figure; maars_blocks_fig_date() emits a machine-readable <time> whose
+ *      visible text is ordinary prose.
+ *
+ *   3. NO MIDDLE DOTS. Nothing here joins values with an interpunct. A
+ *      specification is a list of labelled values or a sentence with real
+ *      punctuation, never a string of fragments stitched together.
+ *
+ *   4. THE PROVENANCE LINE IS FURNITURE. One quiet line under the value: the
+ *      grade word, then when it was last checked and how long ago. No border
+ *      of its own, no internal archive path — that is a record locator for
+ *      whoever maintains the site, so it lives in a title attribute and
+ *      nowhere a club member has to read it.
+ *
+ *   5. THE NEXT MEETING IS FIRST AND LARGEST. maars/next-meeting renders the
+ *      date as its own line, first, with the governing rule beneath it small
+ *      and quiet. It is not a row in a log; it must not look like one.
  *
  * CLASS VOCABULARY EMITTED BY THIS FILE. The stylesheet
  * (wp/themes/maars/assets/css/maars.css) is expected to style exactly these,
  * and this file emits no class the stylesheet does not need:
  *
  *   .maars-fig                     the data face + tabular figures. Always on a
- *                                  <span>, including inside a <time>.
- *   .maars-log                     a group of log lines (hairline between them)
- *   .maars-log__line               one entry row. Usable standalone — the
- *                                  freshness chip is a single row with no
- *                                  .maars-log ancestor — so do not scope the
- *                                  row rules under .maars-log.
- *   .maars-log__label              the narrow first column: what the row is
- *   .maars-log__value              the wide column: the value
- *   .maars-log__note               the quiet trailing column: when it was
- *                                  last checked
- *   .maars-next-meeting            + --unknown/.is-unknown, __eyebrow, __date,
- *                                  __time, __rule, __rule-tag, __rule-text
+ *                                  <span>. Figures only — never prose.
+ *   .maars-log                     a group of rows, separated by a hairline
+ *                                  rule rather than boxed. The only user left
+ *                                  in this file is the skywave band list, which
+ *                                  is a real list of rows.
+ *   .maars-log__line               one row in such a group.
+ *   .maars-next-meeting            + --unknown/.is-unknown, __date, __rule,
+ *                                  __rule-text. No __eyebrow and no __rule-tag
+ *                                  any more: both were shouted labels.
  *   .maars-dateline                + --fresh/.is-fresh, --stale/.is-stale,
  *                                  --empty/.is-empty, __headline, __detail;
  *                                  also data-state, data-maars-days,
@@ -59,13 +76,14 @@
  *                                  __caption, __chip, __fallback,
  *                                  __fallback-title, __prose, __noscript,
  *                                  __bands, __band, __band--<id>
- *   .screen-reader-text            WordPress core's own visually-hidden class
+ *   .screen-reader-text            the theme's visually-hidden class
  *
- * The freshness chip is a LABEL, never an alert. Grade word, then what the
- * grade means, then when it was last checked — in words, in that order. No
- * emoji, no bare coloured dot: a reader with any colour vision gets the whole
- * message from the text alone. "Unverified" is an honest description of the
- * evidence, not a warning siren.
+ * The freshness chip is a LABEL, never an alert. The grade word carries the
+ * meaning on its own — no emoji, no bare coloured dot, nothing a reader with
+ * any colour vision can miss — and the date beside it says how old the claim
+ * is. "Unverified" is an honest description of the evidence, not a siren, and
+ * what each grade means is explained once on the page rather than repeated
+ * beside every fact.
  *
  * ESCAPING CONVENTION. Every string reaching the browser is escaped at the
  * point it is built. A variable whose name ends in `_html` already holds
@@ -255,14 +273,19 @@ function maars_blocks_wrapper_attributes( array $extra = array() ): string {
 }
 
 /**
- * Wrap a figure — a callsign, frequency, tone, offset, date, day count or
- * dollar amount — so it renders in the data face with tabular figures.
+ * Wrap a figure — a callsign, frequency, tone, offset, count or dollar amount —
+ * so it renders in the data face with tabular figures.
  *
  * This is the site's typographic signature and the reason it is a function
  * rather than a hand-written span: applied unevenly it reads as a mistake, and
  * a frequency in the body face has an unslashed zero that an older reader can
- * mistake for the letter O. Anything that would be written in a logbook column
+ * mistake for the letter O. Anything that would be written in a logbook COLUMN
  * goes through here.
+ *
+ * What does NOT go through here is prose. A date written out in words is a
+ * sentence — "Friday, October 9, 2026 at 6:30 P.M.", "12 January 2024" — and
+ * setting a sentence in Fira Code makes it look like a serial number. That was
+ * revision 1's mistake and it is the reason this docblock is emphatic.
  *
  * @param string $text Plain text figure. Escaped here; never pass markup.
  * @return string Escaped markup, or '' for an empty figure.
@@ -278,11 +301,14 @@ function maars_blocks_fig( $text ): string {
 }
 
 /**
- * A date as a machine-readable <time> whose visible text is a figure.
+ * A date as a machine-readable <time> whose visible text is ordinary prose.
  *
- * The <time> carries the ISO day for anything parsing the page; the span
- * inside it is what gets the data face, so the class stays on a span
- * everywhere in this file rather than sometimes on a <time> and sometimes not.
+ * The <time> carries the ISO day for anything parsing the page. The visible
+ * text does NOT get the data face: "12 January 2024" is a sentence fragment,
+ * not a figure, and revision 1 set it in Fira Code, which made every
+ * provenance line read like a part number. The function keeps its historical
+ * name because the contract freezes the names in this file; only what it emits
+ * has changed.
  *
  * @param string $ymd Date in YYYY-MM-DD form.
  * @return string Escaped markup, or '' when the date is not a real day.
@@ -300,7 +326,7 @@ function maars_blocks_fig_date( $ymd ): string {
 		$display = $ymd;
 	}
 
-	return '<time datetime="' . esc_attr( $ymd ) . '">' . maars_blocks_fig( $display ) . '</time>';
+	return '<time datetime="' . esc_attr( $ymd ) . '">' . esc_html( $display ) . '</time>';
 }
 
 /**
@@ -390,6 +416,11 @@ function maars_blocks_grade_label( string $grade ): string {
  * Written flat and calm on purpose. "Unverified" is a description of the
  * evidence behind a line in the record, not an error the reader has to act on.
  *
+ * Revision 2 no longer prints this beside every fact — the page explains the
+ * three grades once, in one place, and repeating it under each row was most of
+ * why the homepage ran to 6,363 pixels. It survives here as the text of the
+ * chip's title attribute.
+ *
  * @param string $grade Normalised grade.
  * @return string Translated sentence.
  */
@@ -405,20 +436,35 @@ function maars_blocks_grade_meaning( string $grade ): string {
 }
 
 /**
- * The freshness chip: one log line, three columns, words only.
+ * The freshness chip: ONE quiet line under the value it describes.
  *
- * Grade word, then what the grade means, then when it was last checked. The
- * chip is a paragraph inside a maars/fact card and an inline span inside the
- * skywave caption, which is why the tag is a parameter.
+ * Revision 1 made this a bordered, coloured, three-column box carrying a title,
+ * a sentence, an internal archive path and a date, which outweighed the fact it
+ * was grading. It is furniture, not an alarm. What is left is the grade word
+ * and when the claim was last checked:
+ *
+ *     Sourced. Last checked 12 January 2024 — 977 days ago.
+ *
+ * The grade word carries the meaning on its own, so the line survives
+ * greyscale, deuteranopia and a photocopy. What each grade means is stated once
+ * on the page; it is not repeated beside every fact. Anything a maintainer
+ * needs and a reader does not — the archive path a claim came out of — goes in
+ * $title, where it is available to whoever is chasing provenance and invisible
+ * to everybody else.
+ *
+ * The chip is a paragraph inside a maars/fact card and an inline span inside
+ * the skywave caption, which is why the tag is a parameter.
  *
  * @param string $grade        Normalised grade; anything unknown reads as unverified.
- * @param string $detail_html  Already-escaped markup: what the grade means.
- * @param string $checked_html Already-escaped markup: when it was last checked. '' omits the column.
+ * @param string $detail_html  Already-escaped markup: an extra clause, or '' for none.
+ * @param string $checked_html Already-escaped markup: when it was last checked. '' omits it.
  * @param string $tag          'p' (default) or 'span'.
  * @param string $extra_class  Extra class for the chip element, already trusted.
+ * @param string $title        Plain text for the title attribute: provenance for a
+ *                             maintainer. Escaped here. '' omits the attribute.
  * @return string Escaped markup.
  */
-function maars_blocks_chip( string $grade, string $detail_html, string $checked_html = '', string $tag = 'p', string $extra_class = '' ): string {
+function maars_blocks_chip( string $grade, string $detail_html, string $checked_html = '', string $tag = 'p', string $extra_class = '', string $title = '' ): string {
 	$grade = maars_blocks_normalize_grade( $grade );
 
 	if ( '' === $grade ) {
@@ -427,19 +473,35 @@ function maars_blocks_chip( string $grade, string $detail_html, string $checked_
 
 	$tag = ( 'span' === $tag ) ? 'span' : 'p';
 
-	$classes = 'maars-fact__chip maars-fact__chip--' . $grade . ' maars-log__line';
+	/*
+	 * No .maars-log__line, and no label/value/note column classes. This is a
+	 * sentence, not a row in a table, and the column classes are what turned the
+	 * grade word into a tracked-out capital label in revision 1.
+	 */
+	$classes = 'maars-fact__chip maars-fact__chip--' . $grade;
 	if ( '' !== $extra_class ) {
 		$classes = $extra_class . ' ' . $classes;
 	}
 
-	$out  = '<' . $tag . ' class="' . esc_attr( $classes ) . '" data-grade="' . esc_attr( $grade ) . '">';
-	/* Trailing spaces: see maars_render_next_meeting_block(). A flex row eats
-	   them; an unstyled one needs them to keep the three columns apart. */
-	$out .= '<span class="maars-fact__grade maars-log__label">' . esc_html( maars_blocks_grade_label( $grade ) ) . '</span> ';
-	$out .= '<span class="maars-fact__detail maars-log__value">' . $detail_html . '</span>';
+	$out = '<' . $tag . ' class="' . esc_attr( $classes ) . '" data-grade="' . esc_attr( $grade ) . '"';
+
+	if ( '' !== trim( $title ) ) {
+		$out .= ' title="' . esc_attr( trim( $title ) ) . '"';
+	}
+
+	$out .= '>';
+
+	/* The full stop is load-bearing in exactly one way: it makes the grade word
+	   read as the first sentence of a quiet line rather than as a label stuck to
+	   the front of the next one. */
+	$out .= '<span class="maars-fact__grade">' . esc_html( maars_blocks_grade_label( $grade ) ) . '.</span>';
+
+	if ( '' !== $detail_html ) {
+		$out .= ' <span class="maars-fact__detail">' . $detail_html . '</span>';
+	}
 
 	if ( '' !== $checked_html ) {
-		$out .= ' <span class="maars-fact__checked maars-log__note">' . $checked_html . '</span>';
+		$out .= ' <span class="maars-fact__checked">' . $checked_html . '</span>';
 	}
 
 	$out .= '</' . $tag . '>';
@@ -560,10 +622,23 @@ function maars_blocks_latest_publication_time(): ?int {
 /**
  * Render the computed next-meeting date plus the rule that produced it.
  *
- * Two log lines. The first is the entry: the label in the narrow column, the
- * date as a figure in the wide one. The second is the working — the rule that
- * produced the date — because a date whose provenance is invisible is the
- * thing that rotted on the old site.
+ * This is the one thing a visitor came for, so it is the first thing and the
+ * largest thing. The date is its own line, in the body face because a written
+ * date is a sentence, and the rule that produced it sits underneath, small and
+ * quiet — the working shown beneath the answer, because a date whose
+ * provenance is invisible is the thing that rotted on the old site.
+ *
+ * What is deliberately NOT here any more:
+ *   - the "NEXT MEETING" eyebrow above the date. It was a tracked-out capital
+ *     label sitting where the answer should be, and it pushed the answer into
+ *     second place on the page. The heading above the block, and the
+ *     screen-reader label below, already say what this is.
+ *   - the "COMPUTED" tag in front of the rule. A bordered capitalised tag made
+ *     provenance look like a warning.
+ *   - the log-line column classes. This block is not a row; the rows beneath it
+ *     are rows, and revision 1 made the two look like siblings.
+ *   - the data face on the date. "Friday, October 9, 2026 at 6:30 P.M." is a
+ *     sentence, not a frequency.
  *
  * @param array         $attributes Block attributes.
  * @param string        $content    Inner content (unused).
@@ -613,46 +688,42 @@ function maars_render_next_meeting_block( $attributes = array(), $content = '', 
 	}
 
 	/*
-	 * The date is a figure; "Not computed yet" is a sentence and must not be
-	 * dressed up as one. Putting the admission in the data face would make an
-	 * absent date look like a value.
+	 * Prose, in the body face, whether it is a date or an admission. The date is
+	 * written out in words — day, month, year, hour — and a written date is a
+	 * sentence. Only the machine-readable datetime attribute is a figure, and
+	 * nobody reads that.
 	 */
-	if ( ! $known ) {
-		$date_html = esc_html( $text );
-	} elseif ( '' !== $datetime ) {
-		$date_html = '<time class="maars-next-meeting__time" datetime="' . esc_attr( $datetime ) . '">'
-			. maars_blocks_fig( $text )
-			. '</time>';
-	} else {
-		$date_html = maars_blocks_fig( $text );
+	$date_text = esc_html( $text );
+
+	if ( $known && '' !== $datetime ) {
+		$date_text = '<time datetime="' . esc_attr( $datetime ) . '">' . $date_text . '</time>';
 	}
 
 	/*
-	 * The single space between the columns is load-bearing. A log line is a flex
-	 * or grid row, where whitespace between the cells is dropped, so it costs
-	 * nothing there — but if this markup is ever read without the stylesheet
-	 * (curl, Reader mode, a mail client, a stylesheet that has not loaded yet)
-	 * the cells are plain inline spans, and without it the label welds itself to
-	 * the value: "NEXT MEETINGFriday, October 9".
+	 * The label is owed to a screen reader and to nobody else. Read aloud, a
+	 * bare date at the top of a panel is "Friday, October 9, 2026" with no idea
+	 * what it is the date OF; on screen, the heading above this block and the
+	 * size of the line say it already. The trailing space inside the span keeps
+	 * the two apart for any reader that renders it as ordinary text.
 	 */
-	$lines  = '<div class="maars-log__line">';
-	$lines .= '<span class="maars-log__label maars-next-meeting__eyebrow">' . esc_html( $label ) . '</span> ';
-	$lines .= '<span class="maars-log__value maars-next-meeting__date">' . $date_html . '</span>';
-	$lines .= '</div>';
+	$out  = '<p class="maars-next-meeting__date">';
+	$out .= '<span class="screen-reader-text">' . esc_html( $label ) . ': </span>';
+	$out .= $date_text;
+	$out .= '</p>';
 
 	if ( $show_rule ) {
 		if ( '' === $rule ) {
 			$rule = __( 'No rule was supplied by maars_next_meeting(), so this date cannot be shown as derived.', 'maars' );
 		}
 
-		$lines .= '<div class="maars-log__line maars-next-meeting__rule">';
-		$lines .= '<span class="maars-log__label maars-next-meeting__rule-tag">' . esc_html__( 'Computed', 'maars' ) . '</span> ';
-		$lines .= '<span class="maars-log__value maars-next-meeting__rule-text">' . esc_html( $rule ) . '</span>';
-		$lines .= '</div>';
+		/* The working, underneath the answer: no tag, no border, no capitals. */
+		$out .= '<p class="maars-next-meeting__rule">'
+			. '<span class="maars-next-meeting__rule-text">' . esc_html( $rule ) . '</span>'
+			. '</p>';
 	}
 
 	return '<div ' . maars_blocks_wrapper_attributes( array( 'class' => $classes ) ) . '>'
-		. '<div class="maars-log">' . $lines . '</div>'
+		. $out
 		. '</div>';
 }
 
@@ -784,7 +855,9 @@ function maars_render_dateline_block( $attributes = array(), $content = '', $blo
 			} elseif ( function_exists( 'wp_date' ) ) {
 				$format      = function_exists( 'get_option' ) ? (string) get_option( 'date_format' ) : '';
 				$format      = '' !== $format ? $format : 'F j, Y';
-				$newest_html = maars_blocks_fig( (string) wp_date( $format, $latest ) );
+				$newest_html = '<time datetime="' . esc_attr( (string) wp_date( 'Y-m-d', $latest ) ) . '">'
+					. esc_html( (string) wp_date( $format, $latest ) )
+					. '</time>';
 			}
 
 			if ( '' !== $newest_html ) {
@@ -815,9 +888,12 @@ function maars_render_dateline_block( $attributes = array(), $content = '', $blo
  * freshness state, then 'unverified'. An unlabelled claim is an unverified
  * claim; it is never promoted by omission.
  *
- * The chip is one log line under the statement: grade word, what that grade
- * means, and when it was last checked. All three are words, so the grade
- * survives greyscale, deuteranopia and a photocopier.
+ * The chip is ONE quiet line under the statement: the grade word, then when
+ * the claim was last checked and how long ago. Both are words, so the grade
+ * survives greyscale, deuteranopia and a photocopier. What the grade means is
+ * explained once on the page rather than under every row, and the archive path
+ * a claim came out of is a record locator for whoever maintains the site — it
+ * goes in the title attribute, not into the reader's face.
  *
  * @param array         $attributes Block attributes: grade, verifiedOn, sourceFile.
  * @param string        $content    Inner content.
@@ -899,21 +975,30 @@ function maars_render_fact_block( $attributes = array(), $content = '', $block =
 		$body = wp_kses_post( $body );
 	}
 
-	/* Chip column 2: what the grade means, then where it came from. */
-	$detail_html = esc_html( maars_blocks_grade_meaning( $grade ) );
+	/*
+	 * Provenance for a maintainer, not for a club member. "mirror/ks0man.com/
+	 * index.html" means nothing to somebody reading this in a church basement,
+	 * and revision 1 printed it in the page, where it turned a one-line label
+	 * into three lines of debug output. The path and the definition of the grade
+	 * both live in the title attribute now: available to anyone chasing a
+	 * document, invisible to everybody else.
+	 */
+	$title = maars_blocks_grade_meaning( $grade );
 
 	if ( '' !== $source ) {
-		/* A file name out of the club's own archive is a record locator, so it
-		   is set as a figure like every other logbook column. */
-		$detail_html .= ' ' . sprintf(
+		$title .= ' ' . sprintf(
 			/* translators: %s: a file name from the club archive. */
-			esc_html__( 'Source: %s', 'maars' ),
-			maars_blocks_fig( $source )
+			__( 'Source: %s', 'maars' ),
+			$source
 		);
 	}
 
-	/* Chip column 3: when it was last checked. Never silent — a "Sourced" chip
-	   with no date would otherwise read as checked. */
+	/* The fact chip says the grade and the date and nothing else. */
+	$detail_html = '';
+
+	/* When it was last checked. Never silent — a "Sourced" chip with no date
+	   would otherwise read as checked. The day count is a figure; the date is a
+	   sentence and stays in the body face. */
 	if ( '' !== $verified_on ) {
 		$date_html = maars_blocks_fig_date( $verified_on );
 
@@ -925,8 +1010,8 @@ function maars_render_fact_block( $attributes = array(), $content = '', $block =
 			);
 
 			$checked_html = sprintf(
-				/* translators: 1: a formatted date. 2: a duration such as "608 days". */
-				esc_html__( 'Last checked %1$s, %2$s ago.', 'maars' ),
+				/* translators: 1: a formatted date. 2: a duration such as "977 days". */
+				esc_html__( 'Last checked %1$s — %2$s ago.', 'maars' ),
 				$date_html,
 				$age_html
 			);
@@ -956,7 +1041,7 @@ function maars_render_fact_block( $attributes = array(), $content = '', $block =
 
 	return '<div ' . maars_blocks_wrapper_attributes( $attrs ) . '>'
 		. '<div class="maars-fact__body">' . $body . '</div>'
-		. maars_blocks_chip( $grade, $detail_html, $checked_html )
+		. maars_blocks_chip( $grade, $detail_html, $checked_html, 'p', '', $title )
 		. '</div>';
 }
 

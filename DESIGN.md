@@ -1,60 +1,70 @@
-# ks0man-site — visual direction "Second Friday" (LOCKED)
+# ks0man-site — visual direction, revision 2
 
-Audience: licensed amateurs, **ages 30–90**, shown to a professional club.
-Goal: modern and professional. Credible, not fashionable. Legible before clever.
+Audience: licensed radio amateurs, **ages 30–90**, shown to a professional club.
+Revision 1 shipped and is live. This revision fixes what it got wrong.
 
-## The idea
-Amateur radio is a **record-keeping culture**. Every contact is logged: date, time
-in UTC, callsign, frequency, mode. This club's 48-year archive — 209 newsletters,
-49 treasurer's reports, 27 Silent Keys — is a logbook. So the site is built as a
-station log: a short panel of what is true **now**, each fact carrying when it was
-last checked, and beneath it the **record**.
+## What revision 1 got right — keep all of it
+- Navy `#00008C` on white. It is the ink on the club's own bumper sticker and it
+  measures 15.23:1. Magenta `#990066` for the archive, navy for now.
+- Platypi display / Manrope body / Fira Code data, self-hosted by the parent theme.
+- **Fira Code's zero is natively slashed**, so KSØMAN renders the way a ham writes it.
+- Facts carry their age. "Last checked 12 January 2024, 977 days ago" is the most
+  valuable sentence on the site and the reason it exists.
+- The honest voice: "2012 produced nothing at all." Never soften this.
 
-## Signature: the log line
-One recurring row, in real logbook conventions — fixed columns, monospaced,
-tabular figures, slashed zeros, hairline rule between entries. Used for the
-archive index, the net schedule, the officer register and the repeater facts.
-It is not decoration: it encodes that this club keeps records. Spend the
-boldness here and keep everything else quiet.
+## What revision 1 got wrong — fix all of it
 
-## Colour (all ratios computed, not estimated)
-| token | hex | role | contrast |
-|---|---|---|---|
-| `--maars-navy` | `#00008C` | now / primary / links | 15.23:1 on paper (AAA) |
-| `--maars-magenta` | `#990066` | the record / archive | 8.25:1 on paper (AAA) |
-| `--maars-ink` | `#14142B` | dark surfaces, body text | 17.4:1 on paper |
-| `--maars-paper` | `#FFFFFF` | cards, panels | — |
-| `--maars-ground` | `#F6F6FB` | page ground, cool, biased to navy | — |
-| `--maars-lavender` | `#DBDBFB` | standing-fact panel | navy on it = 11.27:1 |
-| `--maars-rust` | `#8F2C00` | stale / unverified | ΔE76 62.6 from magenta |
-| `--maars-rule` | `#D7D7E4` | hairlines | — |
+**1. Stop shouting labels.** Tracked-out ALL-CAPS eyebrows are on nearly every
+block: STANDING FACTS, NEXT MEETING, MEETING, REPEATER, NET, COMPUTED, SOURCED,
+THE RECORD. Delete every one. Where a label earns its place, set it in sentence
+case at a smaller size and a quieter colour. "The archive" does not need "THE
+RECORD" above it; the heading already says so.
 
-Navy = now. Magenta = the record. Never swap them.
-Dark surfaces: headings inherit the surface colour, links go lavender. (Fixed bug.)
+**2. Stop joining things with middle dots.** `MAARS · KSØMAN`,
+`Society · Manhattan, Kansas`, `147.255 MHz out · +600 kHz · CTCSS 88.5 Hz`.
+Use real punctuation, real words, or real layout. A specification is a list of
+labelled values, not a sentence stitched together with interpuncts.
 
-## Type — all self-hosted, already in the image, zero third-party requests
-VERIFIED by rendering, not assumed. The migration study claimed Literata and
-Fira Sans; **both are wrong**. Literata 404s. What Twenty Twenty-Five actually
-ships is Manrope, Fira Code, Platypi, Vollkorn, Ysabeau Office, Roboto Slab, Beiruti.
+**3. Stop nesting boxes.** The homepage is a tinted panel containing white cards
+containing bordered chips — three borders deep before you reach a fact. Separate
+rows with a hairline rule, not with a box. At most one bordered container per
+screen, and only when it genuinely holds something apart.
 
-| role | face | why |
-|---|---|---|
-| display | **Platypi** | contemporary serif with real character; professional without being stuffy |
-| body | **Manrope** | geometric sans, wide apertures, excellent at 18px for older readers |
-| data | **Fira Code** | **its zero is natively slashed** — exactly how a ham writes KSØMAN. Verified by render. Manrope's is not, so callsigns and frequencies must be Fira Code. |
+**4. The provenance line is furniture, not an alarm.** Today it is a bordered,
+coloured chip with a title, a sentence, an internal file path and a date. It
+outweighs the fact it describes. Reduce it to ONE quiet line under the value:
+  `Last checked 12 January 2024 — 977 days ago.`
+Colour it only when genuinely stale, and never show an internal mirror path to a
+club member. The word carries the meaning; the colour only reinforces it.
 
-Callsigns, frequencies, dates, dollar amounts, tones and offsets ALWAYS render in
-the data face with `font-variant-numeric: tabular-nums`.
+**5. Restrict the data face.** Fira Code is for callsigns, frequencies, tones,
+offsets, grid squares, counts and money. It is NOT for prose dates. "Friday,
+October 9, 2026 at 6:30 P.M." is a sentence and belongs in the body face.
 
-## Accessibility floor — non-negotiable, this audience is 30 to 90
-- Body text **18px** minimum (not 16), line-height 1.65, measure 66–72ch.
-- Every interactive target **≥ 48px**; nav items ≥ 48px tall.
-- Focus: 3px solid navy outline with 2px offset, never removed.
-- Every text/background pair ≥ 4.5:1 (3.0 for ≥24px). `tests/test_contrast.py` enforces.
-- No font weight below 400. No grey-on-grey. No text over photographs.
-- Respect `prefers-reduced-motion`; motion is limited to ≤200ms state changes.
+**6. Fix the hierarchy.** The single thing a visitor came for is the next
+meeting. It should be the largest, first, and unmistakable. Right now it sits in
+a box of equal weight to the row beneath it, and both state the second-Friday
+rule, so the page says the same thing twice.
 
-## Restraint
-One memorable thing: the log line. Everything else is quiet. No gradients, no
-drop shadows beyond a 1px hairline, no rounded-corner cards everywhere, no
-decorative numbering. Border-radius is 2px, used sparingly.
+**7. Fix the archive facets.** Counts currently wrap onto their own line, so it
+reads "Minutes / (3)". Put the count beside its term. The whole page also sits
+left of centre with a large dead gutter; centre the column properly.
+
+**8. Cut the page down.** The homepage is 6,363px tall for a small amount of
+information. Losing the nested boxes and the repeated explanation should roughly
+halve it. Explain the mechanism once, in one place, not beside every fact.
+
+## Where the boldness goes
+One memorable thing: **the skywave scene**. Everything else stays quiet and
+disciplined. If an element competes with it, calm the element.
+
+## Voice
+Plain, specific, unhurried. Sentence case. No filler, no selling, no exclamation.
+State the fact, then say when it was last checked. A 78-year-old reading this on
+an iPad in a church basement is the test.
+
+## Accessibility floor — unchanged and non-negotiable
+18px body minimum (20px desktop), line-height 1.65, 48px targets, 3px navy
+focus ring at 2px offset, no weight under 400, every pair ≥4.5:1 (3.0 at ≥24px),
+no horizontal overflow at 390px, `prefers-reduced-motion` honoured.
+`tests/test_contrast.py` enforces the contrast floor; run it.

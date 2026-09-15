@@ -1,92 +1,147 @@
 <!-- wp:template-part {"slug":"header","tagName":"header","area":"header","className":"maars-site-header"} /-->
 
-<!-- THE ARCHIVE. This is where the log line does its work: 266 dated documents in one
-     list, each one rendered as a logbook entry with fixed columns, the data face and
-     tabular figures. Magenta is the record's colour and carries the furniture here (the
-     eyebrow, the title, the ruled column head); navy stays what it is everywhere else on
-     the site, the colour of a link and of the present tense. They are never swapped.
-     Type sizes: nothing below 1.125rem / 18px, because the people reading this are
-     between 30 and 90 and half of them will read it on an iPad in a church basement. -->
-<!-- CSS CONTRACT for the log line, since it is shared with maars.css and theme.json:
-       theme.json keeps the font-family preset slug `data` (the class below is has-data-font-family)
-                  and that preset is Fira Code, whose zero is natively slashed;
-       maars.css  sets the data face and font-variant-numeric: slashed-zero tabular-nums on
-                  .maars-log__date, .maars-log__type, .maars-log__file, .maars-log__col,
-                  .maars-log__label, .maars-log__value;
-                  turns .maars-log__row and .maars-log__head into aligned grid columns above
-                  the breakpoint and stacks them below it, hiding .maars-log__head when stacked;
-                  gives .maars-facet a and .maars-log__pagination a a 48px minimum target. -->
-<!-- wp:group {"tagName":"main","className":"maars-main maars-archive","style":{"spacing":{"padding":{"top":"2rem","bottom":"3rem","left":"1rem","right":"1rem"},"blockGap":"2rem"}},"layout":{"type":"constrained"}} -->
+<!-- THE ARCHIVE — revision 2.
+
+     266 dated documents in one list. What changed in this revision, and why:
+
+     ONE COLUMN, GENUINELY CENTRED. Revision 1 set the filter panel and the log to
+     the wide measure while the heading and the prose stayed at the reading measure,
+     so the page carried three different widths. Worse, WordPress renders each entry
+     of a query loop inside an <li>, and maars.css caps every li in .maars-main at
+     the 68ch reading measure with no auto margin: inside a 1180px wide band that
+     left every row of the log 861px wide and hard against the left edge, with a
+     323px dead gutter down the right of all fourteen pages. Measured, not guessed.
+     The fix is structural: nothing on this page is alignwide, so every band is the
+     same constrained column and the cap on the li is the column, not a crop.
+
+     THREE COLUMNS, NOT FOUR. Losing the wide band means losing a column, and the
+     one that goes is the file name — it was a placeholder sentence repeated on
+     every row, and the file is named on the document's own page where it is of
+     some use. Column widths come from the custom property maars.css documents for
+     exactly this ("a template sets its own shape without a new class:
+     --maars-log-columns on the .maars-log element"), and the inline flex-basis on
+     each field is the fallback if that grid rule is ever not there.
+
+     NO PANEL, NO EYEBROW. "Narrow the list" was a bordered box holding bordered
+     controls; it is now a ruled band like every other band. The heading says "The
+     archive", so nothing above it needs to say "THE RECORD".
+
+     THE DATA FACE IS FOR DATA. A document date in a log column is data and stays in
+     Fira Code with tabular figures. A document TYPE is a noun, so it comes out of
+     the data face and out of capitals; the prose dates in the paragraphs above were
+     never data and are set in the reading face.
+
+     Nothing here is below 1.125rem / 18px, because the people reading it are
+     between 30 and 90 and half of them will read it on an iPad in a church
+     basement. -->
+<!-- CSS CONTRACT, shared with maars.css and theme.json:
+       theme.json  keeps the font-family preset slug `data` (class has-data-font-family),
+                   which is Fira Code, whose zero is natively slashed.
+       maars.css   .maars-log__row / .maars-log__head take their columns from
+                   --maars-log-columns, set inline below to the three this template
+                   now has: date, type, document.
+                   .maars-log__date keeps the data face and tabular figures;
+                   .maars-log__kind must NOT be given the data face or capitals.
+                   .maars-log__title a is a 48px target.
+                   .maars-log__pagination a and .page-numbers are 48px on both axes,
+                   and .page-numbers.current is a filled block carrying aria-current.
+                   Page NUMBERS are figures and stay tabular; the words "Newer
+                   documents" and "Older documents" are words, which is why this
+                   control no longer carries .maars-archive__pagination — that
+                   class sets the whole thing in the data face.
+       TERM LISTS  .maars-termlist is the facet list. WordPress prints each term as
+                   <li><a>Meeting Minutes</a> (3)</li> — the count is a bare text
+                   node AFTER the anchor. Revision 1 gave that anchor display:flex,
+                   which made it a block and threw the count onto a line of its own,
+                   so the list read "Minutes" then "(3)". The anchor must therefore
+                   never be the flex container. Make the LI the row instead:
+                     .maars-termlist li  { display:flex; align-items:center;
+                                           justify-content:space-between; gap:1rem;
+                                           min-height:48px;
+                                           border-block-end:1px solid var(--maars-rule) }
+                     .maars-termlist a   { align-self:stretch; display:flex;
+                                           align-items:center; flex:1 1 auto }
+                   which puts the count beside its term, right-aligned in a column,
+                   and makes the whole 48px row the target. With no rule at all the
+                   list still renders "Meeting Minutes (3)" on one line, which is
+                   the floor this template guarantees on its own. The lists also
+                   carry .maars-log__entries, which is the log's own list reset
+                   (no bullets, no indent) and is what keeps them looking like a
+                   column of records rather than a bulleted list when no
+                   .maars-termlist rule exists yet. Give .maars-termlist a
+                   reading measure of its own (about 22rem) so the count lands
+                   near its term rather than a column away, and the 26-year list
+                   two columns above 48em so it is 13 rows tall, not 26.
+                   Until then the line-height carries it: 2.7 x the 18px body
+                   floor is 48.6px, which is the same trick the masthead nav
+                   uses, and it puts 48px between one term and the next even
+                   where the anchor itself is still only a line of text. -->
+<!-- wp:group {"tagName":"main","className":"maars-main maars-archive","style":{"spacing":{"padding":{"top":"2rem","bottom":"3rem","left":"1rem","right":"1rem"},"blockGap":"2rem"}},"layout":{"type":"default"}} -->
 <main class="wp-block-group maars-main maars-archive" style="padding-top:2rem;padding-right:1rem;padding-bottom:3rem;padding-left:1rem">
 
-	<!-- wp:group {"tagName":"section","className":"maars-archive__masthead","style":{"spacing":{"blockGap":"0.75rem"}},"layout":{"type":"constrained"}} -->
+	<!-- wp:group {"tagName":"section","className":"maars-archive__masthead","style":{"spacing":{"blockGap":"0.75rem"}},"layout":{"type":"default"}} -->
 	<section class="wp-block-group maars-archive__masthead">
-
-		<!-- wp:paragraph {"className":"maars-eyebrow maars-archive__eyebrow","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.14em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data"} -->
-		<p class="maars-eyebrow maars-archive__eyebrow has-magenta-color has-text-color has-data-font-family" style="font-size:1.125rem;font-weight:700;letter-spacing:0.14em;line-height:1.3;text-transform:uppercase">The record</p>
-		<!-- /wp:paragraph -->
 
 		<!-- wp:heading {"level":1,"className":"maars-archive__title","style":{"typography":{"fontSize":"clamp(2rem, 1.6rem + 2vw, 2.875rem)","lineHeight":"1.15"}},"textColor":"magenta"} -->
 		<h1 class="wp-block-heading maars-archive__title has-magenta-color has-text-color" style="font-size:clamp(2rem, 1.6rem + 2vw, 2.875rem);line-height:1.15">The archive</h1>
 		<!-- /wp:heading -->
 
 		<!-- wp:paragraph {"className":"maars-archive__lede","style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.6"}}} -->
-		<p class="maars-archive__lede" style="font-size:1.25rem;line-height:1.6">Every dated document the Society has published and kept: <strong>266 items</strong> spanning 1998 to 2024 &#8212; newsletters, meeting minutes, 49 treasurer&#8217;s reports and 6 year-end reports. They are listed newest first, 20 to a page, 14 pages in all.</p>
+		<p class="maars-archive__lede" style="font-size:1.25rem;line-height:1.6">Every dated document the Society has published and kept: 266 items spanning 1998 to 2024, being newsletters, meeting minutes, 49 treasurer&#8217;s reports and 6 year-end reports. Newest first, 20 to a page, 14 pages in all.</p>
 		<!-- /wp:paragraph -->
 
-		<!-- The gaps are a finding, not an omission, so they are set as a marked note rather
-		     than dropped into small print at the foot of the page. -->
-		<!-- wp:group {"tagName":"aside","className":"maars-archive__gaps","style":{"spacing":{"padding":{"top":"0.75rem","bottom":"0.75rem","left":"1rem","right":"1rem"},"blockGap":"0.5rem"},"border":{"left":{"color":"#990066","width":"4px","style":"solid"}}},"layout":{"type":"constrained"}} -->
-		<aside class="wp-block-group maars-archive__gaps" style="border-left-color:#990066;border-left-style:solid;border-left-width:4px;padding-top:0.75rem;padding-right:1rem;padding-bottom:0.75rem;padding-left:1rem">
-			<!-- wp:paragraph {"style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.6"}}} -->
-			<p style="font-size:1.125rem;line-height:1.6">The gaps are part of the record and are not papered over. <strong>2012 produced nothing at all.</strong> The newest document of any kind is dated 16 January 2024. Where a year is thin, the year is thin &#8212; <a href="/archive/gaps/">what we know is missing</a>.</p>
-			<!-- /wp:paragraph -->
-		</aside>
-		<!-- /wp:group -->
+		<!-- The gaps are a finding, not an omission, so they are marked with the
+		     record's own rule down the edge. A rule, not a box: .maars-archive__gaps
+		     draws it, which is why this is a paragraph and not a group wrapping a
+		     paragraph. The dates in it are prose and stay in the reading face. -->
+		<!-- wp:paragraph {"className":"maars-archive__gaps","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.65"}}} -->
+		<p class="maars-archive__gaps" style="font-size:1.125rem;line-height:1.65">The gaps are part of the record and are not papered over. 2012 produced nothing at all. The newest document of any kind is dated 16 January 2024, and where a year is thin, the year is thin &#8212; <a href="/archive/gaps/">what we know is missing</a>.</p>
+		<!-- /wp:paragraph -->
 
 	</section>
 	<!-- /wp:group -->
 
-	<!-- FILTERS. Two taxonomies and a search field, above the list, not hidden behind a
-	     control. The old site's route to a 2003 newsletter was a wall of 26 alphabetical
-	     links. Both facets are lists of real links: a select that navigates on change is a
-	     trap for anyone arrowing through it with a keyboard, and the year list doubles as
-	     a visible census of the corpus. -->
-	<!-- wp:group {"tagName":"section","align":"wide","className":"maars-archive-filters","anchor":"maars-archive-filters","style":{"spacing":{"padding":{"top":"1.5rem","bottom":"1.5rem","left":"1.5rem","right":"1.5rem"},"blockGap":"1.25rem"},"border":{"color":"#D7D7E4","width":"1px","style":"solid","radius":"2px"}},"backgroundColor":"paper","textColor":"ink","layout":{"type":"constrained"}} -->
-	<section class="wp-block-group alignwide maars-archive-filters has-border-color has-ink-color has-paper-background-color has-text-color has-background" id="maars-archive-filters" style="border-color:#D7D7E4;border-radius:2px;border-style:solid;border-width:1px;padding-top:1.5rem;padding-right:1.5rem;padding-bottom:1.5rem;padding-left:1.5rem">
+	<!-- NARROWING THE LIST. Two taxonomies and a search field, above the list and not
+	     hidden behind a control, separated from the masthead by a hairline rather
+	     than fenced off inside a panel. Both facets are lists of real links: a select
+	     that navigates on change is a trap for anyone arrowing through it with a
+	     keyboard, and the year list doubles as a visible census of the corpus. -->
+	<!-- wp:group {"tagName":"section","className":"maars-archive__narrow","anchor":"maars-archive-filters","style":{"spacing":{"padding":{"top":"1.5rem"},"blockGap":"1.25rem"},"border":{"top":{"color":"#D7D7E4","width":"1px","style":"solid"}}},"layout":{"type":"default"}} -->
+	<section class="wp-block-group maars-archive__narrow" id="maars-archive-filters" style="border-top-color:#D7D7E4;border-top-style:solid;border-top-width:1px;padding-top:1.5rem">
 
-		<!-- wp:heading {"level":2,"className":"maars-filters__title","style":{"typography":{"fontSize":"1.5rem","lineHeight":"1.25"}},"textColor":"navy"} -->
-		<h2 class="wp-block-heading maars-filters__title has-navy-color has-text-color" style="font-size:1.5rem;line-height:1.25">Narrow the list</h2>
+		<!-- wp:heading {"level":2,"className":"maars-filters__title","style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.25"}},"textColor":"navy"} -->
+		<h2 class="wp-block-heading maars-filters__title has-navy-color has-text-color" style="font-size:1.375rem;line-height:1.25">Narrow the list</h2>
 		<!-- /wp:heading -->
 
 		<!-- wp:search {"label":"Search the archive","showLabel":true,"placeholder":"Callsign, name, subject, year","width":100,"widthUnit":"%","buttonText":"Search","buttonPosition":"button-outside","query":{"post_type":"maars_publication"},"className":"maars-filters__search","style":{"typography":{"fontSize":"1.125rem"}}} /-->
 
-		<!-- wp:columns {"className":"maars-filters__facets","style":{"spacing":{"blockGap":{"top":"1.5rem","left":"2rem"}}}} -->
+		<!-- wp:columns {"className":"maars-filters__facets","style":{"spacing":{"blockGap":{"top":"1.5rem","left":"2.5rem"}}}} -->
 		<div class="wp-block-columns maars-filters__facets">
 
 			<!-- wp:column -->
 			<div class="wp-block-column">
-				<!-- wp:heading {"level":3,"className":"maars-facet__title","style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.3"}},"textColor":"navy"} -->
-				<h3 class="wp-block-heading maars-facet__title has-navy-color has-text-color" style="font-size:1.25rem;line-height:1.3">By document type</h3>
+				<!-- wp:heading {"level":3,"className":"maars-facet__title","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.3","textTransform":"none","letterSpacing":"0"}},"textColor":"ink"} -->
+				<h3 class="wp-block-heading maars-facet__title has-ink-color has-text-color" style="font-size:1.125rem;letter-spacing:0;line-height:1.3;text-transform:none">Document type</h3>
 				<!-- /wp:heading -->
 
 				<!-- Four terms only: newsletter, minutes, treasurer-report, year-end-report.
-				     A short vocabulary is the point; the old corpus had 25 competing headings.
-				     CSS contract: .maars-facet a is a 48px target, not a text link. -->
-				<!-- wp:categories {"taxonomy":"maars_doc_type","showPostCounts":true,"showHierarchy":false,"className":"maars-facet maars-facet-doctype","style":{"typography":{"fontSize":"1.125rem"}}} /-->
+				     A short vocabulary is the point; the old corpus had 25 competing
+				     headings. The term is a noun, so it stays in the reading face. -->
+				<!-- wp:categories {"taxonomy":"maars_doc_type","showPostCounts":true,"showHierarchy":false,"className":"maars-termlist maars-termlist--type maars-log__entries","style":{"typography":{"fontSize":"1.125rem","lineHeight":"2.7"}}} /-->
 			</div>
 			<!-- /wp:column -->
 
 			<!-- wp:column -->
 			<div class="wp-block-column">
-				<!-- wp:heading {"level":3,"className":"maars-facet__title","style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.3"}},"textColor":"navy"} -->
-				<h3 class="wp-block-heading maars-facet__title has-navy-color has-text-color" style="font-size:1.25rem;line-height:1.3">By year</h3>
+				<!-- wp:heading {"level":3,"className":"maars-facet__title","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.3","textTransform":"none","letterSpacing":"0"}},"textColor":"ink"} -->
+				<h3 class="wp-block-heading maars-facet__title has-ink-color has-text-color" style="font-size:1.125rem;letter-spacing:0;line-height:1.3;text-transform:none">Year</h3>
 				<!-- /wp:heading -->
 
-				<!-- Twenty-six years, in the data face with tabular figures so the grid of years
-				     lines up and a zero is never read as an O. 2012 is absent from this control
-				     because 2012 produced nothing, and that absence is the honest answer. -->
-				<!-- wp:categories {"taxonomy":"maars_year","showPostCounts":true,"showHierarchy":false,"className":"maars-facet maars-facet-year","style":{"typography":{"fontSize":"1.125rem"}},"fontFamily":"data"} /-->
+				<!-- Years and counts are figures, so this list is in the data face with
+				     tabular figures and the grid of years lines up. 2012 is absent from
+				     this control because 2012 produced nothing, and that absence is the
+				     honest answer. -->
+				<!-- wp:categories {"taxonomy":"maars_year","showPostCounts":true,"showHierarchy":false,"className":"maars-termlist maars-termlist--year maars-log__entries","style":{"typography":{"fontSize":"1.125rem","lineHeight":"2.7"}},"fontFamily":"data"} /-->
 
 				<!-- wp:paragraph {"className":"maars-facet__note","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.55"}}} -->
 				<p class="maars-facet__note" style="font-size:1.125rem;line-height:1.55">Year counts are the number of surviving documents, not the number of meetings held.</p>
@@ -100,27 +155,33 @@
 	</section>
 	<!-- /wp:group -->
 
-	<!-- THE LOG. 20 per page over 266 documents is 14 pages, so pagination is numbered, not
-	     an infinite scroll and not a "load more": a researcher must be able to link to page
-	     9 and come back to it. The query is explicit rather than inherited so the page
-	     length is a property of this template and not of whatever posts_per_page happens to
-	     be set to. Ordering is by post_date, which maars-core seeds from _maars_doc_date, so
-	     the list is in document order rather than import order. -->
-	<!-- wp:query {"queryId":21,"query":{"perPage":20,"pages":0,"offset":0,"postType":"maars_publication","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":null,"parents":[],"format":[]},"align":"wide","className":"maars-archive__loop maars-log","layout":{"type":"default"}} -->
-	<div class="wp-block-query alignwide maars-archive__loop maars-log">
+	<!-- THE LOG. 20 per page over 266 documents is 14 pages, so pagination is
+	     numbered, not an infinite scroll and not a "load more": a researcher must be
+	     able to link to page 9 and come back to it. The query is explicit rather than
+	     inherited so the page length is a property of this template and not of
+	     whatever posts_per_page happens to be set to. Ordering is by post_date, which
+	     maars-core seeds from _maars_doc_date, so the list is in document order
+	     rather than import order.
 
-		<!-- The ruled column head. Four labels over a 2px magenta rule, in the same fixed
-		     widths the rows use, so the columns are columns and not four things near each
-		     other. It is real text rather than a decorative flourish: on a phone the rows
-		     stack, and the head is what tells a reader which field is which. -->
-		<!-- wp:group {"tagName":"div","className":"maars-log__head","style":{"spacing":{"blockGap":"1rem","padding":{"bottom":"0.5rem"}},"border":{"bottom":{"color":"#990066","width":"2px","style":"solid"}},"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0.12em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"magenta","fontFamily":"data","layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"bottom"}} -->
-		<div class="wp-block-group maars-log__head has-magenta-color has-text-color has-data-font-family" style="border-bottom-color:#990066;border-bottom-style:solid;border-bottom-width:2px;font-size:1.125rem;font-weight:700;letter-spacing:0.12em;line-height:1.3;padding-bottom:0.5rem;text-transform:uppercase">
+	     The inline custom property is the hook maars.css documents for a template
+	     with its own fields; it is three columns now, not four. -->
+	<!-- wp:query {"queryId":21,"query":{"perPage":20,"pages":0,"offset":0,"postType":"maars_publication","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":null,"parents":[],"format":[]},"className":"maars-archive__loop maars-log","layout":{"type":"default"}} -->
+	<div class="wp-block-query maars-archive__loop maars-log" style="--maars-log-columns:8rem 10.5rem minmax(0, 1fr)">
 
-			<!-- wp:paragraph {"className":"maars-log__col maars-log__col-date","style":{"layout":{"selfStretch":"fixed","flexSize":"9rem"}}} -->
+		<!-- The ruled column head. Three field names over the record's rule, in the
+		     widths the rows use, so the columns are columns and not three things near
+		     each other. Sentence case and quieter than the entries: a column head
+		     earns its place, but it is not the page's loudest voice. On a phone the
+		     rows stack and maars.css takes this head away, because at that width it
+		     has nothing left to head. -->
+		<!-- wp:group {"tagName":"div","className":"maars-log__head","style":{"spacing":{"blockGap":"1rem","padding":{"bottom":"0.5rem"}},"border":{"bottom":{"color":"#990066","width":"2px","style":"solid"}},"typography":{"fontSize":"1rem","fontWeight":"600","letterSpacing":"0","lineHeight":"1.3","textTransform":"none"}},"textColor":"magenta","layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"bottom"}} -->
+		<div class="wp-block-group maars-log__head has-magenta-color has-text-color" style="border-bottom-color:#990066;border-bottom-style:solid;border-bottom-width:2px;font-size:1rem;font-weight:600;letter-spacing:0;line-height:1.3;padding-bottom:0.5rem;text-transform:none">
+
+			<!-- wp:paragraph {"className":"maars-log__col maars-log__col-date","style":{"layout":{"selfStretch":"fixed","flexSize":"8rem"}}} -->
 			<p class="maars-log__col maars-log__col-date">Date</p>
 			<!-- /wp:paragraph -->
 
-			<!-- wp:paragraph {"className":"maars-log__col maars-log__col-type","style":{"layout":{"selfStretch":"fixed","flexSize":"11rem"}}} -->
+			<!-- wp:paragraph {"className":"maars-log__col maars-log__col-type","style":{"layout":{"selfStretch":"fixed","flexSize":"10.5rem"}}} -->
 			<p class="maars-log__col maars-log__col-type">Type</p>
 			<!-- /wp:paragraph -->
 
@@ -128,66 +189,54 @@
 			<p class="maars-log__col maars-log__col-title">Document</p>
 			<!-- /wp:paragraph -->
 
-			<!-- wp:paragraph {"className":"maars-log__col maars-log__col-file","style":{"layout":{"selfStretch":"fixed","flexSize":"15rem"}}} -->
-			<p class="maars-log__col maars-log__col-file">Original file</p>
-			<!-- /wp:paragraph -->
-
 		</div>
 		<!-- /wp:group -->
 
-		<!-- wp:post-template {"className":"maars-archive__list maars-log__entries","style":{"spacing":{"blockGap":"0rem"}},"layout":{"type":"default"}} -->
+		<!-- Why this list is a constrained layout at 100%: WordPress wraps every
+		     entry of a loop in an <li>, and maars.css caps every li inside
+		     .maars-main at the 68ch reading measure, because an li is usually a
+		     line of prose. A log row is not prose. Left as it was, each row was
+		     cropped to 68ch and pinned to the left of the column, with a dead
+		     gutter down the right of all fourteen pages. Declaring the layout
+		     here makes WordPress print a rule of its own for this container —
+		     `max-width:100%` on each child, at class specificity — which is the
+		     documented way to say "these children fill their list", and it beats
+		     the reading measure without a single !important. -->
+		<!-- wp:post-template {"className":"maars-archive__list maars-log__entries","style":{"spacing":{"blockGap":"0rem"}},"layout":{"type":"constrained","contentSize":"100%","wideSize":"100%"}} -->
 
-			<!-- One entry, one log line: when it was published, what kind of document it is,
-			     what it is called, and which file in the club's own archive it came from.
-			     The first, second and fourth fields are the data face with tabular figures,
-			     because they are log columns; the title is the display face, because it is
-			     the only prose in the row. -->
-			<!-- wp:group {"tagName":"article","className":"maars-doc maars-log__row","style":{"spacing":{"blockGap":"1rem","padding":{"top":"1rem","bottom":"1rem"}},"border":{"bottom":{"color":"#D7D7E4","width":"1px","style":"solid"}}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top"}} -->
-			<article class="wp-block-group maars-doc maars-log__row" style="border-bottom-color:#D7D7E4;border-bottom-style:solid;border-bottom-width:1px;padding-top:1rem;padding-bottom:1rem">
+			<!-- One entry, one log line: when it was published, what kind of document it
+			     is, and what it is called. Entries are separated by a hairline, never
+			     boxed. -->
+			<!-- wp:group {"tagName":"article","className":"maars-doc maars-log__row","style":{"spacing":{"blockGap":"1rem","padding":{"top":"0.85rem","bottom":"0.85rem"}},"border":{"bottom":{"color":"#D7D7E4","width":"1px","style":"solid"}}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top"}} -->
+			<article class="wp-block-group maars-doc maars-log__row" style="border-bottom-color:#D7D7E4;border-bottom-style:solid;border-bottom-width:1px;padding-top:0.85rem;padding-bottom:0.85rem">
 
-				<!-- Fixed-width date, zero padded, month in letters: 01 Mar 1999 and 12 Jan 2024
-				     occupy the same width, so 20 of them make a column a reader can scan down. -->
-				<!-- wp:post-date {"format":"d M Y","isLink":false,"className":"maars-log__date","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.45"},"layout":{"selfStretch":"fixed","flexSize":"9rem"}},"textColor":"ink","fontFamily":"data"} /-->
+				<!-- Fixed-width date, zero padded, month in letters: 01 Mar 1999 and
+				     12 Jan 2024 occupy the same width, so 20 of them make a column a
+				     reader can scan down. This is the one field on the row that is data. -->
+				<!-- wp:post-date {"format":"d M Y","isLink":false,"className":"maars-log__date","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.45"},"layout":{"selfStretch":"fixed","flexSize":"8rem"}},"textColor":"ink","fontFamily":"data"} /-->
 
-				<!-- wp:post-terms {"term":"maars_doc_type","prefix":"","separator":", ","className":"maars-doc__type maars-log__type","style":{"typography":{"fontSize":"1.125rem","letterSpacing":"0.04em","lineHeight":"1.45","textTransform":"uppercase"},"layout":{"selfStretch":"fixed","flexSize":"11rem"}},"fontFamily":"data"} /-->
+				<!-- The document type is a noun, not a figure: reading face, sentence
+				     case, no tracking. Revision 1 set it in Fira Code and shouted it. -->
+				<!-- wp:post-terms {"term":"maars_doc_type","prefix":"","separator":", ","className":"maars-log__kind","style":{"typography":{"fontSize":"1.125rem","letterSpacing":"0","lineHeight":"1.45","textTransform":"none"},"layout":{"selfStretch":"fixed","flexSize":"10.5rem"}}} /-->
 
 				<!-- wp:post-title {"level":2,"isLink":true,"className":"maars-log__title","style":{"typography":{"fontSize":"1.25rem","fontWeight":"600","lineHeight":"1.4"},"layout":{"selfStretch":"fill"}}} /-->
-
-				<!-- The fourth column names the file the Society actually published. The binding
-				     asks for _maars_source_file; core refuses bindings on protected meta keys, so
-				     on a stock install the sentence written into the block is what renders and the
-				     record itself carries the file name. When the club runs the import against its
-				     own mirror this column fills with real file names. A sentence that is true
-				     beats a link that is dead. -->
-				<!-- wp:paragraph {"className":"maars-log__file","metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"_maars_source_file"}}}},"style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.45"},"layout":{"selfStretch":"fixed","flexSize":"15rem"}},"textColor":"ink","fontFamily":"data"} -->
-				<p class="maars-log__file has-ink-color has-text-color has-data-font-family" style="font-size:1.125rem;line-height:1.45">named on the record</p>
-				<!-- /wp:paragraph -->
 
 			</article>
 			<!-- /wp:group -->
 
 		<!-- /wp:post-template -->
 
-		<!-- wp:spacer {"height":"2rem"} -->
-		<div style="height:2rem" aria-hidden="true" class="wp-block-spacer"></div>
-		<!-- /wp:spacer -->
-
-		<!-- PAGINATION, for a ninety-year-old with a finger. Words, not bare chevrons: the
-		     arrow is decoration next to "Older documents" and core marks it aria-hidden.
-		     Newer is on the left and older on the right because the list runs newest first,
-		     so the direction of travel matches the direction of the page.
-		     CSS contract, and it is not optional:
-		       .maars-log__pagination a, .maars-log__pagination .page-numbers
-		           are 48px minimum on both axes, with a visible 1px border so the target
-		           edge can be seen before it is pressed;
-		       .maars-log__pagination .page-numbers.current
-		           is a filled block, not a heavier weight, and it carries aria-current="page"
-		           from core, so the page you are on is stated twice: in fill and in markup.
-		           maars.css fills it magenta on paper, which is the record’s colour and
-		           measures 8.25:1. -->
-		<!-- wp:query-pagination {"paginationArrow":"none","showLabel":true,"className":"maars-archive__pagination maars-log__pagination","style":{"spacing":{"blockGap":"1rem"},"typography":{"fontSize":"1.25rem","fontWeight":"600"}},"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
+		<!-- PAGINATION, for a ninety-year-old with a finger. Words, not bare chevrons:
+		     the arrows are off and each control says what it does. Newer is on the left
+		     and older on the right because the list runs newest first, so the direction
+		     of travel matches the direction of the page. The page you are on is stated
+		     twice — in fill, from maars.css, and in markup, because core writes
+		     aria-current="page" on it. -->
+		<!-- wp:query-pagination {"paginationArrow":"none","showLabel":true,"className":"maars-log__pagination","style":{"spacing":{"blockGap":"1rem","padding":{"top":"1.25rem"}},"border":{"top":{"color":"#D7D7E4","width":"1px","style":"solid"}},"typography":{"fontSize":"1.25rem","fontWeight":"600"}},"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
 			<!-- wp:query-pagination-previous {"label":"Newer documents"} /-->
-			<!-- wp:query-pagination-numbers {"midSize":2} /-->
+			<!-- The page numbers are figures, so they are the one part of this
+			     control in the data face; the words either side of them are words. -->
+			<!-- wp:query-pagination-numbers {"midSize":2,"fontFamily":"data"} /-->
 			<!-- wp:query-pagination-next {"label":"Older documents"} /-->
 		<!-- /wp:query-pagination -->
 
@@ -208,8 +257,10 @@
 	</div>
 	<!-- /wp:query -->
 
+	<!-- How the list was made, said once, at the foot, instead of a column of
+	     placeholder text repeated down every one of the 266 rows. -->
 	<!-- wp:paragraph {"className":"maars-archive__provenance","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.6"}}} -->
-	<p class="maars-archive__provenance" style="font-size:1.125rem;line-height:1.6">Each entry is the text of the document as the Society published it, with the original file kept alongside it. Transcription is machine-assisted and unproofed unless the entry says otherwise, so the original is the authority &#8212; <a href="/privacy/">something here concerns you?</a></p>
+	<p class="maars-archive__provenance" style="font-size:1.125rem;line-height:1.6">Each entry is the text of the document as the Society published it, and the file it was published as is kept beside it and named on the document&#8217;s own page. Transcription is machine-assisted and unproofed unless the entry says otherwise, so the original file is the authority &#8212; <a href="/privacy/">something here concerns you?</a></p>
 	<!-- /wp:paragraph -->
 
 </main>

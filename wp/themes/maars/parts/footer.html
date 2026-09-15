@@ -1,16 +1,24 @@
 <!-- THE COLOPHON.
 
      Four things, in this order: what the Society's actual channel of record is, who the Society is
-     as a postal body, when a person last read these pages, and a short set of quiet links to the
-     pages that do not belong in primary navigation. No link farm, no e-mail address, no telephone
-     number, no street address for anybody. -->
+     as a postal body and where to find the pages that do not belong in primary navigation, when a
+     person last read these pages, and the reproduction notice. No link farm, no e-mail address, no
+     telephone number, no street address for anybody.
+
+     Revision one joined the Society's name, its callsign and its county with middle dots, put a
+     tracked-out capital label over the result, and then stacked the identity above two link
+     columns so the colophon ran to 1,190px on a 1280px screen. All three are fixed here: the name
+     is a line, the callsign is a line, the county is a line, the two lists carry sentence-case
+     headings at reading size, and the identity sits beside the lists as a third column instead of
+     above them. -->
 <!-- wp:group {"tagName":"div","className":"maars-footer","style":{"spacing":{"blockGap":"0px"}},"textColor":"ink","layout":{"type":"default"}} -->
 <div class="wp-block-group maars-footer has-ink-color has-text-color">
 
-	<!-- 1. THE CONSTITUTIONAL NOTE.
+	<!-- 1. THE CONSTITUTIONAL NOTE, and the one container on this screen that earns an edge: it
+	     holds a quotation from the Society's own constitution apart from the site's own voice.
 
 	     This is not boilerplate. Article III makes the e-mail reflector the official organ, which
-	     means a quiet week on this website is not a governance failure — and it also means this
+	     means a quiet week on this website is not a governance failure, and it also means this
 	     website must never present itself as the channel through which the Society speaks. Saying
 	     so out loud is what stops the site lying by omission. -->
 	<!-- wp:group {"tagName":"div","className":"maars-official-organ","style":{"spacing":{"padding":{"top":"1.25rem","bottom":"1.25rem","left":"1.5rem","right":"1.5rem"}}},"layout":{"type":"default"}} -->
@@ -21,60 +29,61 @@
 		<!-- /wp:paragraph -->
 
 		<!-- wp:paragraph {"className":"maars-official-organ__cite"} -->
-		<p class="maars-official-organ__cite">Constitution and Standing Operating Procedures, Article III, as revised <time datetime="2021-12-11">11 December 2021</time>. <strong>This website is not the official organ.</strong> Notices, cancellations and anything time-critical go out on the reflector first; this site is the durable public record that follows. If you need to be told, get on the reflector <span aria-hidden="true">·</span> <a href="/join/">how to do that</a>.</p>
+		<p class="maars-official-organ__cite">Constitution and Standing Operating Procedures, Article III, as revised 11 December 2021. <strong>This website is not the official organ.</strong> Notices and cancellations go out on the reflector first; this site is the durable public record that follows. If you need to be told, <a href="/join/">get on the reflector</a>.</p>
 		<!-- /wp:paragraph -->
 
 	</div>
 	<!-- /wp:group -->
 
-	<!-- 2. THE POSTAL IDENTITY. The Society, as a body, by name and callsign and county. Nothing
-	     below this line identifies a person or a household, and that is deliberate: the site this
-	     one replaces published four officers' e-mail addresses unobfuscated, seven telephone
-	     numbers, a home address and a forty-one name roster with cities. None of it came across. -->
-	<!-- wp:group {"tagName":"div","className":"maars-postal","style":{"spacing":{"blockGap":"0.4rem"}},"layout":{"type":"default"}} -->
-	<div class="wp-block-group maars-postal">
+	<!-- 2. THE SOCIETY, AND THE QUIET LINKS, in three columns on a wide screen and stacked on a
+	     narrow one.
 
-		<!-- wp:paragraph {"className":"maars-label","style":{"typography":{"fontSize":"1rem","fontWeight":"700","letterSpacing":"0.08em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"ink"} -->
-		<p class="maars-label has-ink-color has-text-color" style="font-size:1rem;font-weight:700;letter-spacing:0.08em;line-height:1.3;text-transform:uppercase">The Society</p>
-		<!-- /wp:paragraph -->
+	     The identity is the Society as a body: name, callsign, county, one line each. Nothing in
+	     this footer identifies a person or a household, and that is deliberate. The site this one
+	     replaces published four officers' e-mail addresses unobfuscated, seven telephone numbers,
+	     a home address and a forty-one name roster with cities; none of it came across, and the
+	     footer says so in words rather than leaving a gap. No label is set over those three lines,
+	     because the lines say what they are.
 
-		<!-- wp:paragraph {"className":"maars-postal__identity","fontSize":"large","style":{"typography":{"lineHeight":"1.45"}}} -->
-		<p class="maars-postal__identity has-large-font-size" style="line-height:1.45"><strong>Manhattan Area Amateur Radio Society</strong> <span aria-hidden="true">·</span> club callsign <code>KSØMAN</code> <span aria-hidden="true">·</span> Manhattan, Riley County, Kansas.</p>
-		<!-- /wp:paragraph -->
+	     Each link is a list item rather than one of a run of inline links, because maars.css gives
+	     a .maars-footer__list link a 48px minimum height and an inline link in a sentence cannot
+	     have one. Outbound links live on /links/, each with the date it was last checked. -->
+	<!-- wp:columns {"className":"maars-footer-columns","style":{"spacing":{"blockGap":{"top":"1.75rem","left":"2.5rem"},"margin":{"top":"1.5rem"}}}} -->
+	<div class="wp-block-columns maars-footer-columns" style="margin-top:1.5rem">
 
-		<!-- wp:paragraph {"className":"maars-footer__note"} -->
-		<p class="maars-footer__note">No street address, telephone number or e-mail address is published here, for the Society or for anyone in it. There are three ways to reach us and all three are on <a href="/contact/">the contact page</a>: come to a meeting, ask at one to be put on the reflector, or call on the repeater.</p>
-		<!-- /wp:paragraph -->
+		<!-- Explicit widths, because a column block with no width is sized by its
+		     content first and only then allowed to grow: the identity paragraph
+		     carries the reading measure, so without these three numbers it took two
+		     thirds of the row and pushed the second list onto a line of its own. The
+		     three add up to 90%, which leaves the 2.5rem gaps somewhere to live. -->
+		<!-- wp:column {"width":"36%","className":"maars-postal"} -->
+		<div class="wp-block-column maars-postal" style="flex-basis:36%">
 
-	</div>
-	<!-- /wp:group -->
+			<!-- wp:paragraph {"className":"maars-postal__identity","fontSize":"large","style":{"typography":{"lineHeight":"1.35"}}} -->
+			<p class="maars-postal__identity has-large-font-size" style="line-height:1.35"><strong>Manhattan Area Amateur Radio Society</strong></p>
+			<!-- /wp:paragraph -->
 
-	<!-- 3. LAST REVIEWED. Set by hand, by a person, at review time. The old site's links page carried
-	     "last verified 10/23/09" for fifteen years, which is the whole lesson in one string: a stale
-	     date that is visible is worth more than a fresh page that is lying. -->
-	<!-- wp:group {"tagName":"div","className":"maars-lastreviewed","style":{"spacing":{"margin":{"top":"1.5rem"}}},"layout":{"type":"default"}} -->
-	<div class="wp-block-group maars-lastreviewed" style="margin-top:1.5rem">
-		<!-- wp:paragraph {"className":"maars-lastreviewed__line"} -->
-		<p class="maars-lastreviewed__line"><strong>This site was last reviewed by a person on <time datetime="2026-09-13">13 September 2026</time>.</strong> Review is quarterly. If that date is more than six months old, nobody has checked these pages and you should treat every fact on them as suspect <span aria-hidden="true">·</span> <a href="/about/how-this-site-is-maintained/">how this site is maintained</a>.</p>
-		<!-- /wp:paragraph -->
-	</div>
-	<!-- /wp:group -->
+			<!-- The callsign is a figure, so it is set in the data face and given its own line
+			     rather than being welded to the name with a dot. -->
+			<!-- wp:paragraph {"className":"maars-postal__call","style":{"typography":{"lineHeight":"1.35"}}} -->
+			<p class="maars-postal__call" style="line-height:1.35">Club callsign <code>KSØMAN</code></p>
+			<!-- /wp:paragraph -->
 
-	<!-- wp:separator {"className":"maars-footer__rule"} -->
-	<hr class="wp-block-separator has-alpha-channel-opacity maars-footer__rule"/>
-	<!-- /wp:separator -->
+			<!-- wp:paragraph {"className":"maars-postal__place","style":{"typography":{"lineHeight":"1.35"}}} -->
+			<p class="maars-postal__place" style="line-height:1.35">Manhattan, Riley County, Kansas</p>
+			<!-- /wp:paragraph -->
 
-	<!-- 4. THE QUIET LINKS. The pages that earn a place in the record but not in primary navigation.
-	     Each one is a list item rather than a run of inline links, because maars.css gives a
-	     .maars-footer__list link a 48px minimum height and an inline link in a sentence cannot have
-	     one. Outbound links live on /links/, each with the date it was last checked. -->
-	<!-- wp:columns {"className":"maars-footer-columns","style":{"spacing":{"blockGap":{"top":"1.75rem","left":"2.5rem"}}}} -->
-	<div class="wp-block-columns maars-footer-columns">
+			<!-- wp:paragraph {"className":"maars-footer__note","style":{"spacing":{"margin":{"top":"0.75rem"}}}} -->
+			<p class="maars-footer__note" style="margin-top:0.75rem">No street address, telephone number or e-mail address is published here, for the Society or for anyone in it. The three ways to reach us are on <a href="/contact/">the contact page</a>.</p>
+			<!-- /wp:paragraph -->
 
-		<!-- wp:column -->
-		<div class="wp-block-column">
-			<!-- wp:heading {"level":2,"className":"maars-footer__heading","style":{"typography":{"fontSize":"1rem","fontWeight":"700","letterSpacing":"0.08em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"ink"} -->
-			<h2 class="wp-block-heading maars-footer__heading has-ink-color has-text-color" style="font-size:1rem;font-weight:700;letter-spacing:0.08em;line-height:1.3;text-transform:uppercase">Governance</h2>
+		</div>
+		<!-- /wp:column -->
+
+		<!-- wp:column {"width":"26%"} -->
+		<div class="wp-block-column" style="flex-basis:26%">
+			<!-- wp:heading {"level":2,"className":"maars-footer__heading","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0","lineHeight":"1.4","textTransform":"none"}},"textColor":"ink"} -->
+			<h2 class="wp-block-heading maars-footer__heading has-ink-color has-text-color" style="font-size:1.125rem;font-weight:700;letter-spacing:0;line-height:1.4;text-transform:none">Governance</h2>
 			<!-- /wp:heading -->
 
 			<!-- wp:list {"className":"maars-footer__list"} -->
@@ -87,10 +96,10 @@
 		</div>
 		<!-- /wp:column -->
 
-		<!-- wp:column -->
-		<div class="wp-block-column">
-			<!-- wp:heading {"level":2,"className":"maars-footer__heading","style":{"typography":{"fontSize":"1rem","fontWeight":"700","letterSpacing":"0.08em","lineHeight":"1.3","textTransform":"uppercase"}},"textColor":"ink"} -->
-			<h2 class="wp-block-heading maars-footer__heading has-ink-color has-text-color" style="font-size:1rem;font-weight:700;letter-spacing:0.08em;line-height:1.3;text-transform:uppercase">This website</h2>
+		<!-- wp:column {"width":"28%"} -->
+		<div class="wp-block-column" style="flex-basis:28%">
+			<!-- wp:heading {"level":2,"className":"maars-footer__heading","style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","letterSpacing":"0","lineHeight":"1.4","textTransform":"none"}},"textColor":"ink"} -->
+			<h2 class="wp-block-heading maars-footer__heading has-ink-color has-text-color" style="font-size:1.125rem;font-weight:700;letter-spacing:0;line-height:1.4;text-transform:none">This website</h2>
 			<!-- /wp:heading -->
 
 			<!-- wp:list {"className":"maars-footer__list"} -->
@@ -107,9 +116,27 @@
 	</div>
 	<!-- /wp:columns -->
 
-	<!-- wp:paragraph {"className":"maars-lastreviewed__copy","style":{"spacing":{"margin":{"top":"1.5rem"}}}} -->
-	<p class="maars-lastreviewed__copy" style="margin-top:1.5rem">&#169; Manhattan Area Amateur Radio Society. Documents in the archive are reproduced as the Society published them. If something here concerns you, use <a href="/privacy/">the takedown route</a> and it will be acted on.</p>
-	<!-- /wp:paragraph -->
+	<!-- wp:separator {"className":"maars-footer__rule"} -->
+	<hr class="wp-block-separator has-alpha-channel-opacity maars-footer__rule"/>
+	<!-- /wp:separator -->
+
+	<!-- 3. LAST REVIEWED, and the reproduction notice. The review date is set by hand, by a person,
+	     at review time. The old site's links page carried "last verified 10/23/09" for fifteen
+	     years, which is the whole lesson in one string: a stale date that is visible is worth more
+	     than a fresh page that is lying. -->
+	<!-- wp:group {"tagName":"div","className":"maars-lastreviewed","style":{"spacing":{"blockGap":"0.5rem"}},"layout":{"type":"default"}} -->
+	<div class="wp-block-group maars-lastreviewed">
+
+		<!-- wp:paragraph {"className":"maars-lastreviewed__line"} -->
+		<p class="maars-lastreviewed__line"><strong>This site was last reviewed by a person on 13 September 2026.</strong> Review is quarterly; if that date is more than six months old, nobody has checked these pages and every fact on them should be treated as suspect.</p>
+		<!-- /wp:paragraph -->
+
+		<!-- wp:paragraph {"className":"maars-lastreviewed__copy"} -->
+		<p class="maars-lastreviewed__copy">&#169; Manhattan Area Amateur Radio Society. Documents in the archive are reproduced as the Society published them; if something here concerns you, use <a href="/privacy/">the takedown route</a>.</p>
+		<!-- /wp:paragraph -->
+
+	</div>
+	<!-- /wp:group -->
 
 </div>
 <!-- /wp:group -->

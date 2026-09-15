@@ -274,7 +274,16 @@ function maars_next_meeting( ?int $from_ts = null ): array {
 		'ts'    => $meeting->getTimestamp(),
 		'iso'   => $meeting->format( 'Y-m-d' ),
 		'label' => $meeting->format( 'l, F j, Y' ) . ' at ' . maars_club_time_label( $meeting ),
-		'rule'  => '2nd Friday, 6:30 P.M. — MAARS Constitution & SOP, revised 11 Dec 2021',
+		/*
+		 * The working, written as a sentence. It used to read "2nd Friday,
+		 * 6:30 P.M. — MAARS Constitution & SOP, revised 11 Dec 2021": an
+		 * abbreviated ordinal, an abbreviated document name and an abbreviated
+		 * date, welded together with a dash. Three of those are figures set in
+		 * prose, and the dash was doing the job a clause does. It is one line
+		 * under a large date and it is read once, by somebody checking the
+		 * arithmetic, so it can afford to be a sentence.
+		 */
+		'rule'  => __( 'Second Friday of the month at 6:30 P.M., under the Society’s constitution and standing operating procedures as revised on 11 December 2021.', 'maars' ),
 	);
 
 	if ( function_exists( 'apply_filters' ) ) {

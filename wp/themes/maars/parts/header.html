@@ -1,47 +1,63 @@
-<!-- MASTHEAD — two rows, on purpose.
+<!-- THE MASTHEAD.
 
-     The identity and the seven navigation items used to share one flex row inside a container
-     capped at the theme's 68ch reading measure, so at 1440px the nav ran out of room and broke
-     into two ragged lines: four items, then three. A masthead that cannot hold its own menu
-     reads as unfinished before a single word is read.
+     Revision one read "MAARS · KSØMAN" on one line and "Manhattan Area Amateur Radio Society ·
+     Manhattan, Kansas" on the next. A middle dot is not punctuation; it is what you reach for when
+     two things have not been given a shape. Both lines have one now: the club name is the
+     wordmark, the callsign is its own element in the data face underneath it, and the town is its
+     own line under the long name. Nothing is welded to anything.
 
-     The fix is structural rather than cosmetic. The masthead sets its own wide measure (1180px)
-     instead of inheriting the reading measure, the identity takes the first row alone, and the
-     navigation takes the second row across the full width with a hairline between them. Seven
-     items set in Manrope at 18px with a 1.5rem gap measure 961px, so the row holds at every laptop
-     and desktop width down to about 1100px. Below that it wraps into even left-aligned rows rather
-     than a ragged four-and-three, and below 600px core swaps in the labelled "Menu" button. -->
-<!-- wp:group {"tagName":"div","className":"maars-header","style":{"spacing":{"blockGap":"1.25rem","padding":{"top":"1.75rem","bottom":"0rem","left":"1.5rem","right":"1.5rem"}}},"backgroundColor":"paper","textColor":"ink","layout":{"type":"constrained","contentSize":"1180px"}} -->
-<div class="wp-block-group maars-header has-ink-color has-paper-background-color has-text-color has-background" style="padding-top:1.75rem;padding-right:1.5rem;padding-bottom:0rem;padding-left:1.5rem">
+     The identity takes the first row, the navigation takes the second across the full width with a
+     hairline between them. The masthead sets its own wide measure (1180px) rather than inheriting
+     the reading measure, which is what stopped the seven navigation items breaking into a ragged
+     four-and-three at 1440px. Seven items set in Manrope at 18px with a 1.5rem gap measure 961px,
+     so the row holds at every laptop and desktop width down to about 1100px. Below that it wraps
+     into even left-aligned rows, and below 600px core swaps in the labelled "Menu" button. -->
+<!-- wp:group {"tagName":"div","className":"maars-header","style":{"spacing":{"blockGap":"1.25rem","padding":{"top":"1.5rem","bottom":"0rem","left":"1.5rem","right":"1.5rem"}}},"backgroundColor":"paper","textColor":"ink","layout":{"type":"constrained","contentSize":"1180px"}} -->
+<div class="wp-block-group maars-header has-ink-color has-paper-background-color has-text-color has-background" style="padding-top:1.5rem;padding-right:1.5rem;padding-bottom:0rem;padding-left:1.5rem">
 
-	<!-- ROW 1 — the identity. Text, never an image: the old site set its name in a GIF with no
-	     alt attribute, so the club's own name was invisible to a screen reader and to search. -->
-	<!-- wp:group {"tagName":"div","className":"maars-wordmark","style":{"spacing":{"blockGap":"0.4rem"}},"layout":{"type":"default"}} -->
+	<!-- ROW 1, THE IDENTITY. Text, never an image: the old site set its name in a GIF with no alt
+	     attribute, so the club's own name was invisible to a screen reader and to search. -->
+	<!-- wp:group {"tagName":"div","className":"maars-wordmark","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"default"}} -->
 	<div class="wp-block-group maars-wordmark">
 
-		<!-- Platypi, the display face. KSØMAN is set in Fira Code by .maars-wordmark__call, because
-		     the club writes its callsign with a slashed O and the data face is the only one here
-		     that draws that character with any authority. -->
-		<!-- wp:paragraph {"className":"maars-wordmark__name","fontFamily":"display","style":{"typography":{"fontSize":"clamp(1.875rem, 1.3rem + 2.6vw, 2.75rem)","fontWeight":"700","lineHeight":"1.25","letterSpacing":"0"}},"textColor":"navy"} -->
-		<p class="maars-wordmark__name has-navy-color has-text-color has-display-font-family" style="font-size:clamp(1.875rem, 1.3rem + 2.6vw, 2.75rem);font-weight:700;letter-spacing:0;line-height:1.25"><a href="/">MAARS <span class="maars-wordmark__sep" aria-hidden="true">·</span> <span class="maars-wordmark__call">KSØMAN</span></a></p>
+		<!-- Platypi, the display face, and the only word on the page set this large. -->
+		<!-- wp:paragraph {"className":"maars-wordmark__name","fontFamily":"display","style":{"typography":{"fontSize":"clamp(2rem, 1.5rem + 2.2vw, 2.75rem)","fontWeight":"700","lineHeight":"1.15","letterSpacing":"0"}},"textColor":"navy"} -->
+		<p class="maars-wordmark__name has-navy-color has-text-color has-display-font-family" style="font-size:clamp(2rem, 1.5rem + 2.2vw, 2.75rem);font-weight:700;letter-spacing:0;line-height:1.15"><a href="/">MAARS</a></p>
 		<!-- /wp:paragraph -->
 
-		<!-- The one-line descriptor, and it has to stay one line. With the founding date on the end it
-		     wrapped and left "July 1976" orphaned on a line of its own, which reads as a broken
-		     masthead; the date is in the page heading and in About, so it comes off here. Full ink at
-		     18px, not a grey subtitle: on an iPad in a church basement a 14px grey line under a large
-		     heading is the first thing to disappear. -->
-		<!-- wp:paragraph {"className":"maars-wordmark__long","fontSize":"medium","style":{"typography":{"lineHeight":"1.45"}},"textColor":"ink"} -->
-		<p class="maars-wordmark__long has-ink-color has-text-color has-medium-font-size" style="line-height:1.45">Manhattan Area Amateur Radio Society <span aria-hidden="true">·</span> Manhattan, Kansas</p>
+		<!-- The club callsign, on its own line and in the data face, because that is what it is:
+		     a figure, not a word. Fira Code draws the slashed zero natively, which is how the
+		     Society writes it and the entire reason that face is in the system. -->
+		<!-- wp:paragraph {"className":"maars-wordmark__call","fontFamily":"data","style":{"typography":{"fontSize":"clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem)","fontWeight":"500","lineHeight":"1.2","letterSpacing":"0.02em"}},"textColor":"navy"} -->
+		<p class="maars-wordmark__call has-navy-color has-text-color has-data-font-family" style="font-size:clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);font-weight:500;letter-spacing:0.02em;line-height:1.2">KSØMAN</p>
 		<!-- /wp:paragraph -->
+
+		<!-- The long name and the town, two lines, set apart from the wordmark by a little more
+		     air than separates the two lines themselves. Full ink at 18px, not a grey subtitle: on
+		     an iPad in a church basement a 14px grey line under a large heading is the first thing
+		     to disappear. The founding date is not here; it is in the page heading and in About,
+		     and on the end of this line it wrapped and left "July 1976" orphaned. -->
+		<!-- wp:group {"tagName":"div","className":"maars-wordmark__where","style":{"spacing":{"blockGap":"0rem","margin":{"top":"0.5rem"}}},"layout":{"type":"default"}} -->
+		<div class="wp-block-group maars-wordmark__where" style="margin-top:0.5rem">
+
+			<!-- wp:paragraph {"className":"maars-wordmark__long","fontSize":"medium","style":{"typography":{"lineHeight":"1.45"}},"textColor":"ink"} -->
+			<p class="maars-wordmark__long has-ink-color has-text-color has-medium-font-size" style="line-height:1.45">Manhattan Area Amateur Radio Society</p>
+			<!-- /wp:paragraph -->
+
+			<!-- wp:paragraph {"className":"maars-wordmark__place","fontSize":"medium","style":{"typography":{"lineHeight":"1.45"}},"textColor":"ink"} -->
+			<p class="maars-wordmark__place has-ink-color has-text-color has-medium-font-size" style="line-height:1.45">Manhattan, Kansas</p>
+			<!-- /wp:paragraph -->
+
+		</div>
+		<!-- /wp:group -->
 
 	</div>
 	<!-- /wp:group -->
 
-	<!-- ROW 2 — the navigation, full width, under a hairline.
+	<!-- ROW 2, THE NAVIGATION, full width, under a hairline.
 
 	     line-height 2.7 rather than padding is what makes each item 48px tall. Core renders each
-	     navigation link as a blockified flex item, so the line box IS the hit target: 2.7 × the
+	     navigation link as a blockified flex item, so the line box IS the hit target: 2.7 times the
 	     18px body floor is 48.6px, and because the medium preset's fluid minimum is also 18px it
 	     never drops below that on a narrow screen. Padding on the block would have padded the
 	     container and left the links themselves 22px tall.

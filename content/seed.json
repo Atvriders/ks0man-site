@@ -14,7 +14,8 @@
   ],
   "site": {
     "title": "Manhattan Area Amateur Radio Society",
-    "tagline": "KSØMAN · Manhattan, Kansas · since 1976",
+    "tagline": "KSØMAN — amateur radio in Manhattan, Kansas, since 1976",
+    "date_format": "j F Y",
     "timezone": "America/Chicago",
     "permalink_structure": "/news/%year%/%monthnum%/%postname%/",
     "front_page_slug": "home",

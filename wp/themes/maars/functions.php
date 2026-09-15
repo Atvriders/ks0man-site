@@ -223,3 +223,137 @@ function maars_theme_color_scheme_meta(): void {
 	echo '<meta name="color-scheme" content="light dark">' . "\n";
 }
 add_action( 'wp_head', 'maars_theme_color_scheme_meta', 1 );
+
+/**
+ * Keep exactly one <h1> on every page this theme serves.
+ *
+ * templates/index.html is the fallback template: it serves standing pages, news
+ * posts, search results, term listings and the posts page. Its loop therefore
+ * has to read correctly as a list AND as a single document, and a static block
+ * template cannot say "level 1 here, level 2 there".
+ *
+ * Measured before this pair of filters existed, rendering index.html at 1440px
+ * with ten entries: ELEVEN <h1> elements — the archive title plus one per entry.
+ * A reader navigating by heading heard "heading level one" eleven times and
+ * learned nothing about the page. So the template now sets the loop title to
+ * level 2, which is right for a list, and these two filters restore the missing
+ * top-level heading in the two contexts where the list is not a list:
+ *
+ *   - a singular page or post: the one entry title IS the page title, so it is
+ *     promoted back to <h1>;
+ *   - the posts page: core's query-title block renders nothing at all there, so
+ *     the posts page's own title is printed in its place.
+ *
+ * Both are deliberately narrow. They read the block's own attributes rather than
+ * hard-coding classes, so the heading cannot drift away from what the template
+ * asks for, and either one failing its guards returns the content untouched.
+ *
+ * @param string               $block_content Rendered block HTML.
+ * @param array<string, mixed> $block         Parsed block, including 'attrs'.
+ * @return string Possibly-adjusted block HTML.
+ */
+function maars_theme_promote_singular_entry_title( $block_content, $block ): string {
+	$block_content = is_string( $block_content ) ? $block_content : '';
+
+	if ( ! is_array( $block ) || 'core/post-title' !== ( $block['blockName'] ?? '' ) ) {
+		return $block_content;
+	}
+
+	if ( '' === trim( $block_content ) || ! is_singular() ) {
+		return $block_content;
+	}
+
+	/*
+	 * Only the first post title on the page is the page's own title. Anything
+	 * after it — a related-documents loop, a "previously" list — is a reference
+	 * to some other post and must stay at level 2.
+	 */
+	static $promoted = false;
+
+	if ( $promoted ) {
+		return $block_content;
+	}
+
+	$open  = 0;
+	$close = 0;
+	$out   = preg_replace( '/^(\s*)<h2\b/', '$1<h1', $block_content, 1, $open );
+	$out   = is_string( $out ) ? preg_replace( '/<\/h2>(\s*)$/', '</h1>$1', $out, 1, $close ) : null;
+
+	if ( ! is_string( $out ) || 1 !== $open || 1 !== $close ) {
+		return $block_content;
+	}
+
+	$promoted = true;
+
+	return $out;
+}
+add_filter( 'render_block', 'maars_theme_promote_singular_entry_title', 10, 2 );
+
+/**
+ * Give the posts page the <h1> core will not render for it.
+ *
+ * `core/query-title` with type "archive" prints nothing on the posts page, so
+ * with the loop title at level 2 that page would carry no top-level heading at
+ * all. This prints the posts page's own title, using the heading level, classes
+ * and inline typography the template already asked for on that same block.
+ *
+ * @param string               $block_content Rendered block HTML ('' on the posts page).
+ * @param array<string, mixed> $block         Parsed block, including 'attrs'.
+ * @return string Possibly-substituted block HTML.
+ */
+function maars_theme_posts_page_title( $block_content, $block ): string {
+	$block_content = is_string( $block_content ) ? $block_content : '';
+
+	if ( ! is_array( $block ) || 'core/query-title' !== ( $block['blockName'] ?? '' ) ) {
+		return $block_content;
+	}
+
+	$attrs = isset( $block['attrs'] ) && is_array( $block['attrs'] ) ? $block['attrs'] : array();
+
+	if ( '' !== trim( $block_content ) || 'archive' !== ( $attrs['type'] ?? '' ) ) {
+		return $block_content;
+	}
+
+	if ( ! is_home() || is_front_page() ) {
+		return $block_content;
+	}
+
+	$title    = '';
+	$posts_id = (int) get_option( 'page_for_posts' );
+
+	if ( $posts_id > 0 ) {
+		$title = (string) get_the_title( $posts_id );
+	}
+
+	if ( '' === trim( $title ) ) {
+		$title = __( 'News', 'maars' );
+	}
+
+	$level   = isset( $attrs['level'] ) ? (int) $attrs['level'] : 1;
+	$level   = ( $level >= 1 && $level <= 6 ) ? $level : 1;
+	$classes = 'wp-block-query-title';
+
+	if ( ! empty( $attrs['className'] ) && is_string( $attrs['className'] ) ) {
+		$classes .= ' ' . $attrs['className'];
+	}
+
+	if ( ! empty( $attrs['textColor'] ) && is_string( $attrs['textColor'] ) ) {
+		$classes .= ' has-' . $attrs['textColor'] . '-color has-text-color';
+	}
+
+	$style = '';
+	$type  = isset( $attrs['style']['typography'] ) && is_array( $attrs['style']['typography'] )
+		? $attrs['style']['typography']
+		: array();
+
+	foreach ( array( 'fontSize' => 'font-size', 'lineHeight' => 'line-height' ) as $key => $prop ) {
+		if ( ! empty( $type[ $key ] ) && is_string( $type[ $key ] ) ) {
+			$style .= $prop . ':' . $type[ $key ] . ';';
+		}
+	}
+
+	return '<h' . $level . ' class="' . esc_attr( $classes ) . '"'
+		. ( '' !== $style ? ' style="' . esc_attr( $style ) . '"' : '' )
+		. '>' . esc_html( $title ) . '</h' . $level . '>';
+}
+add_filter( 'render_block', 'maars_theme_posts_page_title', 10, 2 );
