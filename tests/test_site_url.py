@@ -1,30 +1,31 @@
-"""The site URL derivation in docker-compose.yml, executed rather than eyeballed.
+"""The site-URL derivation, executed as the file the container actually loads.
 
 Why this file exists
 --------------------
-A hardcoded WP_HOME is the classic WordPress deployment failure, and it shipped
-here. The stack was built and tested on localhost:8080; run on a LAN address it
-broke completely, and in a way that pointed at the wrong culprit:
+Two separate defects, both shipped, both caught only by a live deployment.
 
-    Host: localhost:8080   on /about/  ->  200, no redirect
-    Host: 192.168.0.10:3039 on /about/ ->  301 to 192.168.0.10:8080  (dead port)
-    every asset URL, any Host          ->  http://localhost:8080/... (refused)
+1. WP_HOME was hardcoded to localhost:8080, so the site broke completely on any
+   other address: every asset URL pointed somewhere unreachable and every page
+   301'd to a dead port.
 
-So the homepage rendered stripped, skywave.js never loaded, and the page told
-the reader their browser had no WebGL2 -- which was false.
+2. The fix for (1) was written as PHP inside docker-compose.yml. **Docker Compose
+   interpolates dollar-variables inside compose values**, so every PHP variable
+   was replaced with an empty string and the container received
 
-Deriving the URL from the Host header fixes that, but the Host header is
-attacker-controlled: believed blindly it lets someone bake their own domain into
-every absolute URL the site emits. Stock WordPress already reflects an arbitrary
-Host into its canonical 301; we must not make WP_HOME itself follow.
+       = getenv_docker( 'MAARS_SITE_URL', '' );
 
-So the derivation accepts the request host only where this stack could
-plausibly live -- loopback, RFC1918/ULA, .local/.lan/.internal, or an explicit
-MAARS_ALLOWED_HOSTS entry -- and otherwise sets nothing, leaving WordPress on
-its stored option.
+   WordPress then died with `PHP Parse error: syntax error, unexpected token "="`
+   on every single request. The site returned 500 to everyone.
 
-This test extracts the real PHP out of docker-compose.yml and runs it, so the
-shipped logic is what gets checked.
+   The earlier version had survived only because it contained no PHP variables
+   at all. And this test did not catch it, because it loaded the compose file
+   with yaml.safe_load and ran the PHP as written -- never as Compose delivers
+   it. A green 21/21 against code Docker would never run.
+
+So the logic now lives in docker/site-url.php, a real file: linted by php -l,
+executed here directly, and referenced from compose by a single require_once
+line with no dollar sign in it. test_static.py asserts that line stays free of
+dollar signs, which is the property that actually keeps the site up.
 
 Run:  python3 tests/test_site_url.py     (needs php on PATH or $MAARS_PHP)
 """
@@ -75,33 +76,40 @@ CASES = [
 ]
 
 
-def extract_php() -> str:
-    """Pull the derivation out of the shipped compose file, minus the defines."""
+SITE_URL_PHP = os.path.join(ROOT, "docker", "site-url.php")
+
+
+def assert_compose_requires_the_file() -> None:
+    """compose must load the file, and must carry no dollar sign of its own."""
     d = yaml.safe_load(open(os.path.join(ROOT, "docker-compose.yml")))
     cfg = d["services"]["wordpress"]["environment"]["WORDPRESS_CONFIG_EXTRA"]
-    if "if ( '' !== $maars_url ) {" not in cfg:
-        raise AssertionError(
-            "compose no longer has the expected derivation shape; this test is stale"
-        )
-    return cfg.split("if ( '' !== $maars_url ) {")[0]
+    assert "site-url.php" in cfg, (
+        "docker-compose.yml no longer requires docker/site-url.php"
+    )
+    assert "$" not in cfg, (
+        "WORDPRESS_CONFIG_EXTRA contains a dollar sign. Docker Compose will "
+        "interpolate it away and WordPress will 500 on every request:\n  "
+        + repr(cfg)
+    )
 
 
 def main() -> int:
     os.makedirs(OUT, exist_ok=True)
-    body = extract_php()
-    body_path = os.path.join(OUT, "site_url_body.php")
-    open(body_path, "w").write("<?php\n" + body)
+    assert_compose_requires_the_file()
+    body_path = SITE_URL_PHP
 
     runner = """<?php
+/* Stand in for the wordpress image's getenv_docker(), then call the real
+   resolver out of the real file the container loads. */
 function getenv_docker($k,$d){ return isset($GLOBALS['ENV'][$k]) ? $GLOBALS['ENV'][$k] : $d; }
+$_SERVER = [];
+require_once %s;
 $cases = json_decode(file_get_contents($argv[1]), true);
 $out = [];
 foreach ($cases as $c) {
     $GLOBALS['ENV'] = $c['env'];
-    $_SERVER = $c['host'] === '' ? [] : ['HTTP_HOST' => $c['host']];
-    $maars_url = '';
-    include %s;
-    $out[] = $maars_url;
+    $server = $c['host'] === '' ? [] : ['HTTP_HOST' => $c['host']];
+    $out[] = maars_resolve_site_url($server);
 }
 echo json_encode($out);
 """ % json.dumps(body_path)

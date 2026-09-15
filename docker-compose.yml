@@ -100,85 +100,13 @@ services:
       # database, so the URL is a property of how you started the stack and
       # cannot go stale inside a volume. Core lives in the image, so let
       # nothing in wp-admin try to rewrite it.
-      WORDPRESS_CONFIG_EXTRA: |
-        /*
-         * Serve correct URLs on whatever address you actually used.
-         *
-         * A hardcoded WP_HOME is the classic WordPress deployment failure. Run
-         * the stack on anything but the address baked in and: every asset URL
-         * points at the wrong host (ERR_CONNECTION_REFUSED, page renders
-         * stripped) and every non-home page 301s to the wrong port.
-         *
-         * The Host header is attacker-controlled, so it is NOT trusted on its
-         * own -- an attacker who can reach this site with a forged Host would
-         * otherwise get their own domain baked into every absolute URL the site
-         * emits (cache poisoning, poisoned links in mail). We therefore accept
-         * the request host only when it is somewhere this stack could plausibly
-         * be reached: loopback, a private LAN address, a .local/.lan/.internal
-         * name, or a host you listed yourself in MAARS_ALLOWED_HOSTS.
-         * Anything else falls through and leaves WordPress on its stored
-         * option, which is the safe default.
-         */
-        $maars_url = getenv_docker( 'MAARS_SITE_URL', '' );
-
-        if ( '' === $maars_url && ! empty( $_SERVER['HTTP_HOST'] ) ) {
-            $maars_raw = strtolower( (string) $_SERVER['HTTP_HOST'] );
-
-            /* Shape first: host[:port], nothing exotic. Rejects CR/LF, paths,
-               credentials and the ambiguous forms used to smuggle a second host. */
-            if ( preg_match( '/^([a-z0-9._-]+|\[[0-9a-f:]+\])(:[0-9]{1,5})?$/', $maars_raw ) ) {
-                $maars_host = preg_replace( '/:[0-9]{1,5}$/', '', $maars_raw );
-                $maars_ok   = false;
-
-                /* Explicit allowlist always wins. Space or comma separated. */
-                $maars_allowed = trim( getenv_docker( 'MAARS_ALLOWED_HOSTS', '' ) );
-                if ( '' !== $maars_allowed ) {
-                    foreach ( preg_split( '/[\s,]+/', strtolower( $maars_allowed ) ) as $maars_entry ) {
-                        if ( '' !== $maars_entry && ( $maars_entry === $maars_raw || $maars_entry === $maars_host ) ) {
-                            $maars_ok = true;
-                            break;
-                        }
-                    }
-                }
-
-                if ( ! $maars_ok ) {
-                    $maars_bracketless = trim( $maars_host, '[]' );
-                    if ( 'localhost' === $maars_host || '::1' === $maars_bracketless ) {
-                        $maars_ok = true;
-                    } elseif ( filter_var( $maars_bracketless, FILTER_VALIDATE_IP ) ) {
-                        /* Loopback and RFC1918/ULA only: a public IP is not
-                           something this demo stack should adopt on request. */
-                        $maars_ok = ! filter_var(
-                            $maars_bracketless,
-                            FILTER_VALIDATE_IP,
-                            FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
-                        );
-                    } elseif ( preg_match( '/\.(local|lan|internal|home|localdomain)$/', $maars_host ) ) {
-                        $maars_ok = true;
-                    }
-                }
-
-                if ( $maars_ok ) {
-                    /* X-Forwarded-Proto is only meaningful behind a proxy you
-                       control, so it is opt-in rather than believed by default. */
-                    $maars_https = ( ! empty( $_SERVER['HTTPS'] ) && 'off' !== $_SERVER['HTTPS'] );
-                    if ( ! $maars_https
-                        && '1' === getenv_docker( 'MAARS_TRUST_PROXY', '0' )
-                        && isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] )
-                        && 'https' === strtolower( (string) $_SERVER['HTTP_X_FORWARDED_PROTO'] ) ) {
-                        $maars_https = true;
-                    }
-                    $maars_url = ( $maars_https ? 'https://' : 'http://' ) . $maars_raw;
-                }
-            }
-        }
-
-        if ( '' !== $maars_url ) {
-            define( 'WP_HOME', $maars_url );
-            define( 'WP_SITEURL', $maars_url );
-        }
-        define( 'AUTOMATIC_UPDATER_DISABLED', true );
-        define( 'DISALLOW_FILE_EDIT', true );
+      # ONE LINE, AND DELIBERATELY NO DOLLAR SIGN ANYWHERE IN IT.
+      # Docker Compose interpolates dollar-variables inside compose values, so PHP
+      # inline here has every variable replaced with an empty string and
+      # WordPress dies with a parse error on every request. The logic lives in
+      # docker/site-url.php instead, where php -l and the test suite can reach
+      # it. Do not inline PHP here again.
+      WORDPRESS_CONFIG_EXTRA: "require_once '/usr/src/maars/site-url.php';"
     volumes:
       # Uploads only. Code and content come from the image on every boot.
       - maars_uploads:/var/www/html/wp-content/uploads

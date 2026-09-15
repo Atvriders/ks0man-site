@@ -372,7 +372,7 @@ def test_pii_gate_no_po_boxes_or_zip_plus_four():
 # literals. They are textbook fixture addresses, never a real host. This is the
 # only exempt file, it is exempt by path, and the meta-check below keeps the
 # exemption from widening or from sheltering a real address.
-LANIP_EXEMPT = {"tests/test_site_url.py"}
+LANIP_EXEMPT = {"tests/test_site_url.py", "tests/wp_config_eval_harness.php"}
 
 
 def test_no_lan_ip_addresses():
@@ -383,11 +383,14 @@ def test_no_lan_ip_addresses():
 def test_the_lan_ip_exemption_is_not_a_blanket_hole():
     """The exemption must cover exactly one file, and that file must not be
     able to smuggle in a real-looking home address under its cover."""
-    assert LANIP_EXEMPT == {"tests/test_site_url.py"}, (
+    assert LANIP_EXEMPT == {
+        "tests/test_site_url.py",
+        "tests/wp_config_eval_harness.php",
+    }, (
         "the LAN-IP exemption grew; every added path is a place a real address "
         "can hide in a public repository"
     )
-    body = read(REPO / "tests" / "test_site_url.py")
+    body = "\n".join(read(REPO / p) for p in sorted(LANIP_EXEMPT))
     # 192.168.0.x and 10.0.0.x and 172.16.x are textbook example addresses;
     # anything else in the fixture list deserves a second look.
     found = set(LANIP_RE.findall(body)) if LANIP_RE.groups == 0 else {
@@ -571,6 +574,32 @@ def test_font_sources_point_into_the_parent_theme():
                 assert one.endswith(".woff2"), f"not woff2: {one}"
                 seen += 1
     assert seen >= 3, f"expected at least three @font-face srcs, found {seen}"
+
+
+def test_compose_config_extra_has_no_dollar_sign():
+    """Docker Compose interpolates dollar-variables inside compose values. PHP
+    written inline in WORDPRESS_CONFIG_EXTRA therefore reaches the container
+    with every variable replaced by an empty string, and WordPress answers every
+    request with `PHP Parse error: syntax error, unexpected token "="`.
+
+    This shipped and took the site down. The logic lives in docker/site-url.php
+    now and compose only needs a require_once. This check keeps it that way."""
+    import yaml as _yaml
+
+    d = _yaml.safe_load(open(REPO / "docker-compose.yml"))
+    cfg = d["services"]["wordpress"]["environment"]["WORDPRESS_CONFIG_EXTRA"]
+    assert "$" not in cfg, (
+        "WORDPRESS_CONFIG_EXTRA contains a dollar sign; Compose will eat it and "
+        "WordPress will 500 on every request:\n  " + repr(cfg)
+    )
+    assert "site-url.php" in cfg, "compose must require docker/site-url.php"
+
+
+def test_site_url_php_is_shipped_by_the_dockerfile():
+    """A require_once for a file the image does not contain is a 500 too."""
+    df = read(REPO / "Dockerfile")
+    assert "docker/site-url.php" in df, "Dockerfile does not COPY docker/site-url.php"
+    assert (REPO / "docker" / "site-url.php").exists(), "docker/site-url.php missing"
 
 
 def _all_checks():

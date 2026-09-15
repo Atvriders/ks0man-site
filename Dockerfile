@@ -46,6 +46,7 @@ RUN set -eux; \
 # the running site instead of losing to a stale volume.
 COPY wp/plugins/maars-core /usr/src/maars/plugins/maars-core
 COPY wp/themes/maars       /usr/src/maars/themes/maars
+COPY docker/site-url.php   /usr/src/maars/site-url.php
 COPY tools/seed.php        /usr/src/maars/tools/seed.php
 COPY content/seed.json     /usr/src/maars/content/seed.json
 COPY --chmod=0755 docker/entrypoint.sh /usr/local/bin/maars-entrypoint.sh
