@@ -1,58 +1,34 @@
-<!-- THE MASTHEAD.
+<!-- THE MASTHEAD, revision 3.
 
-     Revision one read "MAARS · KSØMAN" on one line and "Manhattan Area Amateur Radio Society ·
-     Manhattan, Kansas" on the next. A middle dot is not punctuation; it is what you reach for when
-     two things have not been given a shape. Both lines have one now: the club name is the
-     wordmark, the callsign is its own element in the data face underneath it, and the town is its
-     own line under the long name. Nothing is welded to anything.
+     Revision 1 read "MAARS · KSØMAN" over "Manhattan Area Amateur Radio Society · Manhattan,
+     Kansas". A middle dot is not punctuation; it is what you reach for when two things have not
+     been given a shape. Revision 2 gave them one — four lines, each its own element, nothing
+     welded to anything — and it was honest and it was dull: a page of type with a name at the top
+     of it, indistinguishable from any other club.
 
-     The identity takes the first row, the navigation takes the second across the full width with a
-     hairline between them. The masthead sets its own wide measure (1180px) rather than inheriting
-     the reading measure, which is what stopped the seven navigation items breaking into a ragged
-     four-and-three at 1440px. Seven items set in Manrope at 18px with a 1.5rem gap measure 961px,
-     so the row holds at every laptop and desktop width down to about 1100px. Below that it wraps
-     into even left-aligned rows, and below 600px core swaps in the labelled "Menu" button. -->
-<!-- wp:group {"tagName":"div","className":"maars-header","style":{"spacing":{"blockGap":"1.25rem","padding":{"top":"1.5rem","bottom":"0rem","left":"1.5rem","right":"1.5rem"}}},"backgroundColor":"paper","textColor":"ink","layout":{"type":"constrained","contentSize":"1180px"}} -->
-<div class="wp-block-group maars-header has-ink-color has-paper-background-color has-text-color has-background" style="padding-top:1.5rem;padding-right:1.5rem;padding-bottom:0rem;padding-left:1.5rem">
+     Revision 3 scraps it and starts from what this club actually is. Every licensed amateur alive
+     reads one picture without being taught it: the spectrum trace with a waterfall scrolling
+     underneath, the display on the front of an IC-7300 and the output of a twenty-dollar RTL-SDR
+     dongle. It says "radio" to somebody licensed in 1962 and to somebody licensed last month, and
+     it is soft and smooth by its own nature — a continuous heat map with no hard edge in it.
 
-	<!-- ROW 1, THE IDENTITY. Text, never an image: the old site set its name in a GIF with no alt
-	     attribute, so the club's own name was invisible to a screen reader and to search. -->
-	<!-- wp:group {"tagName":"div","className":"maars-wordmark","style":{"spacing":{"blockGap":"0.25rem"}},"layout":{"type":"default"}} -->
-	<div class="wp-block-group maars-wordmark">
+     So the masthead IS that display, tuned to 147.255 MHz, the Society's own repeater, with the
+     identity resting in it. The block does the whole of it: canvas, identity and the line
+     underneath that says the band is a drawing rather than a receiver, because it is, and this
+     site does not let a picture make a claim the words will not back.
 
-		<!-- Platypi, the display face, and the only word on the page set this large. -->
-		<!-- wp:paragraph {"className":"maars-wordmark__name","fontFamily":"display","style":{"typography":{"fontSize":"clamp(2rem, 1.5rem + 2.2vw, 2.75rem)","fontWeight":"700","lineHeight":"1.15","letterSpacing":"0"}},"textColor":"navy"} -->
-		<p class="maars-wordmark__name has-navy-color has-text-color has-display-font-family" style="font-size:clamp(2rem, 1.5rem + 2.2vw, 2.75rem);font-weight:700;letter-spacing:0;line-height:1.15"><a href="/">MAARS</a></p>
-		<!-- /wp:paragraph -->
+     The navigation stays where revision 2 put it: its own quiet row under the band, not inside
+     it. Seven items, all of them on this site, each 48px tall because the line box IS the hit
+     target when core blockifies a navigation link. -->
+<!-- wp:group {"tagName":"div","className":"maars-header","style":{"spacing":{"blockGap":"0rem","padding":{"top":"0rem","bottom":"0rem","left":"0rem","right":"0rem"}}},"backgroundColor":"paper","textColor":"ink","layout":{"type":"default"}} -->
+<div class="wp-block-group maars-header has-ink-color has-paper-background-color has-text-color has-background" style="padding-top:0rem;padding-right:0rem;padding-bottom:0rem;padding-left:0rem">
 
-		<!-- The club callsign, on its own line and in the data face, because that is what it is:
-		     a figure, not a word. Fira Code draws the slashed zero natively, which is how the
-		     Society writes it and the entire reason that face is in the system. -->
-		<!-- wp:paragraph {"className":"maars-wordmark__call","fontFamily":"data","style":{"typography":{"fontSize":"clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem)","fontWeight":"500","lineHeight":"1.2","letterSpacing":"0.02em"}},"textColor":"navy"} -->
-		<p class="maars-wordmark__call has-navy-color has-text-color has-data-font-family" style="font-size:clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);font-weight:500;letter-spacing:0.02em;line-height:1.2">KSØMAN</p>
-		<!-- /wp:paragraph -->
+	<!-- ROW 1, THE RECEIVER AND THE IDENTITY.
 
-		<!-- The long name and the town, two lines, set apart from the wordmark by a little more
-		     air than separates the two lines themselves. Full ink at 18px, not a grey subtitle: on
-		     an iPad in a church basement a 14px grey line under a large heading is the first thing
-		     to disappear. The founding date is not here; it is in the page heading and in About,
-		     and on the end of this line it wrapped and left "July 1976" orphaned. -->
-		<!-- wp:group {"tagName":"div","className":"maars-wordmark__where","style":{"spacing":{"blockGap":"0rem","margin":{"top":"0.5rem"}}},"layout":{"type":"default"}} -->
-		<div class="wp-block-group maars-wordmark__where" style="margin-top:0.5rem">
-
-			<!-- wp:paragraph {"className":"maars-wordmark__long","fontSize":"medium","style":{"typography":{"lineHeight":"1.45"}},"textColor":"ink"} -->
-			<p class="maars-wordmark__long has-ink-color has-text-color has-medium-font-size" style="line-height:1.45">Manhattan Area Amateur Radio Society</p>
-			<!-- /wp:paragraph -->
-
-			<!-- wp:paragraph {"className":"maars-wordmark__place","fontSize":"medium","style":{"typography":{"lineHeight":"1.45"}},"textColor":"ink"} -->
-			<p class="maars-wordmark__place has-ink-color has-text-color has-medium-font-size" style="line-height:1.45">Manhattan, Kansas</p>
-			<!-- /wp:paragraph -->
-
-		</div>
-		<!-- /wp:group -->
-
-	</div>
-	<!-- /wp:group -->
+	     Text, never an image: the old club site set its own name in a GIF with no alt attribute,
+	     so the Society was invisible to a screen reader and to search. The canvas behind the words
+	     is decorative and carries aria-hidden; every word over it is a real paragraph. -->
+	<!-- wp:maars/masthead {"height":180} /-->
 
 	<!-- ROW 2, THE NAVIGATION, full width, under a hairline.
 
@@ -62,11 +38,15 @@
 	     never drops below that on a narrow screen. Padding on the block would have padded the
 	     container and left the links themselves 22px tall.
 
-	     Seven items, and every one of them stays on this site. An outbound link in primary
-	     navigation sends a visitor away at the moment they arrive; the outbound list lives on
-	     /links/ with the date each entry was last checked. -->
-	<!-- wp:group {"tagName":"div","className":"maars-navbar","style":{"spacing":{"padding":{"top":"0.25rem","bottom":"0.25rem"}},"border":{"top":{"color":"#D7D7E4","width":"1px","style":"solid"}}},"layout":{"type":"default"}} -->
-	<div class="wp-block-group maars-navbar" style="border-top-color:#D7D7E4;border-top-style:solid;border-top-width:1px;padding-top:0.25rem;padding-bottom:0.25rem">
+	     The row carries no top border. Revision 2 drew one to separate two rows of type; the band
+	     above now dissolves into the page instead of ending in a line, and a hairline here would
+	     put that line straight back. The one hairline that closes the header is drawn on
+	     .maars-header by the stylesheet.
+
+	     An outbound link in primary navigation sends a visitor away at the moment they arrive; the
+	     outbound list lives on /links/ with the date each entry was last checked. -->
+	<!-- wp:group {"tagName":"div","className":"maars-navbar","layout":{"type":"default"}} -->
+	<div class="wp-block-group maars-navbar">
 		<!-- wp:navigation {"className":"maars-nav","ariaLabel":"Primary","overlayMenu":"mobile","hasIcon":false,"overlayBackgroundColor":"paper","overlayTextColor":"navy","fontSize":"medium","style":{"spacing":{"blockGap":{"top":"0px","left":"1.5rem"}},"typography":{"lineHeight":"2.7","fontWeight":"700"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"left"}} -->
 			<!-- wp:navigation-link {"label":"About","url":"/about/","kind":"custom","isTopLevelLink":true} /-->
 			<!-- wp:navigation-link {"label":"Meetings & Events","url":"/events/","kind":"custom","isTopLevelLink":true} /-->

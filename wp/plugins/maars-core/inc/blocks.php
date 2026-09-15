@@ -2,7 +2,7 @@
 /**
  * MAARS core — server-rendered blocks.
  *
- * Four dynamic blocks, registered in plain PHP with render callbacks.
+ * Five dynamic blocks, registered in plain PHP with render callbacks.
  * There is deliberately NO JavaScript build step, no block.json bundler and no
  * editor script: everything here is produced on the server so the markup is the
  * same for a browser, a screen reader and curl.
@@ -76,6 +76,9 @@
  *                                  __caption, __chip, __fallback,
  *                                  __fallback-title, __prose, __noscript,
  *                                  __bands, __band, __band--<id>
+ *   .maars-masthead                + --fallback, __canvas, __identity,
+ *                                  __call, __long, __tuned; also
+ *                                  data-maars-autostart
  *   .screen-reader-text            the theme's visually-hidden class
  *
  * The freshness chip is a LABEL, never an alert. The grade word carries the
@@ -99,7 +102,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Register the four MAARS blocks.
+ * Register the five MAARS blocks.
  *
  * Hooked to init at priority 10 (see the interface contract). Registration is
  * dynamic: 'api_version' => 3 plus a 'render_callback', no asset handles.
@@ -223,6 +226,39 @@ function maars_register_blocks() {
 			),
 		),
 		'render_callback' => 'maars_render_skywave_block',
+	) );
+
+	register_block_type( 'maars/masthead', array(
+		'api_version'     => 3,
+		'title'           => __( 'Masthead', 'maars' ),
+		'description'     => __( 'The head of the site as a 2 metre receiver: a spectrum trace and waterfall tuned to the Society\'s own repeater, with the identity resting in it as real text. Decorative, and it says so.', 'maars' ),
+		'category'        => 'design',
+		'icon'            => 'chart-area',
+		'keywords'        => array( 'masthead', 'header', 'waterfall', 'identity', 'maars' ),
+		'supports'        => array(
+			'html'   => false,
+			'anchor' => true,
+			'align'  => array( 'full' ),
+		),
+		'attributes'      => array(
+			'callsign'  => array(
+				'type'    => 'string',
+				'default' => '',
+			),
+			'society'   => array(
+				'type'    => 'string',
+				'default' => '',
+			),
+			'height'    => array(
+				'type'    => 'number',
+				'default' => 180,
+			),
+			'autostart' => array(
+				'type'    => 'boolean',
+				'default' => true,
+			),
+		),
+		'render_callback' => 'maars_render_masthead_block',
 	) );
 }
 add_action( 'init', 'maars_register_blocks', 10 );
@@ -1342,4 +1378,273 @@ function maars_render_skywave_block( $attributes = array(), $content = '', $bloc
 		. $noscript
 		. '<figcaption class="maars-skywave__caption">' . esc_html( $caption ) . ' ' . $chip . '</figcaption>'
 		. '</figure>';
+}
+
+/* -------------------------------------------------------------------------
+ * maars/masthead — THE HEAD OF THE SITE IS A RECEIVER.
+ *
+ * Revision 2's masthead was four lines of type over white. It was honest and
+ * it was dull, and the owner's instruction for revision 3 was to scrap it and
+ * find a new idea: modern, for a club that expects something new, soft and
+ * smooth.
+ *
+ * The idea is the one picture every licensed amateur alive can read without
+ * being taught it — the spectrum trace with a waterfall scrolling underneath,
+ * the display on the front of an IC-7300 and the output of a twenty-dollar
+ * RTL-SDR dongle. It is soft and smooth by its own nature: a continuous heat
+ * map with no hard edge in it anywhere. So the masthead becomes an
+ * instrument, tuned to 147.255 MHz — the Society's own repeater — and the
+ * identity rests in it.
+ *
+ * WHAT THIS BLOCK IS CAREFUL ABOUT.
+ *
+ *   1. IT DOES NOT CLAIM TO BE A RECEIVER. Nothing here is live. The canvas
+ *      is a drawing of a noise floor with one marked carrier in it, and the
+ *      line under the band says exactly that in words a member can read. This
+ *      site's whole argument is that a page must never look more current than
+ *      it is; a fake live receiver in the masthead would be the largest lie on
+ *      the page.
+ *
+ *   2. THE IDENTITY IS REAL TEXT. The old club site set its own name in a GIF
+ *      with no alt attribute, so the Society was invisible to a screen reader
+ *      and to search. The canvas here is decorative and says so — aria-hidden
+ *      — and every word over it is a paragraph.
+ *
+ *   3. THE CALLSIGN IS A FIGURE, AND IT IS THE WORDMARK. KSØMAN is set in
+ *      Fira Code, whose zero is natively slashed — that is how the Society
+ *      writes it, and it is the entire reason that face is in the system.
+ *      Section 10b puts the face on .maars-masthead__call directly rather than
+ *      through a nested .maars-fig, so the wordmark is one element and not a
+ *      span inside a paragraph inside a link. The frequency in the readout
+ *      DOES go through maars_blocks_fig(), like every other frequency on the
+ *      site. The Society's name between them is prose and gets neither.
+ *
+ *   4. IT WORKS WITH THE SCRIPT MISSING, WITH JAVASCRIPT OFF AND WITH NO
+ *      CANVAS AT ALL. In each case the strip is a soft navy gradient and the
+ *      identity is exactly where it was. There is no error state.
+ *
+ * MARKUP CONTRACT. Section 10 of assets/css/maars.css is written against
+ * exactly this tree and says so at the head of the section; the two files have
+ * to be read together.
+ *
+ *   <div class="maars-masthead">                  <- direct child of .maars-header
+ *     <canvas class="maars-masthead__canvas" aria-hidden="true"></canvas>
+ *     <div class="maars-masthead__identity">
+ *       <p class="maars-masthead__call"><a href="/">KSØMAN</a></p>
+ *       <p class="maars-masthead__long">Manhattan Area Amateur Radio Society</p>
+ *       <p class="maars-masthead__tuned">… <span class="maars-fig">147.255 MHz</span> …</p>
+ *     </div>
+ *   </div>
+ * ---------------------------------------------------------------------- */
+
+/**
+ * The receiver the masthead is tuned to.
+ *
+ * One array so the picture and the sentence underneath it cannot drift apart:
+ * the canvas is handed these numbers and the caption prints the same ones.
+ *
+ * @return array<string, float> centre, start and end of the span, in MHz.
+ */
+function maars_blocks_masthead_span(): array {
+	return array(
+		'centre' => 147.255,
+		'start'  => 147.0,
+		'end'    => 147.5,
+	);
+}
+
+/**
+ * Add the one-time inline bootstrap that mounts the masthead canvas.
+ *
+ * The theme registers and owns the 'maars-waterfall' handle; this only
+ * attaches an inline mount call to it, exactly as the skywave bootstrap does
+ * for its own handle. The mount is idempotent, and if the script never arrives
+ * the retry gives up honestly and leaves the strip in its CSS fallback rather
+ * than leaving a dead canvas that nothing will ever paint.
+ *
+ * @return void
+ */
+function maars_blocks_masthead_bootstrap(): void {
+	static $done = false;
+
+	if ( $done || ! function_exists( 'wp_add_inline_script' ) ) {
+		return;
+	}
+
+	$done = true;
+
+	$js = <<<'JS'
+( function () {
+	function mountOne( root ) {
+		var canvas = root.querySelector( 'canvas.maars-masthead__canvas' );
+		if ( ! canvas ) {
+			return;
+		}
+		if ( '1' === canvas.dataset.maarsMounted || '1' === canvas.dataset.maarsReady ) {
+			return;
+		}
+		var opts = {};
+		try {
+			opts = JSON.parse( canvas.getAttribute( 'data-maars-waterfall' ) || '{}' );
+		} catch ( err ) {
+			opts = {};
+		}
+		canvas.dataset.maarsMounted = '1';
+		try {
+			root.maarsWaterfall = window.MAARSWaterfall.mount( canvas, opts );
+		} catch ( err ) {
+			canvas.dataset.maarsMounted = '';
+			canvas.dataset.maarsFallbackReason = 'mount-threw';
+			root.classList.add( 'maars-masthead--fallback' );
+			if ( window.console && window.console.error ) { window.console.error( 'maars/masthead failed to mount:', err ); }
+		}
+	}
+
+	/* The theme registers maars-waterfall with the defer strategy, so on a
+	   normal page load this inline script runs BEFORE waterfall.js has
+	   executed; the DOMContentLoaded path covers that. The retry covers the
+	   remaining case -- this bootstrap arriving after the document is already
+	   parsed -- so a slow script cannot strand a working canvas in the
+	   fallback state permanently. Ten tries, then give up quietly: unlike the
+	   skywave scene there is nothing to explain to the reader here, because
+	   the fallback IS the design with the animation taken out of it. */
+	var tries = 0;
+
+	function boot() {
+		if ( ! window.MAARSWaterfall || 'function' !== typeof window.MAARSWaterfall.mount ) {
+			if ( tries++ < 10 ) {
+				window.setTimeout( boot, 100 );
+				return;
+			}
+			var orphans = document.querySelectorAll( '.maars-masthead[data-maars-autostart="1"]' );
+			for ( var j = 0; j < orphans.length; j++ ) {
+				orphans[ j ].classList.add( 'maars-masthead--fallback' );
+				var oc = orphans[ j ].querySelector( 'canvas.maars-masthead__canvas' );
+				if ( oc ) { oc.dataset.maarsFallbackReason = 'script-missing'; }
+			}
+			return;
+		}
+		var nodes = document.querySelectorAll( '.maars-masthead[data-maars-autostart="1"]' );
+		for ( var i = 0; i < nodes.length; i++ ) {
+			mountOne( nodes[ i ] );
+		}
+	}
+
+	function schedule() {
+		window.setTimeout( boot, 0 );
+	}
+
+	if ( 'loading' === document.readyState ) {
+		document.addEventListener( 'DOMContentLoaded', schedule );
+	} else {
+		schedule();
+	}
+}() );
+JS;
+
+	wp_add_inline_script( 'maars-waterfall', $js, 'after' );
+}
+
+/**
+ * Render the masthead: the receiver strip, the identity in it, and the line
+ * that says what the strip is.
+ *
+ * Enqueues (never registers) the theme's 'maars-waterfall' handle, the same
+ * way maars/skywave enqueues 'maars-skywave'.
+ *
+ * @param array         $attributes Block attributes.
+ * @param string        $content    Inner content (unused).
+ * @param WP_Block|null $block      Block instance (unused).
+ * @return string HTML.
+ */
+function maars_render_masthead_block( $attributes = array(), $content = '', $block = null ): string {
+	unset( $content, $block );
+
+	$attributes = is_array( $attributes ) ? $attributes : array();
+
+	$span = maars_blocks_masthead_span();
+
+	$callsign = isset( $attributes['callsign'] ) ? trim( (string) $attributes['callsign'] ) : '';
+	if ( '' === $callsign ) {
+		$callsign = 'KSØMAN';
+	}
+
+	$society = isset( $attributes['society'] ) ? trim( (string) $attributes['society'] ) : '';
+	if ( '' === $society ) {
+		$society = __( 'Manhattan Area Amateur Radio Society', 'maars' );
+	}
+
+	/* The strip's height. The design brief fixes the band between 150 and 190
+	   CSS pixels: under 150 the two regions stop being two regions, and over
+	   190 the masthead costs a phone screen more than the content under it is
+	   worth. The height at any given width is settled in CSS (section 10a);
+	   this is the pre-layout backing-store hint on the element, so a canvas
+	   painted before the stylesheet lands is never wildly wrong. */
+	$height = isset( $attributes['height'] ) ? (int) $attributes['height'] : 180;
+	$height = min( 190, max( 150, $height ) );
+
+	$autostart = ! isset( $attributes['autostart'] ) || (bool) $attributes['autostart'];
+
+	$have_script = function_exists( 'wp_script_is' ) && wp_script_is( 'maars-waterfall', 'registered' );
+	if ( $have_script ) {
+		wp_enqueue_script( 'maars-waterfall' );
+		if ( $autostart ) {
+			maars_blocks_masthead_bootstrap();
+		}
+	}
+
+	$opts = array(
+		'centreMhz' => $span['centre'],
+		'startMhz'  => $span['start'],
+		'endMhz'    => $span['end'],
+	);
+
+	$json = function_exists( 'wp_json_encode' ) ? wp_json_encode( $opts ) : json_encode( $opts );
+	$json = is_string( $json ) ? $json : '{}';
+
+	$home = function_exists( 'home_url' ) ? home_url( '/' ) : '/';
+
+	/* The canvas is decorative and says so. Everything it means is in the
+	   readout underneath, in real text, in the accessibility tree. It carries
+	   no role, no tabindex and no label: a reader must never be stopped by a
+	   picture of a noise floor. */
+	$canvas = '<canvas class="maars-masthead__canvas"'
+		. ' aria-hidden="true"'
+		. ' width="1600"'
+		. ' height="' . esc_attr( (string) $height ) . '"'
+		. ' data-maars-waterfall="' . esc_attr( $json ) . '"'
+		. '></canvas>';
+
+	/* The readout. One sentence saying what the band is tuned to, and one
+	   saying what it is -- because it is a drawing of a band and not a
+	   receiver, and a masthead that looked live on a site whose whole argument
+	   is "never look more current than you are" would be the largest untrue
+	   thing on the page. The frequency is a figure and goes through the same
+	   helper every frequency on this site goes through; the words around it
+	   are prose and do not. */
+	$tuned_html = sprintf(
+		/* translators: %s: the repeater frequency, already marked up as a figure. */
+		esc_html__( 'Tuned to %s, the Society’s own repeater. Drawn, not received.', 'maars' ),
+		maars_blocks_fig( number_format_i18n( $span['centre'], 3 ) . ' MHz' )
+	);
+
+	$identity = '<div class="maars-masthead__identity">'
+		. '<p class="maars-masthead__call"><a href="' . esc_url( $home ) . '">' . esc_html( $callsign ) . '</a></p>'
+		. '<p class="maars-masthead__long">' . esc_html( $society ) . '</p>'
+		. '<p class="maars-masthead__tuned">' . $tuned_html . '</p>'
+		. '</div>';
+
+	$attrs = array(
+		'class'                => 'maars-masthead',
+		'data-maars-autostart' => $autostart && $have_script ? '1' : '0',
+	);
+
+	if ( ! $have_script ) {
+		$attrs['class'] .= ' maars-masthead--fallback';
+	}
+
+	return '<div ' . maars_blocks_wrapper_attributes( $attrs ) . '>'
+		. $canvas
+		. $identity
+		. '</div>';
 }

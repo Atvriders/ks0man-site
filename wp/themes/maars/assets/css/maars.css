@@ -1,6 +1,6 @@
 /*
  * MAARS component styles — Manhattan Area Amateur Radio Society, KSØMAN.
- * Visual direction: "Second Friday" (DESIGN.md, locked).
+ * Visual direction: revision 3, "Tuned" (DESIGN.md, locked).
  *
  * THE IDEA
  * Amateur radio is a record-keeping culture. Every contact is logged: date,
@@ -8,6 +8,55 @@
  * logbook, so the site states what is true NOW, each fact carrying when it was
  * last checked, and then the record. The one bold element is the propagation
  * scene; everything else is deliberately quiet.
+ *
+ * WHAT REVISION 3 CHANGED, AND WHY. The owner's words, which win over every
+ * guideline below them: scrap the top header and remake it with a new idea;
+ * modern, for a ham radio club expecting something new; soft, and smooth.
+ *
+ *   THE MASTHEAD IS A RECEIVER. Section 10. The analogue dial is gone and the
+ *   text masthead with it; the top of every page is now a slim live spectrum
+ *   and waterfall tuned to the club's own 147.255 MHz machine, with KSØMAN
+ *   resting in it. It is the one image that reads as "radio" to a
+ *   thirty-year-old and a ninety-year-old at the same time, and it is soft and
+ *   smooth by its nature rather than by decoration: a continuous heat map,
+ *   with no hard edge anywhere in it, dissolving into the page at both edges.
+ *   It is ambient, not bold — the propagation scene in section 9 is still the
+ *   page's one large moment and the band never competes with it.
+ *
+ *   SOFT AND SMOOTH IS NOT THE CARD KIT. The failure mode of a soft-and-smooth
+ *   brief is a page chopped into identical rounded boxes, one radius
+ *   everywhere, the same grey shadow under each, a gradient wash on anything
+ *   that looked empty. This file answers it by varying with ROLE, and by
+ *   refusing far more often than it accepts:
+ *     · RADIUS IS A STATEMENT ABOUT WHAT A THING IS. 16px on a major surface,
+ *       10px on a control, 999px on the one token whose shape is its whole
+ *       geometry, and ZERO on data. The archive log, the specification and the
+ *       facet lists are square, and section 5 says why in as many words.
+ *     · SHADOWS ARE NAVY-TINTED, NEVER GREY, AND ONLY ON THINGS GENUINELY
+ *       RAISED. Two things on this site qualify: the mobile navigation
+ *       overlay, which really does float over the page, and the buttons a
+ *       reader presses. A table is not raised. A row is not raised. A band is
+ *       not raised. The navigation row is not raised, and section 10c refuses
+ *       it there on purpose, at the point where a shadow was easiest to reach
+ *       for.
+ *     · GRADIENTS CARRY MEANING OR THEY DO NOT APPEAR. There are exactly two
+ *       in this file and both are signal strength: the waterfall itself, and
+ *       the masthead's fallback, whose bright column is where 147.255 sits in
+ *       the span. There is no decorative wash anywhere.
+ *     · MOTION IS 200ms ON ONE CURVE, ON USER-TRIGGERED CHANGES ONLY. No
+ *       scroll-triggered entrances. No hover lift on every block.
+ *
+ *   THE PALETTE SOFTENED AND KEPT ITS IDENTITY. Section 1b is the brief's own
+ *   nine-name table, verbatim: ink #191933, ground #F4F5FA, the hairline
+ *   #DDE0EE, the old lavender calmed to --haze #E8EAF6, and a new --navy-soft
+ *   #3B3BA8 so a hover is a real value step instead of a thicker underline.
+ *   Dark mode redefines those nine names and nothing else.
+ *
+ *   TEXT ON A SURFACE NOBODY CONTROLS. The identity sits on a waterfall, whose
+ *   pixels run from near-black to full white and change every 80ms. Contrast
+ *   against the average pixel is not a measurement, so section 10b computes
+ *   the scrim against the WORST pixel the map can emit — pure white — and the
+ *   alphas there are the output of that arithmetic, not a look.
  *
  * WHAT REVISION 2 CHANGED, AND WHY. Revision 1 shipped and was measured.
  *
@@ -52,14 +101,18 @@
  *
  * INK POLICY — every ratio below is computed with the WCAG relative-luminance
  * formula, not estimated.
- *   light  navy #00008C on paper 15.23:1 · on ground 14.14:1 · on lavender 11.27:1
- *          magenta #990066 on paper 8.25:1 · on lavender 6.10:1
- *          rust #8F2C00 on paper 8.31:1 · on lavender 6.15:1 · on its wash 7.52:1
- *          ink #14142B on ground 16.74:1 · paper on ink 18.03:1
- *          meta #46496B on paper 8.66:1 · on ground 8.04:1
+ *   light  navy #00008C on paper 15.23:1 · on ground 13.99:1 · on haze 12.72:1
+ *          navy-soft #3B3BA8 on paper 8.83:1 · on ground 8.11:1 · on haze 7.37:1
+ *          magenta #990066 on paper 8.25:1 · on ground 7.58:1 · on haze 6.88:1
+ *          rust #8F2C00 on paper 8.31:1 · on ground 7.63:1 · on haze 6.94:1
+ *          ink #191933 on ground 15.71:1 · on haze 14.27:1 · paper on ink 17.10:1
+ *          meta #46496B on paper 8.66:1 · on ground 7.95:1 · on haze 7.23:1
  *   dark   ink #EDEDF7 on ground 16.70:1 · on paper 15.52:1
- *          navy #9FA0F2 8.12:1 · magenta #F09FD0 9.78:1 · rust #F2A07A 9.33:1
- *          lavender band #23234A carries ink at 12.80:1
+ *          navy #9FA0F2 8.12:1 · navy-soft #C8C9FA 12.20:1
+ *          magenta #F09FD0 9.78:1 · rust #F2A07A 9.33:1
+ *          haze band #23234A carries ink at 12.80:1
+ *   band   white on the masthead scrim at its thinnest 7.97:1, readout 5.82:1,
+ *          both computed against a PURE WHITE waterfall pixel (section 10b)
  *
  * COLOUR IS NEVER THE SIGNAL. A freshness grade is carried by the WORD —
  * Measured, Sourced, Unverified — spelled out in the reading face at the head
@@ -170,13 +223,19 @@
  * ------------------------------------------------------------------------- */
 
 :where(:root) {
-	/* The exact hexes pinned by the interface contract and by theme.json. */
+	/*
+	 * The preset names, carrying revision 3's values. theme.json still holds
+	 * revision 1's hexes for ink, ground and lavender; section 1b-iv points
+	 * the presets at the table below so one palette reaches the page whether
+	 * or not theme.json has caught up, and names theme.json as the place to
+	 * make it permanent.
+	 */
 	--wp--preset--color--navy: #00008c;
 	--wp--preset--color--magenta: #990066;
-	--wp--preset--color--lavender: #dbdbfb;
-	--wp--preset--color--ink: #14142b;
+	--wp--preset--color--lavender: #e8eaf6;
+	--wp--preset--color--ink: #191933;
 	--wp--preset--color--paper: #ffffff;
-	--wp--preset--color--ground: #fbfbfd;
+	--wp--preset--color--ground: #f4f5fa;
 	--wp--preset--color--alarm: #a5171b;
 
 	/* The three faces, mirrored from theme.json (slugs display / body / data) so
@@ -201,43 +260,106 @@
 :root {
 	color-scheme: light dark;
 
-	/* --- Colour, straight off the DESIGN.md table ------------------------- */
-	--maars-navy: #00008c;          /* now / primary / links      15.23:1 on paper */
-	--maars-magenta: #990066;       /* the record / archive        8.25:1 on paper */
-	--maars-ink: #14142b;           /* body text                  18.03:1 on paper */
-	--maars-paper: #ffffff;         /* cards, panels */
-	--maars-ground: #f6f6fb;        /* page ground, cool, biased to navy */
-	--maars-lavender: #dbdbfb;      /* standing-fact panel   navy on it 11.27:1 */
-	--maars-rust: #8f2c00;          /* stale / unverified   ΔE76 62.6 from magenta */
-	--maars-rule: #d7d7e4;          /* hairlines */
-
-	/*
-	 * Navy is NOW. Magenta is THE RECORD. They are never swapped.
+	/* --- 1b-i. THE BRIEF'S OWN TABLE, VERBATIM ----------------------------
 	 *
-	 * Note on ground: theme.json's preset ground is #FBFBFD, which is what
-	 * WordPress paints a has-ground-background-color group with. The brief's
-	 * page ground is #F6F6FB — a shade cooler and fractionally darker, so the
-	 * paper cards lift off it. The two differ by well under one percent of
-	 * relative luminance, so nothing measured changes; both are kept because
-	 * both are real. Likewise the contract's alarm #A5171B stays available as
-	 * a preset for a template that needs a true alarm, but the freshness
-	 * system no longer uses it: an unverified fact is an honest label and
-	 * rust, not a siren.
+	 * DESIGN.md revision 3 prints nine colours in a table, one hex and one
+	 * role each. These are those nine names, in that order, with nothing
+	 * renamed and nothing added. They are the source. Every --maars-* colour
+	 * below is either an alias for one of them or a surface derived from them
+	 * and measured against them, and no component anywhere in this file
+	 * writes a hex.
+	 *
+	 * WHAT REVISION 3 MOVED, and why it is safe:
+	 *   ink     #14142B -> #191933   still 17.10:1 on paper, 15.71:1 on ground
+	 *   ground  #F6F6FB -> #F4F5FA   a shade cooler; paper still lifts off it
+	 *   rule    #D7D7E4 -> #DDE0EE   a calmer hairline, see --maars-rule-firm
+	 *   lavender #DBDBFB -> --haze #E8EAF6   the same fill, quieted
+	 *   --navy-soft #3B3BA8 is new: a second navy for hover and secondary
+	 *   emphasis, 8.83:1 on paper, so a state change is carried by a real
+	 *   value step and not by the underline alone.
+	 *
+	 * Navy is NOW. Magenta is THE RECORD. They are never swapped.
 	 */
+	--navy: #00008c;        /* anchor, links, headings   15.23:1 paper · 13.99:1 ground */
+	--navy-soft: #3b3ba8;   /* hover, secondary emphasis  8.83:1 paper ·  8.11:1 ground */
+	--magenta: #990066;     /* the archive, and only the archive                        */
+	--ink: #191933;         /* body text                 17.10:1 paper · 15.71:1 ground */
+	--paper: #ffffff;       /* raised surfaces                                          */
+	--ground: #f4f5fa;      /* page ground, cool, softened off-white                    */
+	--haze: #e8eaf6;        /* quiet fills, the old lavender, calmed                    */
+	--rust: #8f2c00;        /* stale only                 8.31:1 paper ·  7.63:1 ground */
+	--rule: #dde0ee;        /* hairlines                                                */
+
+	/* --- 1b-ii. The working names. Aliases, not second opinions. ---------- */
+	--maars-navy: var(--navy);
+	--maars-navy-soft: var(--navy-soft);
+	--maars-magenta: var(--magenta);
+	--maars-ink: var(--ink);
+	--maars-paper: var(--paper);
+	--maars-ground: var(--ground);
+	--maars-haze: var(--haze);
+	--maars-rust: var(--rust);
+	--maars-rule: var(--rule);
+	/* The name the 2,700 lines below were written against. Revision 3 renamed
+	   the fill, not the fill's job, so the old name is kept pointing at the
+	   new one rather than edited out of a hundred places. */
+	--maars-lavender: var(--haze);
 
 	/* --- Derived surfaces and hairlines. Never load-bearing for text. ----- */
-	--maars-meta: #46496b;          /* secondary prose        8.66:1 on paper */
-	--maars-sunk: #ececf7;          /* hover ground, sunken rows */
+	--maars-meta: #46496b;          /* secondary prose  8.66:1 paper · 7.95:1 ground */
+	--maars-sunk: #eceef8;          /* hover ground, sunken rows */
 	--maars-rust-wash: #fbf2ec;     /* the stale dateline's ground  rust 7.52:1 */
-	--maars-band: #14142b;          /* the one dark band (the hero) */
+	--maars-band: #191933;          /* the one dark band (the hero) */
 	--maars-band-edge: transparent; /* the band needs no frame on a pale page */
-	--maars-on-band: #ffffff;       /* text on the dark band        18.03:1 */
-	--maars-on-band-link: #dbdbfb;  /* links on the dark band       13.34:1 */
+	--maars-on-band: #ffffff;       /* text on the dark band        17.10:1 */
+	--maars-on-band-link: #dbdbfb;  /* links on the dark band       12.66:1 */
 	/* The quiet ink on the dark band. --maars-meta there measures 2.08:1 and
 	   rust 2.17:1, so a provenance line printed in either would be the same
 	   class of failure this file exists to keep out. */
-	--maars-on-band-meta: #b9bdd8;  /* notes on the dark band        9.73:1 */
+	--maars-on-band-meta: #b9bdd8;  /* notes on the dark band        9.23:1 */
 	--maars-space: #05050f;         /* letterbox behind the WebGL2 canvas */
+
+	/*
+	 * A SECOND HAIRLINE, and the one place this file argues with the table.
+	 * --rule #DDE0EE measures 1.21:1 against the page ground. That is right
+	 * for a separator whose job is to be felt rather than seen — between two
+	 * paragraphs of a footer, under a facet row. It is not enough for the
+	 * lines that hold the archive's columns in register, which a reader in
+	 * their eighties runs a finger down: those need to be visible, not
+	 * implied. --maars-rule-firm is the same hue, one step down, at 1.45:1,
+	 * and it is used ONLY where a rule is structure. Nothing here is a box.
+	 */
+	--maars-rule-firm: #ccd1e6;
+
+	/* --- 1b-iii. THE MASTHEAD BAND — the receiver. ------------------------
+	 *
+	 * The band is an instrument face and stays dark in both colour schemes,
+	 * the way the hero does, so these are tokens rather than a component rule
+	 * inside a media query.
+	 *
+	 * --maars-scope-floor is the noise floor the waterfall is painted on and
+	 * the colour the band falls back to if the canvas never arrives.
+	 * --maars-scope-veil is the scrim colour. Its ALPHA is the load-bearing
+	 * number: at 0.72 over a PURE WHITE pixel — the brightest thing a
+	 * waterfall can possibly emit — the composited background measures
+	 * L=0.0817, so white text on it is 7.97:1 and the quiet readout
+	 * #D7DBF4 is 5.82:1. Both clear 4.5:1 against the worst case rather than
+	 * against the average, which is the only way a scrim can be claimed to
+	 * work on a surface whose pixels nobody controls.
+	 */
+	--maars-scope-floor: #05081f;
+	--maars-scope-veil: 5, 8, 31;   /* the veil's RGB; the alphas live in §10 */
+	/*
+	 * THE IDENTITY SITS ON ITS OWN PLATE, so its contrast is a constant rather
+	 * than a bet on what the waterfall happens to paint. Revision 3's first cut
+	 * put white text over a hole the script erased in the band; the hole showed
+	 * the light page ground, so the wordmark came out white-on-near-white at a
+	 * measured 1.13:1 -- the very failure this rebuild exists to fix, rebuilt.
+	 * Navy on the plate is 13.99:1 and cannot drift, with canvas or without.
+	 */
+	--maars-scope-plate: rgba(244, 245, 250, 0.94);
+	--maars-on-scope: #00008c;      /* 13.99:1 on the plate */
+	--maars-on-scope-meta: #191933; /* 15.70:1 on the plate */
 
 	/* --- Focus. 3px navy, 2px offset, never removed. The halo is a second
 	   ring in the opposite value so the outline is still visible when the
@@ -291,14 +413,93 @@
 	--maars-space-4: 1.5rem;    /* between a block and the next block */
 	--maars-space-5: clamp(1.5rem, 1.25rem + 1vw, 2rem);   /* between bands */
 
-	/* --- Shape, measure, motion ------------------------------------------ */
+	/* --- Shape: A RADIUS SCALE BY ROLE, NOT ONE NUMBER EVERYWHERE ---------
+	 *
+	 * The owner asked for soft and smooth. The failure mode that request
+	 * produces is the generic card kit: every block chopped into an identical
+	 * rounded box with one radius and the same grey shadow under it. The
+	 * brief's answer, and this file's, is that the radius is a statement about
+	 * WHAT A THING IS:
+	 *
+	 *   16px  a major surface — something a reader could imagine picking up:
+	 *         the scene's canvas, a document image, the original-file panel.
+	 *   10px  a control — a button, a search field, a band selector. Smaller,
+	 *         because a control is smaller and a 16px corner on a 48px button
+	 *         eats a third of its edge.
+	 *  999px  a pill — a thing whose shape IS its whole geometry: the current
+	 *         page number. There are very few of these and none of them was
+	 *         invented to use the value up.
+	 *      0  DATA. A table is not a surface and a row is not a card. The
+	 *         archive log, the specification list and the facet lists are set
+	 *         square, because a column of records that curves at the corners
+	 *         stops reading as a column of records.
+	 */
+	--maars-radius-surface: 16px;
+	--maars-radius-control: 10px;
+	--maars-radius-pill: 999px;
+	--maars-radius-data: 0;
+	/* The name the older rules were written against, pointed at the control
+	   step: everything that carried it was a control or a focus ring. */
+	--maars-radius: var(--maars-radius-control);
+
+	/* --- Shadow: NAVY-TINTED, AND ONLY ON THINGS GENUINELY RAISED --------
+	 *
+	 * Straight off the brief, and grey is not in it: a grey shadow under a
+	 * navy-and-white page is the one that reads as a template. The list of
+	 * things that carry it is deliberately three items long — the mobile
+	 * navigation overlay, which really does float over the page, and the two
+	 * buttons a reader presses. A table is not raised. A row is not raised. A
+	 * band is not raised. A fact is not raised. Section 10c says so again at
+	 * the point where it would have been easiest to reach for one.
+	 */
+	--maars-shadow: 0 1px 2px rgba(10, 10, 60, 0.05),
+		0 10px 30px rgba(10, 10, 60, 0.07);
+	--maars-shadow-lifted: 0 2px 6px rgba(10, 10, 60, 0.10),
+		0 18px 48px rgba(10, 10, 60, 0.16);
+
 	--maars-gutter: clamp(1rem, 0.6rem + 2vw, 2rem);
 	--maars-column: 72rem;          /* the one column; see section 3 */
-	--maars-radius: 2px;
 	--maars-target: 48px;
 	--maars-hairline: 1px;
-	--maars-motion: 160ms;          /* every state change is under 200ms */
-	--maars-ease: cubic-bezier(0.2, 0, 0.2, 1);
+
+	/* --- Motion: ONE curve, one duration, user-triggered changes only. ----
+	 * 200ms and cubic-bezier(.2,.7,.3,1), the brief's own numbers: a curve
+	 * that leaves quickly and arrives slowly, which is what "smooth" means
+	 * when it is not a synonym for "slow". Nothing on this site animates on
+	 * load, nothing animates on scroll, and no block lifts on hover. The one
+	 * ambient motion on the page is the waterfall in the masthead.
+	 */
+	--maars-motion: 200ms;
+	--maars-ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+/* 1b-iv. ONE PALETTE ON THE PAGE.
+ *
+ * WordPress prints theme.json's palette as `:root{--wp--preset--color--*}`,
+ * and theme.json is pinned by the interface contract to revision 1's hexes —
+ * ink #14142B, ground #FBFBFD, lavender #DBDBFB. Revision 3 softened all
+ * three. Left alone, a page would carry two inks: #191933 wherever this file
+ * names a token and #14142B wherever a template carries `has-ink-color`.
+ *
+ * Two inks eight tenths of a percent apart is not a visible defect, and that
+ * is exactly why it would survive for years. So the presets are re-pointed at
+ * the table, at `:root:root` (0-2-0), which outranks the `:root` block
+ * WordPress prints whichever order the two stylesheets load in — the same
+ * device section 3 uses for the layout sizes and section 1c for dark mode.
+ *
+ * This is a bridge, not a home. The palette belongs in theme.json, where the
+ * site editor can see it; when theme.json is updated to the revision 3 table
+ * this block becomes a no-op and can go. It sets colour names and nothing
+ * else, so it cannot drift into styling a component.
+ */
+
+:root:root {
+	--wp--preset--color--navy: var(--navy);
+	--wp--preset--color--magenta: var(--magenta);
+	--wp--preset--color--lavender: var(--haze);
+	--wp--preset--color--ink: var(--ink);
+	--wp--preset--color--paper: var(--paper);
+	--wp--preset--color--ground: var(--ground);
 }
 
 /* 1c. Dark scheme. TOKENS ONLY. No component may be styled in here.
@@ -314,28 +515,41 @@
 @media (prefers-color-scheme: dark) {
 	:root:root,
 	:root:root body {
-		--wp--preset--color--navy: #9fa0f2;
-		--wp--preset--color--magenta: #f09fd0;
-		--wp--preset--color--ink: #ededf7;
-		--wp--preset--color--paper: #14142a;
-		--wp--preset--color--ground: #0c0c18;
-		/* The lavender notice band and the alarm, lifted to sit on #0C0C18
-		   instead of the 1.2:1 disaster a naive inversion produces. */
-		--wp--preset--color--lavender: #23234a;
+		/*
+		 * THE BRIEF'S NINE NAMES, REDEFINED AND NOTHING ELSE. This is the
+		 * whole of dark mode: the same table, the same roles, different
+		 * values. No selector in this media query names a component, so
+		 * nothing can drift between the two schemes.
+		 */
+		--navy: #9fa0f2;        /* 8.12:1 on ground */
+		--navy-soft: #c8c9fa;   /* hover goes brighter on a dark page. 12.20:1 */
+		--magenta: #f09fd0;     /* 9.78:1 on ground */
+		--ink: #ededf7;         /* 16.70:1 on ground */
+		--paper: #14142a;
+		--ground: #0c0c18;
+		--haze: #23234a;        /* ink on it 12.80:1 */
+		--rust: #f2a07a;        /* 9.33:1 on ground, still far from magenta */
+		--rule: #3d3d63;
+
+		/* The preset mirror follows the table, so has-ink-color text and
+		   has-paper-background-color surfaces stay correct with no component
+		   rule anywhere. Ink and paper genuinely trade places. */
+		--wp--preset--color--navy: var(--navy);
+		--wp--preset--color--magenta: var(--magenta);
+		--wp--preset--color--ink: var(--ink);
+		--wp--preset--color--paper: var(--paper);
+		--wp--preset--color--ground: var(--ground);
+		/* The old lavender preset points at the calmed fill, lifted to sit on
+		   #0C0C18 instead of the 1.2:1 disaster a naive inversion produces. */
+		--wp--preset--color--lavender: var(--haze);
 		--wp--preset--color--alarm: #ff9e7a;
 
-		--maars-navy: #9fa0f2;      /* 8.12:1 on ground */
-		--maars-magenta: #f09fd0;   /* 9.78:1 on ground */
-		--maars-ink: #ededf7;       /* 16.70:1 on ground */
-		--maars-paper: #14142a;
-		--maars-ground: #0c0c18;
-		--maars-lavender: #23234a;  /* ink on it 12.80:1 */
-		--maars-rust: #f2a07a;      /* 9.33:1 on ground, still far from magenta */
-		--maars-rule: #3d3d63;
-
-		--maars-meta: #b9bfd8;      /* 10.64:1 on ground */
+		/* Derived surfaces. Every one of them is measured against the table
+		   above, not inverted from the light value and hoped for. */
+		--maars-rule-firm: #4c4c78;  /* structure, not decoration. 1.53:1 on ground */
+		--maars-meta: #b9bfd8;       /* 10.64:1 on ground */
 		--maars-sunk: #1b1b38;
-		--maars-rust-wash: #26130c; /* rust on it 8.54:1 */
+		--maars-rust-wash: #26130c;  /* rust on it 8.54:1 */
 		/* The band is lifted off the ground rather than sunk into it: on a dark
 		   page "a darker slab" is not a band, it is nothing. Ink on it is
 		   15.52:1, and the edge token draws the frame the value alone cannot. */
@@ -345,6 +559,29 @@
 		--maars-on-band-link: #dbdbfb; /* 13.36:1 — the light lavender, not the band */
 		--maars-on-band-meta: #b9bdd8; /* 9.74:1 on the band */
 		--maars-space: #05050f;
+
+		/*
+		 * THE MASTHEAD DOES NOT INVERT. A receiver's screen is dark in a lit
+		 * room and dark in a dark one; the band is the same instrument face in
+		 * both schemes, and saying so here — as a token — is what keeps it out
+		 * of a component rule inside a media query. The floor drops a shade so
+		 * the band still separates from a #0C0C18 page.
+		 */
+		--maars-scope-floor: #04061a;
+		--maars-scope-veil: 4, 6, 26;
+		--maars-scope-plate: rgba(233, 235, 245, 0.95);
+		--maars-on-scope: #00008c;
+		--maars-on-scope-meta: #191933;
+
+		/*
+		 * A navy-tinted shadow is invisible on a dark page, because a shadow
+		 * is a value step and there is no value below #0C0C18 to step to. On
+		 * dark, the same raised things are separated by a deeper, wider one.
+		 */
+		--maars-shadow: 0 1px 2px rgba(0, 0, 0, 0.5),
+			0 10px 30px rgba(0, 0, 0, 0.55);
+		--maars-shadow-lifted: 0 2px 6px rgba(0, 0, 0, 0.6),
+			0 18px 48px rgba(0, 0, 0, 0.65);
 
 		--maars-focus: #9fa0f2;     /* still navy — the dark variant. 8.12:1 on ground */
 		--maars-focus-halo: #0c0c18;
@@ -477,7 +714,7 @@
  * when the element itself is navy.
  */
 :where(a, button, summary, input, select, textarea, [tabindex], [role="button"]):focus-visible {
-	border-radius: var(--maars-radius);
+	border-radius: var(--maars-radius-control);
 	outline: 3px solid var(--maars-focus);
 	outline-offset: 2px;
 	box-shadow: 0 0 0 2px var(--maars-focus-halo);
@@ -524,7 +761,7 @@
  * around it starts. The height is what a finger needs; the rest would move the
  * words.
  */
-.maars-wordmark__name a,
+.maars-masthead__wordmark a,
 .maars-entry__title a,
 .maars-index__title a,
 .maars-log__title a,
@@ -597,11 +834,27 @@
  * itself. Each of the three is inset by one gutter, and nothing inside them
  * adds a second one.
  */
-.maars-header,
 .maars-main > *,
 .maars-footer {
 	padding-inline: var(--maars-gutter);
 }
+
+/*
+ * THE HEADER IS NOT IN THAT LIST ANY MORE, AND THAT IS REVISION 3.
+ *
+ * The masthead band is a receiver face and has to reach both edges of the
+ * window: an instrument that stops 32px short of the glass is a picture of an
+ * instrument. A padded header cannot hold one — the band would either inherit
+ * the inset or have to fight its way out of it with a negative margin against
+ * WordPress's `margin-left: auto !important`, which is a fight nobody wins
+ * cleanly.
+ *
+ * So the region stops being padded and each ROW inside it carries its own
+ * inset instead: the navigation gets the gutter and the column cap below, the
+ * band opts out of both, and the identity inside the band re-applies them so
+ * the callsign still starts on the one left edge that every heading, every log
+ * row and the colophon start on. Measured at 1440px: 176px, all of them.
+ */
 
 .maars-main {
 	margin-inline: auto;
@@ -622,11 +875,35 @@
  * these to its content and the auto margins then centre a column narrower than
  * the page, which is the defect at the head of this section in miniature.
  */
-.maars-header > *,
 .maars-footer > * {
 	margin-inline: auto;
 	max-width: calc(var(--maars-column) - 2 * var(--maars-gutter));
 	width: 100%;
+}
+
+/*
+ * A row of the header. Same content width as main — the full column, padded by
+ * one gutter — rather than main's width with the gutter already subtracted,
+ * because this element now carries the padding itself. Below about 1150px both
+ * resolve to the viewport minus two gutters, which is why the navigation keeps
+ * its inset at 390px where revision 2's rule would have left it flush against
+ * the glass the moment the header stopped being padded.
+ */
+.maars-header > * {
+	margin-inline: auto;
+	max-width: var(--maars-column);
+	padding-inline: var(--maars-gutter);
+	width: 100%;
+}
+
+/* And the one row that is not a row: the band. It opts out of both. */
+.maars-header > .maars-masthead {
+	/* The masthead stays in the page column so the identity lines up with every
+	   other heading on the site. Only the two painted layers below bleed. */
+	margin-inline: 0;
+	max-width: none;
+	padding-inline: 0;
+	width: auto;
 }
 
 /*
@@ -667,9 +944,20 @@
 }
 
 /* ---------------------------------------------------------------------------
- * 4. Motion. Every state change in this file is 160ms; nothing animates on
- *    load, nothing moves the layout. Under prefers-reduced-motion it all stops
- *    — including anything a block or the editor brought with it.
+ * 4. Motion. ONE curve and ONE duration: 200ms on cubic-bezier(.2,.7,.3,1),
+ *    and only on a change the reader asked for — a hover, a focus, a press.
+ *
+ * Nothing animates on load. Nothing animates on scroll: there are no fade-ups
+ * here, because a page that withholds its own content until the reader scrolls
+ * far enough is a page that is slower to read than a static one, and on a phone
+ * in a parking lot it is a page that never finishes. No block lifts on hover,
+ * because a hover lift on everything is a page where nothing is raised.
+ *
+ * The single ambient motion on the site is the waterfall in the masthead, and
+ * it is decorative, aria-hidden and slow — one frame every 80ms, not sixty a
+ * second. Under prefers-reduced-motion it draws one still frame and stops, and
+ * everything else here stops too, including anything a block or the editor
+ * brought with it.
  * ------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -763,8 +1051,10 @@
 	font-feature-settings: "zero" 1, "tnum" 1;
 }
 
-/* The callsign in the masthead is a figure that happens to be the identity. */
-.maars-wordmark__call {
+/* The callsign in the masthead is a figure that happens to be the identity.
+   The block already wraps it in .maars-fig, so this is belt and braces for a
+   build where the wrapper has not arrived yet. */
+.maars-masthead__call {
 	font-family: var(--maars-font-data);
 	font-variant-numeric: slashed-zero tabular-nums;
 	font-feature-settings: "zero" 1, "tnum" 1;
@@ -833,6 +1123,20 @@
 	--maars-log-columns: minmax(0, 8rem) minmax(0, 10.5rem) minmax(0, 1fr);
 	--maars-log-gap: var(--maars-space-4);
 
+	/*
+	 * ZERO. THE DATA STEP, AND IT IS WRITTEN OUT RATHER THAN LEFT OUT.
+	 *
+	 * This is where a soft-and-smooth brief goes wrong. The archive is 26
+	 * years of documents in a ruled list, and rounding it — the list, the
+	 * rows, the head — turns a record into a stack of cards and costs the one
+	 * thing the shape was carrying: that these are entries in a logbook, and a
+	 * reader can run a finger straight down the date column without the eye
+	 * being pulled off it at every corner. A table is not a surface. A row is
+	 * not a card. It gets no radius, no fill, no frame and no shadow, and the
+	 * declaration is here, explicitly, so that the next person to soften this
+	 * page has to delete a sentence rather than fill a gap.
+	 */
+	border-radius: var(--maars-radius-data);
 	color: var(--maars-ink);
 }
 
@@ -868,6 +1172,8 @@
 	grid-template-columns: var(--maars-log-columns,
 		minmax(0, 8rem) minmax(0, 10.5rem) minmax(0, 1fr));
 	row-gap: 0.35rem;
+	/* Data. See the note on .maars-log above. */
+	border-radius: var(--maars-radius-data);
 }
 
 .maars-log__head {
@@ -876,6 +1182,12 @@
 
 .maars-log__row {
 	align-items: stretch;
+	/*
+	 * 200ms on the one curve, and it changes two things a reader asked for by
+	 * putting a pointer on the row. It does NOT lift: a hover lift on every
+	 * row is a page where nothing is raised, and a row that rises under a
+	 * finger on a touch screen rises under every finger, all the way down.
+	 */
 	transition: background-color var(--maars-motion) var(--maars-ease),
 		box-shadow var(--maars-motion) var(--maars-ease);
 }
@@ -978,9 +1290,18 @@
 
 .maars-log__pagination .page-numbers.current {
 	background-color: var(--maars-magenta);
-	border-radius: var(--maars-radius);
+	/*
+	 * THE ONE PILL ON THE SITE. A page number is a token: a short figure whose
+	 * whole geometry is its shape, with no content that could be cut by a
+	 * curve. That is what the 999px step is for, and it is spent here and
+	 * nowhere else. Nothing was rounded into a pill to use the value up — the
+	 * freshness grade is a word in a sentence, the facet count is a bare text
+	 * node WordPress gives no element to, and neither is a chip.
+	 */
+	border-radius: var(--maars-radius-pill);
 	color: var(--maars-paper);          /* 8.25:1 */
 	font-weight: 700;
+	min-width: var(--maars-target);
 }
 
 /* ---------------------------------------------------------------------------
@@ -1004,7 +1325,7 @@
    this in section 6, which is why section 6 comes after this one. */
 .maars-log > .maars-log__line + .maars-log__line,
 .maars-log__entries > .maars-log__line + .maars-log__line {
-	border-block-start: var(--maars-hairline) solid var(--maars-rule);
+	border-block-start: var(--maars-hairline) solid var(--maars-rule-firm);
 	padding-block-start: 0.6rem;
 }
 
@@ -1489,7 +1810,9 @@
 
 .maars-skywave__canvas {
 	background-color: var(--maars-space);
-	border-radius: var(--maars-radius);
+	/* A major surface: the one picture on the site, and the largest single
+	   object on any page. 16px. */
+	border-radius: var(--maars-radius-surface);
 	display: block;
 	height: auto;
 	max-width: 100%;
@@ -1521,7 +1844,10 @@
 .maars-skywave__control {
 	background-color: var(--maars-paper);
 	border: 2px solid var(--maars-navy);
-	border-radius: var(--maars-radius);
+	/* A control, not a pill: a 48px button holding two lines of type, where a
+	   999px corner would eat a quarter of each end and a 16px one would fight
+	   the canvas above it. */
+	border-radius: var(--maars-radius-control);
 	color: var(--maars-navy);
 	cursor: pointer;
 	/* The band and the frequency inside the button are .maars-fig and carry the
@@ -1532,11 +1858,13 @@
 	font-weight: 600;
 	gap: 0.6ch;
 	transition: background-color var(--maars-motion) var(--maars-ease),
+		border-color var(--maars-motion) var(--maars-ease),
 		color var(--maars-motion) var(--maars-ease);
 }
 
 .maars-skywave__control:hover {
-	background-color: var(--maars-lavender);
+	background-color: var(--maars-haze);
+	border-color: var(--maars-navy-soft);
 }
 
 .maars-skywave__control[aria-pressed="true"] {
@@ -1594,8 +1922,11 @@
 
 .maars-skywave--fallback .maars-skywave__fallback,
 .maars-skywave__noscript {
-	background-color: var(--maars-lavender);
-	border-radius: var(--maars-radius);
+	background-color: var(--maars-haze);
+	/* A filled panel is a surface. It carries no shadow: it is set INTO the
+	   dark band, not lifted off it, and a shadow on a dark ground is a value
+	   step there is no value left to take. */
+	border-radius: var(--maars-radius-surface);
 	color: var(--maars-ink);
 	display: grid;
 	font-size: var(--maars-text-body);
@@ -1641,7 +1972,7 @@
 }
 
 .maars-skywave__band + .maars-skywave__band {
-	border-block-start: var(--maars-hairline) solid var(--maars-rule);
+	border-block-start: var(--maars-hairline) solid var(--maars-rule-firm);
 }
 
 /* 80, 40 and 20 metres all do the same thing: the wave comes back. */
@@ -1673,71 +2004,423 @@
 	}
 }
 
+/* ===========================================================================
+ * 10. THE MASTHEAD — THE BAND IS A RECEIVER.
+ *
+ * THE IDEA. The analogue dial is gone. What every licensed amateur reads now,
+ * whether they came up on a Drake in 1974 or bought an RTL-SDR dongle last
+ * month, is a WATERFALL: the spectrum trace with the heat map scrolling under
+ * it, the face of an IC-7300 and the output of a twenty-dollar dongle. It is
+ * the one picture that says "radio" to a thirty-year-old and a ninety-year-old
+ * in the same second, and it is soft and smooth because that is physically
+ * what it is — a continuous map of signal strength with no edge anywhere in
+ * it. Nobody had to round its corners to make it feel modern.
+ *
+ * So the masthead is not a banner and not a logo lockup. It is a slim
+ * receiver, tuned to 147.255 MHz — the Society's own machine, not a stock
+ * frequency — with the identity resting in it.
+ *
+ * AND IT IS NOT THE PAGE'S BOLD MOMENT. The WebGL2 propagation scene in
+ * section 9 is, it stays that, and a masthead that competed with it would have
+ * cost the site the one large thing it is allowed. This band is ambient
+ * chrome: 150–190px, about twelve frames a second, aria-hidden, nothing to
+ * click. Under prefers-reduced-motion the script draws one still frame; under
+ * no script at all the fallback gradient in 10a is what a reader sees, which
+ * is a masthead and not an error.
+ *
+ * ---------------------------------------------------------------------------
+ * WHAT THIS SECTION STYLES, and it is exactly what maars_render_masthead_block()
+ * emits — no name here is invented and none is left over:
+ *
+ *   .maars-masthead              the band, full-bleed, faded top and bottom
+ *     + --fallback               no script, or no 2D context: canvas removed
+ *     canvas.maars-masthead__canvas     aria-hidden, decorative, inert
+ *     .maars-masthead__inner            the column: gutter and cap live here
+ *       .maars-masthead__identity       the real text resting in the band
+ *         .maars-masthead__wordmark     MAARS, the link home, display face
+ *         .maars-masthead__call         KSØMAN, data face, inside .maars-fig
+ *         .maars-masthead__society      the long name, body face
+ *       .maars-masthead__caption        below the band, on the page ground
+ *         .maars-masthead__place        Manhattan, Kansas
+ *         .maars-masthead__note         "…is a drawing…not a live receiver."
+ *
+ * THE DIVISION OF LABOUR WITH waterfall.js, stated once so neither side does
+ * the other's job twice. The SCRIPT owns the inside of the picture: it fades
+ * its own top and bottom edges (14px and 26px), and it clears the band behind
+ * `.maars-masthead__identity` with a 64px feather so the identity has calm
+ * ground under it. This STYLESHEET owns the floor that clearing reveals, the
+ * fallback that stands in when there is no script, the type, and a scrim that
+ * guarantees the contrast floor even if the clearing never happens. Nothing
+ * here masks the canvas: the script already did, and two fades on one edge is
+ * how an edge stops being soft.
+ * ======================================================================== */
+
 /* ---------------------------------------------------------------------------
- * 10. The masthead: the wordmark, and the navigation bar under it.
+ * 10a. The band, the floor, and the fallback — which are one thing.
+ *
+ * The canvas is painted over a floor drawn in CSS. That floor is also the
+ * fallback, which is why there is no separate "no canvas" picture to keep in
+ * step with anything: no script, script not yet run, and script running are
+ * the same image getting progressively more detailed, rather than three
+ * different failures.
  * ------------------------------------------------------------------------- */
 
-.maars-header {
-	border-block-end: var(--maars-hairline) solid var(--maars-rule);
+.maars-masthead {
+	/*
+	 * 150–190px, the brief's band. Slim on a phone, never a hero. The block
+	 * passes the same bound to the canvas as a height attribute so the strip
+	 * is never wildly wrong in the moment before layout.
+	 */
+	--maars-scope-height: clamp(150px, 9.5rem + 2vw, 190px);
+	/* How far the identity's last line sits above the bottom of the band. The
+	   scrim below is written against this same name, so the veil ends exactly
+	   where the text ends and the two cannot drift apart. */
+	--maars-scope-pad: 1.6rem;
+
+	/*
+	 * THE FLOOR AND THE FALLBACK. A dark navy field with one broad bloom of
+	 * signal at 62% of the width, where 147.255 sits in the 500kHz span the
+	 * canvas draws. That is a gradient carrying a meaning — this is what
+	 * signal strength looks like — which is the only kind this file allows;
+	 * there is no decorative wash anywhere in this stylesheet.
+	 */
+	--maars-scope-fallback:
+		radial-gradient(42% 104% at 62% 96%,
+			rgba(126, 146, 255, 0.42) 0%,
+			rgba(64, 72, 200, 0.22) 44%,
+			rgba(8, 12, 56, 0) 78%),
+		radial-gradient(86% 76% at 16% 4%,
+			rgba(60, 76, 186, 0.2) 0%,
+			rgba(8, 12, 56, 0) 72%),
+		linear-gradient(to bottom, #0a1044 0%, #070c33 48%, #04061f 100%);
+
+	/*
+	 * BOTH VERTICAL EDGES DISSOLVE. The band does not end in a line, because a
+	 * line is the one thing a waterfall never has. The fade is written in
+	 * pixels rather than percentages and matches waterfall.js's own FADE_TOP
+	 * and FADE_BOTTOM exactly, so the floor and the picture on top of it go
+	 * out together instead of leaving a rim of one behind the other.
+	 */
+	--maars-scope-fade: linear-gradient(to bottom,
+		rgba(0, 0, 0, 0) 0,
+		rgba(0, 0, 0, 1) 14px,
+		rgba(0, 0, 0, 1) calc(100% - 26px),
+		rgba(0, 0, 0, 0) 100%);
+
+	/*
+	 * Transparent, not a colour: the band dissolves into whatever the header
+	 * is painted with, which is the paper preset and therefore correct in both
+	 * colour schemes with no rule inside a media query.
+	 */
+	background-color: transparent;
+	isolation: isolate;
+	position: relative;
 }
 
-.maars-wordmark {
-	display: grid;
-	gap: 0.4rem;
-}
-
-.maars-wordmark__name {
-	font-family: var(--maars-font-display);
-	font-weight: 700;
-	letter-spacing: -0.005em;
-	margin: 0;
-}
-
-.maars-wordmark__name a {
-	color: inherit;
-	text-decoration: none;
-}
-
-.maars-wordmark__name a:hover,
-.maars-wordmark__name a:focus-visible {
-	text-decoration: underline;
-	text-decoration-thickness: max(2px, 0.07em);
-}
-
-/* KSØMAN. The slashed zero is the Society's own spelling and the data face
-   draws it natively, which is the entire reason that face is in the system. */
-.maars-wordmark__call {
-	letter-spacing: 0.01em;
+/* The floor. A layer rather than a background on the band itself, so the fade
+   can mask it and the header's own surface shows through at both edges. */
+.maars-masthead::before {
+	background-image: var(--maars-scope-fallback);
+	content: "";
+	height: var(--maars-scope-height);
+	inset-block-start: 0;
+	/* Bleed to the viewport without dragging the column with it. */
+	inset-inline-start: calc(50% - 50vw);
+	inline-size: 100vw;
+	-webkit-mask-image: var(--maars-scope-fade);
+	mask-image: var(--maars-scope-fade);
+	pointer-events: none;
+	position: absolute;
+	z-index: 0;
 }
 
 /*
- * The identity, on two lines rather than one line stitched together with
- * interpuncts. Revision 1 read "MAARS · KSØMAN" and, under it,
- * "Manhattan Area Amateur Radio Society · Manhattan, Kansas". A middle dot is
- * not punctuation; it is what you reach for when you have not decided whether
- * two things are one thing. They are two things, so they are two lines.
+ * THE READING SCRIM, and the arithmetic behind its one load-bearing number.
+ *
+ * A waterfall is a heat map: its pixels run from a near-black noise floor to
+ * the palest thing in its ramp, and nothing in CSS knows which one is behind a
+ * given letter at a given second. Contrast against the AVERAGE pixel is not a
+ * measurement, it is a hope. So the identity is measured against the WORST
+ * pixel the map can emit — the top of waterfall.js's noise ramp, #E8EAF6, the
+ * site's own haze — and made to clear 4.5:1 against that.
+ *
+ * Composited at alpha a, veil rgb(5, 8, 31) over #E8EAF6 (L 0.8266):
+ *
+ *     a = 0.45  ->  L 0.216   white 3.95:1   FAILS
+ *     a = 0.55  ->  L 0.158   white 5.04:1
+ *     a = 0.58  ->  L 0.138   white 5.59:1   <- the weakest point under a glyph
+ *     a = 0.62  ->  L 0.114   white 6.40:1   <- the floor the scrim holds
+ *
+ * Every glyph on this band therefore clears 4.5:1 against a pixel the
+ * instrument would have to be saturated to produce, which is the only honest
+ * way to make the claim on a surface whose content nobody controls.
+ *
+ * It is a SOFTENING, not a panel. It ramps in through the trace region, holds
+ * across the waterfall where the identity sits, and goes out again exactly at
+ * --maars-scope-pad, which is where the last line of type ends. There is no
+ * edge on it in any direction.
+ *
+ * With waterfall.js mounted this is mostly redundant — the script has already
+ * cleared the band behind the identity — and over that cleared floor it is
+ * imperceptible, a shade of navy on a shade of navy. It is here for the case
+ * where the clearing is not configured, and for the seconds before it is.
  */
-.maars-wordmark__where {
+.maars-masthead::after {
+	background-image: linear-gradient(to bottom,
+		rgba(var(--maars-scope-veil), 0) 0%,
+		rgba(var(--maars-scope-veil), 0.1) 12%,
+		rgba(var(--maars-scope-veil), 0.46) 20%,
+		rgba(var(--maars-scope-veil), 0.62) 27%,
+		rgba(var(--maars-scope-veil), 0.62) calc(100% - var(--maars-scope-pad)),
+		rgba(var(--maars-scope-veil), 0) 100%);
+	content: "";
+	height: var(--maars-scope-height);
+	inset-block-start: 0;
+	inset-inline: 0;
+	pointer-events: none;
+	position: absolute;
+	z-index: 2;
+}
+
+/*
+ * The canvas. Decorative, aria-hidden, inert: no reader has to hit it, drag it
+ * or tab to it. It is NOT masked here — waterfall.js fades its own edges and
+ * clears its own hole behind the identity, and a second fade laid over the
+ * first is how a soft edge turns back into a visible one.
+ */
+.maars-masthead__canvas {
+	display: block;
+	height: var(--maars-scope-height);
+	inset-block-start: 0;
+	inset-inline-start: calc(50% - 50vw);
+	pointer-events: none;
+	position: absolute;
+	width: 100vw;
+	z-index: 1;
+}
+
+/* No script, or no 2D context. The floor underneath is already the picture. */
+.maars-masthead--fallback .maars-masthead__canvas {
+	display: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * 10b. The column inside the band.
+ *
+ * The band is full-bleed; its CONTENT is not. This is where the gutter and the
+ * column cap that section 3 took off the header come back, so the callsign
+ * starts on the same left edge as the meeting date, the archive's first column
+ * and the colophon. Measured at 1440px: 176px, every one of them.
+ * ------------------------------------------------------------------------- */
+
+.maars-masthead__inner {
+	/* Clear the band, then return to the page column. The masthead itself is
+	   full bleed so the instrument has no margin; its inner content must line
+	   up with every other heading on the site, not with the bleed edge. */
+	padding-block-start: var(--maars-scope-height);
+	margin-inline: auto;
+	max-width: var(--wp--style--global--wide-size, 1180px);
+	padding-inline: var(--maars-gutter, 1.25rem);
+	margin-inline: auto;
+	max-width: var(--maars-column);
+	padding-inline: var(--maars-gutter);
+	position: relative;
+	width: 100%;
+	z-index: 3;
+}
+
+/*
+ * The identity reserves the band's own height and sits at the bottom of it, in
+ * the waterfall, with the trace running clear above. It is real text: the site
+ * this one replaces set the club's name in an unlabelled GIF, so the Society
+ * was invisible to a screen reader and to search for twenty years.
+ */
+.maars-masthead__identity {
+	align-content: end;
 	display: grid;
-	gap: 0;
+	gap: 0.1rem;
+	justify-items: start;
+	min-height: 0;
+	/* Clear the band. The canvas and the floor are absolutely positioned across
+	   the top of the masthead at --maars-scope-height, so the identity has to
+	   start below them. (The diagram above names a .maars-masthead__inner that
+	   the emitted markup does not have, which is why this lives here.) */
+	padding-block-start: calc(var(--maars-scope-height) + 1.1rem);
+	/* Back into the page column. The masthead is full bleed so the instrument
+	   has no margin, but the identity must line up with every other heading on
+	   the site rather than with the bleed edge. (.maars-masthead__inner is
+	   named in the diagram above but is not in the emitted markup, so the
+	   column lives here, on the element that actually exists.) */
+	/*
+	 * THE IDENTITY SITS UNDER THE BAND, NOT ON IT.
+	 *
+	 * Two earlier attempts put it inside the instrument: white text over a hole
+	 * the script erased (measured 1.13:1, white on near-white) and then a
+	 * translucent plate, which smeared the spectrum behind it and collided with
+	 * the frequency ticks. Both were solving a problem that only existed
+	 * because the text was in the picture.
+	 *
+	 * The band is now a clean instrument, edge to edge, with nothing over it.
+	 * The identity reads beneath it on the page ground, where navy is 13.99:1
+	 * and cannot drift. The masthead is still a receiver; this is its caption.
+	 */
+	background: none;
+	box-shadow: none;
+	/* NOT a padding-block shorthand: it sits after the band-clearing
+	   padding-block-start above and would silently reset it, which is how the
+	   identity ended up drawn on top of the waterfall. */
+	padding-block-end: 0;
+	/*
+	 * SHRINK TO THE WORDS. This is the one declaration that decides whether
+	 * there is a waterfall on this page at all.
+	 *
+	 * waterfall.js clears the band behind whatever `clearSelector` finds — the
+	 * block points it at this element — so this box's WIDTH is the width of
+	 * the hole. Left as a block, it is the whole 1,152px column, and the
+	 * script dutifully erased the entire instrument: rendered at 1440px the
+	 * band came back a flat navy slab with a scrap of trace showing at each
+	 * end and the carrier at 62% gone completely. With max-content it is 475px
+	 * of type, the hole is the type plus its 64px feather, and the carrier —
+	 * the one thing the band exists to show — is in the clear.
+	 *
+	 * max-width caps it again at 390px, where max-content is wider than the
+	 * screen and the Society's name has to be allowed to wrap.
+	 */
+	max-width: 100%;
+	width: max-content;
 }
 
-.maars-wordmark__long,
-.maars-wordmark__place {
-	color: var(--maars-ink);
-	line-height: 1.45;
+/*
+ * MAARS. The quietest of the three lines and the only one that is a link: it
+ * is the way home, and it is the club's initials rather than its identity. 18px
+ * floor, 48px target, display face.
+ */
+.maars-masthead .maars-masthead__wordmark {
+	color: var(--maars-on-scope);
+	font-family: var(--maars-font-display);
+	font-size: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	line-height: 1.2;
 	margin: 0;
-	max-width: 60ch;
 }
 
-.maars-wordmark__place {
-	color: var(--maars-meta);           /* 8.66:1 on paper */
+.maars-masthead__wordmark a {
+	align-items: center;
+	color: inherit;
+	display: inline-flex;
+	min-height: var(--maars-target);
+	text-decoration: none;
+	transition: color var(--maars-motion) var(--maars-ease);
 }
 
-/* The navigation takes its own row under a hairline the template draws, so the
-   seven items never break into a ragged second line inside the identity. */
+.maars-masthead__wordmark a:hover,
+.maars-masthead__wordmark a:focus-visible {
+	text-decoration: underline;
+	text-decoration-thickness: max(2px, 0.08em);
+	text-underline-offset: 0.18em;
+}
+
+/*
+ * KSØMAN, and the whole reason Fira Code is in this system: its zero is
+ * natively slashed, which is how the Society writes its own callsign and how
+ * every logbook in the club writes it. Manrope's zero is not. Platypi's is
+ * not. The block wraps the callsign in .maars-fig, which is what actually
+ * applies the face — section 5 owns that rule and this owns the size.
+ *
+ * Prose never gets this face. A slashed zero in a sentence is a part number.
+ */
+.maars-masthead .maars-masthead__call {
+	color: var(--maars-on-scope);
+	font-size: clamp(1.875rem, 1.25rem + 2.1vw, 2.75rem);
+	font-weight: 600;
+	letter-spacing: 0.005em;
+	line-height: 1.08;
+	margin: 0;
+}
+
+/* The Society's name. The reading face, at lede size, and white: it is the
+   club's name, not a subtitle, and a grey line under a large heading is the
+   first thing to disappear on an iPad in a church basement. */
+.maars-masthead .maars-masthead__society {
+	color: var(--maars-on-scope);
+	font-family: var(--maars-font-text);
+	font-size: var(--maars-text-lede);
+	font-weight: 500;
+	line-height: 1.25;
+	margin: 0;
+	max-width: 34ch;
+}
+
+/*
+ * THE BAND IS A DRAWING, AND THE SITE SAYS SO.
+ *
+ * This is the honest voice the rest of the site is built on, applied to the
+ * masthead: a site whose whole argument is that it will never look current
+ * when it is not cannot open with an instrument pretending to read the air.
+ * So the note stays, and it is placed BELOW the band, on the page ground,
+ * where its contrast is a fixed measurable number (meta on ground, 7.95:1)
+ * rather than a claim about a surface that changes every 80ms.
+ */
+.maars-masthead__caption {
+	column-gap: var(--maars-space-4);
+	display: flex;
+	flex-wrap: wrap;
+	padding-block: var(--maars-space-2) 0;
+	row-gap: 0.15rem;
+}
+
+.maars-masthead__place {
+	color: var(--maars-ink);
+	font-size: var(--maars-text-note);
+	line-height: 1.5;
+	margin: 0;
+}
+
+.maars-masthead__note {
+	color: var(--maars-meta);           /* 7.95:1 on ground */
+	flex: 1 1 24rem;
+	font-size: var(--maars-text-note);
+	line-height: 1.5;
+	margin: 0;
+	max-width: var(--maars-measure);
+}
+
+/*
+ * The band is dark in both colour schemes, so a focus ring on it cannot be
+ * navy: navy on this floor measures 1.2:1, and a ring nobody can see is not a
+ * ring. Overriding the two focus TOKENS on the component — not inside a media
+ * query — is the same device the hero uses in section 11, for the same reason.
+ * It is scoped to the identity so the caption below, which sits on the page
+ * ground, keeps the navy ring every other link on the site has.
+ */
+.maars-masthead__identity {
+	--maars-focus: var(--maars-on-scope);
+	--maars-focus-halo: var(--maars-scope-floor);
+}
+
+/* ---------------------------------------------------------------------------
+ * 10c. The navigation, on its own quiet row beneath the band.
+ *
+ * Below the band, never inside it. Seven links laid over a moving heat map is
+ * the failure mode of every hero image ever shipped: the contrast changes
+ * underneath the words frame by frame, so either the links get a scrim — a box,
+ * on the one surface in this design that has no edges — or somewhere in the
+ * animation they become unreadable. Down here they sit on the page ground,
+ * navy on #F4F5FA at 13.99:1, and nothing moves behind them.
+ *
+ * AND THE PLACE WHERE A SHADOW WAS NOT USED. This row is the most obvious
+ * candidate on the site for a soft drop shadow: it is a navigation bar, and
+ * every template kit in the world gives one a shadow. It does not get one,
+ * because it is not raised — it is part of the page, level with it, and a
+ * shadow under it would be a drawing of a depth that is not there. The shadow
+ * token is spent in 10d and section 11 on the two things that genuinely float.
+ * ------------------------------------------------------------------------- */
+
 .maars-navbar {
+	border-block-start: 0;
 	margin-block-start: 0;
+	padding-block: var(--maars-space-1);
 }
 
 .maars-nav {
@@ -1746,14 +2429,47 @@
 }
 
 .maars-nav a {
+	border-radius: var(--maars-radius-control);
 	color: var(--maars-navy);
 	text-decoration: none;
+	/* 200ms, one curve, and only on a change the reader asked for. */
+	transition: color var(--maars-motion) var(--maars-ease);
 }
 
 .maars-nav a:hover,
 .maars-nav a:focus-visible {
+	color: var(--maars-navy-soft);
 	text-decoration: underline;
 	text-decoration-thickness: max(2px, 0.08em);
+}
+
+/* ---------------------------------------------------------------------------
+ * 10d. The mobile navigation overlay — the one panel on this site that floats.
+ *
+ * Core's overlay menu is a real dialog: it is drawn over the page, the page is
+ * still there underneath it, and it can be dismissed. That is what "raised"
+ * means, and it is the only surface in this stylesheet that earns the brief's
+ * shadow. 16px, because a full panel is a major surface, and navy-tinted
+ * rather than grey, because grey under a navy-and-white page is the tell.
+ * ------------------------------------------------------------------------- */
+
+.maars-nav .wp-block-navigation__responsive-container.is-menu-open {
+	border-radius: var(--maars-radius-surface);
+	box-shadow: var(--maars-shadow-lifted);
+}
+
+.maars-nav .wp-block-navigation__responsive-container-open,
+.maars-nav .wp-block-navigation__responsive-container-close {
+	border-radius: var(--maars-radius-control);
+	transition: background-color var(--maars-motion) var(--maars-ease),
+		color var(--maars-motion) var(--maars-ease);
+}
+
+/* The hairline that closes the whole header. The band above it dissolves into
+   the page rather than ending in a line, so this is the only rule the region
+   draws, and it is drawn in the token so it follows the colour scheme. */
+.maars-header {
+	border-block-end: var(--maars-hairline) solid var(--maars-rule);
 }
 
 /* ---------------------------------------------------------------------------
@@ -1935,6 +2651,7 @@
  * — a grid would make five items out of it and lose the sentence.
  */
 .maars-spec {
+	border-radius: var(--maars-radius-data);
 	display: grid;
 	list-style: none;
 	margin: 0;
@@ -1948,8 +2665,10 @@
 	padding-block: var(--maars-space-1);
 }
 
+/* Structure, not decoration: this rule is what separates one field of the
+   repeater's specification from the next, so it takes the firmer hairline. */
 .maars-spec li + li {
-	border-block-start: var(--maars-hairline) solid var(--maars-rule);
+	border-block-start: var(--maars-hairline) solid var(--maars-rule-firm);
 }
 
 .maars-spec strong {
@@ -2008,16 +2727,31 @@
 	margin-block-start: var(--maars-space-3);
 }
 
-/* Buttons. Square-ish, 2px rule, 48px tall, no gradient and no shadow. */
+/*
+ * BUTTONS. 10px, because a button is a control; 48px tall; no gradient,
+ * because a gradient on a button carries no meaning and this file only draws
+ * the ones that do.
+ *
+ * It does take the shadow, and it is one of only two things on the site that
+ * do. A button is the one element a reader is invited to PRESS, and a press is
+ * a claim about depth: the navy-tinted shadow is what makes that claim, and
+ * lifting it on hover is what answers it. The lift is 200ms on the one curve
+ * and it moves nothing — the shadow deepens, the button stays exactly where it
+ * was, so no line of type shifts under a reader's finger.
+ */
 :where(.maars-main, .maars-footer) .wp-block-button__link {
-	border-radius: var(--maars-radius);
+	border-radius: var(--maars-radius-control);
+	box-shadow: var(--maars-shadow);
 	font-family: var(--maars-font-text);
 	font-size: var(--maars-text-body);
 	font-weight: 700;
 	text-decoration: none;
+	transition: background-color var(--maars-motion) var(--maars-ease),
+		box-shadow var(--maars-motion) var(--maars-ease);
 }
 
 :where(.maars-main, .maars-footer) .wp-block-button__link:hover {
+	box-shadow: var(--maars-shadow-lifted);
 	text-decoration: underline;
 	text-decoration-thickness: max(2px, 0.09em);
 }
@@ -2116,6 +2850,7 @@
  * 26 — a facet list nobody can see the bottom of is a facet list nobody uses.
  */
 .maars-termlist {
+	border-radius: var(--maars-radius-data);
 	display: grid;
 	font-family: var(--maars-font-text);
 	list-style: none;
@@ -2126,7 +2861,8 @@
 
 .maars-termlist li {
 	align-items: center;
-	border-block-end: var(--maars-hairline) solid var(--maars-rule);
+	border-block-end: var(--maars-hairline) solid var(--maars-rule-firm);
+	border-radius: var(--maars-radius-data);
 	column-gap: var(--maars-space-3);
 	display: flex;
 	justify-content: space-between;
@@ -2140,9 +2876,11 @@
 	color: var(--maars-navy);
 	display: flex;
 	flex: 1 1 auto;
+	transition: color var(--maars-motion) var(--maars-ease);
 }
 
 .maars-termlist a:hover {
+	color: var(--maars-navy-soft);
 	text-decoration-thickness: max(2px, 0.11em);
 }
 
@@ -2182,20 +2920,35 @@
 
 .maars-filters__search .wp-block-search__input {
 	border: 2px solid var(--maars-navy);
-	border-radius: var(--maars-radius);
+	border-radius: var(--maars-radius-control);
 	background-color: var(--maars-paper);
 	color: var(--maars-ink);
 	padding: 0.6rem 0.75rem;
+	transition: border-color var(--maars-motion) var(--maars-ease);
+}
+
+.maars-filters__search .wp-block-search__input:hover {
+	border-color: var(--maars-navy-soft);
 }
 
 .maars-filters__search .wp-block-search__button {
 	background-color: var(--maars-navy);
 	border: 2px solid var(--maars-navy);
-	border-radius: var(--maars-radius);
+	border-radius: var(--maars-radius-control);
+	box-shadow: var(--maars-shadow);
 	color: var(--maars-paper);
 	font-family: var(--maars-font-text);
 	font-weight: 700;
 	padding-inline: 1rem;
+	transition: background-color var(--maars-motion) var(--maars-ease),
+		border-color var(--maars-motion) var(--maars-ease),
+		box-shadow var(--maars-motion) var(--maars-ease);
+}
+
+.maars-filters__search .wp-block-search__button:hover {
+	background-color: var(--maars-navy-soft);
+	border-color: var(--maars-navy-soft);
+	box-shadow: var(--maars-shadow-lifted);
 }
 
 /*
@@ -2236,7 +2989,8 @@
 }
 
 .maars-entry {
-	border-block-end: var(--maars-hairline) solid var(--maars-rule);
+	border-block-end: var(--maars-hairline) solid var(--maars-rule-firm);
+	border-radius: var(--maars-radius-data);
 	padding-block: var(--maars-space-3);
 }
 
@@ -2267,8 +3021,10 @@
 	margin-block: 0 0.4rem;
 }
 
+/* A picture is a surface — the one place a 16px corner is simply what the
+   object looks like, rather than a decision about it. */
 .maars-entry__image img {
-	border-radius: var(--maars-radius);
+	border-radius: var(--maars-radius-surface);
 }
 
 .maars-entry__body {
@@ -2354,7 +3110,7 @@
 }
 
 .maars-doc-record__image img {
-	border-radius: var(--maars-radius);
+	border-radius: var(--maars-radius-surface);
 }
 
 .maars-doc-record__rule {
@@ -2391,7 +3147,7 @@
 /* The original file is the authority; the transcription is only how you find
    it. Magenta, because this is the record talking. */
 .maars-original {
-	border-radius: var(--maars-radius);
+	border-radius: var(--maars-radius-surface);
 	display: block;
 	margin-block: var(--maars-space-5);
 }
@@ -2667,7 +3423,7 @@
  * of its own at higher specificity. 0-2-0 with !important, on exactly one
  * component, stated here.
  *
- * In light mode this is a no-op: --maars-band IS #14142B, the ink preset.
+ * In light mode this is a no-op: --maars-band IS #191933, the ink preset.
  */
 .maars-hero.has-ink-background-color {
 	background-color: var(--maars-band) !important;

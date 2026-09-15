@@ -32,6 +32,31 @@ if ( ! defined( 'MAARS_THEME_JS' ) ) {
 }
 
 /**
+ * The masthead's receiver strip. A second, much smaller module than skywave:
+ * a 2D canvas drawing a spectrum trace and a waterfall over the Society's own
+ * repeater frequency. It is registered here, beside the other one, and
+ * ENQUEUED by maars/masthead's render callback — the same division of labour
+ * the skywave block uses, so no block in maars-core ever has to know a URL or
+ * a file mtime.
+ */
+if ( ! defined( 'MAARS_THEME_WATERFALL_JS' ) ) {
+	define( 'MAARS_THEME_WATERFALL_JS', 'assets/js/waterfall.js' );
+}
+
+/**
+ * The browser icon set: a navy tile with three white arcs radiating from a
+ * feedpoint, which is a transmitting antenna and is still legible at 16px.
+ *
+ * The directory holds favicon.svg, favicon-small.svg, favicon.ico,
+ * apple-touch-icon.png, icon-192.png, icon-512.png and site.webmanifest. The
+ * path is a constant for the same reason the stylesheet's is: the theme, the
+ * manifest and the <head> links must never be able to drift apart.
+ */
+if ( ! defined( 'MAARS_THEME_ICONS' ) ) {
+	define( 'MAARS_THEME_ICONS', 'assets/icons' );
+}
+
+/**
  * Public URI for a theme-relative asset, child-theme aware.
  *
  * @param string $rel Theme-relative path, e.g. 'assets/js/skywave.js'.
@@ -133,8 +158,9 @@ add_action( 'after_setup_theme', 'maars_theme_setup' );
  * Register the theme's script and stylesheet handles.
  *
  * Registered on `init` (not only on `wp_enqueue_scripts`) because the
- * server-rendered blocks in maars-core enqueue 'maars-skywave' from inside their
- * render callbacks, which run after the enqueue hooks have already fired.
+ * server-rendered blocks in maars-core enqueue 'maars-skywave' and
+ * 'maars-waterfall' from inside their render callbacks, which run after the
+ * enqueue hooks have already fired.
  *
  * @return void
  */
@@ -158,6 +184,17 @@ function maars_theme_register_assets(): void {
 		maars_theme_asset_uri( MAARS_THEME_JS ),
 		array(),
 		maars_theme_asset_version( MAARS_THEME_JS ),
+		array(
+			'in_footer' => true,
+			'strategy'  => 'defer',
+		)
+	);
+
+	wp_register_script(
+		'maars-waterfall',
+		maars_theme_asset_uri( MAARS_THEME_WATERFALL_JS ),
+		array(),
+		maars_theme_asset_version( MAARS_THEME_WATERFALL_JS ),
 		array(
 			'in_footer' => true,
 			'strategy'  => 'defer',
@@ -223,6 +260,98 @@ function maars_theme_color_scheme_meta(): void {
 	echo '<meta name="color-scheme" content="light dark">' . "\n";
 }
 add_action( 'wp_head', 'maars_theme_color_scheme_meta', 1 );
+
+/**
+ * Public URI for one file in the theme's browser-icon set.
+ *
+ * Returns an empty string when the file is not actually on disk, so a partial
+ * checkout or a child theme that drops one of the sizes emits no link at all
+ * rather than a <link> pointing at a 404. Built on maars_theme_asset_uri(), so
+ * a child theme that ships its own assets/icons/ wins without touching this.
+ *
+ * @param string $file File name inside assets/icons, e.g. 'favicon.svg'.
+ * @return string Absolute URI, or '' if the file is missing or unnamed.
+ */
+function maars_theme_icon_uri( string $file ): string {
+	$file = ltrim( trim( $file ), '/' );
+
+	if ( '' === $file ) {
+		return '';
+	}
+
+	$rel = MAARS_THEME_ICONS . '/' . $file;
+
+	if ( ! is_readable( get_theme_file_path( $rel ) ) ) {
+		return '';
+	}
+
+	return maars_theme_asset_uri( $rel );
+}
+
+/**
+ * Register the browser icon and the web manifest from the theme.
+ *
+ * The mark is a navy tile with three white arcs radiating from a feedpoint: a
+ * transmitting antenna, drawn to stay legible at 16px. It is registered here,
+ * from PHP, and not pasted into a template — a template that carries a <link>
+ * is a template that has to be edited when the file moves.
+ *
+ * HOW THIS AVOIDS FIGHTING CORE. WordPress has its own Site Icon feature. When
+ * one is set, wp_site_icon() prints its own rel=icon, rel=apple-touch-icon and
+ * msapplication-TileImage at wp_head priority 99, and there is no way to filter
+ * those tags into existence when no icon is set — wp_site_icon() returns before
+ * the site_icon_meta_tags filter ever runs. So the rule here is: core's icon
+ * wins outright. If the club ever sets a Site Icon in Settings, this function
+ * emits NO icon links and NO manifest, because the manifest names icons of its
+ * own and two competing sets of marks on one page is worse than either set
+ * alone. What it still emits in both cases is theme-color, which is a colour
+ * rather than a mark, cannot conflict with an icon, and which core never emits
+ * at all.
+ *
+ * The manifest's own icon paths are RELATIVE to the manifest, so they resolve
+ * correctly whether WordPress is installed at the domain root or in a
+ * subdirectory. Its start_url is "/", which is the site root for a root
+ * install; a club running WordPress in a subdirectory should change that one
+ * line in assets/icons/site.webmanifest.
+ *
+ * Apache serves .webmanifest as application/manifest+json from the base
+ * image's own mime.types, so no .htaccess rule is needed for it.
+ *
+ * @return void
+ */
+function maars_theme_browser_icon(): void {
+	if ( function_exists( 'has_site_icon' ) && has_site_icon() ) {
+		echo '<meta name="theme-color" content="#00008C">' . "\n";
+		return;
+	}
+
+	/*
+	 * Ordered the way a browser reads them: the scalable mark first, the
+	 * bitmap fallback second. sizes="any" on the .ico is what stops a browser
+	 * that understands SVG from preferring the bitmap to it.
+	 */
+	$links = array(
+		'favicon.svg'          => '<link rel="icon" href="%s" type="image/svg+xml">',
+		'favicon.ico'          => '<link rel="icon" href="%s" sizes="any">',
+		'apple-touch-icon.png' => '<link rel="apple-touch-icon" href="%s">',
+		'site.webmanifest'     => '<link rel="manifest" href="%s">',
+	);
+
+	foreach ( $links as $file => $tag ) {
+		$uri = maars_theme_icon_uri( $file );
+
+		if ( '' === $uri ) {
+			continue;
+		}
+
+		printf( $tag . "\n", esc_url( $uri ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $tag is a literal format string from the array above; the only interpolated value is escaped.
+	}
+
+	// Navy, the brand anchor. It tints the address bar on Android and the tab
+	// strip on desktop Chrome, so the browser frame agrees with the masthead.
+	echo '<meta name="theme-color" content="#00008C">' . "\n";
+}
+add_action( 'wp_head', 'maars_theme_browser_icon', 2 );
 
 /**
  * Keep exactly one <h1> on every page this theme serves.

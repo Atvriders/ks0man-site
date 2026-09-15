@@ -1,24 +1,45 @@
 <!-- wp:template-part {"slug":"header","tagName":"header","area":"header","className":"maars-site-header"} /-->
 
-<!-- THE FRONT PAGE, revision 2.
+<!-- THE FRONT PAGE, revision 3.
 
      One question brought the visitor here: when is the next meeting. So that is the first thing
      under the masthead and the largest thing on the page, and it is stated exactly once. Revision
      one stated it twice at the same weight, in a box beside another box, under a shouted label,
      and explained the mechanism again beside every fact until the page was 6,363px tall.
 
-     What changed, in order:
-       The "Standing facts" eyebrow is gone, and so is the tinted panel it sat on.
-       Nothing stands between the masthead and the meeting now. The Society's own headline,
-       "Amateur radio in Manhattan, Kansas since 1976", has moved down to the founding story,
-       which is the paragraph it was always describing.
-       The meeting is stated once. The block prints the rule that computes it, so the row that
-       used to repeat "second Friday of the month" underneath has been deleted.
-       The lavender panel and the white cards inside it are gone. Entries are separated by a
-       hairline and by space, which is what a rule is for.
-       The mechanism is explained in one sentence, at the foot of the facts, once.
-       Every section heading is capped below the size of the meeting date, so nothing further
-       down the page outshouts the one thing the visitor came for.
+     Revision 2 fixed that, and the order it settled on is the order below: the meeting, then what
+     is on the air, then the scene, then where the Society came from, then what it has published
+     lately, then the record. Nothing in revision 3 reorders any of it. A page is not improved by
+     being shuffled; it is improved by being softened where it was hard and left alone where it
+     was right.
+
+     WHAT REVISION 3 CHANGED HERE, and it is a short list on purpose:
+
+       The masthead above is now a spectrum band tuned to the club's own repeater, so the page
+       opens on 147.255 MHz and then states that same frequency as a specification under "On the
+       air". Those two are not allowed to be in tension, so the specification now says, in one
+       sentence, that the band at the top is a drawing and not a receiver. The site's whole
+       argument is that it will never look current when it is not; an instrument that pretends to
+       be reading the air would have broken that argument in the first 150 pixels.
+
+       The hairline between bands is drawn in the stylesheet's rule token instead of a hex typed
+       into this file. The hex was a light-mode value sitting in markup, so in dark mode it was a
+       bright wire across the page. A token follows the scheme.
+
+       Buttons carry a 10px radius. That is the control step of revision 3's radius scale — 16px
+       on major surfaces, 10px on controls, 999px on pills, 0 on data tables — and it is set here
+       rather than left to the stylesheet because a control's radius is the one part of "soft"
+       that has to be the same on every page whatever else changes.
+
+       Nothing else. In particular, no boxes came back: not around a fact row, not around the
+       meeting, not around a news entry. Softening a page does not mean putting everything in a
+       rounded rectangle; four identical rounded rectangles with one grey shadow under each is the
+       generic card kit, and it is what this revision is avoiding, not adopting.
+
+     THE SCENE IS STILL THE ONE LARGE BOLD MOMENT. The waterfall in the masthead is ambient
+     chrome: 150 pixels tall, aria-hidden, quiet. The WebGL2 propagation scene in section 3 is the
+     page's one deliberate spectacle, and it keeps its heading, its band selector and its full
+     width. If the two ever compete, the band loses.
 
      Every band below is a child of .maars-main, which means maars.css gives it the page gutter
      and the column cap. Nothing here sets its own side padding or its own measure; the
@@ -26,8 +47,7 @@
 
      Dates that are read as sentences stay in the reading face. Callsigns, frequencies, offsets
      and tones are figures and are wrapped in <code>, which is the only thing on this page that
-     asks for Fira Code, whose zero is natively slashed. A prose date is not a figure, and is
-     never wrapped. -->
+     asks for Fira Code. A prose date is not a figure, and is never wrapped. No interpuncts. -->
 <!-- wp:group {"tagName":"main","className":"maars-main maars-front","style":{"spacing":{"blockGap":"0px","margin":{"top":"0px","bottom":"0px"}}},"layout":{"type":"default"}} -->
 <main class="wp-block-group maars-main maars-front" style="margin-top:0px;margin-bottom:0px">
 
@@ -79,9 +99,25 @@
 	     machine left the KSDB-FM tower in November 2023 and the controller was voted out of the
 	     system in January 2024, and the written record stops before either change was confirmed on
 	     the air, so what is printed is what was last written down rather than what is true today.
-	     The grade says exactly that, without raising its voice. -->
-	<!-- wp:group {"tagName":"section","className":"maars-onair","style":{"spacing":{"blockGap":"0.9rem","padding":{"top":"1.75rem","bottom":"1.75rem"}},"border":{"top":{"color":"#D7D7E4","width":"1px","style":"solid"}}},"layout":{"type":"default"}} -->
-	<section class="wp-block-group maars-onair" style="border-top-color:#D7D7E4;border-top-style:solid;border-top-width:1px;padding-top:1.75rem;padding-bottom:1.75rem">
+	     The grade says exactly that, without raising its voice.
+
+	     THE TOP HAIRLINE HAS LEFT THIS FILE, and it left because it was measured doing the one
+	     thing the stylesheet says it must not. Revision 2 set it here as an inline
+	     `border-top: 1px solid #D7D7E4`. On a screen 64em or wider maars.css turns this page into
+	     a twelve-column grid, puts this section beside the meeting and writes
+	     `.maars-front > .maars-onair { border-block-start: 0 }` to take the horizontal line away,
+	     because beside the meeting that line draws across one half of one row and nothing else.
+	     It never took. An inline style outranks any selector without !important, so the line
+	     stayed: measured on the live site at 1280px, `border-top` computed to
+	     `1px solid rgb(215,215,228)` with the left rule beside it, and the screenshot shows a
+	     hairline running over the right-hand column only.
+
+	     So the border is now the stylesheet's, on `.maars-onair`, where the reset can reach it,
+	     and this file keeps structure and words. The colour goes with it: a hex typed into markup
+	     is a light-mode value that cannot follow a colour scheme, and in dark mode this one was a
+	     pale wire across the page. -->
+	<!-- wp:group {"tagName":"section","className":"maars-onair","style":{"spacing":{"blockGap":"0.9rem","padding":{"top":"1.75rem","bottom":"1.75rem"}}},"layout":{"type":"default"}} -->
+	<section class="wp-block-group maars-onair" style="padding-top:1.75rem;padding-bottom:1.75rem">
 
 		<!-- wp:heading {"level":2,"className":"maars-section__title","style":{"typography":{"fontSize":"clamp(1.375rem, 1.25rem + 0.55vw, 1.625rem)","lineHeight":"1.25"}},"textColor":"navy"} -->
 		<h2 class="wp-block-heading maars-section__title has-navy-color has-text-color" style="font-size:clamp(1.375rem, 1.25rem + 0.55vw, 1.625rem);line-height:1.25">On the air</h2>
@@ -102,7 +138,7 @@
 			<!-- /wp:list -->
 
 			<!-- wp:paragraph {"className":"maars-onair__prose"} -->
-			<p class="maars-onair__prose">Nobody has re-measured any of it since the machine left the KSDB-FM tower in November 2023 and the controller was voted out of the system in January 2024.</p>
+			<p class="maars-onair__prose">Nobody has re-measured any of it since the machine left the KSDB-FM tower in November 2023 and the controller was voted out of the system in January 2024. The spectrum band across the top of every page is a drawing of this frequency, not a receiver listening to it.</p>
 			<!-- /wp:paragraph -->
 		<!-- /wp:maars/fact -->
 
@@ -200,11 +236,11 @@
 
 		<!-- wp:buttons {"className":"maars-about__actions","style":{"spacing":{"blockGap":"0.75rem"}}} -->
 		<div class="wp-block-buttons maars-about__actions">
-			<!-- wp:button {"backgroundColor":"navy","textColor":"paper"} -->
-			<div class="wp-block-button"><a class="wp-block-button__link has-paper-color has-navy-background-color has-text-color has-background wp-element-button" href="/about/">Read the full history</a></div>
+			<!-- wp:button {"backgroundColor":"navy","textColor":"paper","style":{"border":{"radius":"10px"}}} -->
+			<div class="wp-block-button"><a class="wp-block-button__link has-paper-color has-navy-background-color has-text-color has-background wp-element-button" style="border-radius:10px" href="/about/">Read the full history</a></div>
 			<!-- /wp:button -->
-			<!-- wp:button {"className":"is-style-outline","textColor":"navy"} -->
-			<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-navy-color has-text-color wp-element-button" href="/join/">Join the Society</a></div>
+			<!-- wp:button {"className":"is-style-outline","textColor":"navy","style":{"border":{"radius":"10px"}}} -->
+			<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-navy-color has-text-color wp-element-button" style="border-radius:10px" href="/join/">Join the Society</a></div>
 			<!-- /wp:button -->
 		</div>
 		<!-- /wp:buttons -->
@@ -284,8 +320,8 @@
 
 		<!-- wp:buttons {"style":{"spacing":{"blockGap":"0.75rem"}}} -->
 		<div class="wp-block-buttons">
-			<!-- wp:button {"backgroundColor":"magenta","textColor":"paper"} -->
-			<div class="wp-block-button"><a class="wp-block-button__link has-paper-color has-magenta-background-color has-text-color has-background wp-element-button" href="/archive/">Search the archive</a></div>
+			<!-- wp:button {"backgroundColor":"magenta","textColor":"paper","style":{"border":{"radius":"10px"}}} -->
+			<div class="wp-block-button"><a class="wp-block-button__link has-paper-color has-magenta-background-color has-text-color has-background wp-element-button" style="border-radius:10px" href="/archive/">Search the archive</a></div>
 			<!-- /wp:button -->
 		</div>
 		<!-- /wp:buttons -->

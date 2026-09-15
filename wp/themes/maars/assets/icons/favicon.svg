@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="KS0MAN">
+  <title>KSØMAN</title>
+  <rect width="64" height="64" rx="14" fill="#00008C"/>
+  <!-- a transmitting antenna: three arcs radiating from a feedpoint.
+       Stroke weights step up with radius so the outer arcs stay visible at 16px. -->
+  <g fill="none" stroke="#FFFFFF" stroke-linecap="round">
+    <path d="M32 44 V22" stroke-width="5"/>
+    <path d="M22.5 40.5 A13 13 0 0 1 22.5 21.5" stroke-width="4.5"/>
+    <path d="M41.5 40.5 A13 13 0 0 0 41.5 21.5" stroke-width="4.5"/>
+    <path d="M15.5 46 A22.5 22.5 0 0 1 15.5 16" stroke-width="4" opacity=".72"/>
+    <path d="M48.5 46 A22.5 22.5 0 0 0 48.5 16" stroke-width="4" opacity=".72"/>
+  </g>
+  <circle cx="32" cy="45.5" r="4.2" fill="#FFFFFF"/>
+</svg>

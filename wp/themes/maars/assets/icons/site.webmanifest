@@ -1,0 +1,28 @@
+{
+	"name": "Manhattan Area Amateur Radio Society",
+	"short_name": "KSØMAN",
+	"description": "The Manhattan Area Amateur Radio Society, KSØMAN, in Manhattan, Kansas: what is true now, each fact carrying the date a human last checked it, and 266 dated documents from 1998 to 2024.",
+	"lang": "en-US",
+	"dir": "ltr",
+	"id": "/",
+	"start_url": "/",
+	"scope": "/",
+	"display": "browser",
+	"orientation": "any",
+	"theme_color": "#00008C",
+	"background_color": "#F4F5FA",
+	"icons": [
+		{
+			"src": "icon-192.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "icon-512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any"
+		}
+	]
+}

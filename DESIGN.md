@@ -1,70 +1,82 @@
-# ks0man-site — visual direction, revision 2
+# ks0man-site — visual direction, revision 3: "Tuned"
 
-Audience: licensed radio amateurs, **ages 30–90**, shown to a professional club.
-Revision 1 shipped and is live. This revision fixes what it got wrong.
+Live at https://ks0man.waterburp.com/. Audience: licensed amateurs **aged 30–90**,
+a professional club expecting something modern. Owner's words, which win over
+everything below: **new idea for the header, modern, soft, smooth.**
 
-## What revision 1 got right — keep all of it
-- Navy `#00008C` on white. It is the ink on the club's own bumper sticker and it
-  measures 15.23:1. Magenta `#990066` for the archive, navy for now.
-- Platypi display / Manrope body / Fira Code data, self-hosted by the parent theme.
-- **Fira Code's zero is natively slashed**, so KSØMAN renders the way a ham writes it.
-- Facts carry their age. "Last checked 12 January 2024, 977 days ago" is the most
-  valuable sentence on the site and the reason it exists.
-- The honest voice: "2012 produced nothing at all." Never soften this.
+## The idea
+The analogue dial is gone. Every ham now reads a **waterfall** — the scrolling
+spectrum on an IC-7300, a Flex, an RTL-SDR dongle. It is the one image that says
+"radio" to a 30-year-old and a 90-year-old alike, and it is soft and smooth by
+its nature: a continuous heat map with no hard edges.
 
-## What revision 1 got wrong — fix all of it
+**So the masthead becomes a receiver.** A slim live spectrum-and-waterfall band
+across the top, tuned to the club's own 147.255 MHz repeater, with the identity
+resting in it. Not a banner image, not a logo lockup — an instrument.
 
-**1. Stop shouting labels.** Tracked-out ALL-CAPS eyebrows are on nearly every
-block: STANDING FACTS, NEXT MEETING, MEETING, REPEATER, NET, COMPUTED, SOURCED,
-THE RECORD. Delete every one. Where a label earns its place, set it in sentence
-case at a smaller size and a quieter colour. "The archive" does not need "THE
-RECORD" above it; the heading already says so.
+## Header spec (replaces the current text masthead entirely)
+- Canvas strip, 150–190px tall, full-bleed, soft-faded at both vertical edges so
+  it dissolves into the page rather than ending in a line.
+- A calm noise floor with a marked carrier at **147.255**, drifting slowly.
+  Ambient, never busy: one frame every ~80ms, not 60fps.
+- `KSØMAN` sits over it in the display face, with `Manhattan Area Amateur Radio
+  Society` beneath in the body face. No interpuncts.
+- Decorative only: `aria-hidden`, the identity is real text. Under
+  `prefers-reduced-motion` it draws ONE static frame.
+- If canvas is unavailable it falls back to a soft navy gradient. Never blank,
+  never an error.
+- Navigation sits below the band on its own quiet row, not inside it.
 
-**2. Stop joining things with middle dots.** `MAARS · KSØMAN`,
-`Society · Manhattan, Kansas`, `147.255 MHz out · +600 kHz · CTCSS 88.5 Hz`.
-Use real punctuation, real words, or real layout. A specification is a list of
-labelled values, not a sentence stitched together with interpuncts.
+## Soft and smooth, executed deliberately
+The owner asked for soft and smooth. The risk is the generic card kit: identical
+rounded boxes, one radius everywhere, the same grey shadow under each. Avoid it
+by varying by ROLE:
+- **Radius scale**: 16px major surfaces · 10px controls and inputs · 999px pills
+  and chips · 0 on data tables. Never one value everywhere.
+- **Shadows are navy-tinted, never grey**, and only on things genuinely raised:
+  `0 1px 2px rgba(10,10,60,.05), 0 10px 30px rgba(10,10,60,.07)`. A table is not
+  raised. A row is not raised.
+- **Motion**: 200ms `cubic-bezier(.2,.7,.3,1)` on user-triggered changes only.
+  The waterfall is the single ambient motion on the page. No scroll-triggered
+  fade-ups, no hover lift on every block.
+- **Gradients carry meaning or they do not appear.** The waterfall is a real
+  signal-strength gradient. Decorative gradient washes are not allowed.
 
-**3. Stop nesting boxes.** The homepage is a tinted panel containing white cards
-containing bordered chips — three borders deep before you reach a fact. Separate
-rows with a hairline rule, not with a box. At most one bordered container per
-screen, and only when it genuinely holds something apart.
+## Palette — softened, same identity
+| token | hex | role |
+|---|---|---|
+| `--navy` | `#00008C` | the brand anchor, links, headings |
+| `--navy-soft` | `#3B3BA8` | hover, secondary emphasis |
+| `--magenta` | `#990066` | the archive, and only the archive |
+| `--ink` | `#191933` | body text |
+| `--paper` | `#FFFFFF` | raised surfaces |
+| `--ground` | `#F4F5FA` | page ground, cool, softened off-white |
+| `--haze` | `#E8EAF6` | quiet fills, the old lavender, calmed |
+| `--rust` | `#8F2C00` | stale only |
+| `--rule` | `#DDE0EE` | hairlines |
+Every pair must still clear 4.5:1 (3.0 at ≥24px). Verify, do not assume.
 
-**4. The provenance line is furniture, not an alarm.** Today it is a bordered,
-coloured chip with a title, a sentence, an internal file path and a date. It
-outweighs the fact it describes. Reduce it to ONE quiet line under the value:
-  `Last checked 12 January 2024 — 977 days ago.`
-Colour it only when genuinely stale, and never show an internal mirror path to a
-club member. The word carries the meaning; the colour only reinforces it.
+## Type — unchanged, it works
+Platypi display · Manrope body · Fira Code data, self-hosted by the parent theme.
+Fira Code's zero is natively slashed, so **KSØMAN** renders the way a ham writes
+it. The data face is for callsigns, frequencies, tones, offsets, counts and
+money — never prose.
 
-**5. Restrict the data face.** Fira Code is for callsigns, frequencies, tones,
-offsets, grid squares, counts and money. It is NOT for prose dates. "Friday,
-October 9, 2026 at 6:30 P.M." is a sentence and belongs in the body face.
+## Browser icon (new)
+A navy rounded tile with three white arcs radiating from a point: a transmitting
+antenna, legible at 16px. Ship `favicon.svg`, `favicon.ico` (16/32/48),
+`icon-192.png`, `icon-512.png`, `apple-touch-icon.png` (180), and a web manifest.
+Registered from the theme, not hand-pasted into a template.
 
-**6. Fix the hierarchy.** The single thing a visitor came for is the next
-meeting. It should be the largest, first, and unmistakable. Right now it sits in
-a box of equal weight to the row beneath it, and both state the second-Friday
-rule, so the page says the same thing twice.
+## Keep, do not touch
+- The skywave scene. It stays the page's one *large* bold moment; the waterfall
+  is ambient chrome, not a competitor.
+- Facts carry their age. "Last checked 12 January 2024 — 977 days ago."
+- The honest voice. "2012 produced nothing at all" stays exactly as written.
+- Everything revision 2 fixed: no caps eyebrows, no interpuncts, no nested boxes,
+  no monospace on prose, counts beside their terms.
 
-**7. Fix the archive facets.** Counts currently wrap onto their own line, so it
-reads "Minutes / (3)". Put the count beside its term. The whole page also sits
-left of centre with a large dead gutter; centre the column properly.
-
-**8. Cut the page down.** The homepage is 6,363px tall for a small amount of
-information. Losing the nested boxes and the repeated explanation should roughly
-halve it. Explain the mechanism once, in one place, not beside every fact.
-
-## Where the boldness goes
-One memorable thing: **the skywave scene**. Everything else stays quiet and
-disciplined. If an element competes with it, calm the element.
-
-## Voice
-Plain, specific, unhurried. Sentence case. No filler, no selling, no exclamation.
-State the fact, then say when it was last checked. A 78-year-old reading this on
-an iPad in a church basement is the test.
-
-## Accessibility floor — unchanged and non-negotiable
-18px body minimum (20px desktop), line-height 1.65, 48px targets, 3px navy
-focus ring at 2px offset, no weight under 400, every pair ≥4.5:1 (3.0 at ≥24px),
-no horizontal overflow at 390px, `prefers-reduced-motion` honoured.
-`tests/test_contrast.py` enforces the contrast floor; run it.
+## Accessibility floor — unchanged, non-negotiable
+18px body (20px desktop) · line-height 1.65 · 48px targets · 3px navy focus ring
+at 2px offset · no weight under 400 · no horizontal overflow at 390px ·
+`prefers-reduced-motion` honoured everywhere including the waterfall.

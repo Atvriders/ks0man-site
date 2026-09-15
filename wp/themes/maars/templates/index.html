@@ -1,23 +1,43 @@
 <!-- wp:template-part {"slug":"header","tagName":"header","area":"header","className":"maars-site-header"} /-->
 
-<!-- THE FALLBACK — revision 2.
+<!-- THE FALLBACK — revision 3, "Tuned".
 
      It serves standing pages, news posts, search results, term listings and anything
      with no more specific template, so it has to read well as one item and as a
      list. That is why the loop inherits the main query and renders post-content
      rather than an excerpt: on /about/ this template is the page.
 
-     What changed in this revision:
+     WHAT REVISION 3 CHANGES.
+
+     THE LIST STAYS A LIST. The softened system does not mean every entry becomes a
+     rounded card with a shadow under it. Entries are separated by one hairline and
+     nothing else, because a list of news items read top to bottom is a list of
+     records: radius 0, no shadow, no hover lift. The single surface allowed to
+     lift off this page is the "there is nothing here" panel — paper, the 16px
+     surface radius, and the navy-tinted shadow, not the grey one — and it renders
+     only when the page has no entries at all, so a reader who found something
+     never meets a card.
+
+     EIGHTEEN IS THE FLOOR, TWENTY IS THE DESKTOP FLOOR. Prose was a flat 1.125rem,
+     which is 18px at every width: it met the floor on a phone and sat under the
+     brief's 20px on a desktop. Every paragraph and the dateline now carry the body
+     clamp, clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem) — 18px at 390px, 20px by
+     1440px — which is the same expression maars.css uses for --maars-text-body.
+
+     THE HAIRLINE SOFTENED. The one rule this template draws, above the pagination,
+     moved from #D7D7E4 to #DDE0EE, the token DESIGN.md names --rule.
+
+     WHAT REVISION 2 FIXED AND REVISION 3 KEEPS.
 
      THE DATELINE STOPPED SHOUTING. "PUBLISHED" and "LAST TOUCHED" were set in the
      data face in capitals with 0.12em of tracking, over a 2px navy rule, above a
-     heading — three competing voices before a single word of the entry. They are now
+     heading — three competing voices before a single word of the entry. They are
      two quiet words at the body size, and the whole line is in the reading face:
      "16 January 2024" is a written date, and a written date is not a log column.
 
      ONE RULE PER ENTRY. The meta line drew a 2px rule and the entry drew a hairline
      underneath itself, so every item on the page was fenced top and bottom. The
-     hairline between entries is the only rule here now.
+     hairline between entries is the only rule here.
 
      THE YEAR TERM CAME OFF. It printed "2023" beside a date that already said 2023,
      in capitals, in magenta.
@@ -28,17 +48,26 @@
      each paragraph under a heading that stayed at the left edge. -->
 <!-- CSS CONTRACT, shared with maars.css:
        .maars-entry            draws the hairline BETWEEN entries and nothing else.
+                               No radius, no shadow, no hover lift: it is a record
+                               in a list, not a card in a deck.
        .maars-entry__when      the dateline row. Tabular figures, no data FACE: a
                                written date is a sentence, not a column.
                                (.maars-entry__meta, which sets the whole row in Fira
                                Code, is deliberately not used any more.)
        .maars-fieldname        a field name. Sentence case, note size, weight 400.
                                NOT .maars-label, which maars.css sets in capitals.
+       .maars-empty__panel     the ONLY raised surface this template can render:
+                               16px, paper, and the navy-tinted shadow
+                               0 1px 2px rgba(10,10,60,.05), 0 10px 30px rgba(10,10,60,.07).
+                               It is written inline here so it is right with no
+                               stylesheet at all; maars.css must not put that shadow
+                               on anything else.
        .maars-log__pagination  48px targets on a and .page-numbers, and
-                               .page-numbers.current a filled block, not a heavier
-                               weight. The page numbers are figures and stay
-                               tabular; "Newer entries" and "Older entries" are
-                               words, which is why this control does not carry
+                               .page-numbers.current a filled block at the CONTROL
+                               radius (10px), not a heavier weight and not a pill.
+                               The page numbers are figures and stay tabular;
+                               "Newer entries" and "Older entries" are words, which
+                               is why this control does not carry
                                .maars-index__pagination — that class sets the whole
                                thing in the data face. -->
 <!-- wp:group {"tagName":"main","className":"maars-main maars-index","style":{"spacing":{"padding":{"top":"2rem","bottom":"3rem","left":"1rem","right":"1rem"},"blockGap":"1.75rem"}},"layout":{"type":"default"}} -->
@@ -48,7 +77,7 @@
 
 	<!-- wp:query-title {"type":"search","level":1,"className":"maars-index__title","style":{"typography":{"fontSize":"clamp(2rem, 1.6rem + 2vw, 2.875rem)","lineHeight":"1.15"}},"textColor":"navy"} /-->
 
-	<!-- wp:term-description {"className":"maars-index__termdesc","style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.6"}}} /-->
+	<!-- wp:term-description {"className":"maars-index__termdesc","style":{"typography":{"fontSize":"clamp(1.25rem, 1.18rem + 0.36vw, 1.5rem)","lineHeight":"1.5"}}} /-->
 
 	<!-- wp:query {"queryId":31,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true,"taxQuery":null,"parents":[],"format":[]},"className":"maars-index__loop","layout":{"type":"default"}} -->
 	<div class="wp-block-query maars-index__loop">
@@ -74,20 +103,20 @@
 				     tabular numerals through .maars-log__line so the figures still line
 				     up between one entry and the next. The archive's own list is the
 				     place for "16 Jan 2024" in Fira Code, because there it is a column. -->
-				<!-- wp:group {"tagName":"div","className":"maars-entry__when maars-log__line","style":{"spacing":{"blockGap":"0.6rem"},"typography":{"fontSize":"1.125rem","lineHeight":"1.5"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"bottom"}} -->
-				<div class="wp-block-group maars-entry__when maars-log__line" style="font-size:1.125rem;line-height:1.5">
+				<!-- wp:group {"tagName":"div","className":"maars-entry__when maars-log__line","style":{"spacing":{"blockGap":"0.6rem"},"typography":{"fontSize":"clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem)","lineHeight":"1.5"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"bottom"}} -->
+				<div class="wp-block-group maars-entry__when maars-log__line" style="font-size:clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem);line-height:1.5">
 
 					<!-- wp:paragraph {"className":"maars-fieldname","style":{"typography":{"fontSize":"1.125rem","fontWeight":"400","letterSpacing":"0","lineHeight":"1.5","textTransform":"none"}},"textColor":"ink"} -->
 					<p class="maars-fieldname has-ink-color has-text-color" style="font-size:1.125rem;font-weight:400;letter-spacing:0;line-height:1.5;text-transform:none">Published</p>
 					<!-- /wp:paragraph -->
 
-					<!-- wp:post-date {"format":"j F Y","isLink":false,"className":"maars-entry__date","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.5"}},"textColor":"ink"} /-->
+					<!-- wp:post-date {"format":"j F Y","isLink":false,"className":"maars-entry__date","style":{"typography":{"fontSize":"clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem)","lineHeight":"1.5"}},"textColor":"ink"} /-->
 
 					<!-- wp:paragraph {"className":"maars-fieldname","style":{"typography":{"fontSize":"1.125rem","fontWeight":"400","letterSpacing":"0","lineHeight":"1.5","textTransform":"none"}},"textColor":"ink"} -->
 					<p class="maars-fieldname has-ink-color has-text-color" style="font-size:1.125rem;font-weight:400;letter-spacing:0;line-height:1.5;text-transform:none">Last touched</p>
 					<!-- /wp:paragraph -->
 
-					<!-- wp:post-date {"format":"j F Y","isLink":false,"displayType":"modified","className":"maars-entry__updated","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.5"}}} /-->
+					<!-- wp:post-date {"format":"j F Y","isLink":false,"displayType":"modified","className":"maars-entry__updated","style":{"typography":{"fontSize":"clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem)","lineHeight":"1.5"}}} /-->
 
 				</div>
 				<!-- /wp:group -->
@@ -106,8 +135,11 @@
 
 				<!-- ALT TEXT REQUIRED. One sentence describing the photograph, naming what
 				     is happening rather than repeating the post title. The old site carried
-				     1,154 images with no alt text; do not add the 1,155th. -->
-				<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"16/9","className":"maars-entry__image"} /-->
+				     1,154 images with no alt text; do not add the 1,155th.
+
+				     16px, the surface radius: a photograph is a surface, and it is the
+				     one soft corner on an entry. The entry itself has none. -->
+				<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"16/9","className":"maars-entry__image","style":{"border":{"radius":"16px"}}} /-->
 
 				<!-- wp:post-content {"className":"maars-entry__body","layout":{"type":"default"}} /-->
 
@@ -120,7 +152,7 @@
 		     reader who has learned "Older" and "Newer" once should not have to learn
 		     them again. "Entries" rather than "posts" because this template also serves
 		     pages, search results and term listings. -->
-		<!-- wp:query-pagination {"paginationArrow":"none","showLabel":true,"className":"maars-log__pagination","style":{"spacing":{"blockGap":"1rem","padding":{"top":"1.25rem"}},"border":{"top":{"color":"#D7D7E4","width":"1px","style":"solid"}},"typography":{"fontSize":"1.25rem","fontWeight":"600"}},"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
+		<!-- wp:query-pagination {"paginationArrow":"none","showLabel":true,"className":"maars-log__pagination","style":{"spacing":{"blockGap":"1rem","padding":{"top":"1.25rem"}},"border":{"top":{"color":"var(--maars-rule, #DDE0EE)","width":"1px","style":"solid"}},"typography":{"fontSize":"1.25rem","fontWeight":"600"}},"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
 			<!-- wp:query-pagination-previous {"label":"Newer entries"} /-->
 			<!-- The page numbers are figures, so they are the one part of this
 			     control in the data face; the words either side of them are words. -->
@@ -129,18 +161,27 @@
 		<!-- /wp:query-pagination -->
 
 		<!-- Serves both an empty search and a missing page. It refuses to end on a dead
-		     end: the archive and the reflector are both one click away. -->
+		     end: the archive and the reflector are both one click away. This is the one
+		     raised surface on the template — 16px, paper, navy-tinted shadow — because
+		     it is the one thing here that interrupts a reader rather than continuing
+		     the page. -->
 		<!-- wp:query-no-results -->
 
-			<!-- wp:heading {"level":2,"className":"maars-empty__title","style":{"typography":{"fontSize":"1.5rem","lineHeight":"1.25"}},"textColor":"magenta"} -->
-			<h2 class="wp-block-heading maars-empty__title has-magenta-color has-text-color" style="font-size:1.5rem;line-height:1.25">There is nothing here</h2>
-			<!-- /wp:heading -->
+			<!-- wp:group {"tagName":"section","className":"maars-empty__panel","backgroundColor":"paper","style":{"border":{"radius":"16px"},"shadow":"0 1px 2px rgba(10,10,60,.05), 0 10px 30px rgba(10,10,60,.07)","spacing":{"blockGap":"1rem","padding":{"top":"1.75rem","bottom":"1.75rem","left":"1.75rem","right":"1.75rem"}}},"layout":{"type":"default"}} -->
+			<section class="wp-block-group maars-empty__panel has-paper-background-color has-background" style="border-radius:16px;padding-top:1.75rem;padding-right:1.75rem;padding-bottom:1.75rem;padding-left:1.75rem;box-shadow:0 1px 2px rgba(10,10,60,.05), 0 10px 30px rgba(10,10,60,.07)">
 
-			<!-- wp:paragraph {"className":"maars-empty","style":{"typography":{"fontSize":"1.125rem","lineHeight":"1.6"}}} -->
-			<p class="maars-empty" style="font-size:1.125rem;line-height:1.6">Either the page has moved or the search found nothing. The Society&#8217;s written record lives in <a href="/archive/">the archive</a>: 266 documents from 1998 to 2024, searchable, with the gaps marked. Anything time-critical goes out on the e-mail reflector rather than here, because Article III of the Constitution makes the reflector the official organ &#8212; <a href="/join/">how to get on it</a>.</p>
-			<!-- /wp:paragraph -->
+				<!-- wp:heading {"level":2,"className":"maars-empty__title","style":{"typography":{"fontSize":"1.5rem","lineHeight":"1.25"}},"textColor":"magenta"} -->
+				<h2 class="wp-block-heading maars-empty__title has-magenta-color has-text-color" style="font-size:1.5rem;line-height:1.25">There is nothing here</h2>
+				<!-- /wp:heading -->
 
-			<!-- wp:search {"label":"Search this site","showLabel":true,"placeholder":"Callsign, name, subject, year","buttonText":"Search","buttonPosition":"button-outside","className":"maars-empty__search","style":{"typography":{"fontSize":"1.125rem"}}} /-->
+				<!-- wp:paragraph {"className":"maars-empty","style":{"typography":{"fontSize":"clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem)","lineHeight":"1.6"}}} -->
+				<p class="maars-empty" style="font-size:clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem);line-height:1.6">Either the page has moved or the search found nothing. The Society&#8217;s written record lives in <a href="/archive/">the archive</a>: 266 documents from 1998 to 2024, searchable, with the gaps marked. Anything time-critical goes out on the e-mail reflector rather than here, because Article III of the Constitution makes the reflector the official organ &#8212; <a href="/join/">how to get on it</a>.</p>
+				<!-- /wp:paragraph -->
+
+				<!-- wp:search {"label":"Search this site","showLabel":true,"placeholder":"Callsign, name, subject, year","buttonText":"Search","buttonPosition":"button-outside","className":"maars-filters__search maars-empty__search","style":{"border":{"radius":"10px"},"typography":{"fontSize":"clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem)"}}} /-->
+
+			</section>
+			<!-- /wp:group -->
 
 		<!-- /wp:query-no-results -->
 
