@@ -49,6 +49,11 @@ COPY wp/themes/maars       /usr/src/maars/themes/maars
 COPY docker/site-url.php   /usr/src/maars/site-url.php
 COPY tools/seed.php        /usr/src/maars/tools/seed.php
 COPY content/seed.json     /usr/src/maars/content/seed.json
+# The club's own photographs and governance documents. Screened: nothing
+# here carries an email address, telephone number or street address, and
+# nothing third-party is included. See tools/screen_media.py and the gate
+# in tests/test_static.py.
+COPY media/                /usr/src/maars/media/
 COPY --chmod=0755 docker/entrypoint.sh /usr/local/bin/maars-entrypoint.sh
 
 # Layout mirrors the repo, so tools/seed.php can find content/seed.json at

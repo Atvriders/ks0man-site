@@ -602,6 +602,51 @@ def test_site_url_php_is_shipped_by_the_dockerfile():
     assert (REPO / "docker" / "site-url.php").exists(), "docker/site-url.php missing"
 
 
+def test_shipped_media_is_screened():
+    """Every PDF in media/ is re-extracted and checked for personal data, and the
+    manifest is checked for third-party material and memorial portraits.
+
+    The image is public and the archive is not: 24 of the archive's 166 PDFs
+    carry an email address, telephone number or street address, 19 are somebody
+    else's work, and 18 are Silent Key portraits whose republication is the
+    Society's decision. None of those ship. This runs tools/screen_media.py
+    --check, which also proves it can still detect planted data, so it cannot
+    pass by scanning nothing."""
+    import subprocess as _sp
+
+    r = _sp.run(
+        [sys.executable, str(REPO / "tools" / "screen_media.py"), "--check"],
+        capture_output=True, text=True,
+    )
+    assert r.returncode == 0, "media screening failed:\n" + r.stdout + r.stderr
+
+
+def test_media_manifest_matches_what_is_on_disk():
+    """A manifest that names a file the image does not carry imports nothing and
+    says nothing, which is the failure mode this project keeps hitting."""
+    import json as _json
+
+    man = REPO / "media" / "manifest.json"
+    assert man.exists(), "media/manifest.json is missing"
+    items = _json.load(open(man))
+    assert len(items) > 100, f"manifest has only {len(items)} items"
+    missing = []
+    for i in items:
+        sub = "images" if i["kind"] == "image" else "documents"
+        if not (REPO / "media" / sub / i["file"]).exists():
+            missing.append(i["file"])
+    assert not missing, f"{len(missing)} manifest entries are not in media/: {missing[:5]}"
+
+    on_disk = set()
+    for sub in ("images", "documents"):
+        d = REPO / "media" / sub
+        if d.is_dir():
+            on_disk |= {p.name for p in d.iterdir() if p.is_file()}
+    named = {i["file"] for i in items}
+    orphans = on_disk - named
+    assert not orphans, f"files in media/ that no manifest entry names: {sorted(orphans)[:5]}"
+
+
 def _all_checks():
     g = globals()
     return [(name, g[name]) for name in list(g) if name.startswith("test_") and callable(g[name])]

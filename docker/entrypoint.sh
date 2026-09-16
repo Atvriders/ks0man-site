@@ -221,8 +221,22 @@ maars_seed() {
 	# run it, and there is deliberately no fallback: a fallback here could only
 	# ever turn a silent no-op into a reported success, which is the exact
 	# failure this whole project exists to stop doing.
+	local media_php="${MAARS_SRC_DIR}/tools/import_media.php"
+
 	if wp eval-file "$seed_php"; then
 		maars_log "seed complete"
+
+		# The screened archive media, imported after the content it belongs to.
+		# Idempotent on _maars_media_src, so it is safe on every boot -- a media
+		# library that grew by 179 items per restart would be a slow, silent
+		# disaster. A failure here is reported but does not fail the boot: the
+		# site is still usable without its photographs.
+		if [ -f "$media_php" ]; then
+			wp eval-file "$media_php" || maars_log "WARNING: media import reported a problem"
+		else
+			maars_log "WARNING: no media importer at ${media_php}"
+		fi
+
 		return 0
 	fi
 	maars_log "ERROR: seeding failed"
