@@ -980,7 +980,14 @@ function maars_render_fact_block( $attributes = array(), $content = '', $block =
 	}
 
 	$age_days = isset( $state['age_days'] ) && null !== $state['age_days'] ? (int) $state['age_days'] : null;
-	$stale    = ! empty( $state['stale'] ) || 'unverified' === $grade;
+	/*
+	 * STALENESS IS ABOUT AGE, NOT ABOUT GRADE. Treating every "unverified" fact
+	 * as stale painted rust on a fact checked three days ago, which is the page
+	 * crying wolf: "unverified" is a statement about the EVIDENCE, and the word
+	 * already carries it. Rust is spent only where a reader is being told
+	 * something the word does not say -- that the check itself has gone old.
+	 */
+	$stale    = ! empty( $state['stale'] );
 
 	/*
 	 * The age has to be the age of the date this chip actually prints. A block
@@ -1000,7 +1007,7 @@ function maars_render_fact_block( $attributes = array(), $content = '', $block =
 		}
 
 		$threshold = function_exists( 'maars_stale_threshold_days' ) ? (int) maars_stale_threshold_days() : 120;
-		$stale     = ( 'unverified' === $grade ) || ( null === $age_days ) || ( $age_days > $threshold );
+		$stale     = ( null !== $age_days ) && ( $age_days > $threshold );
 	}
 
 	/* Body. */

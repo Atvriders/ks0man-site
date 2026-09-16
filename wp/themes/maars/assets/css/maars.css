@@ -2246,6 +2246,22 @@
 	   start below them. (The diagram above names a .maars-masthead__inner that
 	   the emitted markup does not have, which is why this lives here.) */
 	padding-block-start: calc(var(--maars-scope-height) + 1.1rem);
+	/*
+	 * Line up with the page column. The masthead bleeds edge to edge so the
+	 * instrument has no margin, but the identity must start where every other
+	 * heading starts. Measured on the live site: the header's container is
+	 * 1152px wide with 32px of its own padding, which puts content at x=176 in
+	 * a 1440px window, while the callsign sat at x=0.
+	 *
+	 * The theme's wide-size and content-size both resolve to 100% here, so they
+	 * cannot express the column; --maars-column carries it instead and this box
+	 * is given the same container as main rather than a padding guess.
+	 */
+	box-sizing: border-box;
+	inline-size: 100%;
+	margin-inline: auto;
+	max-inline-size: var(--maars-column, 1152px);
+	padding-inline: var(--maars-gutter);
 	/* Back into the page column. The masthead is full bleed so the instrument
 	   has no margin, but the identity must line up with every other heading on
 	   the site rather than with the bleed edge. (.maars-masthead__inner is
