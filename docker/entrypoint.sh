@@ -221,26 +221,48 @@ maars_seed() {
 	# run it, and there is deliberately no fallback: a fallback here could only
 	# ever turn a silent no-op into a reported success, which is the exact
 	# failure this whole project exists to stop doing.
-	local media_php="${MAARS_SRC_DIR}/tools/import_media.php"
-
 	if wp eval-file "$seed_php"; then
 		maars_log "seed complete"
-
-		# The screened archive media, imported after the content it belongs to.
-		# Idempotent on _maars_media_src, so it is safe on every boot -- a media
-		# library that grew by 179 items per restart would be a slow, silent
-		# disaster. A failure here is reported but does not fail the boot: the
-		# site is still usable without its photographs.
-		if [ -f "$media_php" ]; then
-			wp eval-file "$media_php" || maars_log "WARNING: media import reported a problem"
-		else
-			maars_log "WARNING: no media importer at ${media_php}"
-		fi
 
 		return 0
 	fi
 	maars_log "ERROR: seeding failed"
 	return 1
+}
+
+
+# ---------------------------------------------------------------------------
+# The screened archive media, and the archive records that go with it.
+#
+# THIS RUNS ON EVERY BOOT, NOT ONLY THE FIRST. It was originally inside
+# maars_first_boot(), which is guarded by a marker on the uploads volume, so on
+# any site installed before the media existed it never ran at all: the library
+# stayed empty and the archive went on showing four seeded stubs. An image that
+# ships 179 files and then silently declines to import them is worse than one
+# that ships none.
+#
+# Safe to repeat: attachments are keyed on _maars_media_src and publications on
+# _maars_source_file, so a second run is a no-op. A failure is reported and does
+# not stop the boot, because the site is still usable without its photographs.
+# ---------------------------------------------------------------------------
+maars_import_media() {
+	local media_php="${MAARS_SRC_DIR}/tools/import_media.php"
+
+	if [ ! -f "$media_php" ]; then
+		maars_log "no media importer at ${media_php}; skipping"
+		return 0
+	fi
+	if [ ! -f "${MAARS_SRC_DIR}/media/manifest.json" ]; then
+		maars_log "no media manifest in the image; skipping"
+		return 0
+	fi
+
+	maars_log "importing screened archive media"
+	if wp eval-file "$media_php"; then
+		return 0
+	fi
+	maars_log "WARNING: media import reported a problem"
+	return 0
 }
 
 # --- main -------------------------------------------------------------------
@@ -252,6 +274,9 @@ main() {
 		apache2* | php-fpm)
 			if [ -e "$MARKER" ]; then
 				maars_log "first boot already done ($(cat "$MARKER" 2>/dev/null || echo 'marker present')); skipping install and seed"
+				# Still needs the database: the media import below talks to it.
+				maars_prepare_wordpress
+				maars_wait_for_db
 			else
 				maars_prepare_wordpress
 				maars_wait_for_db
@@ -263,6 +288,11 @@ main() {
 					maars_log "first-boot setup finished with errors; the marker was NOT written, so the next boot will try again"
 				fi
 			fi
+
+			# Every boot, marker or not. A site installed before the media
+			# existed would otherwise never receive it.
+			maars_import_media
+
 			maars_own "${WEB_USER}:${WEB_GROUP}" "$UPLOADS_DIR"
 			;;
 		*)

@@ -81,6 +81,64 @@ function maars_media_title( $src ) {
 	return trim( (string) $base );
 }
 
+
+/**
+ * Create the archive record a document belongs to, and attach the file to it.
+ *
+ * Idempotent on _maars_source_file: the entrypoint runs this on every boot.
+ *
+ * @param array  $item Manifest entry, carrying title, date, doc_type and year.
+ * @param int    $att  Attachment ID of the imported PDF.
+ * @param string $src  Original archive filename.
+ * @return void
+ */
+function maars_media_publication( array $item, $att, $src ) {
+	$existing = get_posts(
+		array(
+			'post_type'      => 'maars_publication',
+			'post_status'    => 'any',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'meta_key'       => '_maars_source_file',
+			'meta_value'     => $src,
+		)
+	);
+	if ( $existing ) {
+		return;
+	}
+
+	$date = (string) $item['date'];
+	$post = wp_insert_post(
+		array(
+			'post_type'    => 'maars_publication',
+			'post_status'  => 'publish',
+			'post_title'   => (string) $item['title'],
+			'post_date'    => $date . ' 09:00:00',
+			'post_content' => '',
+		),
+		true
+	);
+	if ( is_wp_error( $post ) ) {
+		WP_CLI::warning( $src . ': ' . $post->get_error_message() );
+		return;
+	}
+
+	update_post_meta( $post, '_maars_source_file', $src );
+	update_post_meta( $post, '_maars_doc_date', $date );
+	update_post_meta( $post, '_maars_grade', 'sourced' );
+	update_post_meta( $post, '_maars_attachment', (int) $att );
+
+	if ( ! empty( $item['doc_type'] ) ) {
+		wp_set_object_terms( $post, (string) $item['doc_type'], 'maars_doc_type', false );
+	}
+	if ( ! empty( $item['year'] ) ) {
+		wp_set_object_terms( $post, (string) $item['year'], 'maars_year', false );
+	}
+
+	/* Re-parent the file so the document and its record are one thing. */
+	wp_update_post( array( 'ID' => (int) $att, 'post_parent' => (int) $post ) );
+}
+
 $maars_added   = 0;
 $maars_skipped = 0;
 $maars_failed  = 0;
@@ -144,6 +202,18 @@ foreach ( $maars_items as $maars_item ) {
 	update_post_meta( $id, '_maars_grade', 'sourced' );
 	if ( 'image' === $kind ) {
 		update_post_meta( $id, '_wp_attachment_image_alt', maars_media_title( $src ) );
+	}
+
+	/*
+	 * A DOCUMENT IS NOT JUST A FILE IN THE LIBRARY, IT IS A RECORD IN THE
+	 * ARCHIVE. The archive template lists maars_publication posts, so importing
+	 * 123 PDFs as bare attachments left it showing the four seeded stubs and
+	 * nothing else -- every file present, none of it findable. Each classified
+	 * document now gets a publication post carrying its title, its date, its
+	 * type and its year, with the PDF attached to it.
+	 */
+	if ( 'document' === $kind && ! empty( $maars_item['title'] ) && ! empty( $maars_item['date'] ) ) {
+		maars_media_publication( $maars_item, $id, $src );
 	}
 	++$maars_added;
 }

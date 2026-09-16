@@ -395,738 +395,1212 @@
   "kind": "document",
   "src": "FD18_Results.pdf",
   "file": "fd18-results.pdf",
-  "bytes": 62290
+  "bytes": 62290,
+  "doc_type": "reference"
  },
  {
   "kind": "document",
   "src": "MAARS_application.pdf",
   "file": "maars-application.pdf",
-  "bytes": 42507
+  "bytes": 42507,
+  "doc_type": "reference"
  },
  {
   "kind": "document",
   "src": "MAARS_application_23-24.pdf",
   "file": "maars-application-23-24.pdf",
-  "bytes": 32065
+  "bytes": 32065,
+  "doc_type": "reference"
  },
  {
   "kind": "document",
   "src": "Year-End-Report-2018.pdf",
   "file": "year-end-report-2018.pdf",
-  "bytes": 46468
+  "bytes": 46468,
+  "doc_type": "year-end-report",
+  "year": 2018,
+  "date": "2018-12-31",
+  "title": "Year-end report, 2018"
  },
  {
   "kind": "document",
   "src": "Year-End-Report-2019.pdf",
   "file": "year-end-report-2019.pdf",
-  "bytes": 26102
+  "bytes": 26102,
+  "doc_type": "year-end-report",
+  "year": 2019,
+  "date": "2019-12-31",
+  "title": "Year-end report, 2019"
  },
  {
   "kind": "document",
   "src": "Year-End-Report-2020.pdf",
   "file": "year-end-report-2020.pdf",
-  "bytes": 26228
+  "bytes": 26228,
+  "doc_type": "year-end-report",
+  "year": 2020,
+  "date": "2020-12-31",
+  "title": "Year-end report, 2020"
  },
  {
   "kind": "document",
   "src": "Year-End-Report-2021.pdf",
   "file": "year-end-report-2021.pdf",
-  "bytes": 25896
+  "bytes": 25896,
+  "doc_type": "year-end-report",
+  "year": 2021,
+  "date": "2021-12-31",
+  "title": "Year-end report, 2021"
  },
  {
   "kind": "document",
   "src": "Year-End-Report-2022.pdf",
   "file": "year-end-report-2022.pdf",
-  "bytes": 26570
+  "bytes": 26570,
+  "doc_type": "year-end-report",
+  "year": 2022,
+  "date": "2022-12-31",
+  "title": "Year-end report, 2022"
  },
  {
   "kind": "document",
   "src": "Year-End-Report-2023.pdf",
   "file": "year-end-report-2023.pdf",
-  "bytes": 22815
+  "bytes": 22815,
+  "doc_type": "year-end-report",
+  "year": 2023,
+  "date": "2023-12-31",
+  "title": "Year-end report, 2023"
  },
  {
   "kind": "document",
   "src": "constitution.pdf",
   "file": "constitution.pdf",
-  "bytes": 102308
+  "bytes": 102308,
+  "doc_type": "reference"
  },
  {
   "kind": "document",
   "src": "dues.pdf",
   "file": "dues.pdf",
-  "bytes": 4067
+  "bytes": 4067,
+  "doc_type": "reference"
  },
  {
   "kind": "document",
   "src": "meeting-agenda.pdf",
   "file": "meeting-agenda.pdf",
-  "bytes": 45270
+  "bytes": 45270,
+  "doc_type": "reference"
  },
  {
   "kind": "document",
   "src": "newsletter_01-17.pdf",
   "file": "newsletter-01-17.pdf",
-  "bytes": 75258
+  "bytes": 75258,
+  "doc_type": "minutes",
+  "year": 2017,
+  "date": "2017-01-01",
+  "title": "Meeting minutes, January 2017"
  },
  {
   "kind": "document",
   "src": "newsletter_01-18.pdf",
   "file": "newsletter-01-18.pdf",
-  "bytes": 78611
+  "bytes": 78611,
+  "doc_type": "minutes",
+  "year": 2018,
+  "date": "2018-01-01",
+  "title": "Meeting minutes, January 2018"
  },
  {
   "kind": "document",
   "src": "newsletter_01-19.pdf",
   "file": "newsletter-01-19.pdf",
-  "bytes": 129466
+  "bytes": 129466,
+  "doc_type": "newsletter",
+  "year": 2019,
+  "date": "2019-01-01",
+  "title": "Newsletter, January 2019"
  },
  {
   "kind": "document",
   "src": "newsletter_01-21.pdf",
   "file": "newsletter-01-21.pdf",
-  "bytes": 84238
+  "bytes": 84238,
+  "doc_type": "minutes",
+  "year": 2021,
+  "date": "2021-01-01",
+  "title": "Meeting minutes, January 2021"
  },
  {
   "kind": "document",
   "src": "newsletter_01-22.pdf",
   "file": "newsletter-01-22.pdf",
-  "bytes": 422235
+  "bytes": 422235,
+  "doc_type": "minutes",
+  "year": 2022,
+  "date": "2022-01-01",
+  "title": "Meeting minutes, January 2022"
  },
  {
   "kind": "document",
   "src": "newsletter_01-24.pdf",
   "file": "newsletter-01-24.pdf",
-  "bytes": 1179960
+  "bytes": 1179960,
+  "doc_type": "minutes",
+  "year": 2024,
+  "date": "2024-01-01",
+  "title": "Meeting minutes, January 2024"
  },
  {
   "kind": "document",
   "src": "newsletter_02-17.pdf",
   "file": "newsletter-02-17.pdf",
-  "bytes": 75258
+  "bytes": 75258,
+  "doc_type": "minutes",
+  "year": 2017,
+  "date": "2017-02-01",
+  "title": "Meeting minutes, February 2017"
  },
  {
   "kind": "document",
   "src": "newsletter_02-18.pdf",
   "file": "newsletter-02-18.pdf",
-  "bytes": 403859
+  "bytes": 403859,
+  "doc_type": "minutes",
+  "year": 2018,
+  "date": "2018-02-01",
+  "title": "Meeting minutes, February 2018"
  },
  {
   "kind": "document",
   "src": "newsletter_02-19.pdf",
   "file": "newsletter-02-19.pdf",
-  "bytes": 635570
+  "bytes": 635570,
+  "doc_type": "minutes",
+  "year": 2019,
+  "date": "2019-02-01",
+  "title": "Meeting minutes, February 2019"
  },
  {
   "kind": "document",
   "src": "newsletter_02-20.pdf",
   "file": "newsletter-02-20.pdf",
-  "bytes": 99076
+  "bytes": 99076,
+  "doc_type": "minutes",
+  "year": 2020,
+  "date": "2020-02-01",
+  "title": "Meeting minutes, February 2020"
  },
  {
   "kind": "document",
   "src": "newsletter_02-21.pdf",
   "file": "newsletter-02-21.pdf",
-  "bytes": 116156
+  "bytes": 116156,
+  "doc_type": "minutes",
+  "year": 2021,
+  "date": "2021-02-01",
+  "title": "Meeting minutes, February 2021"
  },
  {
   "kind": "document",
   "src": "newsletter_02-23.pdf",
   "file": "newsletter-02-23.pdf",
-  "bytes": 789486
+  "bytes": 789486,
+  "doc_type": "minutes",
+  "year": 2023,
+  "date": "2023-02-01",
+  "title": "Meeting minutes, February 2023"
  },
  {
   "kind": "document",
   "src": "newsletter_03-17.pdf",
   "file": "newsletter-03-17.pdf",
-  "bytes": 76598
+  "bytes": 76598,
+  "doc_type": "minutes",
+  "year": 2017,
+  "date": "2017-03-01",
+  "title": "Meeting minutes, March 2017"
  },
  {
   "kind": "document",
   "src": "newsletter_03-18.pdf",
   "file": "newsletter-03-18.pdf",
-  "bytes": 419283
+  "bytes": 419283,
+  "doc_type": "minutes",
+  "year": 2018,
+  "date": "2018-03-01",
+  "title": "Meeting minutes, March 2018"
  },
  {
   "kind": "document",
   "src": "newsletter_03-19.pdf",
   "file": "newsletter-03-19.pdf",
-  "bytes": 567595
+  "bytes": 567595,
+  "doc_type": "minutes",
+  "year": 2019,
+  "date": "2019-03-01",
+  "title": "Meeting minutes, March 2019"
  },
  {
   "kind": "document",
   "src": "newsletter_03-20.pdf",
   "file": "newsletter-03-20.pdf",
-  "bytes": 138210
+  "bytes": 138210,
+  "doc_type": "minutes",
+  "year": 2020,
+  "date": "2020-03-01",
+  "title": "Meeting minutes, March 2020"
  },
  {
   "kind": "document",
   "src": "newsletter_03-22.pdf",
   "file": "newsletter-03-22.pdf",
-  "bytes": 57358
+  "bytes": 57358,
+  "doc_type": "minutes",
+  "year": 2022,
+  "date": "2022-03-01",
+  "title": "Meeting minutes, March 2022"
  },
  {
   "kind": "document",
   "src": "newsletter_03-23.pdf",
   "file": "newsletter-03-23.pdf",
-  "bytes": 893481
+  "bytes": 893481,
+  "doc_type": "minutes",
+  "year": 2023,
+  "date": "2023-03-01",
+  "title": "Meeting minutes, March 2023"
  },
  {
   "kind": "document",
   "src": "newsletter_04-17.pdf",
   "file": "newsletter-04-17.pdf",
-  "bytes": 80793
+  "bytes": 80793,
+  "doc_type": "minutes",
+  "year": 2017,
+  "date": "2017-04-01",
+  "title": "Meeting minutes, April 2017"
  },
  {
   "kind": "document",
   "src": "newsletter_04-18.pdf",
   "file": "newsletter-04-18.pdf",
-  "bytes": 438917
+  "bytes": 438917,
+  "doc_type": "minutes",
+  "year": 2018,
+  "date": "2018-04-01",
+  "title": "Meeting minutes, April 2018"
  },
  {
   "kind": "document",
   "src": "newsletter_04-19.pdf",
   "file": "newsletter-04-19.pdf",
-  "bytes": 638355
+  "bytes": 638355,
+  "doc_type": "minutes",
+  "year": 2019,
+  "date": "2019-04-01",
+  "title": "Meeting minutes, April 2019"
  },
  {
   "kind": "document",
   "src": "newsletter_04-21.pdf",
   "file": "newsletter-04-21.pdf",
-  "bytes": 42664
+  "bytes": 42664,
+  "doc_type": "minutes",
+  "year": 2021,
+  "date": "2021-04-01",
+  "title": "Meeting minutes, April 2021"
  },
  {
   "kind": "document",
   "src": "newsletter_04-22.pdf",
   "file": "newsletter-04-22.pdf",
-  "bytes": 56722
+  "bytes": 56722,
+  "doc_type": "minutes",
+  "year": 2022,
+  "date": "2022-04-01",
+  "title": "Meeting minutes, April 2022"
  },
  {
   "kind": "document",
   "src": "newsletter_04-23.pdf",
   "file": "newsletter-04-23.pdf",
-  "bytes": 654287
+  "bytes": 654287,
+  "doc_type": "minutes",
+  "year": 2023,
+  "date": "2023-04-01",
+  "title": "Meeting minutes, April 2023"
  },
  {
   "kind": "document",
   "src": "newsletter_05-17.pdf",
   "file": "newsletter-05-17.pdf",
-  "bytes": 80344
+  "bytes": 80344,
+  "doc_type": "minutes",
+  "year": 2017,
+  "date": "2017-05-01",
+  "title": "Meeting minutes, May 2017"
  },
  {
   "kind": "document",
   "src": "newsletter_05-18.pdf",
   "file": "newsletter-05-18.pdf",
-  "bytes": 835800
+  "bytes": 835800,
+  "doc_type": "minutes",
+  "year": 2018,
+  "date": "2018-05-01",
+  "title": "Meeting minutes, May 2018"
  },
  {
   "kind": "document",
   "src": "newsletter_05-19.pdf",
   "file": "newsletter-05-19.pdf",
-  "bytes": 70815
+  "bytes": 70815,
+  "doc_type": "minutes",
+  "year": 2019,
+  "date": "2019-05-01",
+  "title": "Meeting minutes, May 2019"
  },
  {
   "kind": "document",
   "src": "newsletter_05-22.pdf",
   "file": "newsletter-05-22.pdf",
-  "bytes": 17979
+  "bytes": 17979,
+  "doc_type": "minutes",
+  "year": 2022,
+  "date": "2022-05-01",
+  "title": "Meeting minutes, May 2022"
  },
  {
   "kind": "document",
   "src": "newsletter_06-17.pdf",
   "file": "newsletter-06-17.pdf",
-  "bytes": 75461
+  "bytes": 75461,
+  "doc_type": "minutes",
+  "year": 2017,
+  "date": "2017-06-01",
+  "title": "Meeting minutes, June 2017"
  },
  {
   "kind": "document",
   "src": "newsletter_06-18.pdf",
   "file": "newsletter-06-18.pdf",
-  "bytes": 443502
+  "bytes": 443502,
+  "doc_type": "minutes",
+  "year": 2018,
+  "date": "2018-06-01",
+  "title": "Meeting minutes, June 2018"
  },
  {
   "kind": "document",
   "src": "newsletter_06-19.pdf",
   "file": "newsletter-06-19.pdf",
-  "bytes": 564982
+  "bytes": 564982,
+  "doc_type": "minutes",
+  "year": 2019,
+  "date": "2019-06-01",
+  "title": "Meeting minutes, June 2019"
  },
  {
   "kind": "document",
   "src": "newsletter_06-22.pdf",
   "file": "newsletter-06-22.pdf",
-  "bytes": 53578
+  "bytes": 53578,
+  "doc_type": "minutes",
+  "year": 2022,
+  "date": "2022-06-01",
+  "title": "Meeting minutes, June 2022"
  },
  {
   "kind": "document",
   "src": "newsletter_06-23.pdf",
   "file": "newsletter-06-23.pdf",
-  "bytes": 849746
+  "bytes": 849746,
+  "doc_type": "minutes",
+  "year": 2023,
+  "date": "2023-06-01",
+  "title": "Meeting minutes, June 2023"
  },
  {
   "kind": "document",
   "src": "newsletter_07-18.pdf",
   "file": "newsletter-07-18.pdf",
-  "bytes": 1024000
+  "bytes": 1024000,
+  "doc_type": "minutes",
+  "year": 2018,
+  "date": "2018-07-01",
+  "title": "Meeting minutes, July 2018"
  },
  {
   "kind": "document",
   "src": "newsletter_07-20.pdf",
   "file": "newsletter-07-20.pdf",
-  "bytes": 49447
+  "bytes": 49447,
+  "doc_type": "minutes",
+  "year": 2020,
+  "date": "2020-07-01",
+  "title": "Meeting minutes, July 2020"
  },
  {
   "kind": "document",
   "src": "newsletter_07-21.pdf",
   "file": "newsletter-07-21.pdf",
-  "bytes": 27061
+  "bytes": 27061,
+  "doc_type": "newsletter",
+  "year": 2021,
+  "date": "2021-07-01",
+  "title": "Newsletter, July 2021"
  },
  {
   "kind": "document",
   "src": "newsletter_07-22.pdf",
   "file": "newsletter-07-22.pdf",
-  "bytes": 157927
+  "bytes": 157927,
+  "doc_type": "minutes",
+  "year": 2022,
+  "date": "2022-07-01",
+  "title": "Meeting minutes, July 2022"
  },
  {
   "kind": "document",
   "src": "newsletter_08-17.pdf",
   "file": "newsletter-08-17.pdf",
-  "bytes": 98448
+  "bytes": 98448,
+  "doc_type": "minutes",
+  "year": 2017,
+  "date": "2017-08-01",
+  "title": "Meeting minutes, August 2017"
  },
  {
   "kind": "document",
   "src": "newsletter_08-18.pdf",
   "file": "newsletter-08-18.pdf",
-  "bytes": 83915
+  "bytes": 83915,
+  "doc_type": "minutes",
+  "year": 2018,
+  "date": "2018-08-01",
+  "title": "Meeting minutes, August 2018"
  },
  {
   "kind": "document",
   "src": "newsletter_08-19.pdf",
   "file": "newsletter-08-19.pdf",
-  "bytes": 571208
+  "bytes": 571208,
+  "doc_type": "minutes",
+  "year": 2019,
+  "date": "2019-08-01",
+  "title": "Meeting minutes, August 2019"
  },
  {
   "kind": "document",
   "src": "newsletter_08-20.pdf",
   "file": "newsletter-08-20.pdf",
-  "bytes": 50294
+  "bytes": 50294,
+  "doc_type": "minutes",
+  "year": 2020,
+  "date": "2020-08-01",
+  "title": "Meeting minutes, August 2020"
  },
  {
   "kind": "document",
   "src": "newsletter_08-21.pdf",
   "file": "newsletter-08-21.pdf",
-  "bytes": 28691
+  "bytes": 28691,
+  "doc_type": "newsletter",
+  "year": 2021,
+  "date": "2021-08-01",
+  "title": "Newsletter, August 2021"
  },
  {
   "kind": "document",
   "src": "newsletter_08-22.pdf",
   "file": "newsletter-08-22.pdf",
-  "bytes": 40956
+  "bytes": 40956,
+  "doc_type": "minutes",
+  "year": 2022,
+  "date": "2022-08-01",
+  "title": "Meeting minutes, August 2022"
  },
  {
   "kind": "document",
   "src": "newsletter_08-23.pdf",
   "file": "newsletter-08-23.pdf",
-  "bytes": 642929
+  "bytes": 642929,
+  "doc_type": "minutes",
+  "year": 2023,
+  "date": "2023-08-01",
+  "title": "Meeting minutes, August 2023"
  },
  {
   "kind": "document",
   "src": "newsletter_09-17.pdf",
   "file": "newsletter-09-17.pdf",
-  "bytes": 404883
+  "bytes": 404883,
+  "doc_type": "minutes",
+  "year": 2017,
+  "date": "2017-09-01",
+  "title": "Meeting minutes, September 2017"
  },
  {
   "kind": "document",
   "src": "newsletter_09-18.pdf",
   "file": "newsletter-09-18.pdf",
-  "bytes": 681278
+  "bytes": 681278,
+  "doc_type": "minutes",
+  "year": 2018,
+  "date": "2018-09-01",
+  "title": "Meeting minutes, September 2018"
  },
  {
   "kind": "document",
   "src": "newsletter_09-19.pdf",
   "file": "newsletter-09-19.pdf",
-  "bytes": 572997
+  "bytes": 572997,
+  "doc_type": "minutes",
+  "year": 2019,
+  "date": "2019-09-01",
+  "title": "Meeting minutes, September 2019"
  },
  {
   "kind": "document",
   "src": "newsletter_09-20.pdf",
   "file": "newsletter-09-20.pdf",
-  "bytes": 48976
+  "bytes": 48976,
+  "doc_type": "minutes",
+  "year": 2020,
+  "date": "2020-09-01",
+  "title": "Meeting minutes, September 2020"
  },
  {
   "kind": "document",
   "src": "newsletter_09-23.pdf",
   "file": "newsletter-09-23.pdf",
-  "bytes": 848011
+  "bytes": 848011,
+  "doc_type": "minutes",
+  "year": 2023,
+  "date": "2023-09-01",
+  "title": "Meeting minutes, September 2023"
  },
  {
   "kind": "document",
   "src": "newsletter_10-17.pdf",
   "file": "newsletter-10-17.pdf",
-  "bytes": 101518
+  "bytes": 101518,
+  "doc_type": "minutes",
+  "year": 2017,
+  "date": "2017-10-01",
+  "title": "Meeting minutes, October 2017"
  },
  {
   "kind": "document",
   "src": "newsletter_10-18.pdf",
   "file": "newsletter-10-18.pdf",
-  "bytes": 571864
+  "bytes": 571864,
+  "doc_type": "minutes",
+  "year": 2018,
+  "date": "2018-10-01",
+  "title": "Meeting minutes, October 2018"
  },
  {
   "kind": "document",
   "src": "newsletter_10-19.pdf",
   "file": "newsletter-10-19.pdf",
-  "bytes": 566237
+  "bytes": 566237,
+  "doc_type": "minutes",
+  "year": 2019,
+  "date": "2019-10-01",
+  "title": "Meeting minutes, October 2019"
  },
  {
   "kind": "document",
   "src": "newsletter_10-20.pdf",
   "file": "newsletter-10-20.pdf",
-  "bytes": 52567
+  "bytes": 52567,
+  "doc_type": "minutes",
+  "year": 2020,
+  "date": "2020-10-01",
+  "title": "Meeting minutes, October 2020"
  },
  {
   "kind": "document",
   "src": "newsletter_10-21.pdf",
   "file": "newsletter-10-21.pdf",
-  "bytes": 48413
+  "bytes": 48413,
+  "doc_type": "minutes",
+  "year": 2021,
+  "date": "2021-10-01",
+  "title": "Meeting minutes, October 2021"
  },
  {
   "kind": "document",
   "src": "newsletter_10-23.pdf",
   "file": "newsletter-10-23.pdf",
-  "bytes": 850904
+  "bytes": 850904,
+  "doc_type": "minutes",
+  "year": 2023,
+  "date": "2023-10-01",
+  "title": "Meeting minutes, October 2023"
  },
  {
   "kind": "document",
   "src": "newsletter_11-13.pdf",
   "file": "newsletter-11-13.pdf",
-  "bytes": 37118
+  "bytes": 37118,
+  "doc_type": "minutes",
+  "year": 2013,
+  "date": "2013-11-01",
+  "title": "Meeting minutes, November 2013"
  },
  {
   "kind": "document",
   "src": "newsletter_11-17.pdf",
   "file": "newsletter-11-17.pdf",
-  "bytes": 97068
+  "bytes": 97068,
+  "doc_type": "minutes",
+  "year": 2017,
+  "date": "2017-11-01",
+  "title": "Meeting minutes, November 2017"
  },
  {
   "kind": "document",
   "src": "newsletter_11-19.pdf",
   "file": "newsletter-11-19.pdf",
-  "bytes": 1108046
+  "bytes": 1108046,
+  "doc_type": "minutes",
+  "year": 2019,
+  "date": "2019-11-01",
+  "title": "Meeting minutes, November 2019"
  },
  {
   "kind": "document",
   "src": "newsletter_11-20.pdf",
   "file": "newsletter-11-20.pdf",
-  "bytes": 49949
+  "bytes": 49949,
+  "doc_type": "minutes",
+  "year": 2020,
+  "date": "2020-11-01",
+  "title": "Meeting minutes, November 2020"
  },
  {
   "kind": "document",
   "src": "newsletter_11-21.pdf",
   "file": "newsletter-11-21.pdf",
-  "bytes": 505671
+  "bytes": 505671,
+  "doc_type": "minutes",
+  "year": 2021,
+  "date": "2021-11-01",
+  "title": "Meeting minutes, November 2021"
  },
  {
   "kind": "document",
   "src": "newsletter_12-16.pdf",
   "file": "newsletter-12-16.pdf",
-  "bytes": 338840
+  "bytes": 338840,
+  "doc_type": "minutes",
+  "year": 2016,
+  "date": "2016-12-01",
+  "title": "Meeting minutes, December 2016"
  },
  {
   "kind": "document",
   "src": "newsletter_12-21.pdf",
   "file": "newsletter-12-21.pdf",
-  "bytes": 52427
+  "bytes": 52427,
+  "doc_type": "minutes",
+  "year": 2021,
+  "date": "2021-12-01",
+  "title": "Meeting minutes, December 2021"
  },
  {
   "kind": "document",
   "src": "treasurer_01-20.pdf",
   "file": "treasurer-01-20.pdf",
-  "bytes": 22495
+  "bytes": 22495,
+  "doc_type": "treasurer-report",
+  "year": 2020,
+  "date": "2020-01-01",
+  "title": "Treasurer's report, January 2020"
  },
  {
   "kind": "document",
   "src": "treasurer_01-21.pdf",
   "file": "treasurer-01-21.pdf",
-  "bytes": 48835
+  "bytes": 48835,
+  "doc_type": "treasurer-report",
+  "year": 2021,
+  "date": "2021-01-01",
+  "title": "Treasurer's report, January 2021"
  },
  {
   "kind": "document",
   "src": "treasurer_01-22.pdf",
   "file": "treasurer-01-22.pdf",
-  "bytes": 48967
+  "bytes": 48967,
+  "doc_type": "treasurer-report",
+  "year": 2022,
+  "date": "2022-01-01",
+  "title": "Treasurer's report, January 2022"
  },
  {
   "kind": "document",
   "src": "treasurer_01-23.pdf",
   "file": "treasurer-01-23.pdf",
-  "bytes": 46465
+  "bytes": 46465,
+  "doc_type": "treasurer-report",
+  "year": 2023,
+  "date": "2023-01-01",
+  "title": "Treasurer's report, January 2023"
  },
  {
   "kind": "document",
   "src": "treasurer_02-20.pdf",
   "file": "treasurer-02-20.pdf",
-  "bytes": 24884
+  "bytes": 24884,
+  "doc_type": "treasurer-report",
+  "year": 2020,
+  "date": "2020-02-01",
+  "title": "Treasurer's report, February 2020"
  },
  {
   "kind": "document",
   "src": "treasurer_02-21.pdf",
   "file": "treasurer-02-21.pdf",
-  "bytes": 55355
+  "bytes": 55355,
+  "doc_type": "treasurer-report",
+  "year": 2021,
+  "date": "2021-02-01",
+  "title": "Treasurer's report, February 2021"
  },
  {
   "kind": "document",
   "src": "treasurer_02-22.pdf",
   "file": "treasurer-02-22.pdf",
-  "bytes": 47284
+  "bytes": 47284,
+  "doc_type": "treasurer-report",
+  "year": 2022,
+  "date": "2022-02-01",
+  "title": "Treasurer's report, February 2022"
  },
  {
   "kind": "document",
   "src": "treasurer_02-23.pdf",
   "file": "treasurer-02-23.pdf",
-  "bytes": 48993
+  "bytes": 48993,
+  "doc_type": "treasurer-report",
+  "year": 2023,
+  "date": "2023-02-01",
+  "title": "Treasurer's report, February 2023"
  },
  {
   "kind": "document",
   "src": "treasurer_03-20.pdf",
   "file": "treasurer-03-20.pdf",
-  "bytes": 24162
+  "bytes": 24162,
+  "doc_type": "treasurer-report",
+  "year": 2020,
+  "date": "2020-03-01",
+  "title": "Treasurer's report, March 2020"
  },
  {
   "kind": "document",
   "src": "treasurer_03-22.pdf",
   "file": "treasurer-03-22.pdf",
-  "bytes": 48588
+  "bytes": 48588,
+  "doc_type": "treasurer-report",
+  "year": 2022,
+  "date": "2022-03-01",
+  "title": "Treasurer's report, March 2022"
  },
  {
   "kind": "document",
   "src": "treasurer_03-23.pdf",
   "file": "treasurer-03-23.pdf",
-  "bytes": 48892
+  "bytes": 48892,
+  "doc_type": "treasurer-report",
+  "year": 2023,
+  "date": "2023-03-01",
+  "title": "Treasurer's report, March 2023"
  },
  {
   "kind": "document",
   "src": "treasurer_04-20.pdf",
   "file": "treasurer-04-20.pdf",
-  "bytes": 22977
+  "bytes": 22977,
+  "doc_type": "treasurer-report",
+  "year": 2020,
+  "date": "2020-04-01",
+  "title": "Treasurer's report, April 2020"
  },
  {
   "kind": "document",
   "src": "treasurer_04-21.pdf",
   "file": "treasurer-04-21.pdf",
-  "bytes": 45169
+  "bytes": 45169,
+  "doc_type": "treasurer-report",
+  "year": 2021,
+  "date": "2021-04-01",
+  "title": "Treasurer's report, April 2021"
  },
  {
   "kind": "document",
   "src": "treasurer_04-22.pdf",
   "file": "treasurer-04-22.pdf",
-  "bytes": 46231
+  "bytes": 46231,
+  "doc_type": "treasurer-report",
+  "year": 2022,
+  "date": "2022-04-01",
+  "title": "Treasurer's report, April 2022"
  },
  {
   "kind": "document",
   "src": "treasurer_04-23.pdf",
   "file": "treasurer-04-23.pdf",
-  "bytes": 44937
+  "bytes": 44937,
+  "doc_type": "treasurer-report",
+  "year": 2023,
+  "date": "2023-04-01",
+  "title": "Treasurer's report, April 2023"
  },
  {
   "kind": "document",
   "src": "treasurer_05-20.pdf",
   "file": "treasurer-05-20.pdf",
-  "bytes": 23225
+  "bytes": 23225,
+  "doc_type": "treasurer-report",
+  "year": 2020,
+  "date": "2020-05-01",
+  "title": "Treasurer's report, May 2020"
  },
  {
   "kind": "document",
   "src": "treasurer_05-21.pdf",
   "file": "treasurer-05-21.pdf",
-  "bytes": 45787
+  "bytes": 45787,
+  "doc_type": "treasurer-report",
+  "year": 2021,
+  "date": "2021-05-01",
+  "title": "Treasurer's report, May 2021"
  },
  {
   "kind": "document",
   "src": "treasurer_05-22.pdf",
   "file": "treasurer-05-22.pdf",
-  "bytes": 45651
+  "bytes": 45651,
+  "doc_type": "treasurer-report",
+  "year": 2022,
+  "date": "2022-05-01",
+  "title": "Treasurer's report, May 2022"
  },
  {
   "kind": "document",
   "src": "treasurer_05-23.pdf",
   "file": "treasurer-05-23.pdf",
-  "bytes": 43763
+  "bytes": 43763,
+  "doc_type": "treasurer-report",
+  "year": 2023,
+  "date": "2023-05-01",
+  "title": "Treasurer's report, May 2023"
  },
  {
   "kind": "document",
   "src": "treasurer_06-20.pdf",
   "file": "treasurer-06-20.pdf",
-  "bytes": 23520
+  "bytes": 23520,
+  "doc_type": "treasurer-report",
+  "year": 2020,
+  "date": "2020-06-01",
+  "title": "Treasurer's report, June 2020"
  },
  {
   "kind": "document",
   "src": "treasurer_06-21.pdf",
   "file": "treasurer-06-21.pdf",
-  "bytes": 44951
+  "bytes": 44951,
+  "doc_type": "treasurer-report",
+  "year": 2021,
+  "date": "2021-06-01",
+  "title": "Treasurer's report, June 2021"
  },
  {
   "kind": "document",
   "src": "treasurer_06-22.pdf",
   "file": "treasurer-06-22.pdf",
-  "bytes": 53547
+  "bytes": 53547,
+  "doc_type": "treasurer-report",
+  "year": 2022,
+  "date": "2022-06-01",
+  "title": "Treasurer's report, June 2022"
  },
  {
   "kind": "document",
   "src": "treasurer_06-23.pdf",
   "file": "treasurer-06-23.pdf",
-  "bytes": 43211
+  "bytes": 43211,
+  "doc_type": "treasurer-report",
+  "year": 2023,
+  "date": "2023-06-01",
+  "title": "Treasurer's report, June 2023"
  },
  {
   "kind": "document",
   "src": "treasurer_07-20.pdf",
   "file": "treasurer-07-20.pdf",
-  "bytes": 22985
+  "bytes": 22985,
+  "doc_type": "treasurer-report",
+  "year": 2020,
+  "date": "2020-07-01",
+  "title": "Treasurer's report, July 2020"
  },
  {
   "kind": "document",
   "src": "treasurer_07-21.pdf",
   "file": "treasurer-07-21.pdf",
-  "bytes": 43355
+  "bytes": 43355,
+  "doc_type": "treasurer-report",
+  "year": 2021,
+  "date": "2021-07-01",
+  "title": "Treasurer's report, July 2021"
  },
  {
   "kind": "document",
   "src": "treasurer_07-22.pdf",
   "file": "treasurer-07-22.pdf",
-  "bytes": 44246
+  "bytes": 44246,
+  "doc_type": "treasurer-report",
+  "year": 2022,
+  "date": "2022-07-01",
+  "title": "Treasurer's report, July 2022"
  },
  {
   "kind": "document",
   "src": "treasurer_07-23.pdf",
   "file": "treasurer-07-23.pdf",
-  "bytes": 44772
+  "bytes": 44772,
+  "doc_type": "treasurer-report",
+  "year": 2023,
+  "date": "2023-07-01",
+  "title": "Treasurer's report, July 2023"
  },
  {
   "kind": "document",
   "src": "treasurer_08-20.pdf",
   "file": "treasurer-08-20.pdf",
-  "bytes": 45146
+  "bytes": 45146,
+  "doc_type": "treasurer-report",
+  "year": 2020,
+  "date": "2020-08-01",
+  "title": "Treasurer's report, August 2020"
  },
  {
   "kind": "document",
   "src": "treasurer_08-21.pdf",
   "file": "treasurer-08-21.pdf",
-  "bytes": 43233
+  "bytes": 43233,
+  "doc_type": "treasurer-report",
+  "year": 2021,
+  "date": "2021-08-01",
+  "title": "Treasurer's report, August 2021"
  },
  {
   "kind": "document",
   "src": "treasurer_08-22.pdf",
   "file": "treasurer-08-22.pdf",
-  "bytes": 51232
+  "bytes": 51232,
+  "doc_type": "treasurer-report",
+  "year": 2022,
+  "date": "2022-08-01",
+  "title": "Treasurer's report, August 2022"
  },
  {
   "kind": "document",
   "src": "treasurer_08-23.pdf",
   "file": "treasurer-08-23.pdf",
-  "bytes": 44153
+  "bytes": 44153,
+  "doc_type": "treasurer-report",
+  "year": 2023,
+  "date": "2023-08-01",
+  "title": "Treasurer's report, August 2023"
  },
  {
   "kind": "document",
   "src": "treasurer_09-20.pdf",
   "file": "treasurer-09-20.pdf",
-  "bytes": 46062
+  "bytes": 46062,
+  "doc_type": "treasurer-report",
+  "year": 2020,
+  "date": "2020-09-01",
+  "title": "Treasurer's report, September 2020"
  },
  {
   "kind": "document",
   "src": "treasurer_09-21.pdf",
   "file": "treasurer-09-21.pdf",
-  "bytes": 45566
+  "bytes": 45566,
+  "doc_type": "treasurer-report",
+  "year": 2021,
+  "date": "2021-09-01",
+  "title": "Treasurer's report, September 2021"
  },
  {
   "kind": "document",
   "src": "treasurer_09-22.pdf",
   "file": "treasurer-09-22.pdf",
-  "bytes": 45653
+  "bytes": 45653,
+  "doc_type": "treasurer-report",
+  "year": 2022,
+  "date": "2022-09-01",
+  "title": "Treasurer's report, September 2022"
  },
  {
   "kind": "document",
   "src": "treasurer_09-23.pdf",
   "file": "treasurer-09-23.pdf",
-  "bytes": 44889
+  "bytes": 44889,
+  "doc_type": "treasurer-report",
+  "year": 2023,
+  "date": "2023-09-01",
+  "title": "Treasurer's report, September 2023"
  },
  {
   "kind": "document",
   "src": "treasurer_10-19.pdf",
   "file": "treasurer-10-19.pdf",
-  "bytes": 24415
+  "bytes": 24415,
+  "doc_type": "treasurer-report",
+  "year": 2019,
+  "date": "2019-10-01",
+  "title": "Treasurer's report, October 2019"
  },
  {
   "kind": "document",
   "src": "treasurer_10-20.pdf",
   "file": "treasurer-10-20.pdf",
-  "bytes": 46484
+  "bytes": 46484,
+  "doc_type": "treasurer-report",
+  "year": 2020,
+  "date": "2020-10-01",
+  "title": "Treasurer's report, October 2020"
  },
  {
   "kind": "document",
   "src": "treasurer_10-21.pdf",
   "file": "treasurer-10-21.pdf",
-  "bytes": 48806
+  "bytes": 48806,
+  "doc_type": "treasurer-report",
+  "year": 2021,
+  "date": "2021-10-01",
+  "title": "Treasurer's report, October 2021"
  },
  {
   "kind": "document",
   "src": "treasurer_10-22.pdf",
   "file": "treasurer-10-22.pdf",
-  "bytes": 47715
+  "bytes": 47715,
+  "doc_type": "treasurer-report",
+  "year": 2022,
+  "date": "2022-10-01",
+  "title": "Treasurer's report, October 2022"
  },
  {
   "kind": "document",
   "src": "treasurer_11-19.pdf",
   "file": "treasurer-11-19.pdf",
-  "bytes": 22518
+  "bytes": 22518,
+  "doc_type": "treasurer-report",
+  "year": 2019,
+  "date": "2019-11-01",
+  "title": "Treasurer's report, November 2019"
  },
  {
   "kind": "document",
   "src": "treasurer_11-20.pdf",
   "file": "treasurer-11-20.pdf",
-  "bytes": 50179
+  "bytes": 50179,
+  "doc_type": "treasurer-report",
+  "year": 2020,
+  "date": "2020-11-01",
+  "title": "Treasurer's report, November 2020"
  },
  {
   "kind": "document",
   "src": "treasurer_11-21.pdf",
   "file": "treasurer-11-21.pdf",
-  "bytes": 56140
+  "bytes": 56140,
+  "doc_type": "treasurer-report",
+  "year": 2021,
+  "date": "2021-11-01",
+  "title": "Treasurer's report, November 2021"
  },
  {
   "kind": "document",
   "src": "treasurer_11-22.pdf",
   "file": "treasurer-11-22.pdf",
-  "bytes": 48974
+  "bytes": 48974,
+  "doc_type": "treasurer-report",
+  "year": 2022,
+  "date": "2022-11-01",
+  "title": "Treasurer's report, November 2022"
  },
  {
   "kind": "document",
   "src": "treasurer_11-23.pdf",
   "file": "treasurer-11-23.pdf",
-  "bytes": 48097
+  "bytes": 48097,
+  "doc_type": "treasurer-report",
+  "year": 2023,
+  "date": "2023-11-01",
+  "title": "Treasurer's report, November 2023"
  },
  {
   "kind": "document",
   "src": "treasurer_12-19.pdf",
   "file": "treasurer-12-19.pdf",
-  "bytes": 24706
+  "bytes": 24706,
+  "doc_type": "treasurer-report",
+  "year": 2019,
+  "date": "2019-12-01",
+  "title": "Treasurer's report, December 2019"
  },
  {
   "kind": "document",
   "src": "treasurer_12-20.pdf",
   "file": "treasurer-12-20.pdf",
-  "bytes": 48791
+  "bytes": 48791,
+  "doc_type": "treasurer-report",
+  "year": 2020,
+  "date": "2020-12-01",
+  "title": "Treasurer's report, December 2020"
  },
  {
   "kind": "document",
   "src": "treasurer_12-21.pdf",
   "file": "treasurer-12-21.pdf",
-  "bytes": 48986
+  "bytes": 48986,
+  "doc_type": "treasurer-report",
+  "year": 2021,
+  "date": "2021-12-01",
+  "title": "Treasurer's report, December 2021"
  },
  {
   "kind": "document",
   "src": "treasurer_12-22.pdf",
   "file": "treasurer-12-22.pdf",
-  "bytes": 47568
+  "bytes": 47568,
+  "doc_type": "treasurer-report",
+  "year": 2022,
+  "date": "2022-12-01",
+  "title": "Treasurer's report, December 2022"
  },
  {
   "kind": "document",
   "src": "treasurer_12-23.pdf",
   "file": "treasurer-12-23.pdf",
-  "bytes": 46537
+  "bytes": 46537,
+  "doc_type": "treasurer-report",
+  "year": 2023,
+  "date": "2023-12-01",
+  "title": "Treasurer's report, December 2023"
  }
 ]
