@@ -700,6 +700,56 @@ def test_everything_the_entrypoint_reaches_for_is_in_the_image():
     )
 
 
+def _dockerignore_excludes(rel_path: str) -> bool:
+    """Does .dockerignore remove this path from the build context?
+
+    A deliberately small reimplementation of Docker's rules: later patterns win,
+    and a leading ! re-includes. Enough for the allowlist shape this project
+    uses (`tools/*` then `!tools/seed.php`).
+    """
+    import fnmatch
+
+    excluded = False
+    for raw in read(REPO / ".dockerignore").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        negate = line.startswith("!")
+        pat = line[1:] if negate else line
+        hit = (
+            fnmatch.fnmatch(rel_path, pat)
+            or fnmatch.fnmatch(rel_path, pat.rstrip("/") + "/*")
+            or rel_path == pat.rstrip("/")
+            or rel_path.startswith(pat.rstrip("/") + "/")
+        )
+        if hit:
+            excluded = not negate
+    return excluded
+
+
+def test_dockerfile_copy_sources_survive_dockerignore():
+    """Every COPY source must still be in the build context.
+
+    tools/import_media.php was added to the Dockerfile while .dockerignore still
+    said `tools/*` with only `!tools/seed.php`, so buildx failed with
+    `"/tools/import_media.php": not found`. The previous check verified the repo
+    had the file and the Dockerfile copied it, and passed — the build context was
+    the one condition it did not test, so CI found it instead.
+    """
+    docker = read(REPO / "Dockerfile")
+    srcs = re.findall(r"^COPY\s+(?:--\S+\s+)*(\S+)\s+\S+\s*$", docker, re.M)
+    assert srcs, "no COPY sources found; this check has gone stale"
+
+    problems = []
+    for src in srcs:
+        rel = src.rstrip("/")
+        if not (REPO / rel).exists():
+            problems.append(f"{src}: COPY source does not exist in the repo")
+        elif _dockerignore_excludes(rel):
+            problems.append(f"{src}: excluded by .dockerignore, so the build cannot see it")
+    assert not problems, "Dockerfile COPY sources the build will not find:\n  " + "\n  ".join(problems)
+
+
 def _all_checks():
     g = globals()
     return [(name, g[name]) for name in list(g) if name.startswith("test_") and callable(g[name])]

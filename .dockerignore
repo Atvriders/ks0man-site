@@ -43,10 +43,17 @@ study
 content/*
 !content/seed.json
 
-# Only the seeder runs inside the container. build_content.py runs on the
-# club's own machine, against their own mirror, and stays there.
+# Only the importers run inside the container. build_content.py runs on the
+# club's own machine, against their own private mirror, and stays there --
+# as does screen_media.py, which also reads it.
+#
+# This allowlist is load-bearing: tools/import_media.php was added to the
+# Dockerfile but not here, so the build context did not contain it and buildx
+# failed with `"/tools/import_media.php": not found`. Anything the Dockerfile
+# COPYs out of tools/ must be un-ignored here too.
 tools/*
 !tools/seed.php
+!tools/import_media.php
 
 # Junk
 **/__pycache__
