@@ -32,6 +32,51 @@ if ( ! function_exists( 'getenv_docker' ) ) {
 	}
 }
 
+
+if ( ! function_exists( 'maars_normalise_site_url' ) ) {
+	/**
+	 * Force a scheme onto a site URL, because a bare host silently breaks everything.
+	 *
+	 * Setting MAARS_SITE_URL to `example.org` rather than `https://example.org`
+	 * looks reasonable and produces a site that half works. WordPress stores the
+	 * value verbatim, then some call sites prepend a scheme and some do not, so
+	 * the page emits BOTH of these from the same request:
+	 *
+	 *   https://example.orgexample.org/wp-includes/blocks/navigation/style.min.css
+	 *   src="example.org/wp-includes/js/.../navigation/view.min.js"
+	 *
+	 * The first 404s on a doubled host, the second resolves as a relative path.
+	 * Observed live: it took out the navigation block's stylesheet and its
+	 * interactivity module, so the menu rendered as a raw list with its Menu and
+	 * Close buttons both showing.
+	 *
+	 * @param string $url    Whatever the operator set.
+	 * @param array  $server Superglobal-shaped array, for deciding the scheme.
+	 * @return string Absolute origin with a scheme, or '' if unusable.
+	 */
+	function maars_normalise_site_url( $url, array $server = array() ) {
+		$url = trim( (string) $url );
+		if ( '' === $url ) {
+			return '';
+		}
+		if ( preg_match( '#^https?://#i', $url ) ) {
+			return rtrim( $url, '/' );
+		}
+		/* A scheme-relative //host is legal in a link but not in WP_HOME. */
+		$url = ltrim( $url, '/' );
+		$https = ( ! empty( $server['HTTPS'] ) && 'off' !== $server['HTTPS'] );
+		if (
+			! $https
+			&& '1' === getenv_docker( 'MAARS_TRUST_PROXY', '0' )
+			&& isset( $server['HTTP_X_FORWARDED_PROTO'] )
+			&& 'https' === strtolower( (string) $server['HTTP_X_FORWARDED_PROTO'] )
+		) {
+			$https = true;
+		}
+		return ( $https ? 'https://' : 'http://' ) . rtrim( $url, '/' );
+	}
+}
+
 if ( ! function_exists( 'maars_resolve_site_url' ) ) {
 	/**
 	 * Decide the site URL, or return '' to leave WordPress on its stored option.
@@ -48,7 +93,7 @@ if ( ! function_exists( 'maars_resolve_site_url' ) ) {
 	function maars_resolve_site_url( array $server ) {
 		$explicit = getenv_docker( 'MAARS_SITE_URL', '' );
 		if ( '' !== $explicit ) {
-			return $explicit;
+			return maars_normalise_site_url( $explicit, $server );
 		}
 
 		if ( empty( $server['HTTP_HOST'] ) ) {

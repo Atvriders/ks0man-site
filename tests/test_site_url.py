@@ -78,6 +78,14 @@ CASES = [
     ("ks0man.waterburp.com", {"MAARS_ALLOWED_HOSTS": "ks0man.org www.ks0man.org ks0man.waterburp.com"},
      "http://ks0man.waterburp.com"),
     ("ks0man.com", {"MAARS_ALLOWED_HOSTS": "ks0man.org www.ks0man.org ks0man.waterburp.com"}, ""),
+    # --- a bare host must be given a scheme, not stored verbatim -------------
+    # Setting this without a scheme produced a site that emitted both
+    # https://hosthost/... and a relative host/... from the same page, which
+    # took out the navigation block's stylesheet and interactivity module.
+    ("192.168.0.10:3039", {"MAARS_SITE_URL": "ks0man.org"}, "http://ks0man.org"),
+    ("192.168.0.10:3039", {"MAARS_SITE_URL": "ks0man.org/"}, "http://ks0man.org"),
+    ("192.168.0.10:3039", {"MAARS_SITE_URL": "//ks0man.org"}, "http://ks0man.org"),
+    ("192.168.0.10:3039", {"MAARS_SITE_URL": "http://ks0man.org/"}, "http://ks0man.org"),
     # --- explicit override always wins --------------------------------------
     ("192.168.0.10:3039", {"MAARS_SITE_URL": "https://ks0man.org"},
      "https://ks0man.org"),

@@ -123,6 +123,20 @@ maars_first_boot() {
 	local failed=0
 
 	local site_url="${MAARS_SITE_URL:-http://localhost:3039}"
+	# A bare host here is written into the database verbatim and produces a
+	# half-broken site; give it a scheme before it can be stored.
+	case "$site_url" in
+		http://*|https://*) : ;;
+		*)
+			if [ "${MAARS_TRUST_PROXY:-0}" = "1" ]; then
+				site_url="https://${site_url#//}"
+			else
+				site_url="http://${site_url#//}"
+			fi
+			maars_log "MAARS_SITE_URL had no scheme; installing with ${site_url}"
+			;;
+	esac
+	site_url="${site_url%/}"
 	local site_title="${MAARS_SITE_TITLE:-Manhattan Area Amateur Radio Society}"
 	local admin_user="${MAARS_ADMIN_USER:-maars_admin}"
 	# Assembled from two parts on purpose. This image is public, so no address
@@ -265,6 +279,48 @@ maars_import_media() {
 	return 0
 }
 
+
+# ---------------------------------------------------------------------------
+# Repair a stored site URL that has no scheme.
+#
+# A bare host in MAARS_SITE_URL, e.g. `example.org` instead of
+# `https://example.org`, is written straight into the siteurl and home options
+# at install. WordPress then emits both a doubled host and a relative path from
+# the same page:
+#
+#   https://example.orgexample.org/wp-includes/blocks/navigation/style.min.css
+#   src="example.org/wp-includes/js/.../navigation/view.min.js"
+#
+# Observed live: it broke the navigation block's stylesheet and its
+# interactivity module, so the menu rendered as a raw bulleted list with its
+# Menu and Close buttons both on screen.
+#
+# The constants in site-url.php prevent this happening again, but a site already
+# installed carries the bad value in its database, where a new image cannot
+# reach it. This repairs it in place, on every boot, and says so in the log.
+# ---------------------------------------------------------------------------
+maars_repair_site_url() {
+	local opt scheme fixed
+	for opt in siteurl home; do
+		local current
+		current="$(wp option get "$opt" 2>/dev/null || true)"
+		[ -n "$current" ] || continue
+		case "$current" in
+			http://*|https://*) continue ;;
+		esac
+
+		scheme="http"
+		if [ "${MAARS_TRUST_PROXY:-0}" = "1" ]; then
+			scheme="https"
+		fi
+		fixed="${scheme}://${current#//}"
+		fixed="${fixed%/}"
+		maars_log "repairing ${opt}: '${current}' has no scheme, setting '${fixed}'"
+		wp option update "$opt" "$fixed" >/dev/null 2>&1 \
+			|| maars_log "WARNING: could not repair ${opt}"
+	done
+}
+
 # --- main -------------------------------------------------------------------
 
 main() {
@@ -288,6 +344,10 @@ main() {
 					maars_log "first-boot setup finished with errors; the marker was NOT written, so the next boot will try again"
 				fi
 			fi
+
+			# A site installed with a scheme-less MAARS_SITE_URL carries the
+			# damage in its database, where a new image cannot reach it.
+			maars_repair_site_url
 
 			# Every boot, marker or not. A site installed before the media
 			# existed would otherwise never receive it.
