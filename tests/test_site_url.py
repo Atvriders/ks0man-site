@@ -70,6 +70,14 @@ CASES = [
     ("www.ks0man.org", {"MAARS_ALLOWED_HOSTS": "ks0man.org,www.ks0man.org"},
      "http://www.ks0man.org"),
     ("evil.example.com", {"MAARS_ALLOWED_HOSTS": "ks0man.org"}, ""),
+    # --- the real deployment: ks0man.org, behind a TLS-terminating tunnel -----
+    # ks0man.com is the 1997 site and is deliberately absent: this stack must
+    # never answer for it, allowlisted or not.
+    ("ks0man.org", {"MAARS_ALLOWED_HOSTS": "ks0man.org www.ks0man.org ks0man.waterburp.com"},
+     "http://ks0man.org"),
+    ("ks0man.waterburp.com", {"MAARS_ALLOWED_HOSTS": "ks0man.org www.ks0man.org ks0man.waterburp.com"},
+     "http://ks0man.waterburp.com"),
+    ("ks0man.com", {"MAARS_ALLOWED_HOSTS": "ks0man.org www.ks0man.org ks0man.waterburp.com"}, ""),
     # --- explicit override always wins --------------------------------------
     ("192.168.0.10:3039", {"MAARS_SITE_URL": "https://ks0man.org"},
      "https://ks0man.org"),

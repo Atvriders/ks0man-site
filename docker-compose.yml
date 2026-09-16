@@ -71,11 +71,24 @@ services:
       # http://localhost:3039, http://192.0.2.10:3039, whatever. Set it only if
       # you are behind a proxy that rewrites Host, or you want it pinned.
       MAARS_SITE_URL: ""
-      # Extra hostnames to accept in the Host header, space or comma separated.
-      # Only needed for a public hostname; localhost and LAN addresses already work.
-      MAARS_ALLOWED_HOSTS: ""
-      # Set to 1 only behind a reverse proxy you control, to honour X-Forwarded-Proto.
-      MAARS_TRUST_PROXY: "0"
+      # Public hostnames this site is allowed to call itself, space or comma
+      # separated. Loopback and LAN addresses are accepted automatically, so
+      # this is only for real names.
+      #
+      # A public hostname is NOT auto-detected on purpose: the Host header is
+      # attacker-controlled, and believing it blindly is how a site ends up
+      # emitting somebody else's domain in its own password-reset links. Naming
+      # the hosts here is the whole point of the allowlist.
+      #
+      # ks0man.org is where this deploys. ks0man.com is the 1997 site and is NOT
+      # listed: it stays where it is and redirects, and this stack must never
+      # answer for it.
+      MAARS_ALLOWED_HOSTS: "ks0man.org www.ks0man.org ks0man.waterburp.com"
+      # 1 when a reverse proxy in front of this terminates TLS, so
+      # X-Forwarded-Proto is trustworthy. Behind a Cloudflare tunnel the origin
+      # sees plain HTTP while the browser is on HTTPS; without this the site
+      # would advertise http:// URLs to an https:// visitor and mix content.
+      MAARS_TRUST_PROXY: "1"
       MAARS_SITE_TITLE: Manhattan Area Amateur Radio Society
       MAARS_TIMEZONE: America/Chicago
       # --- first-boot administrator -----------------------------------------
