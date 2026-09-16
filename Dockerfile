@@ -48,6 +48,10 @@ COPY wp/plugins/maars-core /usr/src/maars/plugins/maars-core
 COPY wp/themes/maars       /usr/src/maars/themes/maars
 COPY docker/site-url.php   /usr/src/maars/site-url.php
 COPY tools/seed.php        /usr/src/maars/tools/seed.php
+# The media importer. Shipping media/ without this ships 179 files and no way to
+# import them, which is exactly what happened: the entrypoint logged "no media
+# importer ... skipping" and the archive stayed at four records.
+COPY tools/import_media.php /usr/src/maars/tools/import_media.php
 COPY content/seed.json     /usr/src/maars/content/seed.json
 # The club's own photographs and governance documents. Screened: nothing
 # here carries an email address, telephone number or street address, and

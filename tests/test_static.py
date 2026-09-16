@@ -647,6 +647,59 @@ def test_media_manifest_matches_what_is_on_disk():
     assert not orphans, f"files in media/ that no manifest entry names: {sorted(orphans)[:5]}"
 
 
+def test_everything_the_entrypoint_reaches_for_is_in_the_image():
+    """Every path the entrypoint reads under MAARS_SRC_DIR must be COPYed by the
+    Dockerfile.
+
+    This is not hypothetical. media/ shipped with 179 files while
+    tools/import_media.php did not, so the entrypoint logged "no media importer
+    ... skipping" and the archive stayed at four records through two deploys.
+    Nothing failed: the guard was written to skip quietly, which is the correct
+    behaviour for a missing optional file and the wrong behaviour for one that
+    was supposed to be there.
+    """
+    entry = read(REPO / "docker" / "entrypoint.sh")
+    docker = read(REPO / "Dockerfile")
+
+    # Paths the entrypoint builds from MAARS_SRC_DIR, e.g.
+    #   "${MAARS_SRC_DIR}/tools/import_media.php"
+    wanted = set(
+        re.findall(r'\$\{MAARS_SRC_DIR\}/([A-Za-z0-9_./-]+)', entry)
+    )
+    assert wanted, "no MAARS_SRC_DIR paths found; this check has gone stale"
+
+    missing = []
+    for rel in sorted(wanted):
+        # The repo path and the in-image path are the same shape by design,
+        # except plugins/ and themes/ which live under wp/ in the repo.
+        repo_rel = rel
+        if rel.startswith("plugins/") or rel.startswith("themes/"):
+            repo_rel = "wp/" + rel
+        if not (REPO / repo_rel).exists():
+            missing.append(f"{rel}: not in the repo at {repo_rel}")
+            continue
+        # The Dockerfile must carry in THIS file: either by naming it exactly,
+        # or by copying the whole directory it lives in. Matching on the first
+        # path segment alone is not enough -- /usr/src/maars/tools appears
+        # because tools/seed.php is copied, which would let a missing
+        # tools/import_media.php pass. That is the bug this check exists for,
+        # so the check must not contain it.
+        exact = f"/usr/src/maars/{rel}" in docker
+        parent = rel.rsplit("/", 1)[0] if "/" in rel else ""
+        whole_dir = bool(parent) and re.search(
+            r"^COPY\s+(?:--\S+\s+)*\S+\s+/usr/src/maars/" + re.escape(parent) + r"/\s*$",
+            docker,
+            re.M,
+        )
+        if not exact and not whole_dir:
+            missing.append(f"{rel}: repo has it, Dockerfile never COPYs it")
+
+    assert not missing, (
+        "the entrypoint reads paths the image does not contain:\n  "
+        + "\n  ".join(missing)
+    )
+
+
 def _all_checks():
     g = globals()
     return [(name, g[name]) for name in list(g) if name.startswith("test_") and callable(g[name])]
