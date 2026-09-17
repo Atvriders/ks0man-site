@@ -48,16 +48,47 @@ ADDR = re.compile(
     r"(?:St|Ave|Rd|Hwy|Street|Avenue|Road|Lane|Ln|Dr|Drive|Ct|Blvd)\b"
 )
 
-# Documents the Society did not write. Redistribution is not ours to grant.
+# Documents the Society did not write. Redistribution is not ours to grant, and
+# that is the ONLY reason anything is held back now: the Society's decision of
+# 17 September 2026 publishes its own record in full.
+#
+# Each of these was read before it was classified, because five items on this
+# list did not belong on it and were withheld for a year on the strength of
+# their file names alone:
+#
+#   MAARS_HAM_OF_THE_YEAR.pdf        "The Glen Rubash Memorial MAARS Member of
+#                                    the Year Award ... nomination guidelines" --
+#                                    the Society's own governance document
+#   Kids_Day_1-2007.pdf              a page of the Society's own January 2007
+#                                    newsletter, "MAARS participates in ARRL
+#                                    Kid's Day"
+#   Winter-Field-Day-Flier.pdf       the Society's own flier: "Manhattan Area
+#                                    Amateur Radio Society ... Fairmont Park"
+#   Winter-Field-Day-Location-Map.pdf  the map to the Society's own site
+#   Glen_Rubash-thank-you-card.pdf   written to the Society by Glen Rubash's
+#                                    widow and published by the Society in 2023
+#
+# They ship. What remains here was read the same way and is genuinely someone
+# else's: QST and Popular Electronics articles, an ARRL band chart, a Kansas
+# History journal paper, a Riley County Historical Society newsletter, a US Army
+# technical manual, the Winter Field Day Association's own rules, a state RACES
+# draft, and an emergency-exercise after-action report marked For Official Use
+# Only -- which is not ours to publish twice over.
 THIRD_PARTY = {
-    "events_1951_flood.pdf", "events_1951_flood_response.pdf", "Carl_and_Jerry.pdf",
-    "BandChart.pdf", "Harvard_on_learning_code_1943.pdf", "KC2G_MUF_What_Is_It.pdf",
-    "Morse_code_Speed_vs._Proficiency.pdf", "events_Kansas_History_2003.pdf",
-    "HF_Tuning.pdf", "Kansas_RACES_draft_1-2016.pdf", "ARES_Registration.pdf",
-    "tower.pdf", "Kids_Day_1-2007.pdf", "Winter-Field-Day-Rules.pdf",
-    "Winter-Field-Day-Flier.pdf", "Winter-Field-Day-Location-Map.pdf",
-    "Glen_Rubash-thank-you-card.pdf", "MAARS_HAM_OF_THE_YEAR.pdf",
-    "after_action_6-2017.pdf",
+    "events_1951_flood.pdf",            # QST, November 1951, by W1NJM. ARRL.
+    "events_1951_flood_response.pdf",   # Riley County Historical Society newsletter
+    "Carl_and_Jerry.pdf",               # Popular Electronics 1956 / Copperwood Press
+    "BandChart.pdf",                    # ARRL
+    "Harvard_on_learning_code_1943.pdf",
+    "KC2G_MUF_What_Is_It.pdf",
+    "Morse_code_Speed_vs._Proficiency.pdf",
+    "events_Kansas_History_2003.pdf",   # Kansas History, "Damming the Kaw", Dale E. Nimz
+    "HF_Tuning.pdf",
+    "Kansas_RACES_draft_1-2016.pdf",    # State of Kansas RACES plan, draft
+    "ARES_Registration.pdf",            # ARRL form
+    "tower.pdf",                        # US Army TM 9-6230-210-13&P
+    "Winter-Field-Day-Rules.pdf",       # Winter Field Day Association
+    "after_action_6-2017.pdf",          # joint exercise AAR, For Official Use Only
 }
 
 CHROME = {

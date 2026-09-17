@@ -54,6 +54,12 @@ COPY tools/seed.php        /usr/src/maars/tools/seed.php
 # import them, which is exactly what happened: the entrypoint logged "no media
 # importer ... skipping" and the archive stayed at four records.
 COPY tools/import_media.php /usr/src/maars/tools/import_media.php
+# The pages of the old site the archive migration did not carry -- the roster,
+# the Silent Keys, the Field Day galleries -- and the tool that publishes them
+# once the media is in the library. Without both, a boot produces a site that
+# quietly lacks eleven pages the club has had since 1997.
+COPY tools/seed_pages.php   /usr/src/maars/tools/seed_pages.php
+COPY content/mirror_pages.json /usr/src/maars/content/mirror_pages.json
 COPY content/seed.json     /usr/src/maars/content/seed.json
 # The club's own photographs and governance documents, published in full:
 # 24 of them carry officer contact details and 18 are memorial portraits, and

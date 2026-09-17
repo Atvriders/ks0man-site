@@ -38,10 +38,14 @@ study
 **/mirror
 **/study
 
-# Generated club content never enters the image. Only the curated,
-# personal-data-free seed file does.
+# Two content bundles enter the image: the curated seed, and the pages of
+# ks0man.com the archive migration did not carry (the roster, the Silent Keys,
+# the Field Day galleries). Both are the Society's own record, published in full
+# by its decision of 17 September 2026. Anything a build_content.py run produces
+# on the club's own machine still stays there.
 content/*
 !content/seed.json
+!content/mirror_pages.json
 
 # Only the importers run inside the container. build_content.py runs on the
 # club's own machine, against their own private mirror, and stays there --
@@ -54,6 +58,7 @@ content/*
 tools/*
 !tools/seed.php
 !tools/import_media.php
+!tools/seed_pages.php
 
 # Junk
 **/__pycache__

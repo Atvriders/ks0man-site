@@ -281,6 +281,39 @@ maars_import_media() {
 
 
 # ---------------------------------------------------------------------------
+# Publish the pages of the old site that the archive migration did not carry:
+# the roster, the Silent Keys, the Field Day galleries.
+#
+# AFTER the media import, always. Those pages reference photographs by token,
+# and a token can only become a URL once the photograph is in the library; run
+# first, this publishes eleven pages with "{{media:...}}" printed in them, which
+# is how a migration ends up looking like a broken site instead of a late one.
+# seed_pages.php refuses to publish a page whose tokens it could not resolve.
+#
+# Safe to repeat: pages are keyed on slug and updated in place.
+# ---------------------------------------------------------------------------
+maars_seed_pages() {
+	local pages_php="${MAARS_SRC_DIR}/tools/seed_pages.php"
+
+	if [ ! -f "$pages_php" ]; then
+		maars_log "no page seeder at ${pages_php}; skipping"
+		return 0
+	fi
+	if [ ! -f "${MAARS_SRC_DIR}/content/mirror_pages.json" ]; then
+		maars_log "no mirror pages in the image; skipping"
+		return 0
+	fi
+
+	maars_log "publishing the pages carried over from ks0man.com"
+	if wp eval-file "$pages_php"; then
+		return 0
+	fi
+	maars_log "WARNING: mirror page seeding reported a problem"
+	return 0
+}
+
+
+# ---------------------------------------------------------------------------
 # Repair a stored site URL that has no scheme.
 #
 # A bare host in MAARS_SITE_URL, e.g. `example.org` instead of
@@ -352,6 +385,7 @@ main() {
 			# Every boot, marker or not. A site installed before the media
 			# existed would otherwise never receive it.
 			maars_import_media
+			maars_seed_pages
 
 			maars_own "${WEB_USER}:${WEB_GROUP}" "$UPLOADS_DIR"
 			;;

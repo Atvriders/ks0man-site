@@ -61,7 +61,16 @@ wp/themes/maars/assets/js/skywave.js
 wp/themes/maars/assets/css/maars.css
 tools/build_content.py
 tools/seed.php
+tools/seed_pages.php                 # publishes content/mirror_pages.json, AFTER the media import
+tools/push_media.py                  # uploads media/ to a live site over REST, idempotent
+tools/push_pages.py                  # publishes mirror_pages.json to a live site, tokens resolved
+tools/prepare_pages.py               # converts the un-migrated pages of ks0man.com to blocks
+tools/build_redirects.py             # builds the ks0man.com redirect map FROM the live site
+migrate/url_map.csv                  # 432 rows: every old URL and where it goes now
+migrate/ks0man_com.htaccess          # the same, as Apache rules, for the old domain
+migrate/README.md
 content/seed.json
+content/mirror_pages.json            # roster, Silent Keys, Field Day galleries: tokens, not URLs
 tests/test_webgl.py
 tests/test_static.py
 
@@ -103,6 +112,16 @@ Core `post` = News (the 36 Current Topics). Core `page` = standing pages.
 - `maars/fact`           → wraps a fact with its freshness grade chip
 - `maars/skywave`        → the WebGL2 canvas + <noscript>/fallback
 - `maars/masthead`       → the 2 m receiver at the head of the site: trace, waterfall, identity
+
+## Media and page references outside the seed
+content/mirror_pages.json references media and archive records by TOKEN, never
+by URL, because the name a file ships under is not the URL WordPress gives it:
+    {{media:<file as shipped>}}   {{pub:<source file on ks0man.com>}}
+Resolvers: tools/seed_pages.php (in the image, after tools/import_media.php) and
+tools/push_pages.py (against a live site). Both REFUSE to publish a page with an
+unresolved token. An attachment is identified by slug, by media_details
+.original_image, or by _maars_media_src -- NOT by the file on disk, which
+WordPress renames (fd18-tower.jpg is stored as fd18-tower-scaled.jpg).
 
 ## Archive figures (shortcodes, inc/tally.php)
 Every number about the archive is counted at render time. No template, page or

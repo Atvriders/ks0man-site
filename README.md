@@ -33,7 +33,7 @@ Read this before you trust anything below it.
 | **The site running in a real WordPress** | **Verified, but not in Docker** | There is still no Docker daemon in the environment this was built in, so `docker compose up` remains untested by its author. Everything above that has been exercised: the theme and plugin run on a real **WordPress 7.1** (PHP 8.1 + SQLite) built for the purpose, and the same code is live at **https://ks0man.org** with the full archive in it. Pages were rendered and measured in headless Chromium, not asserted. |
 | Content completeness | **Verified** | 242 documents, 1998–2024, counted out of the live database; the figures the site prints are counted at render time rather than typed. |
 | Link integrity | **Verified for the theme** | `tests/test_static.py` resolves every internal `href` in the theme against the pages the seed creates and the routes the plugin registers, and fails on one that goes nowhere — which is how `/archive/gaps/` was found 404ing in production. A full crawl of the live site is not part of the suite. |
-| Redirects from ks0man.com | **NOT done** | The 436-row URL map exists; nothing is deployed on the old domain yet. |
+| Redirects from ks0man.com | **Ready, not deployed** | `migrate/url_map.csv` and `migrate/ks0man_com.htaccess`: 432 rules, built by `tools/build_redirects.py` from what the live site actually holds, and **every one of the 406 redirect targets was requested and answered 200** before the files were written. Deploying them needs access to the old domain's server. |
 
 If the first boot fails, that is expected information, not a surprise. File it.
 
@@ -201,11 +201,17 @@ whole record to be reachable.
 
 So the image and this repository carry:
 
-- **242 dated documents**, 1998–2024 — newsletters, meeting minutes, treasurer's reports
+- **243 dated documents**, 1998–2024 — newsletters, meeting minutes, treasurer's reports
   and year-end reports, including the 125 HTML-era issues transcribed in full.
-- **223 files**, 39.9 MB — the scans and photographs themselves, among them the
-  **24 documents that carry officer contact details** and the **18 memorial portraits**.
+- **233 files**, 41 MB — the scans and photographs themselves, among them the
+  **25 documents that carry officer contact details** and the **18 memorial portraits**.
   Unredacted, deliberately.
+- **Eleven pages the archive migration had left behind**, carried over from ks0man.com
+  and published at `/members/`, `/silent-keys/`, `/downloads/` and under `/events/`:
+  the member roster, twenty-nine Silent Key notices with their portraits, the Field Day
+  galleries from 1997, 1998, 2005, 2015 and 2018, and three write-ups of public-service
+  events the Society worked. `tools/prepare_pages.py` converts them;
+  `content/mirror_pages.json` is the result.
 - Club history and governance facts: the founding on 7 July 1976 at a meeting called to
   order at 7:40 P.M.; the members' vote to be a **Society**, not a Club; the constitution
   and SOP of 11 December 2021, including Article III (the e-mail reflector is the official

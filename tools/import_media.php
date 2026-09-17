@@ -1,22 +1,22 @@
 <?php
 /**
- * MAARS — import the screened archive media into the WordPress media library.
+ * MAARS — import the club's archive media into the WordPress media library.
  *
- * Run by WP-CLI from the entrypoint, after tools/seed.php:
+ * Run by WP-CLI from the entrypoint, after tools/seed.php and before
+ * tools/seed_pages.php:
  *     wp eval-file /usr/src/maars/tools/import_media.php
  *
  * WHAT THIS IMPORTS, AND WHAT IT DOES NOT.
- * Only the club's own photographs and governance documents. Everything here was
- * screened before it was put in the image:
- *   - every PDF was re-extracted with pdftotext and checked for email addresses,
- *     telephone numbers and street addresses; 24 of the archive's 166 carried
- *     one and are NOT shipped;
- *   - 19 third-party documents (a 1951 QST article, an ARRL band chart, a 1943
- *     Harvard paper, "Carl and Jerry" and others) are NOT shipped, because
- *     redistribution is not ours to grant;
- *   - 18 Silent Key portraits and 2 photographs of named living people are NOT
- *     shipped; republishing a memorial is the Society's decision, not a
- *     migration script's;
+ * The Society's own record, in full, by its decision of 17 September 2026 --
+ * including the 25 documents that carry officer contact details and the 18
+ * Silent Key portraits. All of it stood on ks0man.com for years; the migration
+ * is continuity, not new exposure. What is NOT here:
+ *   - 14 third-party documents (a 1951 QST article, an ARRL band chart, a
+ *     Kansas History paper, "Carl and Jerry", a US Army manual and others),
+ *     because redistribution is not the Society's to grant. Five items that
+ *     were on this list turned out to be the club's own work and now ship;
+ *     see tools/screen_media.py, which reads each one rather than its name;
+ *   - two Field Day videos, 66.7 MB, which belong on a video host;
  *   - 24 pieces of 1997 site furniture (spacers, arrows, a "get Acrobat" badge)
  *     are deliberately dropped rather than migrated.
  *
@@ -159,7 +159,15 @@ foreach ( $maars_items as $maars_item ) {
 		continue;
 	}
 
-	if ( maars_media_existing( $src ) ) {
+	$already = maars_media_existing( $src );
+	if ( $already ) {
+		/* Backfill the name the file shipped under. It is what a page token
+		   carries, and an attachment imported before this meta existed cannot
+		   be found by it -- which withheld the downloads page from a site that
+		   had the files in its library all along. */
+		if ( '' === (string) get_post_meta( (int) $already, '_maars_media_file', true ) ) {
+			update_post_meta( (int) $already, '_maars_media_file', $file );
+		}
 		++$maars_skipped;
 		continue;
 	}
@@ -207,6 +215,11 @@ foreach ( $maars_items as $maars_item ) {
 	}
 
 	update_post_meta( $id, '_maars_media_src', $src );
+	/* The name the file ships under, which is NOT the name WordPress stores:
+	   a large image is saved as <name>-scaled.jpg, and the attachment slug
+	   comes from the title, which comes from the ORIGINAL name on ks0man.com.
+	   Page tokens use the shipped name, so it is recorded here to be found by. */
+	update_post_meta( $id, '_maars_media_file', $file );
 	update_post_meta( $id, '_maars_grade', 'sourced' );
 	if ( 'image' === $kind ) {
 		update_post_meta( $id, '_wp_attachment_image_alt', maars_media_title( $src ) );

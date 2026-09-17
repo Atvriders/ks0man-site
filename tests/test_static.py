@@ -378,10 +378,15 @@ def test_pii_gate_no_po_boxes_or_zip_plus_four():
 #
 # It still scans everything else, and that is the point: a contact detail
 # wandering into a template, a stylesheet, a test fixture or the compose file is
-# still a leak, and still fails the build. The exemption is two paths, named
+# still a leak, and still fails the build. The exemption is three paths, named
 # explicitly, and a meta-check below asserts it has not grown.
+#
+# The third arrived with the pages the archive migration had left behind -- the
+# member roster, and twenty-nine obituaries the Society published as each member
+# died, which carry the funeral home's address the way an obituary does. Adding
+# it was a decision, made once, written down here.
 # ---------------------------------------------------------------------------
-ARCHIVE_PAYLOAD = ("media/", "content/html_archive.json")
+ARCHIVE_PAYLOAD = ("media/", "content/html_archive.json", "content/mirror_pages.json")
 
 
 def _is_archive_payload(path) -> bool:
@@ -389,9 +394,10 @@ def _is_archive_payload(path) -> bool:
     return any(r == p or r.startswith(p) for p in ARCHIVE_PAYLOAD)
 
 
-def test_the_archive_exemption_is_exactly_two_paths():
+def test_the_archive_exemption_is_exactly_three_paths():
     """The payload exemption must not quietly widen into the code."""
-    assert ARCHIVE_PAYLOAD == ("media/", "content/html_archive.json"), (
+    assert ARCHIVE_PAYLOAD == ("media/", "content/html_archive.json",
+                               "content/mirror_pages.json"), (
         "the archive exemption grew; every added path is somewhere a contact "
         "detail can reach a template or a config file unnoticed"
     )
@@ -493,16 +499,28 @@ def test_pii_regexes_actually_catch_synthetic_pii():
 
 
 def test_no_member_roster_shaped_lists():
-    """Cheap smell test: three or more callsign+name pairs in one file is a roster.
+    """Three or more callsign+name pairs in one file is a roster.
 
-    One or two is club history (the founder, an officer role) and is allowed;
-    a table of them is the 41-name membership list and is not.
+    The Society's own roster is published, at /members/, by the decision of
+    17 September 2026 -- so content/mirror_pages.json, which carries it, is
+    exempt along with the rest of the archive payload. Everywhere else a roster
+    is a mistake: a fixture, a comment or a template that has quietly acquired
+    the membership list.
+
+    The pattern reads both orders and accepts the slashed zero. Written for
+    "KBØYYO, Gordon Alkire" alone it missed "Alkire, Gordon | KBØYYO" -- the
+    order the roster is actually in -- and passed on the very file it was
+    written to catch.
     """
-    roster = re.compile(r"\b(?:K|W|N|A)[A-Z]?\d[A-Z]{1,3}\b\s*[,|]\s*[A-Z][a-z]+ [A-Z][a-z]+")
+    call = r"(?:K|W|N|A)[A-Z]?[0-9\u00d8][A-Z]{1,3}"
+    name = r"[A-Z][a-z]+,?\s+[A-Z][a-z]+"
+    roster = re.compile(
+        rf"\b{call}\b\s*[,|\t]\s*{name}|{name}\s*[,|\t]\s*\b{call}\b")
     hits = []
     for p in text_files():
-        body = read(p)
-        found = roster.findall(body)
+        if _is_archive_payload(p):
+            continue
+        found = roster.findall(read(p))
         if len(found) >= 3:
             hits.append(f"{rel(p)}: {len(found)} callsign/name pairs — that is a roster")
     assert not hits, "ROSTER-SHAPED LISTS found:\n  " + "\n  ".join(hits)
@@ -921,8 +939,13 @@ def _seed_page_paths() -> set[str]:
     /parent/child/. Reading the slug alone would call /about/constitution/ a
     broken link and /constitution/ a good one, which is backwards.
     """
-    data = json.loads(read(REPO / "content/seed.json"))
-    by_slug = {p.get("slug", ""): p for p in data.get("pages", []) if p.get("slug")}
+    pages = list(json.loads(read(REPO / "content/seed.json")).get("pages", []))
+    mirror = REPO / "content/mirror_pages.json"
+    if mirror.exists():
+        # The roster, the Silent Keys and the galleries are pages too, and the
+        # footer links to them; without this the gate calls those links broken.
+        pages += json.loads(read(mirror)).get("pages", [])
+    by_slug = {p.get("slug", ""): p for p in pages if p.get("slug")}
     out = set()
     for slug, page in by_slug.items():
         if slug == "home":

@@ -3685,3 +3685,62 @@
 .maars-entry__when > .maars-fieldname:last-child {
 	display: none;
 }
+
+/* ---------------------------------------------------------------------------
+   THE ROSTER — /members/, carried over from the old site's members.html.
+
+   theme.json puts every core/table in the data face at 1rem, which was right
+   when the only tables on the site were repeater specifications. A roster is
+   not that: two of its three columns are words -- a person's name and the town
+   they live in -- and a name set in Fira Code at 16px reads as a serial number
+   and sits under the 18px floor this site promises. The callsign IS data and
+   keeps the data face, which is also what makes the slashed zero in KBØYYO a
+   zero rather than a letter.
+--------------------------------------------------------------------------- */
+/* Two class names, not one: theme.json's own core/table rule is a single class
+   (.wp-block-table) printed in the document head, so a rule of equal weight in
+   this file loses to it on source order alone. Measured before the second class
+   was added: the roster still came out in Fira Code at 17px. */
+.wp-block-table.maars-roster,
+.wp-block-table.maars-roster td,
+.wp-block-table.maars-roster th {
+	font-family: var(--maars-font-text);
+	font-size: var(--maars-text-body);
+	line-height: 1.5;
+}
+
+.wp-block-table.maars-roster th,
+.wp-block-table.maars-roster td {
+	padding: 0.55rem 0.9rem;
+}
+
+.wp-block-table.maars-roster thead th {
+	background-color: var(--maars-haze);
+	font-weight: 600;
+	text-align: start;
+}
+
+/* The callsign is data, and the slashed zero in KBØYYO is the reason. The town
+   is a place name and stays in the reading face, but it does not wrap: "Blue
+   Rapids" broken over two lines makes a tall row out of a short word. */
+.wp-block-table.maars-roster td:nth-child(2),
+.wp-block-table.maars-roster th:nth-child(2) {
+	font-family: var(--maars-font-data);
+	font-feature-settings: "tnum" 1;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.wp-block-table.maars-roster td:nth-child(3),
+.wp-block-table.maars-roster th:nth-child(3) {
+	white-space: nowrap;
+}
+
+@media (max-width: 34em) {
+	/* A phone cannot hold three columns at 20px without breaking one of them;
+	   the town goes, and the name and callsign stay. */
+	.wp-block-table.maars-roster td:nth-child(3),
+	.wp-block-table.maars-roster th:nth-child(3) {
+		display: none;
+	}
+}
