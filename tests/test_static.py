@@ -1035,6 +1035,34 @@ def test_a_field_name_cannot_outlive_its_value():
     )
 
 
+def test_fluid_typography_cannot_undercut_the_18px_floor():
+    """WordPress makes a custom font size fluid, and its floor is 14px.
+
+    The templates set `font-size:1.125rem` on the log columns, the field names
+    and the notes, which is the 18px floor DESIGN.md calls non-negotiable. With
+    `"fluid": true` WordPress rewrites each of those into
+
+        clamp(0.875rem, 0.875rem + ((1vw - 0.2rem) * 0.465), 1.125rem)
+
+    because its own minimum font size limit is 14px. Measured on the live site
+    at 390px: "Published" and "Last touched" rendered at 14.33px, on every page
+    the index template serves. Raising the limit to 1.125rem raises every
+    computed floor with it; presets that declare their own fluid min, like the
+    15px fine print, are untouched.
+    """
+    theme = json.loads(read(REPO / "wp/themes/maars/theme.json"))
+    fluid = theme["settings"]["typography"].get("fluid")
+    assert isinstance(fluid, dict), (
+        'settings.typography.fluid must be an object carrying minFontSize, not '
+        f'{fluid!r}; WordPress then floors every fluid size at 14px'
+    )
+    minimum = str(fluid.get("minFontSize", ""))
+    assert minimum.endswith("rem"), f"minFontSize {minimum!r} must be in rem"
+    assert float(minimum[:-3]) >= 1.125, (
+        f"minFontSize is {minimum}, under the 18px floor the theme promises"
+    )
+
+
 def _all_checks():
     g = globals()
     return [(name, g[name]) for name in list(g) if name.startswith("test_") and callable(g[name])]
