@@ -33,6 +33,12 @@ define( 'MAARS_CORE_VERSION', '0.1.0' );
  */
 define( 'MAARS_CORE_DIR', plugin_dir_path( __FILE__ ) );
 
+/**
+ * Rewrite-rule generation stamp. Bump it when a rewrite rule changes; see
+ * maars_maybe_flush_rewrites() in inc/post-types.php.
+ */
+const MAARS_REWRITE_VERSION = '2';
+
 /*
  * Load order matters exactly once, and this is it: taxonomies.php is required
  * before post-types.php so that maars_register_taxonomies() is hooked to `init`
@@ -48,6 +54,7 @@ require_once MAARS_CORE_DIR . 'inc/post-types.php';
 require_once MAARS_CORE_DIR . 'inc/fields.php';
 require_once MAARS_CORE_DIR . 'inc/freshness.php';
 require_once MAARS_CORE_DIR . 'inc/blocks.php';
+require_once MAARS_CORE_DIR . 'inc/tally.php';
 
 /**
  * Activation: register the content model once by hand, seed the fixed

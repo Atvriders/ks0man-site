@@ -1602,5 +1602,269 @@
   "year": 2023,
   "date": "2023-12-01",
   "title": "Treasurer's report, December 2023"
+ },
+ {
+  "kind": "document",
+  "src": "events_fox_hunt_4-28-19.pdf",
+  "file": "events-fox-hunt-4-28-19.pdf",
+  "bytes": 787334
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_01-16.pdf",
+  "file": "newsletter-01-16.pdf",
+  "bytes": 257281
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_02-10.pdf",
+  "file": "newsletter-02-10.pdf",
+  "bytes": 161975
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_02-14.pdf",
+  "file": "newsletter-02-14.pdf",
+  "bytes": 61364
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_04-16.pdf",
+  "file": "newsletter-04-16.pdf",
+  "bytes": 68485
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_04-20.pdf",
+  "file": "newsletter-04-20.pdf",
+  "bytes": 34541
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_05-10.pdf",
+  "file": "newsletter-05-10.pdf",
+  "bytes": 131071
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_05-23.pdf",
+  "file": "newsletter-05-23.pdf",
+  "bytes": 949638
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_07-10.pdf",
+  "file": "newsletter-07-10.pdf",
+  "bytes": 127167
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_07-17.pdf",
+  "file": "newsletter-07-17.pdf",
+  "bytes": 85248
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_07-19.pdf",
+  "file": "newsletter-07-19.pdf",
+  "bytes": 285594
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_08-10.pdf",
+  "file": "newsletter-08-10.pdf",
+  "bytes": 190619
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_09-13.pdf",
+  "file": "newsletter-09-13.pdf",
+  "bytes": 26712
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_09-22.pdf",
+  "file": "newsletter-09-22.pdf",
+  "bytes": 58708
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_10-10.pdf",
+  "file": "newsletter-10-10.pdf",
+  "bytes": 161754
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_10-15.pdf",
+  "file": "newsletter-10-15.pdf",
+  "bytes": 66981
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_11-09.pdf",
+  "file": "newsletter-11-09.pdf",
+  "bytes": 131864
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_11-15.pdf",
+  "file": "newsletter-11-15.pdf",
+  "bytes": 55592
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_11-18.pdf",
+  "file": "newsletter-11-18.pdf",
+  "bytes": 72330
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_11-23.pdf",
+  "file": "newsletter-11-23.pdf",
+  "bytes": 884382
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_12-10.pdf",
+  "file": "newsletter-12-10.pdf",
+  "bytes": 169178
+ },
+ {
+  "kind": "document",
+  "src": "newsletter_12-15.pdf",
+  "file": "newsletter-12-15.pdf",
+  "bytes": 250984
+ },
+ {
+  "kind": "document",
+  "src": "warn.pdf",
+  "file": "warn.pdf",
+  "bytes": 224815
+ },
+ {
+  "kind": "document",
+  "src": "warn_Jan.-Mar._2020.pdf",
+  "file": "warn-jan-mar-2020.pdf",
+  "bytes": 212882
+ },
+ {
+  "kind": "image",
+  "src": "photo_Jason-Johnson-Glen-Rubash-Award.jpg",
+  "file": "photo-jason-johnson-glen-rubash-award.jpg",
+  "bytes": 242195
+ },
+ {
+  "kind": "image",
+  "src": "photo_Jason-Johnson-Glen-Rubash-Award_400.jpg",
+  "file": "photo-jason-johnson-glen-rubash-award-400.jpg",
+  "bytes": 41675
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Anthony_Schneweis.jpg",
+  "file": "silentkey-anthony-schneweis.jpg",
+  "bytes": 6814
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Arnold.jpg",
+  "file": "silentkey-arnold.jpg",
+  "bytes": 51573
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Bob_Bartholic.jpg",
+  "file": "silentkey-bob-bartholic.jpg",
+  "bytes": 9000
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Cleve.jpg",
+  "file": "silentkey-cleve.jpg",
+  "bytes": 7741
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Don_Dodge.jpg",
+  "file": "silentkey-don-dodge.jpg",
+  "bytes": 11628
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Don_Dodge_larger.jpg",
+  "file": "silentkey-don-dodge-larger.jpg",
+  "bytes": 135855
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Don_Eichem.jpg",
+  "file": "silentkey-don-eichem.jpg",
+  "bytes": 14023
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Dona-Rose_Hackerott.jpg",
+  "file": "silentkey-dona-rose-hackerott.jpg",
+  "bytes": 10784
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Dona-Rose_Hackerott_large.jpg",
+  "file": "silentkey-dona-rose-hackerott-large.jpg",
+  "bytes": 77442
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Eldon_Turnbow.jpg",
+  "file": "silentkey-eldon-turnbow.jpg",
+  "bytes": 8376
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Francis_Sable.jpg",
+  "file": "silentkey-francis-sable.jpg",
+  "bytes": 7283
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Fred Dona-Rose_Hackerott.jpg",
+  "file": "silentkey-fred-dona-rose-hackerott.jpg",
+  "bytes": 115981
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Fred.jpg",
+  "file": "silentkey-fred.jpg",
+  "bytes": 7447
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Fred_Hackerott.jpg",
+  "file": "silentkey-fred-hackerott.jpg",
+  "bytes": 25545
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Lyle_Dixon.jpg",
+  "file": "silentkey-lyle-dixon.jpg",
+  "bytes": 8159
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Nadine_Stueve.jpg",
+  "file": "silentkey-nadine-stueve.jpg",
+  "bytes": 26718
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Norm.jpg",
+  "file": "silentkey-norm.jpg",
+  "bytes": 16677
+ },
+ {
+  "kind": "image",
+  "src": "silentkey_Warren_Ford.jpg",
+  "file": "silentkey-warren-ford.jpg",
+  "bytes": 11580
  }
 ]

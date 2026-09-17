@@ -76,7 +76,10 @@ MIN_STDEV = 6.0          # grey-level spread across the band; a flat fill is ~0
 MIN_COLORS = 400         # a real heat map has thousands
 MIN_COL_SPREAD = 3.0     # columns must differ from each other
 MIN_ROW_SPREAD = 2.0     # and rows from each other, or it is a gradient
-CARRIER_GAIN = 1.25      # the marked column against the noise floor
+CARRIER_AT = 0.51        # 147.255 across a 147.0-147.5 band
+CARRIER_GAIN = 1.05      # the marked column against the noise floor: a sanity
+                         # check only, the marking is colour and not brightness
+CARRIER_MAGENTA = 8.0    # min(R,B)-G above the floor; measured +14.4
 STATIC_MAD = 0.35        # under reduced motion, two captures must match
 AA_NORMAL = 4.5
 READY_MS = 20000
@@ -146,9 +149,14 @@ def _structure(rgb) -> tuple[float, float]:
 def _column(rgb, frac: float, half: int = 4) -> tuple[float, float]:
     """(mean grey, mean magenta-ness) of a narrow vertical strip.
 
-    Magenta-ness is red plus blue minus twice green: it is positive for
-    everything on the carrier ramp and at most zero for the navy noise ramp,
-    so it separates 'a bright bit of noise' from 'the club's own carrier'."""
+    Magenta-ness is min(R, B) - G. The obvious formula, R + B - 2G, was what
+    this file used first, and it is wrong for this image: pure navy scores 140
+    on it, so the navy noise ramp read as "magenta" and the median column of
+    the band measured 19.6 against the carrier's 37.6. Requiring both R and B
+    to be present separates the club's magenta (#990066 scores 102) from navy
+    (#00008C scores 0), and on the rendered band it puts the carrier at +12.7
+    against a noise floor of -1.8.
+    """
     w, h = rgb.size
     px = rgb.load()
     x0 = max(0, min(w - 1, int(w * frac) - half))
@@ -158,11 +166,29 @@ def _column(rgb, frac: float, half: int = 4) -> tuple[float, float]:
     n = 0
     for x in range(x0, x1):
         for y in range(0, h, 2):
-            r, gg, b = px[x, y][:3]
-            g += 0.2126 * r + 0.7152 * gg + 0.0722 * b
-            m += (r + b) - 2 * gg
+            r_, g_, b_ = px[x, y][:3]
+            g += 0.2126 * r_ + 0.7152 * g_ + 0.0722 * b_
+            m += min(r_, b_) - g_
             n += 1
-    return g / n, m / n
+    return (g / n if n else 0.0), (m / n if n else 0.0)
+
+
+def _most_magenta_column(rgb) -> tuple[float, float]:
+    """(position 0..1, magenta-ness) of the most magenta column in the band."""
+    w, h = rgb.size
+    px = rgb.load()
+    best = (0.0, -1e9)
+    for x in range(0, w, 2):
+        m = 0.0
+        n = 0
+        for y in range(0, h, 4):
+            r_, g_, b_ = px[x, y][:3]
+            m += min(r_, b_) - g_
+            n += 1
+        val = m / n if n else 0.0
+        if val > best[1]:
+            best = (x / w, val)
+    return best
 
 
 def _mad(a, b) -> float:
@@ -267,6 +293,13 @@ def build_page(*, fallback: bool = False) -> str:
         '<!doctype html><html lang="en"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         "<title>MAARS masthead &mdash; WordPress output</title>"
+        # WordPress zeroes the body margin in its global styles -- measured
+        # `margin: 0px` on https://ks0man.org. The UA default of 8px is not a
+        # thing this site ever renders with, and leaving it in made the harness
+        # lie: the full-bleed band measured 1424px in a 1440px window, and the
+        # test that exists to catch a band that is not full bleed failed on a
+        # margin that only the harness had. The real band is 1440 at x=0.
+        '<style>:where(body){margin:0}</style>'
         f"<style>{preset_vars()}</style>"
         f"<style>{CSS.read_text()}</style>"
         "</head><body class='wp-site-blocks'>"
@@ -589,18 +622,45 @@ def test_the_band_is_not_a_flat_rectangle():
 
 
 def test_the_carrier_is_marked_and_it_is_magenta():
+    """147.255 is marked, and the mark is the club's magenta.
+
+    What this asserted first was brightness: the carrier column had to be 1.25x
+    the noise floor. Measured, it is 156.4 against 142.4 -- because the
+    waterfall is bright nearly everywhere, so brightness was never going to be
+    what marks the repeater, and the test could not have passed on any correct
+    render. Colour is what marks it, so colour is what is measured:
+
+        most magenta column   0.505 of the band   (147.255 sits at 0.51)
+        carrier magenta-ness  +12.7
+        noise floor           -1.8
+        median column         -1.7
+
+    The first assertion is the strong one -- the single most magenta column in
+    a 2,848px-wide band lands on the club's own frequency, which nothing but
+    the carrier marker can do.
+    """
     r = capture()
-    lo_g, lo_m = _column(r["band"], 0.20)
-    hi_g, hi_m = _column(r["band"], 0.80)
-    c_g, c_m = _column(r["band"], 0.51)
+    band = r["band"]
+
+    where, value = _most_magenta_column(band)
+    assert abs(where - CARRIER_AT) <= 0.02, (
+        f"the most magenta column of the band is at {where:.3f} of its width, and "
+        f"147.255 sits at {CARRIER_AT}; whatever is being marked, it is not the "
+        "Society's repeater")
+
+    lo_g, lo_m = _column(band, 0.20)
+    hi_g, hi_m = _column(band, 0.80)
+    c_g, c_m = _column(band, CARRIER_AT)
     floor_g = (lo_g + hi_g) / 2
     floor_m = (lo_m + hi_m) / 2
+
+    assert c_m > floor_m + CARRIER_MAGENTA, (
+        f"the carrier is not magenta: {c_m:.2f} against a noise floor of "
+        f"{floor_m:.2f}. Magenta is the one colour this site reserves; the "
+        "carrier is what it is reserved for.")
     assert c_g > floor_g * CARRIER_GAIN, (
-        f"nothing is marked at 147.255: carrier column luma {c_g:.2f} against a "
-        f"noise floor of {floor_g:.2f}")
-    assert c_m > floor_m + 6.0, (
-        f"the carrier is not magenta: {c_m:.2f} against {floor_m:.2f}. Magenta is "
-        "the one colour this site reserves; the carrier is what it is reserved for.")
+        f"the carrier column is dimmer than the noise around it: {c_g:.2f} "
+        f"against {floor_g:.2f}")
 
 
 def test_it_moves_slowly_and_stops_for_reduced_motion():

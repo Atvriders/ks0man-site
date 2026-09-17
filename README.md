@@ -28,10 +28,12 @@ Read this before you trust anything below it.
 |---|---|---|
 | The WebGL propagation scene actually draws | **Verified** | `pytest tests/test_webgl.py` loads the scene in headless Chromium on SwiftShader (software rasteriser, no GPU), waits for the canvas to report `data-maars-ready="1"`, then **reads the pixels back**: it fails if the image is flat, and fails again if switching bands does not change the image. PNGs are written to `tests/out/` — look at them, do not take the exit code's word for it. |
 | Every PHP file is syntactically valid | **Verified** | `php -l` on each file, run as part of `tests/test_static.py`. Checked against PHP 8.1; the image runs PHP 8.3. |
-| No personal data anywhere in the repository | **Verified** | `tests/test_static.py` greps the whole tree for address, phone and e-mail patterns and fails the run. It is a gate, not a guideline. |
+| No developer or third-party data anywhere in the repository | **Verified** | `tests/test_static.py` greps the whole tree for address, phone, e-mail, LAN-IP and host-path patterns and fails the run. It is a gate, not a guideline. Since the Society's decision of 17 September 2026 the club's **own** record — `media/` and `content/html_archive.json` — is exempt and publishes in full; a meta-check in the same file refuses to let that exemption grow to a third path. |
 | File map, `theme.json`, `content/seed.json`, `docker-compose.yml` all present and parseable | **Verified** | `tests/test_static.py`. |
-| **The site running in a real WordPress** | **NOT verified** | There is no Docker daemon in the environment this was built in. Not one line of this has ever booted against a live WordPress, a live MariaDB, or a live browser session on the real site. CI builds and publishes the image; **your first `docker compose up` is the first real test.** |
-| Content completeness, link integrity, redirects | **NOT verified** | Out of scope for a demonstration. Those belong to the migration proper. |
+| **The site running in a real WordPress** | **Verified, but not in Docker** | There is still no Docker daemon in the environment this was built in, so `docker compose up` remains untested by its author. Everything above that has been exercised: the theme and plugin run on a real **WordPress 7.1** (PHP 8.1 + SQLite) built for the purpose, and the same code is live at **https://ks0man.org** with the full archive in it. Pages were rendered and measured in headless Chromium, not asserted. |
+| Content completeness | **Verified** | 242 documents, 1998–2024, counted out of the live database; the figures the site prints are counted at render time rather than typed. |
+| Link integrity | **Verified for the theme** | `tests/test_static.py` resolves every internal `href` in the theme against the pages the seed creates and the routes the plugin registers, and fails on one that goes nowhere — which is how `/archive/gaps/` was found 404ing in production. A full crawl of the live site is not part of the suite. |
+| Redirects from ks0man.com | **NOT done** | The 436-row URL map exists; nothing is deployed on the old domain yet. |
 
 If the first boot fails, that is expected information, not a surprise. File it.
 
@@ -189,55 +191,47 @@ a colour scheme. Both are fixed by process, not by a redesign.
 
 ## What ships, and what does not
 
-### What ships
+### The Society's own record, in full
 
-- Club history and governance facts: founding on 7 July 1976 at a meeting called to order at
-  7:40 P.M.; the members' vote to be a **Society**, not a Club; the constitution and SOP of
-  11 December 2021, including Article III (the e-mail reflector is the official organ) and
-  Article VII ("a quorum consists of the members present"); the meeting rule.
-- The **shape** of the archive — counts, date ranges, gaps — without the documents themselves:
+Amended **17 September 2026**, by the Society's decision. The rule this repository shipped
+with was the opposite one, and the reasoning for the change is the club's own: this is the
+club's information about the club, every line of it stood on ks0man.com for twenty-seven
+years, and a migration that drops half of it is not a migration. The members asked for the
+whole record to be reachable.
 
-  | Category | Count | Range |
-  |---|---:|---|
-  | Newsletters and minutes | 209 | 1998–2024 |
-  | Treasurer's reports | 49 | monthly |
-  | Year-end reports | 6 | annual |
-  | Memorials | 27 | — |
-  | Member articles | 36 | — |
-  | Images | 105 | — |
+So the image and this repository carry:
 
-  2012 produced nothing at all. The newest content of any kind is 16 January 2024.
-
+- **242 dated documents**, 1998–2024 — newsletters, meeting minutes, treasurer's reports
+  and year-end reports, including the 125 HTML-era issues transcribed in full.
+- **223 files**, 39.9 MB — the scans and photographs themselves, among them the
+  **24 documents that carry officer contact details** and the **18 memorial portraits**.
+  Unredacted, deliberately.
+- Club history and governance facts: the founding on 7 July 1976 at a meeting called to
+  order at 7:40 P.M.; the members' vote to be a **Society**, not a Club; the constitution
+  and SOP of 11 December 2021, including Article III (the e-mail reflector is the official
+  organ) and Article VII ("a quorum consists of the members present"); the meeting rule.
 - Technical facts about the repeater and the nets, every one of them graded `unverified`.
-- Officer references at **role level only** — President, Vice-President, Secretary, Treasurer,
-  Repeater Trustee, Webmaster. No names attached to contact details.
+
+Every figure the site states about the archive is counted out of the database as the page
+renders — see `[maars_archive_*]` in `wp/plugins/maars-core/inc/tally.php`. The site
+cannot tell a reader it holds 266 documents while holding 242, which is exactly what it
+did before this was written.
 
 ### What does not ship, and why
 
-None of the following is in the image, in this repository, or in `content/seed.json`:
+Two things, and only two:
 
-- 28 personal e-mail addresses
-- 7 phone numbers
-- One private home address
-- 17 storm-spotter observer posts with street addresses
-- The 41-name member roster
-- The 27 obituaries
-- The scanned documents and photographs themselves
+- **Twenty-four third-party documents** — ARRL bulletins, band charts, licence-study
+  material and similar work by other authors, put on the old site years ago with no record
+  of permission. They are not the Society's to give away, so the site links to the source
+  rather than hosting a copy. `tools/screen_media.py` fails if one reappears in `media/`.
+- **Two Field Day videos, 66.7 MB** — large enough that serving them from here would slow
+  every page on the site for the sake of two files. They belong on a video host, embedded.
 
-The reason is short. **The image is public on ghcr.io.** Anything baked into a public image is
-public permanently: it is pulled, cached, mirrored and layered by strangers, and there is no
-recall. A club cannot un-publish a Docker layer.
-
-The second reason is that the club has not decided. Whether the obituaries may be republished in
-full, whether the roster is public or members-only, whether the observer posts keep their address
-column — those are open questions with real people behind them, and one of them may need county
-emergency-management sign-off. A decision made by default is still a decision, and defaulting to
-publication is the wrong default. Consent has not been given, so the answer is no.
-
-This is enforced, not merely intended: `tests/test_static.py` scans the entire repository for those
-patterns and fails. If you add a real e-mail address to a fixture, the build stops.
-
----
+What is still refused everywhere, archive payload included: LAN IP addresses, hostnames,
+developer host paths and credentials — anything about the machine this was built on rather
+than about the Society. `tests/test_static.py` enforces it, and was negative-tested against
+planted data to prove the gate can fail.
 
 ## Generating the full content locally
 
@@ -340,8 +334,8 @@ happened on 7 July 2026, the club's 50th anniversary, that should be written dow
 the private migration workspace (`ks0man-migration`): `study/arch_plan.json` under
 `blocking_questions` and `open_questions`, the domain argument under `domain_decision`, and the
 anti-rot rules in `study/arch_ops.json` under `anti_rot`. That workspace is **not** published, and
-must not be: it contains the full mirror, and the mirror contains every piece of personal data this
-repository refuses to carry.
+must not be: it holds working notes, credentials and the machine's own paths, none of which are
+the Society's record and none of which belong in a public image.
 
 ---
 

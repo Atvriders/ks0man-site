@@ -317,6 +317,8 @@ def _line_of(text: str, idx: int) -> int:
 def _scan(pattern: re.Pattern, allow=None) -> list[str]:
     hits = []
     for p in text_files():
+        if _is_archive_payload(p):
+            continue
         body = read(p)
         for m in pattern.finditer(body):
             if allow and allow(m, body, p):
@@ -365,6 +367,34 @@ def test_pii_gate_no_street_addresses():
 def test_pii_gate_no_po_boxes_or_zip_plus_four():
     hits = _scan(POBOX_RE) + _scan(ZIP4_RE)
     assert not hits, "MAILING-ADDRESS PATTERNS found:\n  " + "\n  ".join(hits)
+
+
+# ---------------------------------------------------------------------------
+# THE ARCHIVE IS PUBLISHED IN FULL, BY THE SOCIETY'S DECISION (17 Sep 2026).
+#
+# The club's own record names its own members and prints the contact details it
+# printed at the time, and every line of it was already public on ks0man.com for
+# twenty-seven years. So the PII gate no longer scans the archive payload.
+#
+# It still scans everything else, and that is the point: a contact detail
+# wandering into a template, a stylesheet, a test fixture or the compose file is
+# still a leak, and still fails the build. The exemption is two paths, named
+# explicitly, and a meta-check below asserts it has not grown.
+# ---------------------------------------------------------------------------
+ARCHIVE_PAYLOAD = ("media/", "content/html_archive.json")
+
+
+def _is_archive_payload(path) -> bool:
+    r = rel(path).replace(os.sep, "/")
+    return any(r == p or r.startswith(p) for p in ARCHIVE_PAYLOAD)
+
+
+def test_the_archive_exemption_is_exactly_two_paths():
+    """The payload exemption must not quietly widen into the code."""
+    assert ARCHIVE_PAYLOAD == ("media/", "content/html_archive.json"), (
+        "the archive exemption grew; every added path is somewhere a contact "
+        "detail can reach a template or a config file unnoticed"
+    )
 
 
 # tests/test_site_url.py exists to prove that PRIVATE addresses are accepted by
@@ -748,6 +778,238 @@ def test_dockerfile_copy_sources_survive_dockerignore():
         elif _dockerignore_excludes(rel):
             problems.append(f"{src}: excluded by .dockerignore, so the build cannot see it")
     assert not problems, "Dockerfile COPY sources the build will not find:\n  " + "\n  ".join(problems)
+
+
+# --------------------------------------------------------------------------
+# the archive's own figures, and the links that go with them
+# --------------------------------------------------------------------------
+
+THEME_TEMPLATES = ["wp/themes/maars/templates", "wp/themes/maars/parts"]
+
+
+def _template_files() -> list[Path]:
+    out = []
+    for d in THEME_TEMPLATES:
+        base = REPO / d
+        if base.is_dir():
+            out.extend(sorted(base.rglob("*.html")))
+    return out
+
+
+def _visible_text(html: str) -> str:
+    """Template prose with the HTML comments removed.
+
+    Block delimiters ARE comments, so this also drops them; what is left is the
+    text a reader sees plus the tags around it, which is what a hand-written
+    total would be hiding in.
+    """
+    return re.sub(r"<!--.*?-->", " ", html, flags=re.S)
+
+
+def test_no_hand_written_archive_totals_in_the_theme():
+    """A count of the archive must be counted, never typed.
+
+    The templates shipped with "266 items", "14 pages in all" and "Back to all
+    266 documents" in them, written during the study of ks0man.com. The site
+    holds 242: twenty-four are third-party material that is not the Society's
+    to republish. Every one of those numbers was wrong on the live site, in the
+    club's own voice, on the page whose job is to say what the record contains.
+
+    The figures now come from [maars_archive_*] shortcodes, counted at render
+    time. This gate keeps a typed one from coming back.
+    """
+    pattern = re.compile(
+        r"\b\d{2,4}\s+(?:items|documents|records|pages|newsletters)\b"
+        r"|\b(?:items|documents|records|pages)\s*:\s*\d{2,4}\b",
+        re.I,
+    )
+    problems = []
+    for path in _template_files():
+        text = _visible_text(read(path))
+        for m in pattern.finditer(text):
+            problems.append(f"{rel(path)}: {m.group(0)!r}")
+    assert not problems, (
+        "hand-written archive totals in theme templates; use the shortcodes "
+        "from inc/tally.php instead:\n  " + "\n  ".join(problems)
+    )
+
+
+def _registered_shortcodes() -> set[str]:
+    src = read(REPO / "wp/plugins/maars-core/inc/tally.php")
+    return set(re.findall(r"add_shortcode\(\s*'([a-z_]+)'", src))
+
+
+def _shortcodes_used() -> dict[str, list[str]]:
+    used: dict[str, list[str]] = {}
+    files = _template_files()
+    seed = REPO / "content/seed.json"
+    blocks = []
+    if seed.exists():
+        data = json.loads(read(seed))
+        for page in data.get("pages", []):
+            blocks.append((f"content/seed.json:{page.get('slug')}", page.get("blocks", "")))
+    for path in files:
+        blocks.append((rel(path), read(path)))
+    for where, text in blocks:
+        for name in re.findall(r"\[(maars_[a-z_]+)[^\]]*\]", text):
+            used.setdefault(name, []).append(where)
+    return used
+
+
+def test_every_maars_shortcode_used_is_registered():
+    """A shortcode that is not registered renders as its own source text.
+
+    There is no error and no blank: the page prints "[maars_archive_count]" to
+    the reader, which is worse than a wrong number because it looks like the
+    site is broken. Cheap to check, so it is checked.
+    """
+    registered = _registered_shortcodes()
+    assert registered, "no shortcodes registered in inc/tally.php"
+    unknown = {
+        name: where for name, where in _shortcodes_used().items()
+        if name not in registered
+    }
+    assert not unknown, "shortcodes used but never registered:\n  " + "\n  ".join(
+        f"{n} (in {', '.join(w)})" for n, w in sorted(unknown.items())
+    )
+
+
+def test_the_archive_page_size_is_stated_once():
+    """"20 to a page" in the lede must be the page size the query actually uses.
+
+    Two numbers, two places, one fact. The lede says how many rows a page holds
+    and the query block sets it; if they drift the page tells the reader
+    something the list then contradicts, and the page count derived from the
+    shortcode drifts with it.
+    """
+    path = REPO / "wp/themes/maars/templates/archive-maars_publication.html"
+    src = read(path)
+
+    query = re.search(r'"perPage"\s*:\s*(\d+)', src)
+    assert query, "no perPage found in the archive query block"
+
+    prose = re.search(r"(\d+)\s+to a page", _visible_text(src))
+    assert prose, 'the lede no longer says "N to a page"'
+
+    shortcode = re.search(r"\[maars_archive_pages[^\]]*per_page\s*=\s*\"?(\d+)", src)
+    assert shortcode, "the page-count shortcode does not carry a per_page"
+
+    assert query.group(1) == prose.group(1) == shortcode.group(1), (
+        f"page size disagrees: query block {query.group(1)}, "
+        f"lede {prose.group(1)}, shortcode {shortcode.group(1)}"
+    )
+
+
+# Routes this site serves that are not pages: the two post-type archives and
+# the two taxonomy archives, as registered in the plugin.
+ROUTE_PATTERNS = [
+    re.compile(r"^/$"),
+    re.compile(r"^/archive/$"),
+    re.compile(r"^/archive/(1[89]\d{2}|2\d{3})/$"),          # maars_year
+    re.compile(r"^/archive/type/[a-z0-9-]+/$"),                # maars_doc_type
+    re.compile(r"^/on-the-air/$"),
+    re.compile(r"^/wp-admin/.*"),
+    re.compile(r"^/wp-login\.php$"),
+    re.compile(r"^/\?s=.*|^/search/.*"),
+]
+
+
+def _seed_page_paths() -> set[str]:
+    """Permalinks the seed creates, hierarchy included.
+
+    A seeded page carries a `parent` slug, and WordPress puts a child page at
+    /parent/child/. Reading the slug alone would call /about/constitution/ a
+    broken link and /constitution/ a good one, which is backwards.
+    """
+    data = json.loads(read(REPO / "content/seed.json"))
+    by_slug = {p.get("slug", ""): p for p in data.get("pages", []) if p.get("slug")}
+    out = set()
+    for slug, page in by_slug.items():
+        if slug == "home":
+            out.add("/")
+            continue
+        parts = [slug]
+        parent = page.get("parent")
+        seen = {slug}
+        while parent and parent in by_slug and parent not in seen:
+            seen.add(parent)
+            parts.insert(0, parent)
+            parent = by_slug[parent].get("parent")
+        out.add("/" + "/".join(parts) + "/")
+    return out
+
+
+def _plugin_rewrite_targets() -> dict[str, str]:
+    """{path served: pagename it is routed to} from add_rewrite_rule() calls."""
+    out = {}
+    for php in sorted((REPO / "wp/plugins/maars-core").rglob("*.php")):
+        src = read(php)
+        for pattern, target in re.findall(
+            r"add_rewrite_rule\(\s*'([^']+)'\s*,\s*'index\.php\?pagename='\s*\.\s*([A-Z_]+)",
+            src,
+        ):
+            const = re.search(rf"const\s+{target}\s*=\s*'([^']+)'", src)
+            if not const:
+                continue
+            path = "/" + pattern.strip("^$").replace("/?", "").strip("/") + "/"
+            out[path] = const.group(1)
+    return out
+
+
+def test_every_internal_link_in_the_theme_goes_somewhere():
+    """A link in a template must reach a page this repo actually creates.
+
+    The archive's "what we know is missing" link pointed at /archive/gaps/ from
+    the day it was written, and nothing ever served that URL: the maars_year
+    taxonomy owns /archive/<anything>/, so WordPress read "gaps" as a year and
+    returned 404. It was live, on the page that exists to be honest about the
+    record, for the whole of the migration.
+    """
+    pages = _seed_page_paths()
+    rewrites = _plugin_rewrite_targets()
+
+    # A rewrite only resolves if the page it routes to is actually seeded.
+    for path, pagename in rewrites.items():
+        assert f"/{pagename}/" in pages, (
+            f"{path} is routed to the page '{pagename}', which content/seed.json "
+            "does not create"
+        )
+
+    known = pages | set(rewrites)
+    problems = []
+    for path in _template_files():
+        for href in re.findall(r'href="(/[^"]*)"', read(path)):
+            clean = href.split("#")[0].split("?")[0]
+            if not clean.endswith("/") and "." not in clean.rsplit("/", 1)[-1]:
+                clean += "/"
+            if clean in known:
+                continue
+            if any(p.match(clean) for p in ROUTE_PATTERNS):
+                continue
+            problems.append(f"{rel(path)}: {href}")
+    assert not problems, (
+        "internal links with nothing behind them:\n  " + "\n  ".join(problems)
+    )
+
+
+def test_a_field_name_cannot_outlive_its_value():
+    """core/post-date renders nothing for a post that was never edited.
+
+    displayType "modified" returns an empty string when the modified date
+    equals the publish date, so the "Last touched" label in front of it sat on
+    the page with nothing after it -- on every page the index template serves.
+    The template cannot branch, so maars.css hides a trailing field name. If the
+    markup keeps the label, the stylesheet must keep the rule.
+    """
+    templates = [p for p in _template_files() if '"displayType":"modified"' in read(p)]
+    if not templates:
+        return
+    css = read(REPO / "wp/themes/maars/assets/css/maars.css")
+    assert re.search(r"\.maars-fieldname:last-child\s*\{[^}]*display:\s*none", css), (
+        "these templates put a label in front of a post-date that can render "
+        "empty, and nothing hides the orphaned label:\n  "
+        + "\n  ".join(rel(p) for p in templates)
+    )
 
 
 def _all_checks():

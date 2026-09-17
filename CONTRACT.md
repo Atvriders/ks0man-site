@@ -7,13 +7,23 @@ A runnable demonstration of the ks0man.org rebuild: WordPress + the `maars-core`
 the `maars` block theme + a WebGL2 homepage, shipped as ONE public image on GHCR and started
 with `docker compose up`.
 
-## HARD RULE — NO PERSONAL DATA IN THE IMAGE
-The image is PUBLIC on ghcr.io. The source archive contains 28 personal e-mail addresses,
-7 phone numbers, a home address, a 41-name member roster and 17 storm-spotter street addresses.
-NONE of that may be baked into the image or committed to this repo. Seed content is limited to:
-club history, governance facts, the archive's SHAPE, and technical facts marked UNVERIFIED.
-Officer names appear ONLY where already-public and role-level (no e-mails, no phones).
-The club generates full content locally with tools/build_content.py against their own mirror.
+## HARD RULE — WHOSE INFORMATION IS IT
+Amended 17 September 2026 by the Society's decision, which is recorded here because it
+reverses the rule this file carried before it.
+
+THE SOCIETY'S OWN RECORD PUBLISHES IN FULL. The newsletters, minutes, reports and
+photographs are the club's information about the club; every line of it stood on
+ks0man.com for twenty-seven years, so the migration is continuity, not new exposure.
+Contact details inside those documents and the memorial portraits go with them,
+unredacted. The club asked for the whole record to be reachable by its own members.
+
+WHAT STILL MUST NEVER BE COMMITTED, and is gated in tests/test_static.py:
+- Third-party copyright material. Not ours to republish; link to the source instead.
+- Anything about the machine this was built on: LAN IPs, hostnames, developer host
+  paths, credentials. The gate covers the whole tree, archive payload included.
+The PII gate covers every path EXCEPT the two archive payload paths — `media/` and
+`content/html_archive.json` — and a meta-check refuses to let that exemption grow to a
+third path.
 
 ## Versions (pinned, do not change)
 - Base image: `wordpress:7.1-php8.3-apache`
@@ -37,6 +47,7 @@ wp/plugins/maars-core/inc/taxonomies.php
 wp/plugins/maars-core/inc/fields.php
 wp/plugins/maars-core/inc/freshness.php
 wp/plugins/maars-core/inc/blocks.php
+wp/plugins/maars-core/inc/tally.php   # the archive counted at render time; the [maars_archive_*] shortcodes
 wp/themes/maars/style.css
 wp/themes/maars/theme.json
 wp/themes/maars/functions.php
@@ -91,6 +102,33 @@ Core `post` = News (the 36 Current Topics). Core `page` = standing pages.
 - `maars/dateline`       → "last published N days ago" banner; red when > 120 days
 - `maars/fact`           → wraps a fact with its freshness grade chip
 - `maars/skywave`        → the WebGL2 canvas + <noscript>/fallback
+- `maars/masthead`       → the 2 m receiver at the head of the site: trace, waterfall, identity
+
+## Archive figures (shortcodes, inc/tally.php)
+Every number about the archive is counted at render time. No template, page or
+post may state a total in prose: the theme shipped "266 items", "14 pages in
+all" and "209 newsletters" from the study of ks0man.com, and the site holds 242.
+- `[maars_archive_count]`       → published maars_publication posts
+- `[maars_archive_span]`        → "1998 to 2024"
+- `[maars_archive_first_year]` · `[maars_archive_last_year]`
+- `[maars_archive_kinds]`       → "121 newsletters, 66 sets of meeting minutes, …"
+  (plurals come from `maars_doc_type_terms()['<slug>']['plural']`)
+- `[maars_archive_pages per_page=20]` → pages the list runs to; per_page MUST equal
+  the archive query block's perPage (gated by tests/test_static.py)
+- `[maars_archive_gap_years]`   → "2012 and 2014"; runs collapse to "2000 to 2011"
+- `[maars_archive_gaps]`        → the whole sentence, or empty when there are none
+- `[maars_archive_newest]`      → date on the newest document of any kind
+- `[maars_archive_year_table]`  → the record year by year, gaps marked (.maars-yeartable)
+Shortcodes are processed in block templates by get_the_block_template_html().
+
+## Routes that are not pages
+`/archive/` (maars_publication) · `/on-the-air/` (maars_facility) ·
+`/archive/<year>/` (maars_year) · `/archive/type/<slug>/` (maars_doc_type) ·
+`/archive/gaps/` → the page `archive-gaps`, via add_rewrite_rule() in post-types.php.
+Rewrite rules are flushed once per deploy by `maars_maybe_flush_rewrites()`;
+bump `MAARS_REWRITE_VERSION` in maars-core.php whenever a rule changes.
+Every internal href in the theme is checked against this list by
+tests/test_static.py — a link to a URL nothing serves fails the build.
 
 ## theme.json palette (EXACT — measured from the club's own stylesheet)
 navy #00008C (15.23:1 on white, AAA) · magenta #990066 (8.25:1) · lavender #DBDBFB

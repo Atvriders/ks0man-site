@@ -289,3 +289,57 @@ function maars_publication_permalink( $permalink, $post ) {
 	return str_replace( '%maars_year%', sanitize_title( $year ), $permalink );
 }
 add_filter( 'post_type_link', 'maars_publication_permalink', 10, 2 );
+
+/**
+ * Slug of the page that says what the archive does not hold.
+ *
+ * It lives at /archive/gaps/, beside the record it is about, which takes an
+ * explicit rule: the maars_year taxonomy owns /archive/<anything>/, so without
+ * this WordPress reads "gaps" as a year, finds no such term and returns 404 --
+ * which is precisely what the archive's own "what we know is missing" link did
+ * from the day it was written.
+ */
+const MAARS_GAPS_PAGE_SLUG = 'archive-gaps';
+
+/**
+ * Route /archive/gaps/ to the gaps page.
+ *
+ * Registered 'top' so it is tested before the taxonomy rule, and anchored at
+ * both ends so it can match nothing else.
+ *
+ * @return void
+ */
+function maars_register_gaps_route() {
+	add_rewrite_rule(
+		'^archive/gaps/?$',
+		'index.php?pagename=' . MAARS_GAPS_PAGE_SLUG,
+		'top'
+	);
+}
+add_action( 'init', 'maars_register_gaps_route', 6 );
+
+/**
+ * Flush the rewrite rules once, after a deploy that changes them.
+ *
+ * Activation-time flushing is not enough here: updating a plugin's files on a
+ * live site does not re-run activation, so a new rule would sit in the rule
+ * array unwritten and the URL would keep 404ing. The stamp makes the flush
+ * happen exactly once per rule change -- bump MAARS_REWRITE_VERSION whenever a
+ * rewrite rule in this plugin changes, and never otherwise, because flushing on
+ * every request is a documented way to make a site slow.
+ *
+ * @return void
+ */
+function maars_maybe_flush_rewrites() {
+	if ( ! function_exists( 'get_option' ) ) {
+		return;
+	}
+
+	if ( (string) get_option( 'maars_rewrite_version', '' ) === (string) MAARS_REWRITE_VERSION ) {
+		return;
+	}
+
+	flush_rewrite_rules( false );
+	update_option( 'maars_rewrite_version', (string) MAARS_REWRITE_VERSION );
+}
+add_action( 'init', 'maars_maybe_flush_rewrites', 99 );

@@ -72,9 +72,29 @@ Registered from the theme, not hand-pasted into a template.
 - The skywave scene. It stays the page's one *large* bold moment; the waterfall
   is ambient chrome, not a competitor.
 - Facts carry their age. "Last checked 12 January 2024 — 977 days ago."
-- The honest voice. "2012 produced nothing at all" stays exactly as written.
+- The honest voice. "2012 produced nothing at all" stays exactly as written —
+  though it is now counted rather than typed, so it can say 2012 and 2014, or
+  nothing at all, as the record changes under it.
 - Everything revision 2 fixed: no caps eyebrows, no interpuncts, no nested boxes,
   no monospace on prose, counts beside their terms.
+
+## The year table (/archive/gaps/, new)
+The page that says what the record does not hold needed a shape, not another
+list of sentences. It is a data table and follows the archive log's rule rather
+than the card kit's: square corners, hairline rules, no shadow, figures in Fira
+Code with tabular lining.
+
+One piece of drawing, and it carries information rather than mood: behind each
+count sits a bar ruled to that year's share of the fullest year (`--maars-graph`
+#D9DCF3, the only fill on the site that encodes a quantity). A thin year is
+visible as a shape before it is read as a figure. A year with nothing in it has
+no bar to draw, which is the point of the page, so it is marked instead — the
+record's magenta down the edge of the row and the word "none" where the count
+would be, measured 7.57:1 on the page ground. Magenta appears nowhere else here.
+
+Two columns, not three: the year is the link, because "read the year" repeated
+down twenty-seven rows is the placeholder sentence this project already took out
+of the archive log once.
 
 ## Accessibility floor — unchanged, non-negotiable
 18px body (20px desktop) · line-height 1.65 · 48px targets · 3px navy focus ring

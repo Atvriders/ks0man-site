@@ -2,7 +2,7 @@
 
 <!-- THE ARCHIVE — revision 3, "Tuned".
 
-     266 dated documents in one list, under the receiver band. What revision 3
+     every dated document in one list, under the receiver band. What revision 3
      changes here, and why.
 
      SOFT AND SMOOTH IS NOT A CARD KIT. The brief asked for soft and smooth, and
@@ -41,7 +41,7 @@
      band is the same constrained column at every width and the cap maars.css
      puts on an li is the column rather than a crop.
      THREE COLUMNS, NOT FOUR. The file name was a placeholder sentence repeated
-     down 266 rows; it is named on the document's own page, where it is of use.
+     down the list; it is named on the document's own page, where it is of use.
      Column widths come from --maars-log-columns, set inline below.
      NO PANEL, NO EYEBROW. "Narrow the list" is a ruled band, not a bordered box
      holding bordered controls, and the heading says "The archive", so nothing
@@ -95,8 +95,8 @@
                    carry .maars-log__entries, which is the log's own list reset
                    (no bullets, no indent). Hold .maars-termlist to a measure of
                    about 22rem so the count lands near its term rather than a
-                   column away, and run the 26-year list in two columns above 48em
-                   so it is 13 rows tall, not 26. Until then the line-height
+                   column away, and run the year list in two columns above 48em
+                   so it is half as tall. Until then the line-height
                    carries it: 2.7 x the 18px body floor is 48.6px, which puts 48px
                    between one term and the next.
        EMPTY PAGE  core renders the column head on every page of the query,
@@ -109,8 +109,8 @@
                        { display: none }
                    Core's query-no-results block is absent from the DOM entirely
                    when the query found something, so the rule cannot misfire on
-                   any of the fourteen pages that have results.
-       STILL OPEN  on a phone the year facet is 26 rows — about 1,300px of scroll
+                   any page that has results.
+       STILL OPEN  on a phone the year facet is one row per year — about 1,300px of scroll
                    between the search field and the first result. The fix is a
                    media query in maars.css, not more markup here: below 48em run
                    .maars-termlist--year as a wrap of PILLS (999px, haze fill,
@@ -128,7 +128,7 @@
 		<!-- /wp:heading -->
 
 		<!-- wp:paragraph {"className":"maars-archive__lede","style":{"typography":{"fontSize":"clamp(1.25rem, 1.18rem + 0.36vw, 1.5rem)","lineHeight":"1.5"}}} -->
-		<p class="maars-archive__lede" style="font-size:clamp(1.25rem, 1.18rem + 0.36vw, 1.5rem);line-height:1.5">Every dated document the Society has published and kept: 266 items spanning 1998 to 2024, being newsletters, meeting minutes, 49 treasurer&#8217;s reports and 6 year-end reports. Newest first, 20 to a page, 14 pages in all.</p>
+		<p class="maars-archive__lede" style="font-size:clamp(1.25rem, 1.18rem + 0.36vw, 1.5rem);line-height:1.5">Every dated document the Society has published and kept: [maars_archive_count] items spanning [maars_archive_span], being [maars_archive_kinds]. Newest first, 20 to a page, [maars_archive_pages per_page=20] pages in all.</p>
 		<!-- /wp:paragraph -->
 
 		<!-- The gaps are a finding, not an omission, so they are marked with the
@@ -136,7 +136,7 @@
 		     draws it, which is why this is a paragraph and not a group wrapping a
 		     paragraph. The dates in it are prose and stay in the reading face. -->
 		<!-- wp:paragraph {"className":"maars-archive__gaps","style":{"typography":{"fontSize":"clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem)","lineHeight":"1.65"}}} -->
-		<p class="maars-archive__gaps" style="font-size:clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem);line-height:1.65">The gaps are part of the record and are not papered over. 2012 produced nothing at all. The newest document of any kind is dated 16 January 2024, and where a year is thin, the year is thin &#8212; <a href="/archive/gaps/">what we know is missing</a>.</p>
+		<p class="maars-archive__gaps" style="font-size:clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem);line-height:1.65">The gaps are part of the record and are not papered over. [maars_archive_gaps] The newest document of any kind is dated [maars_archive_newest], and where a year is thin, the year is thin &#8212; <a href="/archive/gaps/">what we know is missing</a>.</p>
 		<!-- /wp:paragraph -->
 
 	</section>
@@ -204,7 +204,7 @@
 	</section>
 	<!-- /wp:group -->
 
-	<!-- THE LOG. 20 per page over 266 documents is 14 pages, so pagination is
+	<!-- THE LOG. 20 per page, so pagination is
 	     numbered, not an infinite scroll and not a "load more": a researcher must be
 	     able to link to page 9 and come back to it. The query is explicit rather than
 	     inherited so the page length is a property of this template and not of
@@ -252,7 +252,7 @@
 		     .maars-main at the 68ch reading measure, because an li is usually a
 		     line of prose. A log row is not prose. Left as it was, each row was
 		     cropped to 68ch and pinned to the left of the column, with a dead
-		     gutter down the right of all fourteen pages. Declaring the layout
+		     gutter down the right of every page of the list. Declaring the layout
 		     here makes WordPress print a rule of its own for this container —
 		     `max-width:100%` on each child, at class specificity — which is the
 		     documented way to say "these children fill their list", and it beats
@@ -261,9 +261,9 @@
 
 			<!-- One entry, one log line: when it was published, what kind of document it
 			     is, and what it is called. Entries are separated by a hairline, never
-			     boxed, never rounded and never lifted. A list of 266 records read on an
+			     boxed, never rounded and never lifted. A list this long, read on an
 			     iPad is a table; the moment each row acquires a radius and a shadow it
-			     becomes a deck of 266 cards, which is the generic result the brief
+			     becomes a deck of hundreds of cards, which is the generic result the brief
 			     rules out. The only thing that moves on hover is the ground under the
 			     row and a magenta mark down its leading edge, at 200ms. -->
 			<!-- wp:group {"tagName":"article","className":"maars-doc maars-log__row","style":{"spacing":{"blockGap":"1rem","padding":{"top":"0.85rem","bottom":"0.85rem"}},"border":{"bottom":{"color":"var(--maars-rule, #DDE0EE)","width":"1px","style":"solid"}}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top"}} -->
@@ -307,7 +307,7 @@
 		     the 16px surface radius, and a navy-tinted shadow — 0 1px 2px rgba(10,10,
 		     60,.05) with 0 10px 30px rgba(10,10,60,.07), which is two soft passes of
 		     the brand ink rather than the grey every card kit reaches for. It renders
-		     on no page of the archive that has results, which is all fourteen of
+		     on no page of the archive that has results, which is every page of
 		     them, so the list itself never carries a shadow. -->
 		<!-- wp:query-no-results -->
 
@@ -319,7 +319,7 @@
 				<!-- /wp:heading -->
 
 				<!-- wp:paragraph {"className":"maars-empty","style":{"typography":{"fontSize":"clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem)","lineHeight":"1.6"}}} -->
-				<p class="maars-empty" style="font-size:clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem);line-height:1.6">The archive holds 266 documents from 1998 to 2024 and there is nothing at all from 2012, so a search that comes back empty may be telling you the truth about the record rather than about your spelling. Try a single surname or a four-digit year, or <a href="/archive/">start again from the whole list</a>.</p>
+				<p class="maars-empty" style="font-size:clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem);line-height:1.6">The archive holds [maars_archive_count] documents from [maars_archive_span]. [maars_archive_gaps] A search that comes back empty may be telling you the truth about the record rather than about your spelling. Try a single surname or a four-digit year, or <a href="/archive/">start again from the whole list</a>.</p>
 				<!-- /wp:paragraph -->
 
 				<!-- The same control as the one above the list, and it carries the same
@@ -338,7 +338,7 @@
 	<!-- /wp:query -->
 
 	<!-- How the list was made, said once, at the foot, instead of a column of
-	     placeholder text repeated down every one of the 266 rows. -->
+	     placeholder text repeated down every one of the rows. -->
 	<!-- wp:paragraph {"className":"maars-archive__provenance","style":{"typography":{"fontSize":"clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem)","lineHeight":"1.6"}}} -->
 	<p class="maars-archive__provenance" style="font-size:clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem);line-height:1.6">Each entry is the text of the document as the Society published it, and the file it was published as is kept beside it and named on the document&#8217;s own page. Transcription is machine-assisted and unproofed unless the entry says otherwise, so the original file is the authority &#8212; <a href="/privacy/">something here concerns you?</a></p>
 	<!-- /wp:paragraph -->

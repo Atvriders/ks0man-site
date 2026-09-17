@@ -308,6 +308,7 @@
 	/* --- Derived surfaces and hairlines. Never load-bearing for text. ----- */
 	--maars-meta: #46496b;          /* secondary prose  8.66:1 paper · 7.95:1 ground */
 	--maars-sunk: #eceef8;          /* hover ground, sunken rows */
+	--maars-graph: #d9dcf3;         /* the only fill that encodes a quantity: the year table's bars */
 	--maars-rust-wash: #fbf2ec;     /* the stale dateline's ground  rust 7.52:1 */
 	--maars-band: #191933;          /* the one dark band (the hero) */
 	--maars-band-edge: transparent; /* the band needs no frame on a pale page */
@@ -3560,3 +3561,127 @@
 	width: min(100%, var(--maars-column));
 }
 
+
+/* ---------------------------------------------------------------------------
+   THE YEAR TABLE — /archive/gaps/, rendered by [maars_archive_year_table].
+
+   A data table, and it follows the archive log's rule rather than the card
+   kit's: square corners, hairline separation, no shadow, figures in the data
+   face with tabular lining so a column of counts reads as a column.
+
+   The count cell carries a bar behind its own number, ruled to that year's
+   share of the fullest year. It is the one piece of drawing on the page and it
+   is not decoration: the page is about what is thin and what is absent, and a
+   bar makes both legible before the figure is read. A year with nothing in it
+   has no bar to draw, which is the whole point, so it is marked instead — the
+   record's magenta down the edge of the row, and the word "none" where the
+   count would be. Magenta appears nowhere else here.
+--------------------------------------------------------------------------- */
+.maars-yeartable__wrap {
+	margin: 2rem 0 0;
+	max-width: min(100%, 32rem);
+	overflow-x: auto;
+}
+
+.maars-yeartable {
+	border-collapse: collapse;
+	border-radius: var(--maars-radius-data, 0);
+	width: 100%;
+}
+
+.maars-yeartable__caption {
+	caption-side: top;
+	color: var(--maars-meta);
+	font-size: var(--maars-text-note);
+	line-height: 1.5;
+	margin-block-end: 0.75rem;
+	max-width: var(--maars-measure);
+	text-align: start;
+}
+
+.maars-yeartable th,
+.maars-yeartable td {
+	border-block-end: 1px solid var(--maars-rule);
+	text-align: start;
+	vertical-align: middle;
+}
+
+.maars-yeartable thead th {
+	border-block-end: 2px solid var(--maars-navy);
+	color: var(--maars-navy);
+	font-size: var(--maars-text-body);
+	font-weight: 600;
+	padding: 0 0.75rem 0.5rem 0;
+}
+
+.maars-yeartable__year {
+	font-family: var(--maars-font-data);
+	font-feature-settings: "tnum" 1;
+	font-variant-numeric: tabular-nums;
+	font-weight: 500;
+	/* 48px rows: this is a list of links read by people with reading glasses. */
+	padding: 0 0.75rem 0 0;
+	white-space: nowrap;
+	width: 1%;
+}
+
+.maars-yeartable__year a {
+	align-items: center;
+	color: var(--maars-navy);
+	display: flex;
+	min-height: 48px;
+}
+
+.maars-yeartable__count {
+	/*
+	 * The bar is a background, so it cannot push the number around, cannot be
+	 * read by a screen reader as content, and disappears cleanly when the
+	 * custom property is absent. --maars-bar is set inline, per row.
+	 */
+	background-image: linear-gradient(to right,
+		var(--maars-graph) var(--maars-bar, 0%),
+		transparent var(--maars-bar, 0%));
+	font-family: var(--maars-font-data);
+	font-feature-settings: "tnum" 1;
+	font-variant-numeric: tabular-nums;
+	font-weight: 500;
+	min-height: 48px;
+	padding: 0.7rem 0.75rem;
+}
+
+.maars-yeartable__row--empty .maars-yeartable__year {
+	border-inline-start: 4px solid var(--maars-magenta);
+	color: var(--maars-magenta);
+	padding-inline-start: 0.6rem;
+}
+
+.maars-yeartable__row--empty .maars-yeartable__count {
+	background-image: none;
+	color: var(--maars-magenta);
+}
+
+@media (prefers-contrast: more) {
+	.maars-yeartable__count {
+		background-image: none;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   THE LABEL WITH NOTHING AFTER IT.
+
+   core/post-date with displayType "modified" renders an empty string when a
+   post has never been edited — get_the_modified_date() equals get_the_date(),
+   and the block returns before it prints anything. The label in front of it
+   does not know that, so a page published and never touched again read
+
+       Published  17 September 2026  Last touched
+
+   with the row simply stopping. It was on every page this template serves.
+
+   A block template has no conditional, so the cascade settles it: a trailing
+   field name is a field name whose value did not render. When the modified
+   date IS printed the label is not the last child and this cannot misfire.
+--------------------------------------------------------------------------- */
+.maars-entry__when > .maars-fieldname:last-child {
+	display: none;
+}

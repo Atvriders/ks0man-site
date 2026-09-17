@@ -259,24 +259,28 @@ add_action( 'init', 'maars_register_taxonomies', 5 );
  * free-text type field is how an archive ends up with "Minutes", "minutes",
  * "Meeting Minutes" and "MINUTES" as four different things.
  *
- * @return array<string, array{name: string, description: string}> Keyed by term slug.
+ * @return array<string, array{name: string, plural: string, description: string}> Keyed by term slug.
  */
 function maars_doc_type_terms() {
 	return array(
 		'newsletter'       => array(
 			'name'        => __( 'Newsletter', 'maars' ),
+			'plural'      => __( 'newsletters', 'maars' ),
 			'description' => __( 'The Society newsletter, usually carrying the previous meeting\'s minutes inside it.', 'maars' ),
 		),
 		'minutes'          => array(
 			'name'        => __( 'Minutes', 'maars' ),
+			'plural'      => __( 'sets of meeting minutes', 'maars' ),
 			'description' => __( 'Minutes of a monthly meeting, including the motions made and their disposition.', 'maars' ),
 		),
 		'treasurer-report' => array(
 			'name'        => __( 'Treasurer\'s Report', 'maars' ),
+			'plural'      => __( 'treasurer\'s reports', 'maars' ),
 			'description' => __( 'A period financial report presented to the membership.', 'maars' ),
 		),
 		'year-end-report'  => array(
 			'name'        => __( 'Year-End Report', 'maars' ),
+			'plural'      => __( 'year-end reports', 'maars' ),
 			'description' => __( 'An annual summary of the Society\'s year.', 'maars' ),
 		),
 	);

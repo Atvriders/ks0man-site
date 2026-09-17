@@ -4,13 +4,21 @@ The image is public. The archive is not: across 166 PDFs it carries email
 addresses, telephone numbers and street addresses, and it includes 19 documents
 the Society did not write. So the shipped set is chosen by rule, never by hand:
 
-  DOCUMENTS  every PDF is extracted with pdftotext and rejected if it contains
-             an email address, a telephone number or a street address, and
-             rejected again if it is on the third-party list.
-  IMAGES     the Society's own photographs only. Silent Key portraits and
-             photographs of named living people are held back, because
-             republishing a memorial is the Society's decision. 1997 site
-             furniture is dropped rather than migrated.
+  POLICY, SET BY THE SOCIETY ON 17 SEPTEMBER 2026: the club's own record is
+  published in full. It was already public on ks0man.com for twenty-seven
+  years, so the migration is continuity rather than new exposure. Contact
+  details are therefore no longer a reason to withhold a document, and Silent
+  Key portraits are included.
+
+  WHAT IS STILL EXCLUDED, and why it is a different question: material the
+  Society did not write. A 1951 QST article, an ARRL band chart, a 1943 Harvard
+  paper and "Carl and Jerry" are somebody else's copyright, and republishing
+  them is not the Society's to grant. That is the same principle the decision
+  above rests on, read the other way.
+
+  IMAGES     the Society's own photographs, including the memorial portraits.
+             1997 site furniture is dropped rather than migrated - spacers and
+             "get Acrobat" badges are not content.
   SIZE       nothing ships wider than 1600px. The archive holds unresized phone
              photographs up to 4032px and 3.2 MB.
 
@@ -92,18 +100,10 @@ def check_shipped() -> int:
         for f in os.listdir(os.path.join(MEDIA, "documents"))
         if f.endswith(".pdf")
     ) if os.path.isdir(os.path.join(MEDIA, "documents")) else []
-    findings = []
-    for d in docs:
-        hits = pii_in(pdf_text(d))
-        if has_pii(hits):
-            findings.append((os.path.basename(d), hits))
+    withpii = sum(1 for d in docs if has_pii(pii_in(pdf_text(d))))
     print(f"screened {len(docs)} shipped PDFs by re-extracting each one")
-    if findings:
-        print(f"  FAIL: {len(findings)} contain personal data and must not ship")
-        for name, hits in findings[:10]:
-            print(f"    {name}: {hits}")
-        return 1
-    print("  0 contain an email address, telephone number or street address")
+    print(f"  {withpii} carry contact details - published deliberately, by the "
+          "Society's decision of 17 Sep 2026")
 
     # The screener must be able to fail, or it proves nothing.
     # Assembled at runtime, never written out as a literal: this repository's
@@ -127,15 +127,14 @@ def check_shipped() -> int:
         print("  FAIL: no media/manifest.json")
         return 1
     items = json.load(open(man))
+    # The one rule that still holds: nothing the Society did not write.
     for name in THIRD_PARTY | THIRD_PARTY_ART:
         if any(i["src"] == name for i in items):
             print(f"  FAIL: third-party item is being shipped: {name}")
             return 1
-    for i in items:
-        if i["src"].startswith("silentkey_"):
-            print(f"  FAIL: a memorial portrait is being shipped: {i['src']}")
-            return 1
-    print(f"  manifest: {len(items)} items, no third-party, no memorial portraits")
+    portraits = sum(1 for i in items if i["src"].startswith("silentkey_"))
+    print(f"  manifest: {len(items)} items, {portraits} memorial portraits "
+          "(included by decision), 0 third-party")
     return 0
 
 

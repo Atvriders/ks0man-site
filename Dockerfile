@@ -4,8 +4,10 @@
 #
 # One image. `docker compose up` and the site is there, installed and seeded.
 # The image carries the club's own code (the maars-core plugin and the maars
-# block theme) and nothing else: no member roster, no e-mail addresses, no
-# phone numbers, no addresses. See CONTRACT.md, "HARD RULE - NO PERSONAL DATA".
+# block theme) and the club's own record: the newsletters, minutes, reports and
+# photographs, in full and unredacted, by the Society's decision of 17 September
+# 2026. Nothing third-party, and nothing about the machine this was built on.
+# See CONTRACT.md, "HARD RULE - WHOSE INFORMATION IS IT".
 #
 # Base image is pinned here and ONLY here; CI does not pin it.
 FROM wordpress:7.1-php8.3-apache
@@ -53,10 +55,11 @@ COPY tools/seed.php        /usr/src/maars/tools/seed.php
 # importer ... skipping" and the archive stayed at four records.
 COPY tools/import_media.php /usr/src/maars/tools/import_media.php
 COPY content/seed.json     /usr/src/maars/content/seed.json
-# The club's own photographs and governance documents. Screened: nothing
-# here carries an email address, telephone number or street address, and
-# nothing third-party is included. See tools/screen_media.py and the gate
-# in tests/test_static.py.
+# The club's own photographs and governance documents, published in full:
+# 24 of them carry officer contact details and 18 are memorial portraits, and
+# they ship deliberately -- see CONTRACT.md. What is screened OUT is
+# third-party material, which is not the Society's to republish; that is what
+# tools/screen_media.py fails on.
 COPY media/                /usr/src/maars/media/
 COPY --chmod=0755 docker/entrypoint.sh /usr/local/bin/maars-entrypoint.sh
 
