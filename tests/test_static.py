@@ -250,8 +250,8 @@ def test_docker_compose_parses_and_names_the_contract_services():
 
 def test_dockerfile_pins_the_contract_base_image():
     df = read(REPO / "Dockerfile")
-    assert "wordpress:6.7-php8.3-apache" in df, \
-        "Dockerfile must build FROM wordpress:6.7-php8.3-apache (pinned by the contract)"
+    assert "wordpress:7.1-php8.3-apache" in df, \
+        "Dockerfile must build FROM wordpress:7.1-php8.3-apache (pinned by the contract)"
     assert not re.search(r"^\s*FROM\s+\S+:latest", df, re.M | re.I), "no :latest base images"
 
 

@@ -8,7 +8,7 @@
 # phone numbers, no addresses. See CONTRACT.md, "HARD RULE - NO PERSONAL DATA".
 #
 # Base image is pinned here and ONLY here; CI does not pin it.
-FROM wordpress:6.7-php8.3-apache
+FROM wordpress:7.1-php8.3-apache
 
 # WP-CLI. It is here because first-boot seeding without it means hand-rolling
 # an installer against wp-load.php, and that is how you end up with a demo that

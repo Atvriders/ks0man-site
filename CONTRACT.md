@@ -16,7 +16,7 @@ Officer names appear ONLY where already-public and role-level (no e-mails, no ph
 The club generates full content locally with tools/build_content.py against their own mirror.
 
 ## Versions (pinned, do not change)
-- Base image: `wordpress:6.7-php8.3-apache`
+- Base image: `wordpress:7.1-php8.3-apache`
 - DB: `mariadb:11.4`
 - Image name: `ghcr.io/atvriders/ks0man-site`
 - PHP target: 8.3 (code must also pass `php -l` on 8.1)
