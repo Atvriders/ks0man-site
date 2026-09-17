@@ -3534,3 +3534,29 @@
 		grid-column: 1 / -1;
 	}
 }
+
+/* ---------------------------------------------------------------------------
+   Masthead identity: the column, settled.
+   ---------------------------------------------------------------------------
+   Measured on a real WordPress 7.1 render: the identity computed to
+   inline-size 730px with margin-left 355px, because the box was shrink-to-fit
+   and `margin-inline: auto` then centred it. The callsign landed at x=387 while
+   the navigation began at x=176, so the masthead read as indented from the rest
+   of the site.
+
+   An earlier rule in this file set `max-width: max-content` to keep the box
+   narrow, back when waterfall.js erased a hole in the band behind it. The band
+   is no longer erased, so that constraint outlived its reason and is what makes
+   the box shrink. Rather than hunt every interacting declaration, the final
+   geometry is stated once, here, at the end of the cascade.
+
+   1152px is --maars-column (72rem), the same column `main` uses: centred in a
+   1440px window it starts at 144, and the 32px inner padding puts the text at
+   176 — level with the navigation and with every heading below it.
+--------------------------------------------------------------------------- */
+.maars-masthead__identity {
+	margin-inline: auto;
+	max-width: var(--maars-column);
+	width: min(100%, var(--maars-column));
+}
+

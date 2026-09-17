@@ -30,7 +30,15 @@ if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
 	return;
 }
 
-$maars_media_dir = '/usr/src/maars/media';
+/* The in-image location, overridable so this can be run against a local
+   WordPress for testing. Hardcoding it meant the importer could only ever be
+   exercised inside the container, which is how it shipped twice without once
+   being run. */
+$maars_media_dir = getenv( 'MAARS_MEDIA_DIR' );
+if ( ! is_string( $maars_media_dir ) || '' === $maars_media_dir ) {
+	$maars_media_dir = '/usr/src/maars/media';
+}
+$maars_media_dir = rtrim( $maars_media_dir, '/' );
 $maars_manifest  = $maars_media_dir . '/manifest.json';
 
 if ( ! file_exists( $maars_manifest ) ) {
