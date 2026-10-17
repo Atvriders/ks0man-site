@@ -322,8 +322,10 @@ MAARS_PHP=/usr/bin/php8.3 python3 -m pytest tests/test_static.py
 After a WebGL run, open `tests/out/` and look at the images. A test that says the pixels are not
 uniform is a weaker claim than your own eyes on the picture.
 
-CI runs both suites and then builds and publishes the image. The workflow is
-`.github/workflows/build.yml`.
+CI does not run the suites: they need PHP and a browser, and run locally before a push. On every
+push to master, `.github/workflows/build.yml` checks that every `COPY` source in the Dockerfile
+exists and that the image name matches `docker-compose.yml`, then builds and publishes the image
+for amd64 and arm64.
 
 ---
 
