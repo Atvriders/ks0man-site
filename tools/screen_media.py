@@ -1,30 +1,37 @@
-"""Screen the archive's media and rebuild media/ from what is safe to publish.
+"""Screen the archive's media, and say plainly what is in it.
 
-The image is public. The archive is not: across 166 PDFs it carries email
-addresses, telephone numbers and street addresses, and it includes 19 documents
-the Society did not write. So the shipped set is chosen by rule, never by hand:
+POLICY, SET BY THE SOCIETY.
 
-  POLICY, SET BY THE SOCIETY ON 17 SEPTEMBER 2026: the club's own record is
-  published in full. It was already public on ks0man.com for twenty-seven
-  years, so the migration is continuity rather than new exposure. Contact
-  details are therefore no longer a reason to withhold a document, and Silent
-  Key portraits are included.
+  17 SEPTEMBER 2026: the club's own record is published in full. It stood on
+  ks0man.com for twenty-seven years, so the migration is continuity rather than
+  new exposure. Contact details are no longer a reason to withhold a document,
+  and the Silent Key portraits are included.
 
-  WHAT IS STILL EXCLUDED, and why it is a different question: material the
-  Society did not write. A 1951 QST article, an ARRL band chart, a 1943 Harvard
-  paper and "Carl and Jerry" are somebody else's copyright, and republishing
-  them is not the Society's to grant. That is the same principle the decision
-  above rests on, read the other way.
+  16 OCTOBER 2026: "anything we are missing needs to be added. do not skip
+  adding anything. everything needs to be there." That ended the last two
+  exclusions this tool enforced. Material by other authors -- a 1951 QST
+  article, an ARRL band chart, "Carl and Jerry", a US Army manual -- had been
+  held back as not the Society's to republish; it ships now, as it did on the
+  old site. And the webmaster's own folder brought member lists that were never
+  on the old site, with addresses, telephone numbers and e-mail; the Society was
+  told that publishing them is new exposure rather than continuity, and decided
+  to publish them anyway. Both are recorded here because both reverse what this
+  file used to enforce.
 
-  IMAGES     the Society's own photographs, including the memorial portraits.
-             1997 site furniture is dropped rather than migrated - spacers and
-             "get Acrobat" badges are not content.
-  SIZE       nothing ships wider than 1600px. The archive holds unresized phone
-             photographs up to 4032px and 3.2 MB.
+So this no longer decides what ships. It re-reads every shipped PDF and REPORTS
+what it carries -- how many documents hold contact details, how many are by
+other authors -- so that the scale of what the site publishes is a number
+someone can see, not a fact that has to be rediscovered. It still fails if its
+own detector stops detecting, because a screener that cannot fail proves
+nothing.
 
-Run:  python3 tools/screen_media.py [--check]
-      --check re-screens what is already in media/ and exits non-zero on a
-      finding, without rewriting anything. That is the mode the test uses.
+  IMAGES     everything, including 1997 site furniture: the Society asked for
+             every file, and the graphics the old pages were built from are
+             part of what the old site was.
+  SIZE       images that shipped before 16 October 2026 were reduced to 1600px;
+             the full-size originals now ship beside them as "-original".
+
+Run:  python3 tools/screen_media.py --check
 """
 
 import argparse
@@ -158,14 +165,14 @@ def check_shipped() -> int:
         print("  FAIL: no media/manifest.json")
         return 1
     items = json.load(open(man))
-    # The one rule that still holds: nothing the Society did not write.
-    for name in THIRD_PARTY | THIRD_PARTY_ART:
-        if any(i["src"] == name for i in items):
-            print(f"  FAIL: third-party item is being shipped: {name}")
-            return 1
+    srcs = {i["src"] for i in items}
+    others = sorted(n for n in THIRD_PARTY | THIRD_PARTY_ART if n in srcs)
     portraits = sum(1 for i in items if i["src"].startswith("silentkey_"))
-    print(f"  manifest: {len(items)} items, {portraits} memorial portraits "
-          "(included by decision), 0 third-party")
+    lists = sum(1 for i in items if i.get("category") == "membership"
+                and re.search(r"(members|email)", i["src"], re.I))
+    print(f"  manifest: {len(items)} items, {portraits} memorial portraits, "
+          f"{len(others)} by other authors, {lists} member or e-mail lists -- "
+          "all published by the Society's decisions of 17 Sep and 16 Oct 2026")
     return 0
 
 

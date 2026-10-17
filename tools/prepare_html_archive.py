@@ -131,37 +131,85 @@ def classify(name: str):
     )
 
 
+MIRROR = os.path.expanduser("~/ks0man-migration/mirror/ks0man.com")
+
+
 def build(do_redact=False):
+    """Convert every HTML-era issue AS KS0MAN.COM SERVED IT.
+
+    The first version took its text from ~/ks0man-migration/extract/blocks,
+    the output of an early feasibility probe that read only table cells, skipped
+    any table whose longest cell was under forty characters, never read text
+    outside a table and dropped every picture. The audit of 17 October 2026
+    found what that cost: the 1998 hamfest calendars, the January 1999
+    time-zone quiz table its own puzzle asks readers to fill in, a webmaster's
+    note, two illustrations, and 107 relative links that 404 on the new site --
+    "Print a PDF file copy of the above form" on 101 issues among them.
+
+    The issues now go through tools/prepare_pages.py's converter, which walks
+    the whole page, keeps tables, pictures and jump targets, and rewrites every
+    link to where the thing now lives. Titles, dates and kinds are unchanged:
+    they are taken from the previous build, so a record's identity does not
+    move under it.
+    """
+    sys.path.insert(0, HERE)
+    import prepare_pages as pp
+
+    previous = {}
+    if os.path.exists(OUT):
+        for item in json.load(open(OUT)):
+            previous[item["src"]] = item
+    media = pp.media_map()
+
     items = []
     totals = {"email": 0, "phone": 0, "address": 0, "mailto": 0}
-    for name in sorted(os.listdir(BLOCKS)):
-        if not name.endswith(".blocks.html"):
+    for name in sorted(os.listdir(MIRROR)):
+        if not re.match(r"newsletter_\d\d-\d\d\.html$", name):
             continue
-        meta = classify(name)
+        meta = dict(previous.get(name) or classify(name.replace(".html", ".blocks.html")) or {})
         if not meta:
             continue
-        raw = strip_boilerplate(open(os.path.join(BLOCKS, name), errors="ignore").read())
+        blocks, unresolved, stats = pp.convert_page([os.path.join(MIRROR, name)], media, "issue")
+        blocks = pp.drop_navigation(blocks)
+        raw = strip_boilerplate("\n\n".join(blocks))
+        ids = set(re.findall(r'id="([^"]+)"', raw))
+        raw = re.sub(r'href="#([^"]+)"',
+                     lambda m: m.group(0) if m.group(1) in ids else 'href="#"', raw)
         if do_redact:
-            clean, c = redact(raw)
+            raw, c = redact(raw)
             for k in totals:
                 totals[k] += c[k]
-        else:
-            clean = raw
-        meta["blocks"] = clean
-        meta["words"] = len(re.sub(r"<[^>]+>", " ", clean).split())
+        meta.update({k: v for k, v in (classify(name.replace(".html", ".blocks.html")) or {}).items()
+                     if k not in meta})
+        meta["src"] = name
+        meta["blocks"] = raw
+        meta["words"] = len(re.sub(r"<[^>]+>", " ", raw).split())
+        meta["retention"] = round(stats["words_out"] / max(1, stats["words_in"]), 3)
+        if unresolved:
+            meta["unresolved"] = sorted(set(unresolved))
         items.append(meta)
+
+    items.sort(key=lambda i: (i["date"], i["src"]))
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    json.dump(items, open(OUT, "w"), indent=1)
+    json.dump(items, open(OUT, "w"), indent=1, ensure_ascii=False)
     print(f"  {len(items)} issues prepared -> {os.path.relpath(OUT, ROOT)}")
     if do_redact:
         print(f"  redacted: {totals['email']} e-mail, {totals['phone']} telephone, "
               f"{totals['address']} address, {totals['mailto']} mailto link(s)")
     else:
         print("  published in full, as the Society published it (no redaction)")
+    rets = sorted(i["retention"] for i in items)
+    print(f"  retention against the served page: min {rets[0]:.0%}, median {rets[len(rets)//2]:.0%}")
+    low = [(i["src"], i["retention"]) for i in items if i["retention"] < 0.85]
+    if low:
+        print("  below 85%:", low[:10])
     yrs = sorted({i["year"] for i in items})
     print(f"  span: {min(yrs)}-{max(yrs)}")
     from collections import Counter
     print("  kinds:", dict(Counter(i["doc_type"] for i in items)))
+    gone = sorted({u for i in items for u in i.get("unresolved", [])})
+    if gone:
+        print("  references to nothing (dropped):", gone[:12])
     return 0
 
 

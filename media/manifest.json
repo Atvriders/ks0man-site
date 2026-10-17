@@ -1,110 +1,889 @@
 [
   {
     "kind": "document",
+    "src": "2018 Year End Report.docx",
+    "file": "2018-year-end-report.docx",
+    "bytes": 16377,
+    "alternate_of": "Year-End-Report-2018.pdf",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "2024 Meeting Flyer (much larger).pdf",
+    "file": "2024-meeting-flyer-much-larger.pdf",
+    "bytes": 1205671,
+    "category": "meetings",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "after_action_6-2017.pdf",
+    "file": "after-action-6-2017.pdf",
+    "bytes": 231114,
+    "category": "reading",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "ARES_Registration.pdf",
+    "file": "ares-registration.pdf",
+    "bytes": 106526,
+    "category": "reading",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
     "src": "Myron_VHF_suitcase.rtf",
     "file": "article-myron-vhf-grab-n-go-suitcase.rtf",
-    "bytes": 5598
+    "bytes": 5598,
+    "origin": "mirror",
+    "category": "reading"
   },
   {
     "kind": "document",
     "src": "MAARS_HAM_OF_THE_YEAR.pdf",
     "file": "award-member-of-the-year-guidelines.pdf",
-    "bytes": 33499
+    "bytes": 33499,
+    "category": "membership",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "BandChart.pdf",
+    "file": "bandchart.pdf",
+    "bytes": 1245536,
+    "category": "reading",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "Carl_and_Jerry.pdf",
+    "file": "carl-and-jerry.pdf",
+    "bytes": 1527028,
+    "category": "reading",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "CASA_directions_long.docx",
+    "file": "casa-directions-long.docx",
+    "bytes": 5609,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "CASA_directions_short.docx",
+    "file": "casa-directions-short.docx",
+    "bytes": 4681,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "constitution 11-13-15.pdf",
+    "file": "constitution-11-13-15.pdf",
+    "bytes": 79690,
+    "category": "history",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "document",
     "src": "constitution.pdf",
     "file": "constitution.pdf",
     "bytes": 102308,
-    "doc_type": "reference"
+    "doc_type": "reference",
+    "category": "history",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "corridors",
+    "file": "corridors.ttf",
+    "bytes": 69632,
+    "category": "site",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "CSS text background.pdf",
+    "file": "css-text-background.pdf",
+    "bytes": 67049,
+    "category": "site",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Current Member Email List June 2020.pdf",
+    "file": "current-member-email-list-june-2020.pdf",
+    "bytes": 63907,
+    "category": "membership",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Dave Mills - 1-12-24 meeting.psd",
+    "file": "dave-mills-1-12-24-meeting.psd",
+    "bytes": 1242488,
+    "category": "meetings",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Dec 2018 Treasurer's Report.docx",
+    "file": "dec-2018-treasurer-s-report.docx",
+    "bytes": 15896,
+    "doc_type": "treasurer-report",
+    "year": 2018,
+    "date": "2018-12-01",
+    "title": "Treasurer's report, December 2018",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "download_repeaters_2m_1-07-23.csv",
+    "file": "download-repeaters-2m-1-07-23.csv",
+    "bytes": 14280,
+    "category": "repeater",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "download_repeaters_70cm_1-07-23.csv.zip",
+    "file": "download-repeaters-70cm-1-07-23-csv.zip",
+    "bytes": 6031,
+    "category": "repeater",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "download_repeaters_70cm_1-07-23.csv",
+    "file": "download-repeaters-70cm-1-07-23.csv",
+    "bytes": 17028,
+    "category": "repeater",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "download_repeaters_70cm_1-08-23.csv",
+    "file": "download-repeaters-70cm-1-08-23.csv",
+    "bytes": 17028,
+    "category": "repeater",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "document",
     "src": "dues.pdf",
     "file": "dues.pdf",
     "bytes": 4067,
-    "doc_type": "reference"
+    "doc_type": "reference",
+    "category": "membership",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "dues.pm",
+    "file": "dues.pm",
+    "bytes": 19968,
+    "category": "membership",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Echo link update 2-2021.rtfd",
+    "file": "echo-link-update-2-2021.rtfd.zip",
+    "bytes": 1735,
+    "category": "reading",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Email current list.xls",
+    "file": "email-current-list.xls",
+    "bytes": 20992,
+    "category": "membership",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Email Member List October 2022.xls",
+    "file": "email-member-list-october-2022.xls",
+    "bytes": 26112,
+    "category": "membership",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "events_1951_flood_response.pdf",
+    "file": "events-1951-flood-response.pdf",
+    "bytes": 669819,
+    "category": "history",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "events_1951_flood.pdf",
+    "file": "events-1951-flood.pdf",
+    "bytes": 2828186,
+    "category": "history",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "events_fox_hunt_4-28-19.pdf",
     "file": "events-fox-hunt-4-28-19.pdf",
-    "bytes": 787334
+    "bytes": 787334,
+    "category": "events",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "events_Kansas_History_2003.pdf",
+    "file": "events-kansas-history-2003.pdf",
+    "bytes": 2229123,
+    "category": "history",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "Kids_Day_1-2007.pdf",
     "file": "events-kids-day-2007-01.pdf",
-    "bytes": 259264
+    "bytes": 259264,
+    "category": "events",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "Public_Service_9-9-17.doc",
     "file": "events-public-service-2017-09-09.docx",
     "bytes": 13988,
-    "note": "named .doc on ks0man.com; it is a .docx inside, which is why WordPress refused it"
+    "note": "named .doc on ks0man.com; it is a .docx inside, which is why WordPress refused it",
+    "category": "events",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "Winter-Field-Day-Flier.pdf",
     "file": "events-winter-field-day-2024-flier.pdf",
-    "bytes": 1265856
+    "bytes": 1265856,
+    "category": "winter-field-day",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "Winter-Field-Day-Location-Map.pdf",
     "file": "events-winter-field-day-2024-map.pdf",
-    "bytes": 393199
+    "bytes": 393199,
+    "category": "winter-field-day",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "FD18_Results.pdf",
     "file": "fd18-results.pdf",
     "bytes": 62290,
-    "doc_type": "reference"
+    "doc_type": "reference",
+    "origin": "mirror",
+    "category": "field-day"
+  },
+  {
+    "kind": "document",
+    "src": "FD19_video.mp4",
+    "file": "fd19-video.mp4",
+    "bytes": 51583916,
+    "category": "field-day",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "Field_Day_2016.pdf",
+    "file": "field-day-2016.pdf",
+    "bytes": 276671,
+    "category": "field-day",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Field_Day_Rules_2023.pdf",
+    "file": "field-day-rules-2023.pdf",
+    "bytes": 89042,
+    "category": "field-day",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Field_Day_Script_2016.pdf",
+    "file": "field-day-script-2016.pdf",
+    "bytes": 52742,
+    "category": "field-day",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Field_Day_Video_2016.mp4",
+    "file": "field-day-video-2016.mp4",
+    "bytes": 15157472,
+    "category": "field-day",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "file_emergency_plan.rtf",
+    "file": "file-emergency-plan.rtf",
+    "bytes": 5377,
+    "category": "reading",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "foxhuntantennas.pdf",
+    "file": "foxhuntantennas.pdf",
+    "bytes": 72803,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Harvard_on_learning_code_1943.pdf",
+    "file": "harvard-on-learning-code-1943.pdf",
+    "bytes": 753895,
+    "category": "reading",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "HF_Tuning.pdf",
+    "file": "hf-tuning.pdf",
+    "bytes": 218188,
+    "category": "reading",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "Jan Feb Mar EVENTS 2020.pdf",
+    "file": "jan-feb-mar-events-2020.pdf",
+    "bytes": 212882,
+    "category": "meetings",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Kansas_RACES_draft_1-2016.pdf",
+    "file": "kansas-races-draft-1-2016.pdf",
+    "bytes": 629174,
+    "category": "reading",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "KC2G_MUF_What_Is_It.pdf",
+    "file": "kc2g-muf-what-is-it.pdf",
+    "bytes": 100750,
+    "category": "reading",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "(every web page and stylesheet as ks0man.com served it)",
+    "file": "ks0man-com-pages-as-served.zip",
+    "bytes": 618970,
+    "category": "site",
+    "contains": [
+      "FD05.html",
+      "FD15.html",
+      "FD18.html",
+      "FD97-1.html",
+      "FD97-2.html",
+      "FD97-3.html",
+      "FD97-4.html",
+      "FD97-5.html",
+      "FD97-6.html",
+      "FD97-7.html",
+      "FD97-8.html",
+      "FD97.html",
+      "FD98.html",
+      "downloads.html",
+      "events.css",
+      "events.html",
+      "horserace.html",
+      "index.htm",
+      "index.html",
+      "links-maars.html",
+      "members.css",
+      "members.html",
+      "newsletter_01-00.html",
+      "newsletter_01-01.html",
+      "newsletter_01-02.html",
+      "newsletter_01-03.html",
+      "newsletter_01-04.html",
+      "newsletter_01-05.html",
+      "newsletter_01-06.html",
+      "newsletter_01-07.html",
+      "newsletter_01-08.html",
+      "newsletter_01-09.html",
+      "newsletter_01-15.html",
+      "newsletter_01-99.html",
+      "newsletter_02-00.html",
+      "newsletter_02-01.html",
+      "newsletter_02-02.html",
+      "newsletter_02-03.html",
+      "newsletter_02-04.html",
+      "newsletter_02-06.html",
+      "newsletter_02-07.html",
+      "newsletter_02-08.html",
+      "newsletter_02-09.html",
+      "newsletter_02-15.html",
+      "newsletter_02-99.html",
+      "newsletter_03-00.html",
+      "newsletter_03-01.html",
+      "newsletter_03-02.html",
+      "newsletter_03-03.html",
+      "newsletter_03-04.html",
+      "newsletter_03-05.html",
+      "newsletter_03-06.html",
+      "newsletter_03-07.html",
+      "newsletter_03-08.html",
+      "newsletter_03-09.html",
+      "newsletter_03-10.html",
+      "newsletter_03-15.html",
+      "newsletter_03-99.html",
+      "newsletter_04-00.html",
+      "newsletter_04-01.html",
+      "newsletter_04-02.html",
+      "newsletter_04-03.html",
+      "newsletter_04-04.html",
+      "newsletter_04-05.html",
+      "newsletter_04-06.html",
+      "newsletter_04-07.html",
+      "newsletter_04-08.html",
+      "newsletter_04-09.html",
+      "newsletter_04-11.html",
+      "newsletter_04-98.html",
+      "newsletter_04-99.html",
+      "newsletter_05-00.html",
+      "newsletter_05-01.html",
+      "newsletter_05-02.html",
+      "newsletter_05-03.html",
+      "newsletter_05-04.html",
+      "newsletter_05-05.html",
+      "newsletter_05-06.html",
+      "newsletter_05-08.html",
+      "newsletter_05-09.html",
+      "newsletter_05-15.html",
+      "newsletter_05-98.html",
+      "newsletter_05-99.html",
+      "newsletter_06-00.html",
+      "newsletter_06-01.html",
+      "newsletter_06-02.html",
+      "newsletter_06-03.html",
+      "newsletter_06-04.html",
+      "newsletter_06-05.html",
+      "newsletter_06-06.html",
+      "newsletter_06-07.html",
+      "newsletter_06-08.html",
+      "newsletter_06-09.html",
+      "newsletter_06-15.html",
+      "newsletter_06-98.html",
+      "newsletter_06-99.html",
+      "newsletter_07-00.html",
+      "newsletter_07-01.html",
+      "newsletter_07-02.html",
+      "newsletter_07-03.html",
+      "newsletter_07-04.html",
+      "newsletter_07-05.html",
+      "newsletter_07-07.html",
+      "newsletter_07-09.html",
+      "newsletter_07-15.html",
+      "newsletter_07-98.html",
+      "newsletter_07-99.html",
+      "newsletter_08-00.html",
+      "newsletter_08-01.html",
+      "newsletter_08-02.html",
+      "newsletter_08-03.html",
+      "newsletter_08-04.html",
+      "newsletter_08-05.html",
+      "newsletter_08-06.html",
+      "newsletter_08-07.html",
+      "newsletter_08-08.html",
+      "newsletter_08-09.html",
+      "newsletter_08-98.html",
+      "newsletter_08-99.html",
+      "newsletter_09-00.html",
+      "newsletter_09-01.html",
+      "newsletter_09-03.html",
+      "newsletter_09-15.html",
+      "newsletter_09-98.html",
+      "newsletter_09-99.html",
+      "newsletter_10-00.html",
+      "newsletter_10-01.html",
+      "newsletter_10-02.html",
+      "newsletter_10-04.html",
+      "newsletter_10-05.html",
+      "newsletter_10-06.html",
+      "newsletter_10-07.html",
+      "newsletter_10-08.html",
+      "newsletter_10-98.html",
+      "newsletter_10-99.html",
+      "newsletter_11-00.html",
+      "newsletter_11-01.html",
+      "newsletter_11-02.html",
+      "newsletter_11-03.html",
+      "newsletter_11-04.html",
+      "newsletter_11-05.html",
+      "newsletter_11-06.html",
+      "newsletter_11-07.html",
+      "newsletter_11-08.html",
+      "newsletter_11-98.html",
+      "newsletter_11-99.html",
+      "newsletter_12-07.html",
+      "newsletters.html",
+      "photo_RMS_Queen_Mary.html",
+      "photo_ride_for_red.html",
+      "repeater.html",
+      "silentkey.html",
+      "warn.html"
+    ],
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "(the HTML, CSS and bookmark files of the folder)",
+    "file": "ks0man-com-web-pages-as-the-webmaster-kept-them.zip",
+    "bytes": 693688,
+    "category": "site",
+    "contains": [
+      "CONTENTS - BREAKFAST.html",
+      "CONTENTS - INDEX PAGE.html",
+      "CONTENTS - MONTHLY MEETING - TOP OF PAGE.html",
+      "CONTENTS - MONTHLY MEETING.html",
+      "Chapter 1 - Introduction to CSS.webloc",
+      "FD05.html",
+      "FD15.html",
+      "FD18.html",
+      "FD97-1.html",
+      "FD97-2.html",
+      "FD97-3.html",
+      "FD97-4.html",
+      "FD97-5.html",
+      "FD97-6.html",
+      "FD97-7.html",
+      "FD97-8.html",
+      "FD97-9.html",
+      "FD97.html",
+      "FD98.html",
+      "KS0MAN 147.2550 MHz MAARS Repeater.webloc",
+      "REPEATER NOTES FROM FARREN.html",
+      "downloads.html",
+      "events.css",
+      "events.html",
+      "exams.html",
+      "horserace.html",
+      "index  (archive - old meeting site).html",
+      "index (has coding defects).html",
+      "index.htm",
+      "index.html",
+      "links-maars.html",
+      "members (archive from 10-2014).html",
+      "members (new CSS works 3-12-2022).html",
+      "members CODE ARCHIVE.html",
+      "members original 3-2022.html",
+      "members.css",
+      "members.html",
+      "newsletter_01-00.html",
+      "newsletter_01-01.html",
+      "newsletter_01-02.html",
+      "newsletter_01-03.html",
+      "newsletter_01-04.html",
+      "newsletter_01-05.html",
+      "newsletter_01-06.html",
+      "newsletter_01-07.html",
+      "newsletter_01-08.html",
+      "newsletter_01-09.html",
+      "newsletter_01-15.html",
+      "newsletter_01-99.html",
+      "newsletter_02-00.html",
+      "newsletter_02-01.html",
+      "newsletter_02-02.html",
+      "newsletter_02-03.html",
+      "newsletter_02-04.html",
+      "newsletter_02-06.html",
+      "newsletter_02-07.html",
+      "newsletter_02-08.html",
+      "newsletter_02-09.html",
+      "newsletter_02-15.html",
+      "newsletter_02-99.html",
+      "newsletter_03-00.html",
+      "newsletter_03-01.html",
+      "newsletter_03-02.html",
+      "newsletter_03-03.html",
+      "newsletter_03-04.html",
+      "newsletter_03-05.html",
+      "newsletter_03-06.html",
+      "newsletter_03-07.html",
+      "newsletter_03-08.html",
+      "newsletter_03-09.html",
+      "newsletter_03-10.html",
+      "newsletter_03-15.html",
+      "newsletter_03-99.html",
+      "newsletter_04-00.html",
+      "newsletter_04-01.html",
+      "newsletter_04-02.html",
+      "newsletter_04-03.html",
+      "newsletter_04-04.html",
+      "newsletter_04-05.html",
+      "newsletter_04-06.html",
+      "newsletter_04-07.html",
+      "newsletter_04-08.html",
+      "newsletter_04-09.html",
+      "newsletter_04-11.html",
+      "newsletter_04-98.html",
+      "newsletter_04-99.html",
+      "newsletter_05-00.html",
+      "newsletter_05-01.html",
+      "newsletter_05-02.html",
+      "newsletter_05-03.html",
+      "newsletter_05-04.html",
+      "newsletter_05-05.html",
+      "newsletter_05-06.html",
+      "newsletter_05-08.html",
+      "newsletter_05-09.html",
+      "newsletter_05-15.html",
+      "newsletter_05-98.html",
+      "newsletter_05-99.html",
+      "newsletter_06-00.html",
+      "newsletter_06-01.html",
+      "newsletter_06-02.html",
+      "newsletter_06-03.html",
+      "newsletter_06-04.html",
+      "newsletter_06-05.html",
+      "newsletter_06-06.html",
+      "newsletter_06-07.html",
+      "newsletter_06-08.html",
+      "newsletter_06-09.html",
+      "newsletter_06-15.html",
+      "newsletter_06-98.html",
+      "newsletter_06-99.html",
+      "newsletter_07-00.html",
+      "newsletter_07-01.html",
+      "newsletter_07-02.html",
+      "newsletter_07-03.html",
+      "newsletter_07-04.html",
+      "newsletter_07-05.html",
+      "newsletter_07-07.html",
+      "newsletter_07-09.html",
+      "newsletter_07-15.html",
+      "newsletter_07-98.html",
+      "newsletter_07-99.html",
+      "newsletter_08-00.html",
+      "newsletter_08-01.html",
+      "newsletter_08-02.html",
+      "newsletter_08-03.html",
+      "newsletter_08-04.html",
+      "newsletter_08-05.html",
+      "newsletter_08-06.html",
+      "newsletter_08-07.html",
+      "newsletter_08-08.html",
+      "newsletter_08-09.html",
+      "newsletter_08-98.html",
+      "newsletter_08-99.html",
+      "newsletter_09-00.html",
+      "newsletter_09-01.html",
+      "newsletter_09-03.html",
+      "newsletter_09-15.html",
+      "newsletter_09-98.html",
+      "newsletter_09-99.html",
+      "newsletter_10-00.html",
+      "newsletter_10-01.html",
+      "newsletter_10-02.html",
+      "newsletter_10-04.html",
+      "newsletter_10-05.html",
+      "newsletter_10-06.html",
+      "newsletter_10-07.html",
+      "newsletter_10-08.html",
+      "newsletter_10-98.html",
+      "newsletter_10-99.html",
+      "newsletter_11-00.html",
+      "newsletter_11-01.html",
+      "newsletter_11-02.html",
+      "newsletter_11-03.html",
+      "newsletter_11-04.html",
+      "newsletter_11-05.html",
+      "newsletter_11-06.html",
+      "newsletter_11-07.html",
+      "newsletter_11-08.html",
+      "newsletter_11-98.html",
+      "newsletter_11-99.html",
+      "newsletter_12-07.html",
+      "newsletter_2-00.html",
+      "newsletters.html",
+      "oldindex.html",
+      "photo_RMS_Queen_Mary.html",
+      "photo_ride_for_red.html",
+      "repeater.html",
+      "silentkey.html",
+      "text repair.html",
+      "warn.html"
+    ],
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "MAARS_application_22-23.pdf",
+    "file": "maars-application-22-23.pdf",
+    "bytes": 23349,
+    "category": "membership",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "document",
     "src": "MAARS_application_23-24.pdf",
     "file": "maars-application-23-24.pdf",
     "bytes": 32065,
-    "doc_type": "reference"
+    "doc_type": "reference",
+    "origin": "mirror",
+    "category": "membership"
+  },
+  {
+    "kind": "document",
+    "src": "MAARS application",
+    "file": "maars-application.indd",
+    "bytes": 1290240,
+    "category": "membership",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "document",
     "src": "MAARS_application.pdf",
     "file": "maars-application.pdf",
     "bytes": 42507,
-    "doc_type": "reference"
+    "doc_type": "reference",
+    "origin": "mirror",
+    "category": "membership"
+  },
+  {
+    "kind": "document",
+    "src": "MAARS_Field_Day_2021.pptx",
+    "file": "maars-field-day-2021.pptx",
+    "bytes": 1218474,
+    "category": "field-day",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "[MAARS] KSU Warrior 5k volunteer support needed.rtfd",
+    "file": "maars-ksu-warrior-5k-volunteer-support-needed.rtfd.zip",
+    "bytes": 1140185,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "MAARS members 1-2017.pdf",
+    "file": "maars-members-1-2017.pdf",
+    "bytes": 376158,
+    "category": "membership",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "MAARS members 11-09-18.xlsx",
+    "file": "maars-members-11-09-18.xlsx",
+    "bytes": 20014,
+    "category": "membership",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "MAARS members 5-15-19.pdf",
+    "file": "maars-members-5-15-19.pdf",
+    "bytes": 59424,
+    "category": "membership",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "MAARS VEC Test Session November 2023.pdf",
+    "file": "maars-vec-test-session-november-2023.pdf",
+    "bytes": 664470,
+    "category": "exams",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "document",
     "src": "meeting-agenda.pdf",
     "file": "meeting-agenda.pdf",
     "bytes": 45270,
-    "doc_type": "reference"
+    "doc_type": "reference",
+    "category": "meetings",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "Members 9-2018.xlsx",
+    "file": "members-9-2018.xlsx",
+    "bytes": 11670,
+    "category": "membership",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "membership_rates_2021.pdf",
+    "file": "membership-rates-2021.pdf",
+    "bytes": 21152,
+    "category": "membership",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Membership  single application 2020-1.pdf",
+    "file": "membership-single-application-2020-1.pdf",
+    "bytes": 24042,
+    "category": "membership",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "document",
     "src": "Glen_Rubash-thank-you-card.pdf",
     "file": "memorial-glen-rubash-thank-you-card.pdf",
-    "bytes": 279830
+    "bytes": 279830,
+    "category": "silent-keys",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "Morse_code_Speed_vs._Proficiency.pdf",
+    "file": "morse-code-speed-vs-proficiency.pdf",
+    "bytes": 46656,
+    "category": "reading",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "Morse code Speed vs Proficiency.rtf",
+    "file": "morse-code-speed-vs-proficiency.rtf",
+    "bytes": 15413,
+    "category": "reading",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "document",
     "src": "newsletter_01-16.pdf",
     "file": "newsletter-01-16.pdf",
-    "bytes": 257281
+    "bytes": 257281,
+    "doc_type": "minutes",
+    "year": 2016,
+    "date": "2016-01-01",
+    "title": "Meeting minutes, January 2016",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_01-17.pdf",
     "file": "newsletter-01-17.pdf",
     "bytes": 75258,
-    "doc_type": "minutes",
-    "year": 2017,
-    "date": "2017-01-01",
-    "title": "Meeting minutes, January 2017"
+    "duplicate_of": "newsletter_02-17.pdf",
+    "note": "byte-identical to newsletter_02-17.pdf (the minutes of 10 February 2017); the old site linked 'Jan. 2017' to it",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -114,17 +893,19 @@
     "doc_type": "minutes",
     "year": 2018,
     "date": "2018-01-01",
-    "title": "Meeting minutes, January 2018"
+    "title": "Meeting minutes, January 2018",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_01-19.pdf",
     "file": "newsletter-01-19.pdf",
     "bytes": 129466,
-    "doc_type": "newsletter",
+    "doc_type": "minutes",
     "year": 2019,
     "date": "2019-01-01",
-    "title": "Newsletter, January 2019"
+    "title": "Meeting minutes, January 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -134,7 +915,8 @@
     "doc_type": "minutes",
     "year": 2021,
     "date": "2021-01-01",
-    "title": "Meeting minutes, January 2021"
+    "title": "Meeting minutes, January 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -144,7 +926,8 @@
     "doc_type": "minutes",
     "year": 2022,
     "date": "2022-01-01",
-    "title": "Meeting minutes, January 2022"
+    "title": "Meeting minutes, January 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -154,7 +937,8 @@
     "doc_type": "minutes",
     "year": 2023,
     "date": "2023-01-01",
-    "title": "Meeting minutes, January 2023"
+    "title": "Meeting minutes, January 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -164,19 +948,30 @@
     "doc_type": "minutes",
     "year": 2024,
     "date": "2024-01-01",
-    "title": "Meeting minutes, January 2024"
+    "title": "Meeting minutes, January 2024",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_02-10.pdf",
     "file": "newsletter-02-10.pdf",
-    "bytes": 161975
+    "bytes": 161975,
+    "doc_type": "newsletter",
+    "year": 2010,
+    "date": "2010-02-01",
+    "title": "Newsletter, February 2010",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_02-14.pdf",
     "file": "newsletter-02-14.pdf",
-    "bytes": 61364
+    "bytes": 61364,
+    "doc_type": "newsletter",
+    "year": 2014,
+    "date": "2014-02-01",
+    "title": "Newsletter, February 2014",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -186,7 +981,8 @@
     "doc_type": "minutes",
     "year": 2017,
     "date": "2017-02-01",
-    "title": "Meeting minutes, February 2017"
+    "title": "Meeting minutes, February 2017",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -196,7 +992,8 @@
     "doc_type": "minutes",
     "year": 2018,
     "date": "2018-02-01",
-    "title": "Meeting minutes, February 2018"
+    "title": "Meeting minutes, February 2018",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -206,7 +1003,8 @@
     "doc_type": "minutes",
     "year": 2019,
     "date": "2019-02-01",
-    "title": "Meeting minutes, February 2019"
+    "title": "Meeting minutes, February 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -216,7 +1014,8 @@
     "doc_type": "minutes",
     "year": 2020,
     "date": "2020-02-01",
-    "title": "Meeting minutes, February 2020"
+    "title": "Meeting minutes, February 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -226,7 +1025,8 @@
     "doc_type": "minutes",
     "year": 2021,
     "date": "2021-02-01",
-    "title": "Meeting minutes, February 2021"
+    "title": "Meeting minutes, February 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -236,7 +1036,8 @@
     "doc_type": "minutes",
     "year": 2023,
     "date": "2023-02-01",
-    "title": "Meeting minutes, February 2023"
+    "title": "Meeting minutes, February 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -246,7 +1047,8 @@
     "doc_type": "minutes",
     "year": 2017,
     "date": "2017-03-01",
-    "title": "Meeting minutes, March 2017"
+    "title": "Meeting minutes, March 2017",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -256,7 +1058,8 @@
     "doc_type": "minutes",
     "year": 2018,
     "date": "2018-03-01",
-    "title": "Meeting minutes, March 2018"
+    "title": "Meeting minutes, March 2018",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -266,7 +1069,8 @@
     "doc_type": "minutes",
     "year": 2019,
     "date": "2019-03-01",
-    "title": "Meeting minutes, March 2019"
+    "title": "Meeting minutes, March 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -276,7 +1080,8 @@
     "doc_type": "minutes",
     "year": 2020,
     "date": "2020-03-01",
-    "title": "Meeting minutes, March 2020"
+    "title": "Meeting minutes, March 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -286,7 +1091,8 @@
     "doc_type": "minutes",
     "year": 2022,
     "date": "2022-03-01",
-    "title": "Meeting minutes, March 2022"
+    "title": "Meeting minutes, March 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -296,13 +1102,30 @@
     "doc_type": "minutes",
     "year": 2023,
     "date": "2023-03-01",
-    "title": "Meeting minutes, March 2023"
+    "title": "Meeting minutes, March 2023",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "newsletter_04-10.pdf",
+    "file": "newsletter-04-10.pdf",
+    "bytes": 162472,
+    "doc_type": "newsletter",
+    "year": 2010,
+    "date": "2010-04-01",
+    "title": "Newsletter, April 2010",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "document",
     "src": "newsletter_04-16.pdf",
     "file": "newsletter-04-16.pdf",
-    "bytes": 68485
+    "bytes": 68485,
+    "doc_type": "minutes",
+    "year": 2016,
+    "date": "2016-04-01",
+    "title": "Meeting minutes, April 2016",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -312,7 +1135,8 @@
     "doc_type": "minutes",
     "year": 2017,
     "date": "2017-04-01",
-    "title": "Meeting minutes, April 2017"
+    "title": "Meeting minutes, April 2017",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -322,7 +1146,8 @@
     "doc_type": "minutes",
     "year": 2018,
     "date": "2018-04-01",
-    "title": "Meeting minutes, April 2018"
+    "title": "Meeting minutes, April 2018",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -332,13 +1157,27 @@
     "doc_type": "minutes",
     "year": 2019,
     "date": "2019-04-01",
-    "title": "Meeting minutes, April 2019"
+    "title": "Meeting minutes, April 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_04-20.pdf",
     "file": "newsletter-04-20.pdf",
-    "bytes": 34541
+    "bytes": 34541,
+    "doc_type": "minutes",
+    "year": 2020,
+    "date": "2020-04-01",
+    "title": "Meeting minutes, April 2020 (chat transcript)",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "newsletter_04-20.rtf",
+    "file": "newsletter-04-20.rtf",
+    "bytes": 4608,
+    "alternate_of": "newsletter_04-20.pdf",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "document",
@@ -348,7 +1187,8 @@
     "doc_type": "minutes",
     "year": 2021,
     "date": "2021-04-01",
-    "title": "Meeting minutes, April 2021"
+    "title": "Meeting minutes, April 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -358,7 +1198,8 @@
     "doc_type": "minutes",
     "year": 2022,
     "date": "2022-04-01",
-    "title": "Meeting minutes, April 2022"
+    "title": "Meeting minutes, April 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -368,13 +1209,19 @@
     "doc_type": "minutes",
     "year": 2023,
     "date": "2023-04-01",
-    "title": "Meeting minutes, April 2023"
+    "title": "Meeting minutes, April 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_05-10.pdf",
     "file": "newsletter-05-10.pdf",
-    "bytes": 131071
+    "bytes": 131071,
+    "doc_type": "newsletter",
+    "year": 2010,
+    "date": "2010-05-01",
+    "title": "Newsletter, May 2010",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -384,7 +1231,8 @@
     "doc_type": "minutes",
     "year": 2017,
     "date": "2017-05-01",
-    "title": "Meeting minutes, May 2017"
+    "title": "Meeting minutes, May 2017",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -394,7 +1242,16 @@
     "doc_type": "minutes",
     "year": 2018,
     "date": "2018-05-01",
-    "title": "Meeting minutes, May 2018"
+    "title": "Meeting minutes, May 2018",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "newsletter_05-19.doc",
+    "file": "newsletter-05-19.doc",
+    "bytes": 23552,
+    "alternate_of": "newsletter_05-19.pdf",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "document",
@@ -404,7 +1261,8 @@
     "doc_type": "minutes",
     "year": 2019,
     "date": "2019-05-01",
-    "title": "Meeting minutes, May 2019"
+    "title": "Meeting minutes, May 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -414,13 +1272,19 @@
     "doc_type": "minutes",
     "year": 2022,
     "date": "2022-05-01",
-    "title": "Meeting minutes, May 2022"
+    "title": "Meeting minutes, May 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_05-23.pdf",
     "file": "newsletter-05-23.pdf",
-    "bytes": 949638
+    "bytes": 949638,
+    "doc_type": "minutes",
+    "year": 2023,
+    "date": "2023-05-01",
+    "title": "Meeting minutes, May 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -430,7 +1294,8 @@
     "doc_type": "minutes",
     "year": 2017,
     "date": "2017-06-01",
-    "title": "Meeting minutes, June 2017"
+    "title": "Meeting minutes, June 2017",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -440,7 +1305,8 @@
     "doc_type": "minutes",
     "year": 2018,
     "date": "2018-06-01",
-    "title": "Meeting minutes, June 2018"
+    "title": "Meeting minutes, June 2018",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -450,7 +1316,8 @@
     "doc_type": "minutes",
     "year": 2019,
     "date": "2019-06-01",
-    "title": "Meeting minutes, June 2019"
+    "title": "Meeting minutes, June 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -460,7 +1327,8 @@
     "doc_type": "minutes",
     "year": 2022,
     "date": "2022-06-01",
-    "title": "Meeting minutes, June 2022"
+    "title": "Meeting minutes, June 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -470,19 +1338,30 @@
     "doc_type": "minutes",
     "year": 2023,
     "date": "2023-06-01",
-    "title": "Meeting minutes, June 2023"
+    "title": "Meeting minutes, June 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_07-10.pdf",
     "file": "newsletter-07-10.pdf",
-    "bytes": 127167
+    "bytes": 127167,
+    "doc_type": "newsletter",
+    "year": 2010,
+    "date": "2010-07-01",
+    "title": "Newsletter, July 2010",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_07-17.pdf",
     "file": "newsletter-07-17.pdf",
-    "bytes": 85248
+    "bytes": 85248,
+    "doc_type": "minutes",
+    "year": 2017,
+    "date": "2017-07-01",
+    "title": "Meeting minutes, July 2017",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -492,13 +1371,19 @@
     "doc_type": "minutes",
     "year": 2018,
     "date": "2018-07-01",
-    "title": "Meeting minutes, July 2018"
+    "title": "Meeting minutes, July 2018",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_07-19.pdf",
     "file": "newsletter-07-19.pdf",
-    "bytes": 285594
+    "bytes": 285594,
+    "doc_type": "minutes",
+    "year": 2019,
+    "date": "2019-07-01",
+    "title": "Meeting minutes, July 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -508,17 +1393,19 @@
     "doc_type": "minutes",
     "year": 2020,
     "date": "2020-07-01",
-    "title": "Meeting minutes, July 2020"
+    "title": "Meeting minutes, July 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_07-21.pdf",
     "file": "newsletter-07-21.pdf",
     "bytes": 27061,
-    "doc_type": "newsletter",
+    "doc_type": "minutes",
     "year": 2021,
     "date": "2021-07-01",
-    "title": "Newsletter, July 2021"
+    "title": "Meeting minutes, July 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -528,13 +1415,19 @@
     "doc_type": "minutes",
     "year": 2022,
     "date": "2022-07-01",
-    "title": "Meeting minutes, July 2022"
+    "title": "Meeting minutes, July 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_08-10.pdf",
     "file": "newsletter-08-10.pdf",
-    "bytes": 190619
+    "bytes": 190619,
+    "doc_type": "newsletter",
+    "year": 2010,
+    "date": "2010-08-01",
+    "title": "Newsletter, August 2010",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -544,7 +1437,8 @@
     "doc_type": "minutes",
     "year": 2017,
     "date": "2017-08-01",
-    "title": "Meeting minutes, August 2017"
+    "title": "Meeting minutes, August 2017",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -554,7 +1448,8 @@
     "doc_type": "minutes",
     "year": 2018,
     "date": "2018-08-01",
-    "title": "Meeting minutes, August 2018"
+    "title": "Meeting minutes, August 2018",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -564,7 +1459,8 @@
     "doc_type": "minutes",
     "year": 2019,
     "date": "2019-08-01",
-    "title": "Meeting minutes, August 2019"
+    "title": "Meeting minutes, August 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -574,17 +1470,19 @@
     "doc_type": "minutes",
     "year": 2020,
     "date": "2020-08-01",
-    "title": "Meeting minutes, August 2020"
+    "title": "Meeting minutes, August 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_08-21.pdf",
     "file": "newsletter-08-21.pdf",
     "bytes": 28691,
-    "doc_type": "newsletter",
+    "doc_type": "minutes",
     "year": 2021,
     "date": "2021-08-01",
-    "title": "Newsletter, August 2021"
+    "title": "Meeting minutes, August 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -594,7 +1492,8 @@
     "doc_type": "minutes",
     "year": 2022,
     "date": "2022-08-01",
-    "title": "Meeting minutes, August 2022"
+    "title": "Meeting minutes, August 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -604,13 +1503,19 @@
     "doc_type": "minutes",
     "year": 2023,
     "date": "2023-08-01",
-    "title": "Meeting minutes, August 2023"
+    "title": "Meeting minutes, August 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_09-13.pdf",
     "file": "newsletter-09-13.pdf",
-    "bytes": 26712
+    "bytes": 26712,
+    "doc_type": "minutes",
+    "year": 2013,
+    "date": "2013-09-01",
+    "title": "Meeting minutes, September 2013",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -620,7 +1525,8 @@
     "doc_type": "minutes",
     "year": 2017,
     "date": "2017-09-01",
-    "title": "Meeting minutes, September 2017"
+    "title": "Meeting minutes, September 2017",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -630,7 +1536,8 @@
     "doc_type": "minutes",
     "year": 2018,
     "date": "2018-09-01",
-    "title": "Meeting minutes, September 2018"
+    "title": "Meeting minutes, September 2018",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -640,7 +1547,8 @@
     "doc_type": "minutes",
     "year": 2019,
     "date": "2019-09-01",
-    "title": "Meeting minutes, September 2019"
+    "title": "Meeting minutes, September 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -650,13 +1558,19 @@
     "doc_type": "minutes",
     "year": 2020,
     "date": "2020-09-01",
-    "title": "Meeting minutes, September 2020"
+    "title": "Meeting minutes, September 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_09-22.pdf",
     "file": "newsletter-09-22.pdf",
-    "bytes": 58708
+    "bytes": 58708,
+    "doc_type": "minutes",
+    "year": 2022,
+    "date": "2022-09-01",
+    "title": "Meeting minutes, September 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -666,19 +1580,30 @@
     "doc_type": "minutes",
     "year": 2023,
     "date": "2023-09-01",
-    "title": "Meeting minutes, September 2023"
+    "title": "Meeting minutes, September 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_10-10.pdf",
     "file": "newsletter-10-10.pdf",
-    "bytes": 161754
+    "bytes": 161754,
+    "doc_type": "newsletter",
+    "year": 2010,
+    "date": "2010-10-01",
+    "title": "Newsletter, October 2010",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_10-15.pdf",
     "file": "newsletter-10-15.pdf",
-    "bytes": 66981
+    "bytes": 66981,
+    "doc_type": "minutes",
+    "year": 2015,
+    "date": "2015-10-01",
+    "title": "Meeting minutes, October 2015",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -688,7 +1613,8 @@
     "doc_type": "minutes",
     "year": 2017,
     "date": "2017-10-01",
-    "title": "Meeting minutes, October 2017"
+    "title": "Meeting minutes, October 2017",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -698,7 +1624,8 @@
     "doc_type": "minutes",
     "year": 2018,
     "date": "2018-10-01",
-    "title": "Meeting minutes, October 2018"
+    "title": "Meeting minutes, October 2018",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -708,7 +1635,8 @@
     "doc_type": "minutes",
     "year": 2019,
     "date": "2019-10-01",
-    "title": "Meeting minutes, October 2019"
+    "title": "Meeting minutes, October 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -718,7 +1646,8 @@
     "doc_type": "minutes",
     "year": 2020,
     "date": "2020-10-01",
-    "title": "Meeting minutes, October 2020"
+    "title": "Meeting minutes, October 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -728,7 +1657,8 @@
     "doc_type": "minutes",
     "year": 2021,
     "date": "2021-10-01",
-    "title": "Meeting minutes, October 2021"
+    "title": "Meeting minutes, October 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -738,13 +1668,19 @@
     "doc_type": "minutes",
     "year": 2023,
     "date": "2023-10-01",
-    "title": "Meeting minutes, October 2023"
+    "title": "Meeting minutes, October 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_11-09.pdf",
     "file": "newsletter-11-09.pdf",
-    "bytes": 131864
+    "bytes": 131864,
+    "doc_type": "newsletter",
+    "year": 2009,
+    "date": "2009-11-01",
+    "title": "Newsletter, November 2009",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -754,13 +1690,19 @@
     "doc_type": "minutes",
     "year": 2013,
     "date": "2013-11-01",
-    "title": "Meeting minutes, November 2013"
+    "title": "Meeting minutes, November 2013",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_11-15.pdf",
     "file": "newsletter-11-15.pdf",
-    "bytes": 55592
+    "bytes": 55592,
+    "doc_type": "minutes",
+    "year": 2015,
+    "date": "2015-11-01",
+    "title": "Meeting minutes, November 2015",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -770,13 +1712,19 @@
     "doc_type": "minutes",
     "year": 2017,
     "date": "2017-11-01",
-    "title": "Meeting minutes, November 2017"
+    "title": "Meeting minutes, November 2017",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_11-18.pdf",
     "file": "newsletter-11-18.pdf",
-    "bytes": 72330
+    "bytes": 72330,
+    "doc_type": "minutes",
+    "year": 2018,
+    "date": "2018-11-01",
+    "title": "Meeting minutes, November 2018",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -786,7 +1734,8 @@
     "doc_type": "minutes",
     "year": 2019,
     "date": "2019-11-01",
-    "title": "Meeting minutes, November 2019"
+    "title": "Meeting minutes, November 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -796,7 +1745,8 @@
     "doc_type": "minutes",
     "year": 2020,
     "date": "2020-11-01",
-    "title": "Meeting minutes, November 2020"
+    "title": "Meeting minutes, November 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -806,25 +1756,41 @@
     "doc_type": "minutes",
     "year": 2021,
     "date": "2021-11-01",
-    "title": "Meeting minutes, November 2021"
+    "title": "Meeting minutes, November 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_11-23.pdf",
     "file": "newsletter-11-23.pdf",
-    "bytes": 884382
+    "bytes": 884382,
+    "doc_type": "minutes",
+    "year": 2023,
+    "date": "2023-11-01",
+    "title": "Meeting minutes, November 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_12-10.pdf",
     "file": "newsletter-12-10.pdf",
-    "bytes": 169178
+    "bytes": 169178,
+    "doc_type": "newsletter",
+    "year": 2010,
+    "date": "2010-12-01",
+    "title": "Newsletter, December 2010",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "newsletter_12-15.pdf",
     "file": "newsletter-12-15.pdf",
-    "bytes": 250984
+    "bytes": 250984,
+    "doc_type": "minutes",
+    "year": 2015,
+    "date": "2015-12-01",
+    "title": "Meeting minutes, December 2015",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -834,7 +1800,8 @@
     "doc_type": "minutes",
     "year": 2016,
     "date": "2016-12-01",
-    "title": "Meeting minutes, December 2016"
+    "title": "Meeting minutes, December 2016",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -844,19 +1811,88 @@
     "doc_type": "minutes",
     "year": 2021,
     "date": "2021-12-01",
-    "title": "Meeting minutes, December 2021"
+    "title": "Meeting minutes, December 2021",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "NWSflyer.pdf",
+    "file": "nwsflyer.pdf",
+    "bytes": 112065,
+    "category": "reading",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Pathfinder.pdf",
+    "file": "pathfinder.pdf",
+    "bytes": 43061,
+    "category": "reading",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "document",
     "src": "download_repeaters_2m_1-07-23.csv.zip",
     "file": "repeaters-kansas-2m-2023-01-07.csv.zip",
-    "bytes": 4812
+    "bytes": 4812,
+    "origin": "mirror",
+    "category": "repeater"
   },
   {
     "kind": "document",
     "src": "download_repeaters_70cm_1-08-23.csv.zip",
     "file": "repeaters-kansas-70cm-2023-01-08.csv.zip",
-    "bytes": 5542
+    "bytes": 5542,
+    "origin": "mirror",
+    "category": "repeater"
+  },
+  {
+    "kind": "document",
+    "src": "Salina_Hamfest_schedule_2015.pdf",
+    "file": "salina-hamfest-schedule-2015.pdf",
+    "bytes": 386512,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Salina_mailer_2015.pdf",
+    "file": "salina-mailer-2015.pdf",
+    "bytes": 399538,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "SantaFeTrailHamfest.pdf",
+    "file": "santafetrailhamfest.pdf",
+    "bytes": 315644,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "set.rtf",
+    "file": "set.rtf",
+    "bytes": 9325,
+    "category": "reading",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "shirts order archive.txt",
+    "file": "shirts-order-archive.txt",
+    "bytes": 2723,
+    "category": "membership",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "tower.pdf",
+    "file": "tower.pdf",
+    "bytes": 2070392,
+    "category": "reading",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -866,7 +1902,8 @@
     "doc_type": "treasurer-report",
     "year": 2020,
     "date": "2020-01-01",
-    "title": "Treasurer's report, January 2020"
+    "title": "Treasurer's report, January 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -876,7 +1913,8 @@
     "doc_type": "treasurer-report",
     "year": 2021,
     "date": "2021-01-01",
-    "title": "Treasurer's report, January 2021"
+    "title": "Treasurer's report, January 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -886,7 +1924,8 @@
     "doc_type": "treasurer-report",
     "year": 2022,
     "date": "2022-01-01",
-    "title": "Treasurer's report, January 2022"
+    "title": "Treasurer's report, January 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -896,7 +1935,8 @@
     "doc_type": "treasurer-report",
     "year": 2023,
     "date": "2023-01-01",
-    "title": "Treasurer's report, January 2023"
+    "title": "Treasurer's report, January 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -906,7 +1946,8 @@
     "doc_type": "treasurer-report",
     "year": 2020,
     "date": "2020-02-01",
-    "title": "Treasurer's report, February 2020"
+    "title": "Treasurer's report, February 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -916,7 +1957,8 @@
     "doc_type": "treasurer-report",
     "year": 2021,
     "date": "2021-02-01",
-    "title": "Treasurer's report, February 2021"
+    "title": "Treasurer's report, February 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -926,7 +1968,8 @@
     "doc_type": "treasurer-report",
     "year": 2022,
     "date": "2022-02-01",
-    "title": "Treasurer's report, February 2022"
+    "title": "Treasurer's report, February 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -936,7 +1979,8 @@
     "doc_type": "treasurer-report",
     "year": 2023,
     "date": "2023-02-01",
-    "title": "Treasurer's report, February 2023"
+    "title": "Treasurer's report, February 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -946,7 +1990,19 @@
     "doc_type": "treasurer-report",
     "year": 2020,
     "date": "2020-03-01",
-    "title": "Treasurer's report, March 2020"
+    "title": "Treasurer's report, March 2020",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "treasurer_03-21.pdf",
+    "file": "treasurer-03-21.pdf",
+    "bytes": 46575,
+    "doc_type": "treasurer-report",
+    "year": 2021,
+    "date": "2021-03-01",
+    "title": "Treasurer's report, March 2021",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "document",
@@ -956,7 +2012,8 @@
     "doc_type": "treasurer-report",
     "year": 2022,
     "date": "2022-03-01",
-    "title": "Treasurer's report, March 2022"
+    "title": "Treasurer's report, March 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -966,7 +2023,8 @@
     "doc_type": "treasurer-report",
     "year": 2023,
     "date": "2023-03-01",
-    "title": "Treasurer's report, March 2023"
+    "title": "Treasurer's report, March 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -976,7 +2034,8 @@
     "doc_type": "treasurer-report",
     "year": 2020,
     "date": "2020-04-01",
-    "title": "Treasurer's report, April 2020"
+    "title": "Treasurer's report, April 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -986,7 +2045,8 @@
     "doc_type": "treasurer-report",
     "year": 2021,
     "date": "2021-04-01",
-    "title": "Treasurer's report, April 2021"
+    "title": "Treasurer's report, April 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -996,7 +2056,8 @@
     "doc_type": "treasurer-report",
     "year": 2022,
     "date": "2022-04-01",
-    "title": "Treasurer's report, April 2022"
+    "title": "Treasurer's report, April 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1006,7 +2067,8 @@
     "doc_type": "treasurer-report",
     "year": 2023,
     "date": "2023-04-01",
-    "title": "Treasurer's report, April 2023"
+    "title": "Treasurer's report, April 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1016,7 +2078,8 @@
     "doc_type": "treasurer-report",
     "year": 2020,
     "date": "2020-05-01",
-    "title": "Treasurer's report, May 2020"
+    "title": "Treasurer's report, May 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1026,7 +2089,8 @@
     "doc_type": "treasurer-report",
     "year": 2021,
     "date": "2021-05-01",
-    "title": "Treasurer's report, May 2021"
+    "title": "Treasurer's report, May 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1036,7 +2100,8 @@
     "doc_type": "treasurer-report",
     "year": 2022,
     "date": "2022-05-01",
-    "title": "Treasurer's report, May 2022"
+    "title": "Treasurer's report, May 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1046,7 +2111,8 @@
     "doc_type": "treasurer-report",
     "year": 2023,
     "date": "2023-05-01",
-    "title": "Treasurer's report, May 2023"
+    "title": "Treasurer's report, May 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1056,7 +2122,8 @@
     "doc_type": "treasurer-report",
     "year": 2020,
     "date": "2020-06-01",
-    "title": "Treasurer's report, June 2020"
+    "title": "Treasurer's report, June 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1066,7 +2133,8 @@
     "doc_type": "treasurer-report",
     "year": 2021,
     "date": "2021-06-01",
-    "title": "Treasurer's report, June 2021"
+    "title": "Treasurer's report, June 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1076,7 +2144,8 @@
     "doc_type": "treasurer-report",
     "year": 2022,
     "date": "2022-06-01",
-    "title": "Treasurer's report, June 2022"
+    "title": "Treasurer's report, June 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1086,7 +2155,8 @@
     "doc_type": "treasurer-report",
     "year": 2023,
     "date": "2023-06-01",
-    "title": "Treasurer's report, June 2023"
+    "title": "Treasurer's report, June 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1096,7 +2166,8 @@
     "doc_type": "treasurer-report",
     "year": 2020,
     "date": "2020-07-01",
-    "title": "Treasurer's report, July 2020"
+    "title": "Treasurer's report, July 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1106,7 +2177,8 @@
     "doc_type": "treasurer-report",
     "year": 2021,
     "date": "2021-07-01",
-    "title": "Treasurer's report, July 2021"
+    "title": "Treasurer's report, July 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1116,7 +2188,8 @@
     "doc_type": "treasurer-report",
     "year": 2022,
     "date": "2022-07-01",
-    "title": "Treasurer's report, July 2022"
+    "title": "Treasurer's report, July 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1126,7 +2199,8 @@
     "doc_type": "treasurer-report",
     "year": 2023,
     "date": "2023-07-01",
-    "title": "Treasurer's report, July 2023"
+    "title": "Treasurer's report, July 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1136,7 +2210,8 @@
     "doc_type": "treasurer-report",
     "year": 2020,
     "date": "2020-08-01",
-    "title": "Treasurer's report, August 2020"
+    "title": "Treasurer's report, August 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1146,7 +2221,8 @@
     "doc_type": "treasurer-report",
     "year": 2021,
     "date": "2021-08-01",
-    "title": "Treasurer's report, August 2021"
+    "title": "Treasurer's report, August 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1156,7 +2232,8 @@
     "doc_type": "treasurer-report",
     "year": 2022,
     "date": "2022-08-01",
-    "title": "Treasurer's report, August 2022"
+    "title": "Treasurer's report, August 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1166,7 +2243,8 @@
     "doc_type": "treasurer-report",
     "year": 2023,
     "date": "2023-08-01",
-    "title": "Treasurer's report, August 2023"
+    "title": "Treasurer's report, August 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1176,7 +2254,8 @@
     "doc_type": "treasurer-report",
     "year": 2020,
     "date": "2020-09-01",
-    "title": "Treasurer's report, September 2020"
+    "title": "Treasurer's report, September 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1186,7 +2265,8 @@
     "doc_type": "treasurer-report",
     "year": 2021,
     "date": "2021-09-01",
-    "title": "Treasurer's report, September 2021"
+    "title": "Treasurer's report, September 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1196,7 +2276,8 @@
     "doc_type": "treasurer-report",
     "year": 2022,
     "date": "2022-09-01",
-    "title": "Treasurer's report, September 2022"
+    "title": "Treasurer's report, September 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1206,7 +2287,8 @@
     "doc_type": "treasurer-report",
     "year": 2023,
     "date": "2023-09-01",
-    "title": "Treasurer's report, September 2023"
+    "title": "Treasurer's report, September 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1216,7 +2298,8 @@
     "doc_type": "treasurer-report",
     "year": 2019,
     "date": "2019-10-01",
-    "title": "Treasurer's report, October 2019"
+    "title": "Treasurer's report, October 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1226,7 +2309,8 @@
     "doc_type": "treasurer-report",
     "year": 2020,
     "date": "2020-10-01",
-    "title": "Treasurer's report, October 2020"
+    "title": "Treasurer's report, October 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1236,7 +2320,8 @@
     "doc_type": "treasurer-report",
     "year": 2021,
     "date": "2021-10-01",
-    "title": "Treasurer's report, October 2021"
+    "title": "Treasurer's report, October 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1246,7 +2331,8 @@
     "doc_type": "treasurer-report",
     "year": 2022,
     "date": "2022-10-01",
-    "title": "Treasurer's report, October 2022"
+    "title": "Treasurer's report, October 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1256,7 +2342,8 @@
     "doc_type": "treasurer-report",
     "year": 2019,
     "date": "2019-11-01",
-    "title": "Treasurer's report, November 2019"
+    "title": "Treasurer's report, November 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1266,7 +2353,8 @@
     "doc_type": "treasurer-report",
     "year": 2020,
     "date": "2020-11-01",
-    "title": "Treasurer's report, November 2020"
+    "title": "Treasurer's report, November 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1276,7 +2364,8 @@
     "doc_type": "treasurer-report",
     "year": 2021,
     "date": "2021-11-01",
-    "title": "Treasurer's report, November 2021"
+    "title": "Treasurer's report, November 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1286,7 +2375,8 @@
     "doc_type": "treasurer-report",
     "year": 2022,
     "date": "2022-11-01",
-    "title": "Treasurer's report, November 2022"
+    "title": "Treasurer's report, November 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1296,7 +2386,8 @@
     "doc_type": "treasurer-report",
     "year": 2023,
     "date": "2023-11-01",
-    "title": "Treasurer's report, November 2023"
+    "title": "Treasurer's report, November 2023",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1306,7 +2397,8 @@
     "doc_type": "treasurer-report",
     "year": 2019,
     "date": "2019-12-01",
-    "title": "Treasurer's report, December 2019"
+    "title": "Treasurer's report, December 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1316,7 +2408,8 @@
     "doc_type": "treasurer-report",
     "year": 2020,
     "date": "2020-12-01",
-    "title": "Treasurer's report, December 2020"
+    "title": "Treasurer's report, December 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1326,7 +2419,8 @@
     "doc_type": "treasurer-report",
     "year": 2021,
     "date": "2021-12-01",
-    "title": "Treasurer's report, December 2021"
+    "title": "Treasurer's report, December 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1336,7 +2430,8 @@
     "doc_type": "treasurer-report",
     "year": 2022,
     "date": "2022-12-01",
-    "title": "Treasurer's report, December 2022"
+    "title": "Treasurer's report, December 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1346,19 +2441,59 @@
     "doc_type": "treasurer-report",
     "year": 2023,
     "date": "2023-12-01",
-    "title": "Treasurer's report, December 2023"
+    "title": "Treasurer's report, December 2023",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "treasurer_4-12.pdf",
+    "file": "treasurer-4-12.pdf",
+    "bytes": 63553,
+    "doc_type": "treasurer-report",
+    "year": 2012,
+    "date": "2012-03-01",
+    "title": "Treasurer's report, March 2012",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "video_Amateur_Radio_Parity_Act.mp4",
+    "file": "video-amateur-radio-parity-act.mp4",
+    "bytes": 58551488,
+    "category": "reading",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "document",
     "src": "warn_Jan.-Mar._2020.pdf",
     "file": "warn-jan-mar-2020.pdf",
-    "bytes": 212882
+    "bytes": 212882,
+    "category": "storm-spotting",
+    "origin": "mirror"
   },
   {
     "kind": "document",
     "src": "warn.pdf",
     "file": "warn.pdf",
-    "bytes": 224815
+    "bytes": 224815,
+    "category": "storm-spotting",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "Winter Field Day Flyer.psd",
+    "file": "winter-field-day-flyer.psd",
+    "bytes": 1080443,
+    "category": "field-day",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "document",
+    "src": "Winter-Field-Day-Rules.pdf",
+    "file": "winter-field-day-rules.pdf",
+    "bytes": 892201,
+    "category": "winter-field-day",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1368,7 +2503,8 @@
     "doc_type": "year-end-report",
     "year": 2018,
     "date": "2018-12-31",
-    "title": "Year-end report, 2018"
+    "title": "Year-end report, 2018",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1378,7 +2514,8 @@
     "doc_type": "year-end-report",
     "year": 2019,
     "date": "2019-12-31",
-    "title": "Year-end report, 2019"
+    "title": "Year-end report, 2019",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1388,7 +2525,8 @@
     "doc_type": "year-end-report",
     "year": 2020,
     "date": "2020-12-31",
-    "title": "Year-end report, 2020"
+    "title": "Year-end report, 2020",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1398,7 +2536,8 @@
     "doc_type": "year-end-report",
     "year": 2021,
     "date": "2021-12-31",
-    "title": "Year-end report, 2021"
+    "title": "Year-end report, 2021",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1408,7 +2547,8 @@
     "doc_type": "year-end-report",
     "year": 2022,
     "date": "2022-12-31",
-    "title": "Year-end report, 2022"
+    "title": "Year-end report, 2022",
+    "origin": "mirror"
   },
   {
     "kind": "document",
@@ -1418,518 +2558,1515 @@
     "doc_type": "year-end-report",
     "year": 2023,
     "date": "2023-12-31",
-    "title": "Year-end report, 2023"
+    "title": "Year-end report, 2023",
+    "origin": "mirror"
+  },
+  {
+    "kind": "document",
+    "src": "Your personal Google+ account is going away on April 2, 2019.rtf",
+    "file": "your-personal-google-account-is-going-away-on-april-2-2019.rtf",
+    "bytes": 5586,
+    "category": "reading",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "acrobat.gif",
+    "file": "acrobat.gif",
+    "bytes": 712,
+    "category": "site",
+    "origin": "mirror"
   },
   {
     "kind": "image",
     "src": "after_action.jpg",
     "file": "after-action.jpg",
     "w": 700,
-    "bytes": 55578
+    "bytes": 55578,
+    "category": "reading",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "arrlwwwlink.jpg",
+    "file": "arrlwwwlink.jpg",
+    "bytes": 25715,
+    "category": "site",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "blueline_6px.gif",
+    "file": "blueline-6px.gif",
+    "bytes": 2970,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "blueline.gif",
+    "file": "blueline.gif",
+    "bytes": 3657,
+    "category": "site",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "bluelineani.gif",
+    "file": "bluelineani.gif",
+    "bytes": 10916,
+    "category": "site",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Bluemont.jpg",
+    "file": "bluemont.jpg",
+    "bytes": 9901,
+    "category": "breakfast",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Chick-fil-A.jpg",
+    "file": "chick-fil-a.jpg",
+    "bytes": 107648,
+    "category": "breakfast",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Christmas_party_2023.jpg",
+    "file": "christmas-party-2023.jpg",
+    "bytes": 45013,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Christmas_party.jpg",
+    "file": "christmas-party.jpg",
+    "bytes": 38568,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "ctswbb_photo_Ayoka_Lee_LisaLeslie_Top10.jpg",
+    "file": "ctswbb-photo-ayoka-lee-lisaleslie-top10.jpg",
+    "bytes": 39563,
+    "category": "site",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "DDY_antique_radios.jpg",
+    "file": "ddy-antique-radios.jpg",
+    "bytes": 67635,
+    "category": "collections",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "DDY_broadcast_DX_log.jpg",
+    "file": "ddy-broadcast-dx-log.jpg",
+    "bytes": 58383,
+    "category": "collections",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "DDY_HF_log1.jpg",
+    "file": "ddy-hf-log1.jpg",
+    "bytes": 266097,
+    "category": "collections",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "DDY_Sentinel_124_(1938)_eBay.jpg",
+    "file": "ddy-sentinel-124-1938-ebay.jpg",
+    "bytes": 62399,
+    "category": "collections",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "DDY_Sentinel_124_(1938).jpg",
+    "file": "ddy-sentinel-124-1938.jpg",
+    "bytes": 76144,
+    "category": "collections",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "DDY_Sentinel_241.jpg",
+    "file": "ddy-sentinel-241-from-folder.jpg",
+    "bytes": 103413,
+    "category": "collections",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "DDY_Sentinel 241.jpg",
+    "file": "ddy-sentinel-241.jpg",
+    "bytes": 139439,
+    "category": "collections",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "DDY_Sentinel_305.jpg",
+    "file": "ddy-sentinel-305.jpg",
+    "bytes": 57602,
+    "category": "collections",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Donut_Palace_600.jpg",
+    "file": "donut-palace-600.jpg",
+    "bytes": 142806,
+    "category": "breakfast",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Donut_Palace_700.jpg",
+    "file": "donut-palace-700.jpg",
+    "bytes": 68161,
+    "category": "breakfast",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "e-mail.png",
+    "file": "e-mail.png",
+    "bytes": 2446,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "email.gif",
+    "file": "email.gif",
+    "bytes": 1084,
+    "category": "site",
+    "origin": "mirror"
   },
   {
     "kind": "image",
     "src": "events_CASA_Zollman_5-10-14.jpg",
     "file": "events-casa-zollman-5-10-14.jpg",
     "w": 1280,
-    "bytes": 428034
+    "bytes": 428034,
+    "category": "events",
+    "origin": "mirror"
   },
   {
     "kind": "image",
     "src": "events_party_1-10-14_1.jpg",
     "file": "events-party-1-10-14-1.jpg",
     "w": 1200,
-    "bytes": 520577
+    "bytes": 520577,
+    "category": "events",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "events_party_1-10-14_2.jpg (the webmaster's copy)",
+    "file": "events-party-1-10-14-2-original.jpg",
+    "bytes": 483779,
+    "category": "events",
+    "note": "larger original of events-party-1-10-14-2.jpg",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "events_party_1-10-14_2.jpg",
     "file": "events-party-1-10-14-2.jpg",
     "w": 1600,
-    "bytes": 297058
+    "bytes": 297058,
+    "category": "events",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "favicon.ico",
+    "file": "favicon.ico",
+    "bytes": 1159,
+    "category": "site",
+    "stored_as": "favicon.jpg",
+    "note": "WordPress on ks0man.org converts an uploaded .ico to .jpg; the original bytes are kept in this repository",
+    "origin": "mirror"
   },
   {
     "kind": "image",
     "src": "FD05_20m_dipole_on_tower.jpg",
     "file": "fd05-20m-dipole-on-tower.jpg",
     "w": 1024,
-    "bytes": 209555
+    "bytes": 209555,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD05_Butternut.jpg",
     "file": "fd05-butternut.jpg",
     "w": 518,
-    "bytes": 206465
+    "bytes": 206465,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD05_dipole.jpg",
     "file": "fd05-dipole.jpg",
     "w": 1024,
-    "bytes": 323028
+    "bytes": 323028,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD05_Fred_Nadine_Nancy.jpg",
     "file": "fd05-fred-nadine-nancy.jpg",
     "w": 1024,
-    "bytes": 181225
+    "bytes": 181225,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD05_group.jpg",
     "file": "fd05-group.jpg",
     "w": 1024,
-    "bytes": 385042
+    "bytes": 385042,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD05_Little_Jeffrey.jpg",
     "file": "fd05-little-jeffrey.jpg",
     "w": 1024,
-    "bytes": 275384
+    "bytes": 275384,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD05_MAARS_sign.jpg",
     "file": "fd05-maars-sign.jpg",
     "w": 1024,
-    "bytes": 270564
+    "bytes": 270564,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD05_radio.jpg",
     "file": "fd05-radio.jpg",
     "w": 1024,
-    "bytes": 190071
+    "bytes": 190071,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD05_title_photo.jpg",
     "file": "fd05-title-photo.jpg",
     "w": 500,
-    "bytes": 114542
+    "bytes": 114542,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD05_tower01.jpg",
     "file": "fd05-tower01.jpg",
     "w": 1024,
-    "bytes": 300291
+    "bytes": 300291,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD05_tower2.jpg",
     "file": "fd05-tower2.jpg",
     "w": 1024,
-    "bytes": 274202
+    "bytes": 274202,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD05_tower4.jpg",
     "file": "fd05-tower4.jpg",
     "w": 1024,
-    "bytes": 346282
+    "bytes": 346282,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD15_Major_Johnson.jpg",
     "file": "fd15-major-johnson.jpg",
     "w": 508,
-    "bytes": 186877
+    "bytes": 186877,
+    "origin": "mirror",
+    "category": "field-day"
+  },
+  {
+    "kind": "image",
+    "src": "FD18_antennas_1.jpg (the webmaster's copy)",
+    "file": "fd18-antennas-1-original.jpg",
+    "bytes": 613465,
+    "category": "field-day",
+    "note": "larger original of fd18-antennas-1.jpg",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "FD18_antennas_1.jpg",
     "file": "fd18-antennas-1.jpg",
     "w": 1600,
-    "bytes": 551107
+    "bytes": 551107,
+    "origin": "mirror",
+    "category": "field-day"
+  },
+  {
+    "kind": "image",
+    "src": "FD18_antennas_2.jpg (the webmaster's copy)",
+    "file": "fd18-antennas-2-original.jpg",
+    "bytes": 444769,
+    "category": "field-day",
+    "note": "larger original of fd18-antennas-2.jpg",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "FD18_antennas_2.jpg",
     "file": "fd18-antennas-2.jpg",
     "w": 1600,
-    "bytes": 408446
+    "bytes": 408446,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD18_gallery.jpg",
     "file": "fd18-gallery.jpg",
     "w": 600,
-    "bytes": 66585
+    "bytes": 66585,
+    "origin": "mirror",
+    "category": "field-day"
+  },
+  {
+    "kind": "image",
+    "src": "FD18_operators_1.jpg (the webmaster's copy)",
+    "file": "fd18-operators-1-original.jpg",
+    "bytes": 314101,
+    "category": "field-day",
+    "note": "larger original of fd18-operators-1.jpg",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "FD18_operators_1.jpg",
     "file": "fd18-operators-1.jpg",
     "w": 1600,
-    "bytes": 288257
+    "bytes": 288257,
+    "origin": "mirror",
+    "category": "field-day"
+  },
+  {
+    "kind": "image",
+    "src": "FD18_operators_2.jpg (the webmaster's copy)",
+    "file": "fd18-operators-2-original.jpg",
+    "bytes": 330222,
+    "category": "field-day",
+    "note": "larger original of fd18-operators-2.jpg",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "FD18_operators_2.jpg",
     "file": "fd18-operators-2.jpg",
     "w": 1600,
-    "bytes": 303148
+    "bytes": 303148,
+    "origin": "mirror",
+    "category": "field-day"
+  },
+  {
+    "kind": "image",
+    "src": "FD18_tower.jpg (the webmaster's copy)",
+    "file": "fd18-tower-original.jpg",
+    "bytes": 612166,
+    "category": "field-day",
+    "note": "larger original of fd18-tower.jpg",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "FD18_tower.jpg",
     "file": "fd18-tower.jpg",
     "w": 1600,
-    "bytes": 552852
+    "bytes": 552852,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD97_banner.jpg",
     "file": "fd97-banner.jpg",
     "w": 484,
-    "bytes": 91926
+    "bytes": 91926,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD97_beamwrestling.jpg",
     "file": "fd97-beamwrestling.jpg",
     "w": 482,
-    "bytes": 83242
+    "bytes": 83242,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD97_FrancisChadop.jpg",
     "file": "fd97-francischadop.jpg",
     "w": 446,
-    "bytes": 58941
+    "bytes": 58941,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD97_Fredop.jpg",
     "file": "fd97-fredop.jpg",
     "w": 448,
-    "bytes": 65421
+    "bytes": 65421,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD97_intheshade.jpg",
     "file": "fd97-intheshade.jpg",
     "w": 444,
-    "bytes": 77181
+    "bytes": 77181,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD97_John-Lenore-Henry.jpg",
     "file": "fd97-john-lenore-henry.jpg",
     "w": 482,
-    "bytes": 103329
+    "bytes": 103329,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD97_Johntower.jpg",
     "file": "fd97-johntower.jpg",
     "w": 253,
-    "bytes": 37729
+    "bytes": 37729,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD97_laptop.jpg",
     "file": "fd97-laptop.jpg",
     "w": 515,
-    "bytes": 67108
+    "bytes": 67108,
+    "origin": "mirror",
+    "category": "field-day"
+  },
+  {
+    "kind": "image",
+    "src": "FD97_Willardonair.jpg",
+    "file": "fd97-willardonair.jpg",
+    "bytes": 63829,
+    "category": "field-day",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "FD98_Bike.jpg",
     "file": "fd98-bike.jpg",
     "w": 388,
-    "bytes": 58783
+    "bytes": 58783,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD98_Chuck.jpg",
     "file": "fd98-chuck.jpg",
     "w": 512,
-    "bytes": 81412
+    "bytes": 81412,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD98_Daniel.jpg",
     "file": "fd98-daniel.jpg",
     "w": 392,
-    "bytes": 75272
+    "bytes": 75272,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD98_Kermit.jpg",
     "file": "fd98-kermit.jpg",
     "w": 539,
-    "bytes": 64073
+    "bytes": 64073,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD98_LittleJeff.jpg",
     "file": "fd98-littlejeff.jpg",
     "w": 512,
-    "bytes": 72554
+    "bytes": 72554,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD98_Mike.jpg",
     "file": "fd98-mike.jpg",
     "w": 400,
-    "bytes": 67190
+    "bytes": 67190,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD98_Nancy.jpg",
     "file": "fd98-nancy.jpg",
     "w": 435,
-    "bytes": 59008
+    "bytes": 59008,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD98_Norm.jpg",
     "file": "fd98-norm.jpg",
     "w": 512,
-    "bytes": 76210
+    "bytes": 76210,
+    "origin": "mirror",
+    "category": "field-day"
   },
   {
     "kind": "image",
     "src": "FD98_Site.jpg",
     "file": "fd98-site.jpg",
     "w": 455,
-    "bytes": 60523
+    "bytes": 60523,
+    "origin": "mirror",
+    "category": "field-day"
+  },
+  {
+    "kind": "image",
+    "src": "FD98Site.jpg",
+    "file": "fd98site.jpg",
+    "bytes": 60523,
+    "category": "field-day",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "FDpulsarani.gif",
+    "file": "fdpulsarani.gif",
+    "bytes": 2171,
+    "category": "field-day",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "Field_Day_2016.jpg",
+    "file": "field-day-2016.jpg",
+    "bytes": 144571,
+    "category": "field-day",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Field_Day_2020.jpg",
+    "file": "field-day-2020.jpg",
+    "bytes": 17825,
+    "category": "field-day",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Field_Day_2023_Flyer.jpg",
+    "file": "field-day-2023-flyer.jpg",
+    "bytes": 113530,
+    "category": "field-day",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "flashxp.gif",
+    "file": "flashxp.gif",
+    "bytes": 1102,
+    "category": "site",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Four_Points.jpg",
+    "file": "four-points.jpg",
+    "bytes": 29185,
+    "category": "breakfast",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "foxhunt.jpg",
+    "file": "foxhunt.jpg",
+    "bytes": 6771,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Francis_2007_1.jpg (the webmaster's copy)",
+    "file": "francis-2007-1-original.jpg",
+    "bytes": 3050507,
+    "category": "photographs",
+    "note": "larger original of francis-2007-1.jpg",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "Francis_2007_1.jpg",
     "file": "francis-2007-1.jpg",
     "w": 1600,
-    "bytes": 187256
+    "bytes": 187256,
+    "origin": "mirror",
+    "category": "photographs"
+  },
+  {
+    "kind": "image",
+    "src": "Francis_2007_2.jpg (the webmaster's copy)",
+    "file": "francis-2007-2-original.jpg",
+    "bytes": 3131062,
+    "category": "photographs",
+    "note": "larger original of francis-2007-2.jpg",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "Francis_2007_2.jpg",
     "file": "francis-2007-2.jpg",
     "w": 1600,
-    "bytes": 199463
+    "bytes": 199463,
+    "category": "photographs",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "goback.gif",
+    "file": "goback.gif",
+    "bytes": 981,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "Groesbeck_Room.png",
+    "file": "groesbeck-room.png",
+    "bytes": 310900,
+    "category": "meetings",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Groesbeck.jpg",
+    "file": "groesbeck.jpg",
+    "bytes": 296147,
+    "category": "meetings",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Ham_for_Breakfast_2550.png",
+    "file": "ham-for-breakfast-2550.png",
+    "bytes": 120160,
+    "category": "breakfast",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Ham_for_Breakfast.png",
+    "file": "ham-for-breakfast.png",
+    "bytes": 42781,
+    "category": "breakfast",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "home.gif",
+    "file": "home.gif",
+    "bytes": 1151,
+    "category": "site",
+    "origin": "mirror"
   },
   {
     "kind": "image",
     "src": "horserace.jpg",
     "file": "horserace.jpg",
     "w": 309,
-    "bytes": 31911
+    "bytes": 31911,
+    "origin": "mirror",
+    "category": "events"
+  },
+  {
+    "kind": "image",
+    "src": "HyVee_on_3rd.jpg",
+    "file": "hyvee-on-3rd.jpg",
+    "bytes": 18115,
+    "category": "breakfast",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "ionosphere_diagram.jpg",
+    "file": "ionosphere-diagram.jpg",
+    "bytes": 230831,
+    "category": "reading",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "ionosphere.jpg",
+    "file": "ionosphere.jpg",
+    "bytes": 126269,
+    "category": "reading",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "lefthand.gif",
+    "file": "lefthand.gif",
+    "bytes": 965,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "links_arrlwww.jpg",
+    "file": "links-arrlwww.jpg",
+    "bytes": 47374,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "MAARS bumper sticker.jpg",
+    "file": "maars-bumper-sticker.jpg",
+    "bytes": 386277,
+    "category": "membership",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "MAARS logo.bmp",
+    "file": "maars-logo.bmp",
+    "bytes": 430614,
+    "category": "site",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "maarsbumpersticker.jpg",
     "file": "maarsbumpersticker.jpg",
     "w": 461,
-    "bytes": 22667
+    "bytes": 22667,
+    "origin": "mirror",
+    "category": "site"
   },
   {
     "kind": "image",
     "src": "maarslogo111.gif",
     "file": "maarslogo111.gif",
     "w": 95,
-    "bytes": 3028
+    "bytes": 3028,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "maarslogo75.gif",
+    "file": "maarslogo75.gif",
+    "bytes": 2041,
+    "category": "site",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "mac-blk.gif",
+    "file": "mac-blk.gif",
+    "bytes": 873,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "maroon_line.gif",
+    "file": "maroon-line.gif",
+    "bytes": 81,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "news40wpm.jpg",
+    "file": "news40wpm.jpg",
+    "bytes": 50885,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "newsart.jpg",
+    "file": "newsart.jpg",
+    "bytes": 36706,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "newscollage.gif",
+    "file": "newscollage.gif",
+    "bytes": 37586,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "newscollage2015.jpg",
+    "file": "newscollage2015.jpg",
+    "bytes": 55896,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "newscollage700.jpg",
+    "file": "newscollage700.jpg",
+    "bytes": 54465,
+    "category": "site",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "newseditor.gif",
+    "file": "newseditor.gif",
+    "bytes": 1052,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "newsfrancis.gif",
+    "file": "newsfrancis.gif",
+    "bytes": 2082,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "newsmyron.gif",
+    "file": "newsmyron.gif",
+    "bytes": 3825,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "newsnorm.gif",
+    "file": "newsnorm.gif",
+    "bytes": 2130,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "newspreslady.gif",
+    "file": "newspreslady.gif",
+    "bytes": 1369,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "newssafe.gif",
+    "file": "newssafe.gif",
+    "bytes": 328,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "newssecretary.gif",
+    "file": "newssecretary.gif",
+    "bytes": 1960,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "Ninja.jpg",
+    "file": "ninja.jpg",
+    "bytes": 34957,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "Norm.jpg",
+    "file": "norm.jpg",
+    "bytes": 42301,
+    "category": "silent-keys",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "NWSflyer.jpg",
+    "file": "nwsflyer.jpg",
+    "bytes": 166345,
+    "category": "reading",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "officerhenry.jpg",
+    "file": "officerhenry.jpg",
+    "bytes": 50917,
+    "category": "officers",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "officerjohn.jpg",
+    "file": "officerjohn.jpg",
+    "bytes": 37159,
+    "category": "officers",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "officerlenore.jpg",
+    "file": "officerlenore.jpg",
+    "bytes": 43691,
+    "category": "officers",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "officernadine.jpg",
+    "file": "officernadine.jpg",
+    "bytes": 45771,
+    "category": "officers",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "officerphyllis.jpg",
+    "file": "officerphyllis.jpg",
+    "bytes": 50603,
+    "category": "officers",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "photo_CASA_2015.gif",
+    "file": "photo-casa-2015.gif",
+    "bytes": 185797,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "photo_Christmas_party.jpg",
+    "file": "photo-christmas-party.jpg",
+    "bytes": 46929,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "photo_Christmas_party.png",
+    "file": "photo-christmas-party.png",
+    "bytes": 109242,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "photo_Christmas_tree__ani.gif",
+    "file": "photo-christmas-tree-ani.gif",
+    "bytes": 17668,
+    "category": "events",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "photo_fall-fox-hunt-9-2022.jpg",
     "file": "photo-fall-fox-hunt-9-2022.jpg",
     "w": 720,
-    "bytes": 104554
+    "bytes": 104554,
+    "category": "events",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "photo_Fiedler_3099AB.jpg",
+    "file": "photo-fiedler-3099ab.jpg",
+    "bytes": 477081,
+    "category": "meetings",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "photo_Field_Day_2023.jpg",
     "file": "photo-field-day-2023.jpg",
     "w": 599,
-    "bytes": 101985
+    "bytes": 101985,
+    "category": "field-day",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "photo_fox-hunt_9-24-22.jpg",
+    "file": "photo-fox-hunt-9-24-22.jpg",
+    "bytes": 122065,
+    "category": "events",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "photo_Jason-Johnson-Glen-Rubash-Award_400.jpg",
     "file": "photo-jason-johnson-glen-rubash-award-400.jpg",
-    "bytes": 41675
+    "bytes": 41675,
+    "category": "photographs",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "photo_Jason-Johnson-Glen-Rubash-Award.jpg (the webmaster's copy)",
+    "file": "photo-jason-johnson-glen-rubash-award-original.jpg",
+    "bytes": 514875,
+    "category": "photographs",
+    "note": "larger original of photo-jason-johnson-glen-rubash-award.jpg",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "photo_Jason-Johnson-Glen-Rubash-Award.jpg",
     "file": "photo-jason-johnson-glen-rubash-award.jpg",
-    "bytes": 242195
+    "bytes": 242195,
+    "category": "photographs",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "photo_Library_2nd_floor.png",
+    "file": "photo-library-2nd-floor.png",
+    "bytes": 312141,
+    "category": "meetings",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "photo_meeting_1-12-24.jpg",
+    "file": "photo-meeting-1-12-24.jpg",
+    "bytes": 77005,
+    "category": "meetings",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "photo_POTA_9-2023.jpg",
     "file": "photo-pota-9-2023.jpg",
     "w": 600,
-    "bytes": 67478
+    "bytes": 67478,
+    "category": "events",
+    "origin": "mirror"
   },
   {
     "kind": "image",
     "src": "photo_Ride4Red_9-2012.jpg",
     "file": "photo-ride4red-9-2012.jpg",
     "w": 800,
-    "bytes": 447531
+    "bytes": 447531,
+    "origin": "mirror",
+    "category": "events"
   },
   {
     "kind": "image",
     "src": "photo_RMS_Queen_Mary.jpg",
     "file": "photo-rms-queen-mary.jpg",
     "w": 1200,
-    "bytes": 205750
+    "bytes": 205750,
+    "origin": "mirror",
+    "category": "events"
+  },
+  {
+    "kind": "image",
+    "src": "photo_Winter-Field-Day-Flyer.jpg",
+    "file": "photo-winter-field-day-flyer.jpg",
+    "bytes": 120520,
+    "category": "winter-field-day",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "photo_winter.jpg",
+    "file": "photo-winter.jpg",
+    "bytes": 23446,
+    "category": "site",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "picnic.jpg",
     "file": "picnic.jpg",
     "w": 517,
-    "bytes": 80703
+    "bytes": 80703,
+    "category": "events",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "picnic2004.gif",
+    "file": "picnic2004.gif",
+    "bytes": 10618,
+    "category": "events",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "program_johnson.jpg",
     "file": "program-johnson.jpg",
     "w": 451,
-    "bytes": 66257
+    "bytes": 66257,
+    "category": "meetings",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "rcbackbg.gif",
+    "file": "rcbackbg.gif",
+    "bytes": 4668,
+    "category": "site",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "repeater_1-2020_4032.jpg (the webmaster's copy)",
+    "file": "repeater-1-2020-4032-original.jpg",
+    "bytes": 3208237,
+    "category": "repeater",
+    "note": "larger original of repeater-1-2020-4032.jpg",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "repeater_1-2020_4032.jpg",
     "file": "repeater-1-2020-4032.jpg",
     "w": 1600,
-    "bytes": 449385
+    "bytes": 449385,
+    "category": "repeater",
+    "origin": "mirror"
   },
   {
     "kind": "image",
     "src": "repeater_1-2020_600.jpg",
     "file": "repeater-1-2020-600.jpg",
     "w": 600,
-    "bytes": 68873
+    "bytes": 68873,
+    "category": "repeater",
+    "origin": "mirror"
   },
   {
     "kind": "image",
     "src": "repeaterbanner.jpg",
     "file": "repeaterbanner.jpg",
     "w": 289,
-    "bytes": 20217
+    "bytes": 20217,
+    "category": "repeater",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "SantaFeTrailHamfest.jpg",
+    "file": "santafetrailhamfest.jpg",
+    "bytes": 41982,
+    "category": "events",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "silentkey_Anthony_Schneweis.jpg",
     "file": "silentkey-anthony-schneweis.jpg",
-    "bytes": 6814
+    "bytes": 6814,
+    "origin": "mirror",
+    "category": "silent-keys"
+  },
+  {
+    "kind": "image",
+    "src": "silentkey_Arnold_large.jpg",
+    "file": "silentkey-arnold-large.jpg",
+    "bytes": 637727,
+    "category": "silent-keys",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "silentkey_Arnold.jpg",
     "file": "silentkey-arnold.jpg",
-    "bytes": 51573
+    "bytes": 51573,
+    "origin": "mirror",
+    "category": "silent-keys"
   },
   {
     "kind": "image",
     "src": "silentkey_Bob_Bartholic.jpg",
     "file": "silentkey-bob-bartholic.jpg",
-    "bytes": 9000
+    "bytes": 9000,
+    "origin": "mirror",
+    "category": "silent-keys"
   },
   {
     "kind": "image",
     "src": "silentkey_Cleve.jpg",
     "file": "silentkey-cleve.jpg",
-    "bytes": 7741
+    "bytes": 7741,
+    "origin": "mirror",
+    "category": "silent-keys"
   },
   {
     "kind": "image",
     "src": "silentkey_Don_Dodge_larger.jpg",
     "file": "silentkey-don-dodge-larger.jpg",
-    "bytes": 135855
+    "bytes": 135855,
+    "origin": "mirror",
+    "category": "silent-keys"
   },
   {
     "kind": "image",
     "src": "silentkey_Don_Dodge.jpg",
     "file": "silentkey-don-dodge.jpg",
-    "bytes": 11628
+    "bytes": 11628,
+    "origin": "mirror",
+    "category": "silent-keys"
   },
   {
     "kind": "image",
     "src": "silentkey_Don_Eichem.jpg",
     "file": "silentkey-don-eichem.jpg",
-    "bytes": 14023
+    "bytes": 14023,
+    "origin": "mirror",
+    "category": "silent-keys"
   },
   {
     "kind": "image",
     "src": "silentkey_Dona-Rose_Hackerott_large.jpg",
     "file": "silentkey-dona-rose-hackerott-large.jpg",
-    "bytes": 77442
+    "bytes": 77442,
+    "origin": "mirror",
+    "category": "silent-keys"
   },
   {
     "kind": "image",
     "src": "silentkey_Dona-Rose_Hackerott.jpg",
     "file": "silentkey-dona-rose-hackerott.jpg",
-    "bytes": 10784
+    "bytes": 10784,
+    "origin": "mirror",
+    "category": "silent-keys"
   },
   {
     "kind": "image",
     "src": "silentkey_Eldon_Turnbow.jpg",
     "file": "silentkey-eldon-turnbow.jpg",
-    "bytes": 8376
+    "bytes": 8376,
+    "origin": "mirror",
+    "category": "silent-keys"
   },
   {
     "kind": "image",
     "src": "silentkey_Francis_Sable.jpg",
     "file": "silentkey-francis-sable.jpg",
-    "bytes": 7283
+    "bytes": 7283,
+    "origin": "mirror",
+    "category": "silent-keys"
+  },
+  {
+    "kind": "image",
+    "src": "silentkey_Fred+Dona-Rose_Hackerott.jpg",
+    "file": "silentkey-fred-dona-rose-hackerott-from-folder.jpg",
+    "bytes": 115981,
+    "category": "silent-keys",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "silentkey_Fred Dona-Rose_Hackerott.jpg",
     "file": "silentkey-fred-dona-rose-hackerott.jpg",
-    "bytes": 115981
+    "bytes": 115981,
+    "origin": "mirror",
+    "category": "silent-keys"
   },
   {
     "kind": "image",
     "src": "silentkey_Fred_Hackerott.jpg",
     "file": "silentkey-fred-hackerott.jpg",
-    "bytes": 25545
+    "bytes": 25545,
+    "origin": "mirror",
+    "category": "silent-keys"
   },
   {
     "kind": "image",
     "src": "silentkey_Fred.jpg",
     "file": "silentkey-fred.jpg",
-    "bytes": 7447
+    "bytes": 7447,
+    "origin": "mirror",
+    "category": "silent-keys"
   },
   {
     "kind": "image",
     "src": "silentkey_Lyle_Dixon.jpg",
     "file": "silentkey-lyle-dixon.jpg",
-    "bytes": 8159
+    "bytes": 8159,
+    "origin": "mirror",
+    "category": "silent-keys"
   },
   {
     "kind": "image",
     "src": "silentkey_Nadine_Stueve.jpg",
     "file": "silentkey-nadine-stueve.jpg",
-    "bytes": 26718
+    "bytes": 26718,
+    "origin": "mirror",
+    "category": "silent-keys"
   },
   {
     "kind": "image",
     "src": "silentkey_Norm.jpg",
     "file": "silentkey-norm.jpg",
-    "bytes": 16677
+    "bytes": 16677,
+    "origin": "mirror",
+    "category": "silent-keys"
+  },
+  {
+    "kind": "image",
+    "src": "silentkey_Warren_Ford_large.jpg",
+    "file": "silentkey-warren-ford-large.jpg",
+    "bytes": 165990,
+    "category": "silent-keys",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "silentkey_Warren_Ford.jpg",
     "file": "silentkey-warren-ford.jpg",
-    "bytes": 11580
+    "bytes": 11580,
+    "origin": "mirror",
+    "category": "silent-keys"
+  },
+  {
+    "kind": "image",
+    "src": "spacebar.gif",
+    "file": "spacebar.gif",
+    "bytes": 62,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "stats.jpg",
+    "file": "stats.jpg",
+    "bytes": 101527,
+    "category": "history",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Thomas.jpg",
+    "file": "thomas.jpg",
+    "bytes": 22134,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "top.gif",
+    "file": "top.gif",
+    "bytes": 178,
+    "category": "site",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "WARN logo.bmp",
+    "file": "warn-logo.bmp",
+    "bytes": 444198,
+    "category": "site",
+    "origin": "webmaster-folder"
   },
   {
     "kind": "image",
     "src": "warnmap.jpg",
     "file": "warnmap.jpg",
     "w": 903,
-    "bytes": 223127
+    "bytes": 223127,
+    "category": "storm-spotting",
+    "origin": "mirror"
+  },
+  {
+    "kind": "image",
+    "src": "white-mist1.jpg",
+    "file": "white-mist1.jpg",
+    "bytes": 1161,
+    "category": "site",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Wildcat_Warrior_5K.jpg",
+    "file": "wildcat-warrior-5k.jpg",
+    "bytes": 46723,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "Wildcat_Warrior_5K.png",
+    "file": "wildcat-warrior-5k.png",
+    "bytes": 101373,
+    "category": "events",
+    "origin": "webmaster-folder"
+  },
+  {
+    "kind": "image",
+    "src": "WPA passwoed.jpg",
+    "file": "wpa-passwoed.jpg",
+    "bytes": 33344,
+    "category": "site",
+    "origin": "webmaster-folder"
   }
 ]

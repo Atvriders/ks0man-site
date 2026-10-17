@@ -378,15 +378,19 @@ def test_pii_gate_no_po_boxes_or_zip_plus_four():
 #
 # It still scans everything else, and that is the point: a contact detail
 # wandering into a template, a stylesheet, a test fixture or the compose file is
-# still a leak, and still fails the build. The exemption is three paths, named
+# still a leak, and still fails the build. The exemption is four paths, named
 # explicitly, and a meta-check below asserts it has not grown.
 #
 # The third arrived with the pages the archive migration had left behind -- the
-# member roster, and twenty-nine obituaries the Society published as each member
-# died, which carry the funeral home's address the way an obituary does. Adding
-# it was a decision, made once, written down here.
+# member roster, and twenty-seven obituaries the Society published as each
+# member died, which carry the funeral home's address the way an obituary does.
+# The fourth is the machine-read text of the records made from PDF and Word
+# files (tools/prepare_record_text.py): the same minutes and reports, already
+# shipped under media/, made searchable. Each was a decision, made once,
+# written down here.
 # ---------------------------------------------------------------------------
-ARCHIVE_PAYLOAD = ("media/", "content/html_archive.json", "content/mirror_pages.json")
+ARCHIVE_PAYLOAD = ("media/", "content/html_archive.json", "content/mirror_pages.json",
+                   "content/record_text.json")
 
 
 def _is_archive_payload(path) -> bool:
@@ -394,10 +398,10 @@ def _is_archive_payload(path) -> bool:
     return any(r == p or r.startswith(p) for p in ARCHIVE_PAYLOAD)
 
 
-def test_the_archive_exemption_is_exactly_three_paths():
+def test_the_archive_exemption_is_exactly_four_paths():
     """The payload exemption must not quietly widen into the code."""
     assert ARCHIVE_PAYLOAD == ("media/", "content/html_archive.json",
-                               "content/mirror_pages.json"), (
+                               "content/mirror_pages.json", "content/record_text.json"), (
         "the archive exemption grew; every added path is somewhere a contact "
         "detail can reach a template or a config file unnoticed"
     )
@@ -903,8 +907,12 @@ def test_the_archive_page_size_is_stated_once():
     path = REPO / "wp/themes/maars/templates/archive-maars_publication.html"
     src = read(path)
 
-    query = re.search(r'"perPage"\s*:\s*(\d+)', src)
-    assert query, "no perPage found in the archive query block"
+    # The list pages through the main query, whose length maars-core sets.
+    plugin = read(REPO / "wp/plugins/maars-core/maars-core.php")
+    query = re.search(r"const MAARS_ARCHIVE_PER_PAGE = (\d+);", plugin)
+    assert query, "MAARS_ARCHIVE_PER_PAGE is not defined in maars-core.php"
+    assert '"inherit":true' in src, (
+        "the archive query must inherit the main query, or /archive/page/N/ shows page 1")
 
     prose = re.search(r"(\d+)\s+to a page", _visible_text(src))
     assert prose, 'the lede no longer says "N to a page"'
@@ -913,7 +921,7 @@ def test_the_archive_page_size_is_stated_once():
     assert shortcode, "the page-count shortcode does not carry a per_page"
 
     assert query.group(1) == prose.group(1) == shortcode.group(1), (
-        f"page size disagrees: query block {query.group(1)}, "
+        f"page size disagrees: MAARS_ARCHIVE_PER_PAGE {query.group(1)}, "
         f"lede {prose.group(1)}, shortcode {shortcode.group(1)}"
     )
 
@@ -1061,6 +1069,168 @@ def test_fluid_typography_cannot_undercut_the_18px_floor():
     assert float(minimum[:-3]) >= 1.125, (
         f"minFontSize is {minimum}, under the 18px floor the theme promises"
     )
+
+
+def test_every_shipped_file_has_a_route_to_a_reader():
+    """A file in the media library that no page leads to is not "there".
+
+    The Society's instruction on 16 October 2026 was that everything needs to
+    be there, and the audit that followed found the opposite failure from a
+    missing file: twenty-one newsletters and minutes uploaded a month earlier
+    with no archive record, so the archive list never showed them, and
+    twenty-nine more files -- the constitution PDF among them -- that no page
+    linked to at all. Every manifest item must now be one of:
+
+        an archive record                 (title and date in the manifest)
+        the same record in another format (alternate_of)
+        placed on a page                  ({{media:...}} token in a page)
+        listed on /club-files/            (category, and its token on that page)
+    """
+    manifest = json.loads(read(REPO / "media/manifest.json"))
+    pages = json.loads(read(REPO / "content/mirror_pages.json")).get("pages", [])
+    seed = json.loads(read(REPO / "content/seed.json")).get("pages", [])
+    tokens = set()
+    issues = json.loads(read(REPO / "content/html_archive.json"))
+    token = re.compile(r"\{\{media(?:-full)?:([^}]+)\}\}")
+    for page in pages + seed + issues:
+        tokens |= set(token.findall(page.get("blocks", "")))
+    club = next((p for p in pages if p.get("slug") == "club-files"), None)
+    assert club, "content/mirror_pages.json has no club-files page"
+    on_club = set(token.findall(club.get("blocks", "")))
+    records = {i["src"] for i in manifest if i.get("title") and i.get("date")}
+
+    stranded = []
+    for item in manifest:
+        if item.get("title") and item.get("date"):
+            continue
+        if item.get("alternate_of"):
+            continue
+        if item.get("duplicate_of") in records:
+            # A byte-identical copy of a record's own file: the old site linked
+            # "Jan. 2017" to the February minutes. Its bytes are reachable as
+            # that record, and its old address redirects there.
+            continue
+        if item.get("category"):
+            if item["file"] not in on_club:
+                stranded.append(f"{item['file']} (category {item['category']}, not on /club-files/)")
+            continue
+        if item["file"] in tokens:
+            continue
+        stranded.append(f"{item['file']} (no record, no page, no category)")
+    assert not stranded, (
+        f"{len(stranded)} shipped files have no route to a reader:\n  " + "\n  ".join(stranded[:20])
+    )
+
+
+def test_every_alternate_names_a_record_that_exists():
+    """An alternate format joins the record its document made, or it is lost."""
+    manifest = json.loads(read(REPO / "media/manifest.json"))
+    records = {i["src"] for i in manifest if i.get("title") and i.get("date")}
+    orphans = [f"{i['src']} -> {i['alternate_of']}" for i in manifest
+               if i.get("alternate_of") and i["alternate_of"] not in records]
+    assert not orphans, "alternate formats pointing at no record:\n  " + "\n  ".join(orphans)
+
+
+def test_no_page_says_the_record_is_withheld():
+    """The Society published its record in full (17 September and 16 October
+    2026). Six pages went on telling readers the opposite -- that the roster,
+    the member lists, officers' addresses, the observer posts and the Silent
+    Key memorials were not published -- beside pages publishing all of them.
+    So did the About page's typed totals and a 1955 founding the club's own
+    record contradicts."""
+    sources = [REPO / "content/seed.json", REPO / "content/mirror_pages.json"]
+    stale = [
+        "does not publish members", "not published on this site", "has not been carried across",
+        "least willing to carry forward", "refuses to publish", "This one does not, and will not",
+        "Observer post locations are not published", "contains none of it",
+        "What is deliberately not here", "If your details are on here", "is not republished here",
+        "2012 produced nothing", "meeting since 1955", "<strong>209</strong>", "newest at the top",
+        "newest first</li>", "forty-six names", "twenty-nine names", "nothing else to download",
+        "Field Day 1997</a> &#8212; eight photographs",
+    ]
+    hits = [f"{rel(src)}: {phrase!r}" for src in sources for phrase in stale if phrase in read(src)]
+    hits += [f"{rel(p)}: {phrase!r}" for p in (REPO / "wp").rglob("*.*")
+             if p.suffix in (".php", ".html") for phrase in ("nothing else to download",
+                                                             "the files themselves are not in it")
+             if phrase in read(p)]
+    assert not hits, "pages still say the record is withheld, or state stale figures:\n  " + "\n  ".join(hits)
+
+
+def test_every_file_record_carries_its_text():
+    """Every record made from a PDF or Word file carries the file's text, or
+    the archive's search cannot find a word inside the minutes since 2013."""
+    manifest = json.loads(read(REPO / "media/manifest.json"))
+    bundle = json.loads(read(REPO / "content/record_text.json"))
+    have = {r["src"] for r in bundle["records"] if len(re.sub(r"<[^>]+>", "", r["blocks"]).split()) > 20}
+    want = {i["src"] for i in manifest if i.get("title") and i.get("date")
+            and os.path.splitext(i["file"])[1].lower() in (".pdf", ".docx")}
+    missing = sorted(want - have)
+    assert not missing, f"{len(missing)} file records have no text:\n  " + "\n  ".join(missing[:20])
+
+
+def test_every_old_address_has_somewhere_to_go():
+    """ks0man.org was the old site's other name, so an old link to a file there
+    arrives at this site. inc/legacy.php answers it from inc/legacy-map.php,
+    which tools/build_redirects.py writes; every file the old site served must
+    be in it."""
+    legacy = read(REPO / "wp/plugins/maars-core/inc/legacy-map.php")
+    keys = set(re.findall(r"^\t'([^']+)' => array\(", legacy, re.M))
+    manifest = json.loads(read(REPO / "media/manifest.json"))
+    issues = json.loads(read(REPO / "content/html_archive.json"))
+    served = {i["src"].lower() for i in manifest
+              if i.get("origin") == "mirror" and not i["src"].startswith("(")}
+    served |= {i["src"].lower() for i in issues}
+    # The web server answers /favicon.ico itself, so the plugin never sees it
+    # (tools/build_redirects.py ANSWERED_ELSEWHERE); the old host's rules keep it.
+    missing = sorted(served - keys - {"favicon.ico"})
+    assert not missing, (f"{len(missing)} old addresses have no entry in legacy-map.php "
+                         "(run tools/build_redirects.py --plugin-only):\n  " + "\n  ".join(missing[:20]))
+    assert "inc/legacy.php" in read(REPO / "wp/plugins/maars-core/maars-core.php"), \
+        "maars-core.php does not load inc/legacy.php"
+
+
+def test_stated_roster_sizes_match_the_rosters():
+    """The members page said 'twenty-nine names' beside a roster of seventeen:
+    it counted rows the webmaster had hidden in the page's code."""
+    sys.path.insert(0, str(REPO / "tools"))
+    from prepare_pages import number_words, roster_names  # noqa: E402
+    pages = {p["slug"]: p for p in json.loads(read(REPO / "content/mirror_pages.json"))["pages"]}
+    wrong = []
+    for slug in ("roster-2014", "roster-2022", "roster-undated"):
+        n = roster_names(pages[slug]["blocks"])
+        said = re.search(rf'href="/members/{slug}/">[^<]+</a>, ([a-z-]+) names', pages["members"]["blocks"])
+        if not said or said.group(1) != number_words(n):
+            wrong.append(f"{slug}: shows {n}, members page says {said.group(1) if said else 'nothing'}")
+    assert not wrong, "roster sizes disagree:\n  " + "\n  ".join(wrong)
+
+
+def test_no_bare_slash_links_on_carried_over_pages():
+    """A 1997 home-button picture became a link reading "/" on twenty-five pages."""
+    pages = json.loads(read(REPO / "content/mirror_pages.json"))["pages"]
+    bad = [p["slug"] for p in pages if re.search(r'<a href="[^"]*">\s*/\s*</a>', p["blocks"])]
+    assert not bad, "pages with a link that reads only '/': " + ", ".join(bad)
+
+
+def test_record_dates_are_shown_at_the_precision_kept():
+    """Archive dates are months: the January 2024 minutes are dated 2024-01-01
+    because the file is newsletter_01-24.pdf. Printed to the day, every record
+    claimed a 1st of the month it does not know."""
+    wanted = {"single-maars_publication.html": "F Y", "archive-maars_publication.html": "M Y"}
+    wrong = []
+    for name, fmt in wanted.items():
+        body = read(REPO / "wp/themes/maars/templates" / name)
+        formats = re.findall(r'<!-- wp:post-date \{"format":"([^"]+)"', body)
+        if not formats or any(f != fmt for f in formats):
+            wrong.append(f"{name}: {formats}")
+    assert not wrong, "record dates printed to a precision the archive does not hold:\n  " + "\n  ".join(wrong)
+
+
+def test_club_files_holds_everything_outside_the_archive():
+    """/club-files/ says it holds every file that is not an archive record."""
+    manifest = json.loads(read(REPO / "media/manifest.json"))
+    loose = [i["file"] for i in manifest if not (i.get("title") and i.get("date"))
+             and not i.get("alternate_of") and not i.get("duplicate_of") and not i.get("category")]
+    assert not loose, f"{len(loose)} files outside the archive have no Club files section:\n  " + "\n  ".join(loose[:20])
 
 
 def _all_checks():

@@ -39,6 +39,13 @@ define( 'MAARS_CORE_DIR', plugin_dir_path( __FILE__ ) );
  */
 const MAARS_REWRITE_VERSION = '2';
 
+/**
+ * Documents per page in the archive list, and in the year and type lists. The
+ * archive's lede says "20 to a page"; tests/test_static.py holds the two to the
+ * same number.
+ */
+const MAARS_ARCHIVE_PER_PAGE = 20;
+
 /*
  * Load order matters exactly once, and this is it: taxonomies.php is required
  * before post-types.php so that maars_register_taxonomies() is hooked to `init`
@@ -55,6 +62,9 @@ require_once MAARS_CORE_DIR . 'inc/fields.php';
 require_once MAARS_CORE_DIR . 'inc/freshness.php';
 require_once MAARS_CORE_DIR . 'inc/blocks.php';
 require_once MAARS_CORE_DIR . 'inc/tally.php';
+require_once MAARS_CORE_DIR . 'inc/original.php';
+require_once MAARS_CORE_DIR . 'inc/uploads.php';
+require_once MAARS_CORE_DIR . 'inc/legacy.php';
 
 /**
  * Activation: register the content model once by hand, seed the fixed

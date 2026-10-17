@@ -44,125 +44,178 @@ if ( ! is_array( $maars_bundle ) || empty( $maars_bundle['pages'] ) ) {
 	return;
 }
 
+require_once __DIR__ . '/lib_tokens.php';
+
 /**
- * URL of an attachment, found by the name the file shipped under.
+ * content/seed.json, read once.
  *
- * The attachment carries _maars_media_src (its name on ks0man.com) and its slug
- * comes from the shipped file name; either can be the token. WordPress renames
- * a large image on upload -- fd18-tower.jpg is stored as fd18-tower-scaled.jpg
- * -- so the file on disk is exactly what must NOT be matched on.
+ * @return array
  */
-function maars_pages_media_url( string $file ) {
-	/* Three keys, tried in order of exactness:
-	     _maars_media_file  the name the file shipped under, recorded by
-	                        import_media.php -- the only exact match
-	     slug               right for anything uploaded under its shipped name
-	     _maars_media_src   the name it had on ks0man.com
-	   None of them is the file on disk, which WordPress renames: a large image
-	   is stored as <name>-scaled.jpg, and an attachment's slug comes from its
-	   title, which comes from the ORIGINAL name. Matching on disk names is what
-	   put fifteen duplicate photographs in the production media library. */
-	$by_meta = static function ( string $key, string $value ) {
-		return get_posts(
-			array(
-				'post_type'      => 'attachment',
-				'post_status'    => 'inherit',
-				'posts_per_page' => 1,
-				'fields'         => 'ids',
-				'meta_query'     => array(
-					array(
-						'key'     => $key,
-						'value'   => $value,
-						'compare' => '=',
-					),
-				),
-			)
-		);
-	};
-
-	$found = $by_meta( '_maars_media_file', $file );
-
-	if ( ! $found ) {
-		$found = get_posts(
-			array(
-				'post_type'        => 'attachment',
-				'post_status'      => 'inherit',
-				'name'             => sanitize_title( pathinfo( $file, PATHINFO_FILENAME ) ),
-				'posts_per_page'   => 1,
-				'fields'           => 'ids',
-				'suppress_filters' => false,
-			)
-		);
+function maars_pages_seed(): array {
+	static $seed = null;
+	if ( null !== $seed ) {
+		return $seed;
 	}
-
-	if ( ! $found ) {
-		$found = $by_meta( '_maars_media_src', $file );
+	$seed      = array();
+	$seed_json = getenv( 'MAARS_SEED_JSON' );
+	if ( ! is_string( $seed_json ) || '' === $seed_json ) {
+		$seed_json = dirname( __DIR__ ) . '/content/seed.json';
 	}
-
-	if ( ! $found ) {
-		return null;
+	if ( file_exists( $seed_json ) ) {
+		$decoded = json_decode( (string) file_get_contents( $seed_json ), true );
+		$seed    = is_array( $decoded ) ? $decoded : array();
 	}
-
-	$url = wp_get_attachment_url( (int) $found[0] );
-
-	return is_string( $url ) && '' !== $url ? $url : null;
+	return $seed;
 }
 
 /**
- * Permalink of the archive record made from a given source file.
+ * Create a page that the seed defines, for a child that needs it as parent.
+ *
+ * @param string $slug Seed page slug.
+ * @return WP_Post|null
  */
-function maars_pages_publication_url( string $source ) {
-	$stem = pathinfo( $source, PATHINFO_FILENAME );
-
-	foreach ( array( $source, $stem . '.pdf', $stem . '.html', $stem . '.htm' ) as $candidate ) {
-		$found = get_posts(
-			array(
-				'post_type'      => 'maars_publication',
-				'post_status'    => 'publish',
-				'posts_per_page' => 1,
-				'fields'         => 'ids',
-				'meta_query'     => array(
-					array(
-						'key'     => '_maars_source_file',
-						'value'   => $candidate,
-						'compare' => 'LIKE',
-					),
-				),
-			)
-		);
-		if ( $found ) {
-			return get_permalink( (int) $found[0] );
+function maars_pages_make_seed_parent( string $slug ) {
+	$seed = maars_pages_seed();
+	foreach ( (array) ( $seed['pages'] ?? array() ) as $page ) {
+		if ( ( $page['slug'] ?? '' ) !== $slug ) {
+			continue;
 		}
+		$missing = array();
+		$content = maars_pages_resolve( (string) ( $page['blocks'] ?? '' ), $missing );
+		$id      = wp_insert_post(
+			wp_slash(
+				array(
+					'post_type'    => 'page',
+					'post_status'  => 'publish',
+					'post_title'   => (string) ( $page['title'] ?? $slug ),
+					'post_name'    => $slug,
+					'post_content' => $content,
+					'menu_order'   => (int) ( $page['menu_order'] ?? 0 ),
+				)
+			),
+			true
+		);
+		if ( is_wp_error( $id ) ) {
+			return null;
+		}
+		update_post_meta( (int) $id, '_maars_seed_hash', md5( $content ) );
+		foreach ( (array) ( $page['meta'] ?? array() ) as $key => $value ) {
+			update_post_meta( (int) $id, (string) $key, $value );
+		}
+		WP_CLI::log( 'made the seed page ' . $slug . ', which a carried-over page needs as its parent' );
+		return get_post( (int) $id );
 	}
-
 	return null;
 }
 
 /**
- * Swap every {{media:…}} and {{pub:…}} for a URL, or report what is missing.
+ * Bring the seed's own pages -- About, Privacy, Officers and the rest -- and its
+ * repeaters and nets up to content/seed.json.
  *
- * @param string $html    Block markup with tokens in it.
- * @param array  $missing Filled with the tokens that could not be resolved.
- * @return string
+ * tools/seed.php writes them on FIRST boot only, and verbatim. So a correction
+ * to the seed never reached a volume an earlier image had filled -- the Privacy
+ * page went on saying the roster was not published after the Society published
+ * it -- and a token in one ({{media:...}} on Links) went out unresolved.
+ *
+ * This pass resolves the tokens and updates a seed page, but only one nobody
+ * has edited since this tooling wrote it: _maars_seed_hash records what was
+ * written, and a page whose text has moved on from that is the club's own
+ * work, which is left alone and reported. A page still holding seed.php's raw
+ * first-boot text, or an unresolved token, is the tooling's by definition.
+ * MAARS_RESEED_PAGES=1 overrides the guard for one boot, for a volume an image
+ * older than the hash filled.
+ *
+ * @return array{updated:int,kept:int,left:int,held:int}
  */
-function maars_pages_resolve( string $html, array &$missing ): string {
-	return (string) preg_replace_callback(
-		'/\{\{(media|pub):([^}]+)\}\}/',
-		static function ( $m ) use ( &$missing ) {
-			$url = ( 'media' === $m[1] )
-				? maars_pages_media_url( $m[2] )
-				: maars_pages_publication_url( $m[2] );
-
-			if ( null === $url ) {
-				$missing[] = $m[0];
-				return $m[0];
-			}
-
-			return esc_url( $url );
-		},
-		$html
+function maars_pages_sync_seed_pages(): array {
+	$counts = array(
+		'updated' => 0,
+		'kept'    => 0,
+		'left'    => 0,
+		'held'    => 0,
 	);
+	$force  = '1' === (string) getenv( 'MAARS_RESEED_PAGES' );
+
+	$items = array();
+	foreach ( array( 'pages' => 'page', 'facilities' => 'maars_facility' ) as $section => $type ) {
+		foreach ( (array) ( maars_pages_seed()[ $section ] ?? array() ) as $page ) {
+			$items[] = array( $type, $page );
+		}
+	}
+
+	foreach ( $items as list( $type, $page ) ) {
+		$slug = (string) ( $page['slug'] ?? '' );
+		if ( '' === $slug || ! isset( $page['blocks'] ) ) {
+			continue;
+		}
+		$raw     = (string) $page['blocks'];
+		$missing = array();
+		$content = maars_pages_resolve( $raw, $missing );
+		if ( $missing ) {
+			++$counts['held'];
+			WP_CLI::warning( 'seed page ' . $slug . ' not updated: ' . count( $missing ) . ' unresolved reference(s), first ' . $missing[0] );
+			continue;
+		}
+
+		$path = ( 'page' === $type && ! empty( $page['parent'] ) ) ? $page['parent'] . '/' . $slug : $slug;
+		$post = get_page_by_path( $path, OBJECT, $type );
+		if ( ! $post instanceof WP_Post ) {
+			continue;                     /* creating seed content is tools/seed.php's job */
+		}
+
+		$current = (string) $post->post_content;
+		if ( $current === $content ) {
+			if ( '' === (string) get_post_meta( (int) $post->ID, '_maars_seed_hash', true ) ) {
+				update_post_meta( (int) $post->ID, '_maars_seed_hash', md5( $content ) );
+			}
+			++$counts['kept'];
+			continue;
+		}
+
+		$stored    = (string) get_post_meta( (int) $post->ID, '_maars_seed_hash', true );
+		$untouched = ( '' !== $stored && hash_equals( $stored, md5( $current ) ) )
+			|| $current === $raw
+			|| (bool) preg_match( '/\{\{(media-full|media|pub):/', $current );
+		if ( ! $untouched && ! $force ) {
+			++$counts['left'];
+			WP_CLI::log( 'seed page ' . $slug . ' left alone: it has been edited since it was seeded (MAARS_RESEED_PAGES=1 overrides)' );
+			continue;
+		}
+
+		$id = wp_update_post(
+			wp_slash(
+				array(
+					'ID'           => (int) $post->ID,
+					'post_title'   => (string) ( $page['title'] ?? $post->post_title ),
+					'post_content' => $content,
+				)
+			),
+			true
+		);
+		if ( is_wp_error( $id ) ) {
+			WP_CLI::warning( 'seed page ' . $slug . ': ' . $id->get_error_message() );
+			continue;
+		}
+		update_post_meta( (int) $post->ID, '_maars_seed_hash', md5( $content ) );
+		foreach ( (array) ( $page['meta'] ?? array() ) as $key => $value ) {
+			update_post_meta( (int) $post->ID, (string) $key, $value );
+		}
+		++$counts['updated'];
+	}
+
+	return $counts;
 }
+
+$maars_seed_counts = maars_pages_sync_seed_pages();
+WP_CLI::log(
+	sprintf(
+		'seed pages: %d updated, %d already current, %d left alone (edited), %d withheld',
+		$maars_seed_counts['updated'],
+		$maars_seed_counts['kept'],
+		$maars_seed_counts['left'],
+		$maars_seed_counts['held']
+	)
+);
 
 $maars_made = 0;
 $maars_kept = 0;
@@ -192,9 +245,20 @@ foreach ( $maars_bundle['pages'] as $spec ) {
 	$parent_id = 0;
 	if ( ! empty( $spec['parent'] ) ) {
 		$parent = get_page_by_path( (string) $spec['parent'] );
-		if ( $parent instanceof WP_Post ) {
-			$parent_id = (int) $parent->ID;
+		if ( ! $parent instanceof WP_Post ) {
+			/* tools/seed.php makes seed pages on FIRST boot only, so a parent
+			   added to the seed later ("history") never exists on a volume an
+			   earlier image filled. Make it from the seed now, rather than
+			   publish its children at the top level, where the footer's link
+			   to /history/ and every child URL would be wrong for good. */
+			$parent = maars_pages_make_seed_parent( (string) $spec['parent'] );
 		}
+		if ( ! $parent instanceof WP_Post ) {
+			++$maars_held;
+			WP_CLI::warning( $spec['slug'] . ' not published: its parent page "' . $spec['parent'] . '" does not exist and is not in the seed' );
+			continue;
+		}
+		$parent_id = (int) $parent->ID;
 	}
 
 	$existing = get_page_by_path(
@@ -216,10 +280,10 @@ foreach ( $maars_bundle['pages'] as $spec ) {
 
 	if ( $existing instanceof WP_Post ) {
 		$postarr['ID'] = (int) $existing->ID;
-		$id            = wp_update_post( $postarr, true );
+		$id            = wp_update_post( wp_slash( $postarr ), true );
 		++$maars_kept;
 	} else {
-		$id = wp_insert_post( $postarr, true );
+		$id = wp_insert_post( wp_slash( $postarr ), true );
 		++$maars_made;
 	}
 
@@ -230,8 +294,10 @@ foreach ( $maars_bundle['pages'] as $spec ) {
 
 	update_post_meta( (int) $id, '_maars_grade', 'measured' );
 	update_post_meta( (int) $id, '_maars_verified_on', (string) ( $maars_bundle['generated'] ?? '' ) );
-	if ( ! empty( $spec['sources'][0] ) ) {
-		update_post_meta( (int) $id, '_maars_source_file', 'mirror/ks0man.com/' . $spec['sources'][0] );
+	if ( ! empty( $spec['source_paths'][0] ) ) {
+		update_post_meta( (int) $id, '_maars_source_file', (string) $spec['source_paths'][0] );
+	} elseif ( ! empty( $spec['sources'][0] ) ) {
+		update_post_meta( (int) $id, '_maars_source_file', (string) $spec['sources'][0] );
 	}
 }
 

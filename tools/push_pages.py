@@ -29,83 +29,27 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from push_media import api, slug_of  # noqa: E402
+from push_media import api, list_all, resolve_tokens, site_media_maps, site_publications  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAGES_JSON = os.path.join(ROOT, "content", "mirror_pages.json")
-TOKEN = re.compile(r"\{\{(media|pub):([^}]+)\}\}")
 
 
-def media_urls(site: str, auth: str, pace: float) -> dict[str, str]:
-    """Every name an attachment answers to -> its URL. See push_media.py."""
-    out: dict[str, str] = {}
-    page = 1
-    while True:
-        rows = api(site, auth, "GET",
-                   f"/media?per_page=100&page={page}"
-                   "&_fields=id,slug,source_url,media_details", pace=pace)
-        if not isinstance(rows, list) or not rows:
-            break
-        for row in rows:
-            url = row.get("source_url", "")
-            if not url:
-                continue
-            out.setdefault(row.get("slug", ""), url)
-            out.setdefault(os.path.basename(url), url)
-            original = (row.get("media_details") or {}).get("original_image")
-            if original:
-                out.setdefault(original, url)
-                out.setdefault(slug_of(original), url)
-        if len(rows) < 100:
-            break
-        page += 1
-    out.pop("", None)
-    return out
+MIRROR = os.path.expanduser("~/ks0man-migration/mirror/ks0man.com")
+FOLDER = os.path.expanduser("~/ks0man-migration/webmaster-folder")
 
 
-def publication_urls(site: str, auth: str, pace: float) -> dict[str, str]:
-    """Source file on ks0man.com -> the permalink of the record made from it."""
-    out: dict[str, str] = {}
-    page = 1
-    while True:
-        rows = api(site, auth, "GET",
-                   f"/maars_publication?per_page=100&page={page}"
-                   "&status=publish&_fields=id,link,meta", pace=pace)
-        if not isinstance(rows, list) or not rows:
-            break
-        for row in rows:
-            source = ((row.get("meta") or {}).get("_maars_source_file") or "")
-            if source:
-                out[os.path.basename(source).lower()] = row["link"]
-        if len(rows) < 100:
-            break
-        page += 1
-    return out
-
-
-def resolve(blocks: str, media: dict[str, str], pubs: dict[str, str]) -> tuple[str, list[str]]:
-    missing: list[str] = []
-
-    def swap(match: re.Match) -> str:
-        kind, name = match.group(1), match.group(2)
-        if kind == "media":
-            url = media.get(name) or media.get(slug_of(name))
-        else:
-            url = pubs.get(name.lower())
-            if not url:
-                # newsletter_06-09.html and newsletter_06-09.pdf are the same
-                # issue in two formats; the record was made from one of them.
-                stem = os.path.splitext(name.lower())[0]
-                for ext in (".pdf", ".html", ".htm", ".doc", ".docx"):
-                    url = pubs.get(stem + ext)
-                    if url:
-                        break
-        if not url:
-            missing.append(match.group(0))
-            return match.group(0)
-        return url
-
-    return TOKEN.sub(swap, blocks), missing
+def source_path(name: str) -> str:
+    """Where a page's source really came from: the old site as served, or the
+    webmaster's folder. Every page used to say mirror/ks0man.com, including
+    nine built from files ks0man.com never served."""
+    if name == "media/manifest.json":
+        return "media/manifest.json"
+    if os.path.exists(os.path.join(MIRROR, name)):
+        return "mirror/ks0man.com/" + name
+    if os.path.exists(os.path.join(FOLDER, name)):
+        return "webmaster-folder/" + name
+    return name
 
 
 def main() -> int:
@@ -113,6 +57,12 @@ def main() -> int:
     ap.add_argument("--site", required=True)
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--pace", type=float, default=1.2)
+    ap.add_argument("--seed", default="",
+                    help="comma-separated slugs of content/seed.json pages to publish FIRST "
+                         "(a parent such as 'history' must exist before its children)")
+    ap.add_argument("--facilities", default="",
+                    help="comma-separated slugs of content/seed.json facilities (repeaters and "
+                         "nets) whose text to update")
     args = ap.parse_args()
 
     user = os.environ.get("WP_USER")
@@ -123,28 +73,34 @@ def main() -> int:
     auth = base64.b64encode(f"{user}:{password}".encode()).decode()
 
     data = json.load(open(PAGES_JSON))
-    media = media_urls(args.site, auth, args.pace)
-    pubs = publication_urls(args.site, auth, args.pace)
+    if args.seed:
+        wanted = [x.strip() for x in args.seed.split(",") if x.strip()]
+        seed = json.load(open(os.path.join(ROOT, "content", "seed.json")))
+        by_slug = {pg["slug"]: pg for pg in seed.get("pages", [])}
+        missing = [w for w in wanted if w not in by_slug]
+        if missing:
+            print(f"  no such seed page: {', '.join(missing)}")
+            return 2
+        seeded = [{"slug": w, "title": by_slug[w]["title"], "parent": by_slug[w].get("parent"),
+                   "sources": [], "blocks": by_slug[w]["blocks"],
+                   "meta": by_slug[w].get("meta", {})} for w in wanted]
+        data = dict(data, pages=seeded + list(data["pages"]))
+    media, full = site_media_maps(args.site, auth, args.pace)
+    for item in json.load(open(os.path.join(ROOT, "media", "manifest.json"))):
+        if item.get("stored_as") and item["stored_as"] in media:
+            media.setdefault(item["file"], media[item["stored_as"]])
+            full.setdefault(item["file"], full[item["stored_as"]])
+    pubs = site_publications(args.site, auth, args.pace)
     print(f"  {len(media)} media names, {len(pubs)} archive records known to the site")
 
     existing = {}
-    page = 1
-    while True:
-        rows = api(args.site, auth, "GET",
-                   f"/pages?per_page=100&page={page}&status=publish,draft,private"
-                   "&_fields=id,slug,link", pace=args.pace)
-        if not isinstance(rows, list) or not rows:
-            break
-        for row in rows:
-            existing[row["slug"]] = row
-        if len(rows) < 100:
-            break
-        page += 1
+    for row in list_all(args.site, auth, "/pages?status=publish,draft,private&_fields=id,slug,link", args.pace):
+        existing[row["slug"]] = row
 
     blocked = []
     ready = []
     for spec in data["pages"]:
-        resolved, missing = resolve(spec["blocks"], media, pubs)
+        resolved, missing = resolve_tokens(spec["blocks"], media, full, pubs)
         if missing:
             blocked.append((spec["slug"], sorted(set(missing))))
             continue
@@ -175,10 +131,10 @@ def main() -> int:
             "status": "publish",
             "content": resolved,
             "parent": parent_id,
-            "meta": {
+            "meta": spec.get("meta") or {
                 "_maars_grade": "measured",
                 "_maars_verified_on": data.get("generated", ""),
-                "_maars_source_file": "mirror/ks0man.com/" + spec["sources"][0],
+                "_maars_source_file": source_path(spec["sources"][0]) if spec["sources"] else "",
             },
         }
         path = f"/pages/{existing[spec['slug']]['id']}" if spec["slug"] in existing else "/pages"
@@ -193,6 +149,38 @@ def main() -> int:
             print(f"  FAILED {spec['slug']}: {str(got)[:160]}")
 
     print(f"  pages: {done} published, {failed} failed, {len(blocked)} withheld")
+
+    # Repeaters and nets are maars_facility posts, made by the first seed and
+    # never touched by this tool until a correction had to reach one.
+    if args.facilities:
+        seed = json.load(open(os.path.join(ROOT, "content", "seed.json")))
+        by_slug = {f["slug"]: f for f in seed.get("facilities", [])}
+        for slug in [x.strip() for x in args.facilities.split(",") if x.strip()]:
+            spec = by_slug.get(slug)
+            if not spec:
+                print(f"  no such seed facility: {slug}")
+                failed += 1
+                continue
+            resolved, missing = resolve_tokens(spec["blocks"], media, full, pubs)
+            if missing:
+                print(f"  NOT UPDATING facility {slug}: unresolved {', '.join(missing[:6])}")
+                failed += 1
+                continue
+            rows = api(args.site, auth, "GET", f"/maars_facility?slug={slug}&status=publish&_fields=id,link",
+                       pace=args.pace)
+            if not (isinstance(rows, list) and rows):
+                print(f"  facility {slug} is not on the site")
+                failed += 1
+                continue
+            got = api(args.site, auth, "POST", f"/maars_facility/{rows[0]['id']}",
+                      json.dumps({"content": resolved}).encode(),
+                      {"Content-Type": "application/json"}, pace=args.pace)
+            if isinstance(got, dict) and got.get("id"):
+                print(f"  {got['link']}")
+            else:
+                failed += 1
+                print(f"  FAILED facility {slug}: {str(got)[:160]}")
+
     return 1 if (failed or blocked) else 0
 
 

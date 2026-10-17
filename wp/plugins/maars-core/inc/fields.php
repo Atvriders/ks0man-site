@@ -44,7 +44,7 @@ function maars_meta_registry() {
 	$registry = array(
 		'post'              => array_merge( $provenance, array( '_maars_doc_date' ) ),
 		'page'              => $provenance,
-		'maars_publication' => array_merge( $provenance, array( '_maars_doc_date' ) ),
+		'maars_publication' => array_merge( $provenance, array( '_maars_doc_date', '_maars_attachment', '_maars_alternates' ) ),
 		'maars_person'      => $provenance,
 		'maars_facility'    => array_merge(
 			$provenance,
@@ -87,6 +87,14 @@ function maars_meta_key_spec( $key ) {
 		'_maars_doc_date'    => array(
 			'description'       => 'Date the document itself carries, not the import date (YYYY-MM-DD).',
 			'sanitize_callback' => 'maars_sanitize_date_meta',
+		),
+		'_maars_attachment'  => array(
+			'description'       => 'ID of the attachment that IS this document: the file the Society published.',
+			'sanitize_callback' => 'maars_sanitize_id_meta',
+		),
+		'_maars_alternates'  => array(
+			'description'       => 'Comma-separated attachment IDs of the same document in other formats (a .docx draft beside the PDF).',
+			'sanitize_callback' => 'maars_sanitize_id_list_meta',
 		),
 		'_maars_freq_mhz'    => array(
 			'description'       => 'Output frequency in MHz as a plain numeric string, e.g. 147.255.',
@@ -170,6 +178,48 @@ function maars_sanitize_numeric_meta( $value ) {
 	}
 
 	return $value;
+}
+
+/**
+ * Sanitize an attachment-ID meta value to a string of digits, or ''.
+ *
+ * Stored as a string like every other MAARS key, so the one registration loop
+ * below can declare them all with the same type. A value that is not a
+ * positive integer is not an ID, and pointing a record at attachment "0" or
+ * "abc" would render a download button that goes nowhere.
+ *
+ * @param mixed $value Raw meta value.
+ * @return string Digits, or ''.
+ */
+function maars_sanitize_id_meta( $value ) {
+	$value = is_scalar( $value ) ? trim( (string) $value ) : '';
+
+	return preg_match( '/^[1-9]\d{0,18}$/', $value ) ? $value : '';
+}
+
+/**
+ * Sanitize a list of attachment IDs to "12,34,56": digits and commas only,
+ * no duplicates, no zeroes, order kept.
+ *
+ * @param mixed $value Raw meta value (string, or an array of IDs).
+ * @return string Comma-separated IDs, or ''.
+ */
+function maars_sanitize_id_list_meta( $value ) {
+	if ( is_array( $value ) ) {
+		$parts = $value;
+	} else {
+		$parts = explode( ',', is_scalar( $value ) ? (string) $value : '' );
+	}
+
+	$ids = array();
+	foreach ( $parts as $part ) {
+		$id = maars_sanitize_id_meta( $part );
+		if ( '' !== $id && ! in_array( $id, $ids, true ) ) {
+			$ids[] = $id;
+		}
+	}
+
+	return implode( ',', $ids );
 }
 
 /**

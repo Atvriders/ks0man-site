@@ -281,6 +281,49 @@ maars_import_media() {
 
 
 # ---------------------------------------------------------------------------
+# Import the issues from the years when the newsletter WAS the web page,
+# 1998-2015. After the media import, before the carried-over pages, which link
+# to these issues by token. Safe to repeat: keyed on _maars_source_file.
+# ---------------------------------------------------------------------------
+maars_import_html_archive() {
+	local html_php="${MAARS_SRC_DIR}/tools/import_html_archive.php"
+
+	if [ ! -f "$html_php" ] || [ ! -f "${MAARS_SRC_DIR}/content/html_archive.json" ]; then
+		maars_log "no HTML-era archive in the image; skipping"
+		return 0
+	fi
+
+	maars_log "importing the HTML-era newsletters"
+	if wp eval-file "$html_php"; then
+		return 0
+	fi
+	maars_log "WARNING: HTML-era import reported a problem"
+	return 0
+}
+
+
+# ---------------------------------------------------------------------------
+# Give the records made from PDF and Word files their text, so the archive's
+# search can find what the minutes and reports say. After the media import,
+# which makes those records. Safe to repeat: keyed on _maars_source_file.
+# ---------------------------------------------------------------------------
+maars_import_record_text() {
+	local text_php="${MAARS_SRC_DIR}/tools/import_record_text.php"
+
+	if [ ! -f "$text_php" ] || [ ! -f "${MAARS_SRC_DIR}/content/record_text.json" ]; then
+		maars_log "no record text in the image; skipping"
+		return 0
+	fi
+
+	maars_log "importing the text of the PDF and Word records"
+	if wp eval-file "$text_php"; then
+		return 0
+	fi
+	maars_log "WARNING: record text import reported a problem"
+	return 0
+}
+
+# ---------------------------------------------------------------------------
 # Publish the pages of the old site that the archive migration did not carry:
 # the roster, the Silent Keys, the Field Day galleries.
 #
@@ -385,6 +428,8 @@ main() {
 			# Every boot, marker or not. A site installed before the media
 			# existed would otherwise never receive it.
 			maars_import_media
+			maars_import_html_archive
+			maars_import_record_text
 			maars_seed_pages
 
 			maars_own "${WEB_USER}:${WEB_GROUP}" "$UPLOADS_DIR"

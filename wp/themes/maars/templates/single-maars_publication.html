@@ -108,7 +108,7 @@
 				<p class="maars-fieldname has-ink-color has-text-color" style="font-size:1.125rem;font-weight:400;letter-spacing:0;line-height:1.4;text-transform:none">Document date</p>
 				<!-- /wp:paragraph -->
 
-				<!-- wp:post-date {"format":"d M Y","isLink":false,"className":"maars-doc-record__date","style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.35"}},"textColor":"ink","fontFamily":"data"} /-->
+				<!-- wp:post-date {"format":"F Y","isLink":false,"className":"maars-doc-record__date","style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.35"}},"textColor":"ink","fontFamily":"data"} /-->
 			</div>
 			<!-- /wp:group -->
 
@@ -176,41 +176,12 @@
 			<h2 class="wp-block-heading maars-original__title has-magenta-color has-text-color" style="font-size:1.375rem;line-height:1.25">The original file</h2>
 			<!-- /wp:heading -->
 
-			<!-- The file name comes from _maars_source_file. Core refuses bindings on
-			     protected meta keys, so on a stock install the sentence written into the
-			     block is what renders; when the club runs tools/build_content.py against
-			     its own mirror this line fills with the real file name. A sentence that
-			     is true beats a field that pretends to a figure it has not got. -->
-			<!-- The field name, because without it the bound value renders as a lone
-			     em dash floating under a heading, which reads as a rendering fault
-			     rather than as an empty field. Same class, same quiet weight and
-			     same sentence case as the three field names in the record strip
-			     above, so a reader meets the pattern twice on one page and it means
-			     the same thing both times. -->
-			<!-- wp:paragraph {"className":"maars-fieldname","style":{"typography":{"fontSize":"1.125rem","fontWeight":"400","letterSpacing":"0","lineHeight":"1.4","textTransform":"none"}},"textColor":"ink"} -->
-			<p class="maars-fieldname has-ink-color has-text-color" style="font-size:1.125rem;font-weight:400;letter-spacing:0;line-height:1.4;text-transform:none">File name</p>
-			<!-- /wp:paragraph -->
-
-			<!-- wp:paragraph {"className":"maars-original__file","metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"_maars_source_file"}}}},"style":{"typography":{"fontSize":"1.25rem","lineHeight":"1.4"}},"textColor":"ink","fontFamily":"data"} -->
-			<p class="maars-original__file has-ink-color has-text-color has-data-font-family" style="font-size:1.25rem;line-height:1.4">&#8212;</p>
-			<!-- /wp:paragraph -->
-
-			<!-- wp:paragraph {"className":"maars-original__note","style":{"typography":{"fontSize":"clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem)","lineHeight":"1.65"}}} -->
-			<p class="maars-original__note" style="font-size:clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem);line-height:1.65">A dash in a log means no entry, and it means that here too: this public demonstration carries the shape of the archive rather than its contents, so the files themselves are not in it. Where the text above was converted from a PDF or a word processor file the conversion is machine-assisted and may have dropped a table or a signature block, which is why the file, and not the text, is the authority.</p>
-			<!-- /wp:paragraph -->
-
-			<!-- The affordance is a real one and it is labelled for what it actually does
-			     here. Padding and type size put it over 48px on both axes without waiting
-			     for CSS. One line changes when the club copies its own files in: this
-			     href becomes the file's own URL. 10px, the control radius: it is a
-			     control, not a surface and not a pill. -->
-			<!-- wp:buttons {"className":"maars-original__actions","style":{"spacing":{"blockGap":"1rem"}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
-			<div class="wp-block-buttons maars-original__actions">
-				<!-- wp:button {"backgroundColor":"navy","textColor":"paper","className":"maars-original__get","style":{"border":{"radius":"10px"},"spacing":{"padding":{"top":"0.9rem","bottom":"0.9rem","left":"1.5rem","right":"1.5rem"}},"typography":{"fontSize":"clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem)","fontWeight":"600"}}} -->
-				<div class="wp-block-button maars-original__get"><a class="wp-block-button__link has-paper-color has-navy-background-color has-text-color has-background wp-element-button" href="/how-this-site-is-maintained/" style="border-radius:10px;font-size:clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem);font-weight:600;padding-top:0.9rem;padding-right:1.5rem;padding-bottom:0.9rem;padding-left:1.5rem">How the Society serves its files</a></div>
-				<!-- /wp:button -->
-			</div>
-			<!-- /wp:buttons -->
+			<!-- What the record actually has, rendered by maars/original-file
+			     (wp-content/plugins/maars-core/inc/original.php): the file, its
+			     format and size, a real link to it, and the same document in any
+			     other format the club kept. A template cannot know whether a record
+			     has a file; a server-rendered block can. -->
+			<!-- wp:maars/original-file /-->
 
 		</section>
 		<!-- /wp:group -->

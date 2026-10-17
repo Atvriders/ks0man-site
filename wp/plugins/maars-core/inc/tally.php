@@ -42,6 +42,105 @@ function maars_archive_total(): int {
 }
 
 /**
+ * Archive records per year, counting archive records only.
+ *
+ * The maars_year term counts include ordinary posts, because the taxonomy is
+ * registered for both, so they over-count: three news posts tagged 2023 and
+ * 2024 made those years look fuller, and [maars_archive_coverage] could call
+ * a year covered when the only thing in it was a blog post. This counts the
+ * year terms on published maars_publication posts and nothing else.
+ *
+ * @return array<int,int> Year => records, ascending, only years with records.
+ */
+function maars_archive_record_years(): array {
+	static $cache = null;
+	if ( null !== $cache ) {
+		return $cache;
+	}
+	$cache = array();
+	if ( ! function_exists( 'get_posts' ) || ! taxonomy_exists( 'maars_year' ) ) {
+		return $cache;
+	}
+
+	$ids = get_posts(
+		array(
+			'post_type'      => 'maars_publication',
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+			'no_found_rows'  => true,
+		)
+	);
+	if ( ! $ids ) {
+		return $cache;
+	}
+
+	$terms = wp_get_object_terms( $ids, 'maars_year', array( 'fields' => 'all_with_object_id' ) );
+	if ( is_wp_error( $terms ) ) {
+		return $cache;
+	}
+
+	$seen = array();
+	foreach ( $terms as $term ) {
+		$name = trim( (string) $term->name );
+		if ( ! preg_match( '/^(1[89]\d{2}|2\d{3})$/', $name ) ) {
+			continue;
+		}
+		$key = (int) $term->object_id . ':' . $name;
+		if ( isset( $seen[ $key ] ) ) {
+			continue;
+		}
+		$seen[ $key ]               = true;
+		$cache[ (int) $name ] = ( $cache[ (int) $name ] ?? 0 ) + 1;
+	}
+	ksort( $cache );
+
+	return $cache;
+}
+
+/**
+ * The date on the newest archive record, at the precision the archive keeps.
+ *
+ * Archive dates are months -- the record of the January 2024 minutes is dated
+ * 2024-01-01 because its file is newsletter_01-24.pdf -- so this says
+ * "January 2024", not a day it does not know. [maars_archive_newest] answers a
+ * different question, the newest thing of ANY kind on the site, posts included,
+ * and the gaps page used it for "the newest of them", the archive's documents:
+ * it printed 16 January 2024, the date of a news post.
+ *
+ * @return string
+ */
+function maars_archive_newest_record(): string {
+	$latest = get_posts(
+		array(
+			'post_type'      => 'maars_publication',
+			'post_status'    => 'publish',
+			'posts_per_page' => 1,
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+			'fields'         => 'ids',
+			'no_found_rows'  => true,
+		)
+	);
+	if ( ! $latest ) {
+		return '';
+	}
+
+	return (string) get_the_date( 'F Y', (int) $latest[0] );
+}
+
+/**
+ * [maars_archive_newest_record]
+ *
+ * @return string
+ */
+function maars_tally_shortcode_newest_record(): string {
+	$date = maars_archive_newest_record();
+
+	return '' !== $date ? esc_html( $date ) : esc_html__( 'not yet recorded', 'maars' );
+}
+
+/**
  * Every year the archive actually has something in, oldest first.
  *
  * Read off the maars_year taxonomy, whose term counts include published posts
@@ -51,33 +150,7 @@ function maars_archive_total(): int {
  * @return int[] Four-digit years, ascending.
  */
 function maars_archive_years(): array {
-	if ( ! function_exists( 'get_terms' ) || ! taxonomy_exists( 'maars_year' ) ) {
-		return array();
-	}
-
-	$terms = get_terms(
-		array(
-			'taxonomy'   => 'maars_year',
-			'hide_empty' => true,
-		)
-	);
-
-	if ( is_wp_error( $terms ) || ! is_array( $terms ) ) {
-		return array();
-	}
-
-	$years = array();
-	foreach ( $terms as $term ) {
-		$name = is_object( $term ) ? (string) $term->name : (string) $term;
-		if ( preg_match( '/^(1[89]\d{2}|2\d{3})$/', trim( $name ) ) ) {
-			$years[] = (int) $name;
-		}
-	}
-
-	$years = array_values( array_unique( $years ) );
-	sort( $years );
-
-	return $years;
+	return array_keys( maars_archive_record_years() );
 }
 
 /**
@@ -402,6 +475,40 @@ function maars_tally_shortcode_gaps(): string {
 }
 
 /**
+ * [maars_archive_coverage] -- what the record says about its own gaps, either way.
+ *
+ * "[maars_archive_gaps]" alone vanishes when there are no gaps, which is right
+ * for a sentence that only names them -- but the prose around it was written
+ * for a record WITH gaps ("The gaps are part of the record and are not papered
+ * over."), and on 17 October 2026 the last two closed: a March 2012 treasurer's
+ * report from the webmaster's own folder, and a February 2014 newsletter that
+ * had been in the media library for a month without an archive record. The
+ * prose went on asserting gaps that no longer existed. This says whichever is
+ * true.
+ *
+ * @return string
+ */
+function maars_tally_shortcode_coverage(): string {
+	$gaps = maars_archive_gap_years();
+	if ( $gaps ) {
+		return maars_tally_shortcode_gaps() . ' '
+			. esc_html( _n( 'That gap is part of the record and is not papered over.', 'Those gaps are part of the record and are not papered over.', count( $gaps ), 'maars' ) );
+	}
+
+	$span = maars_archive_span();
+	if ( ! $span ) {
+		return '';
+	}
+
+	return sprintf(
+		/* translators: 1: first year, 2: last year. */
+		esc_html__( 'Every year from %1$s to %2$s holds at least one document.', 'maars' ),
+		esc_html( (string) $span[0] ),
+		esc_html( (string) $span[1] )
+	);
+}
+
+/**
  * [maars_archive_newest] -- the date on the newest document of any kind.
  *
  * @return string
@@ -429,39 +536,16 @@ function maars_tally_shortcode_newest(): string {
  * @return array<int,int> Year => count, ascending, including the empty years.
  */
 function maars_archive_year_counts(): array {
-	if ( ! function_exists( 'get_terms' ) || ! taxonomy_exists( 'maars_year' ) ) {
-		return array();
-	}
-
-	$terms = get_terms(
-		array(
-			'taxonomy'   => 'maars_year',
-			'hide_empty' => true,
-		)
-	);
-
-	if ( is_wp_error( $terms ) || ! is_array( $terms ) ) {
-		return array();
-	}
-
-	$counts = array();
-	foreach ( $terms as $term ) {
-		if ( ! is_object( $term ) || ! preg_match( '/^(1[89]\d{2}|2\d{3})$/', trim( (string) $term->name ) ) ) {
-			continue;
-		}
-		$counts[ (int) $term->name ] = (int) $term->count;
-	}
-
+	$counts = maars_archive_record_years();
 	if ( ! $counts ) {
 		return array();
 	}
 
 	/* Fill the span, so an empty year is a row that says none rather than a row that is not there. */
-	$years = array_keys( $counts );
-	sort( $years );
+	$years  = array_keys( $counts );
 	$filled = array();
 	for ( $y = $years[0]; $y <= $years[ count( $years ) - 1 ]; $y++ ) {
-		$filled[ $y ] = isset( $counts[ $y ] ) ? $counts[ $y ] : 0;
+		$filled[ $y ] = $counts[ $y ] ?? 0;
 	}
 
 	return $filled;
@@ -540,7 +624,9 @@ function maars_register_tally_shortcodes(): void {
 	add_shortcode( 'maars_archive_pages', 'maars_tally_shortcode_pages' );
 	add_shortcode( 'maars_archive_gap_years', 'maars_tally_shortcode_gap_years' );
 	add_shortcode( 'maars_archive_gaps', 'maars_tally_shortcode_gaps' );
+	add_shortcode( 'maars_archive_coverage', 'maars_tally_shortcode_coverage' );
 	add_shortcode( 'maars_archive_newest', 'maars_tally_shortcode_newest' );
+	add_shortcode( 'maars_archive_newest_record', 'maars_tally_shortcode_newest_record' );
 	add_shortcode( 'maars_archive_year_table', 'maars_tally_shortcode_year_table' );
 }
 add_action( 'init', 'maars_register_tally_shortcodes', 10 );

@@ -38,14 +38,18 @@ study
 **/mirror
 **/study
 
-# Two content bundles enter the image: the curated seed, and the pages of
+# Four content bundles enter the image: the curated seed; the pages of
 # ks0man.com the archive migration did not carry (the roster, the Silent Keys,
-# the Field Day galleries). Both are the Society's own record, published in full
-# by its decision of 17 September 2026. Anything a build_content.py run produces
+# the Field Day galleries); the issues from the years when the newsletter was a
+# web page; and the text of the records made from PDF and Word files. All are
+# the Society's own record, published in full by its decisions of 17 September
+# and 16 October 2026. Anything a build_content.py run produces
 # on the club's own machine still stays there.
 content/*
 !content/seed.json
 !content/mirror_pages.json
+!content/html_archive.json
+!content/record_text.json
 
 # Only the importers run inside the container. build_content.py runs on the
 # club's own machine, against their own private mirror, and stays there --
@@ -59,6 +63,9 @@ tools/*
 !tools/seed.php
 !tools/import_media.php
 !tools/seed_pages.php
+!tools/import_html_archive.php
+!tools/lib_tokens.php
+!tools/import_record_text.php
 
 # Junk
 **/__pycache__

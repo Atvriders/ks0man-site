@@ -3744,3 +3744,192 @@
 		display: none;
 	}
 }
+
+/* ---------------------------------------------------------------------------
+   THE ORIGINAL FILE, rendered by maars/original-file.
+
+   The link is drawn here rather than borrowed from core/button: the block is
+   server-rendered, so core's button stylesheet is not guaranteed to be on the
+   page, and a download control that depends on a stylesheet it does not load
+   is a bare underlined word on the one page where it matters most. Navy, the
+   control radius, 48px on both axes, the same as every other control here.
+--------------------------------------------------------------------------- */
+.maars-original-file {
+	display: block;
+}
+
+.maars-original-file .maars-fieldname {
+	margin: 0;
+}
+
+.maars-original__detail {
+	color: var(--maars-meta);
+	margin: 0.25rem 0 0;
+}
+
+.maars-original__link {
+	align-items: center;
+	background-color: var(--maars-navy);
+	border-radius: var(--maars-radius-control, 10px);
+	color: var(--maars-paper);
+	display: inline-flex;
+	font-size: var(--maars-text-body);
+	font-weight: 600;
+	min-height: var(--maars-target, 48px);
+	min-width: var(--maars-target, 48px);
+	padding: 0.9rem 1.5rem;
+	text-decoration: none;
+	transition: background-color var(--maars-motion, 200ms) var(--maars-ease, ease);
+}
+
+.maars-original__link:hover {
+	background-color: var(--maars-navy-soft, #1a1aa6);
+	color: var(--maars-paper);
+}
+
+.maars-original__link:focus-visible {
+	outline: 3px solid var(--maars-navy);
+	outline-offset: 2px;
+}
+
+.maars-original__also {
+	margin-block-start: 1rem;
+}
+
+.maars-original__size {
+	color: var(--maars-meta);
+	font-family: var(--maars-font-data);
+	font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------------------
+   CLUB FILES — /club-files/, generated from media/manifest.json.
+
+   Core's gallery grows its last row to fill the width, so a topic with ONE
+   photograph rendered it 830px wide and, for a portrait, 1,100px tall — the
+   bumper sticker filled the screen. Every item here is a fixed share of the
+   row instead, cropped to one shape so a page of 119 pictures reads as a
+   grid rather than a heap.
+
+   And core lays its captions OVER the picture: 13px white type on a gradient,
+   under the 18px floor and at the mercy of whatever the photograph is behind
+   it. Here the caption sits under the picture in the reading face at the note
+   size, ink on the page ground, where a reader of 78 can read it.
+--------------------------------------------------------------------------- */
+.maars-club-files__gallery.wp-block-gallery.has-nested-images figure.wp-block-image:not(#individual-image) {
+	flex-grow: 0;
+	width: calc(33.333% - var(--wp--style--unstable-gallery-gap, 16px) * 0.667);
+}
+
+@media (max-width: 48em) {
+	.maars-club-files__gallery.wp-block-gallery.has-nested-images figure.wp-block-image:not(#individual-image) {
+		width: calc(50% - var(--wp--style--unstable-gallery-gap, 16px) * 0.5);
+	}
+}
+
+.maars-club-files__gallery.wp-block-gallery.has-nested-images figure.wp-block-image img {
+	aspect-ratio: 4 / 3;
+	background-color: var(--maars-haze);
+	height: auto;
+	object-fit: cover;
+	width: 100%;
+}
+
+.maars-club-files__gallery.wp-block-gallery.has-nested-images figure.wp-block-image figcaption {
+	background: none;
+	bottom: auto;
+	color: var(--maars-ink);
+	font-size: var(--maars-text-note);
+	line-height: 1.4;
+	margin: 0;
+	max-height: none;
+	overflow: visible;
+	padding: 0.45rem 0 0;
+	position: static;
+	text-align: start;
+	text-shadow: none;
+	width: auto;
+}
+
+.maars-club-files__gallery.wp-block-gallery.has-nested-images figure.wp-block-image:has(figcaption)::before {
+	content: none;
+}
+
+.maars-club-files__list li {
+	margin-block: 0.35rem;
+}
+
+.maars-club-files__meta {
+	color: var(--maars-meta);
+	font-family: var(--maars-font-data);
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.maars-club-files__toc {
+	columns: 2 16rem;
+	column-gap: 2rem;
+}
+
+/* ---------------------------------------------------------------------------
+ * The text of a file, on an archive record made from a PDF or a Word file
+ * (tools/prepare_record_text.py). A note says it is a machine's reading. A
+ * treasurer's or year-end report is a table of label and amount, so a figure
+ * stays on the row of its label at any width; a data table keeps square
+ * corners and hairlines, like the archive's own list.
+ * ------------------------------------------------------------------------- */
+
+.maars-record-text__note {
+	border-block-end: var(--maars-hairline) solid var(--maars-rule);
+	color: var(--maars-meta);
+	font-size: var(--maars-text-note);
+	line-height: var(--maars-leading);
+	max-width: var(--maars-measure);
+	padding-block-end: 0.75rem;
+}
+
+/* Two class names for the same reason as the roster's: theme.json's core/table
+   rule (.wp-block-table: Fira Code, 1px frame) is printed in the head and wins
+   a tie on source order. A label is prose and keeps the reading face; an
+   amount is data. */
+.wp-block-table.maars-ledger,
+.wp-block-table.maars-ledger table,
+.wp-block-table.maars-ledger td {
+	border: 0;
+	font-family: var(--maars-font-text);
+	font-size: var(--maars-text-body);
+	line-height: 1.5;
+}
+
+.wp-block-table.maars-ledger {
+	margin-block: 1rem 1.5rem;
+	max-width: var(--maars-measure);
+}
+
+.wp-block-table.maars-ledger table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.wp-block-table.maars-ledger td {
+	border-block-end: var(--maars-hairline) solid var(--maars-rule);
+	padding: 0.45rem 0.75rem 0.45rem 0;
+	vertical-align: top;
+}
+
+.wp-block-table.maars-ledger td + td {
+	font-family: var(--maars-font-data);
+	font-feature-settings: "tnum" 1;
+	font-variant-numeric: tabular-nums;
+	padding-inline-end: 0;
+	text-align: end;
+}
+
+.wp-block-table.maars-ledger td.maars-ledger__head {
+	font-weight: 600;
+	padding-block-start: 1.25rem;
+}
+
+.wp-block-table.maars-ledger tr.maars-ledger__gap td {
+	padding-block-start: 1.1rem;
+}

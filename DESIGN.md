@@ -96,6 +96,33 @@ Two columns, not three: the year is the link, because "read the year" repeated
 down twenty-seven rows is the placeholder sentence this project already took out
 of the archive log once.
 
+## Club files and the original file (new, 17 October 2026)
+**/club-files/** is generated from the manifest: a grid of fixed shares (three to a
+row, two below 48em), every picture cropped to 4:3 so 119 photographs read as a
+grid and not a heap. Core's gallery stretches a lone image to the full width — the
+bumper sticker filled the screen — and lays 13px white captions over the picture;
+both are overridden. Captions sit under the picture at the note size, ink on
+ground, 18px.
+
+**The original file**, on every archive record, is a real control now: navy, the
+control radius, 48px on both axes, labelled for what it opens ("Open the original
+PDF"). Other formats follow it as a sentence ("The Society also kept it as a Word
+document (23 KB)"), with sizes in the data face because they are figures.
+
+## The text of a file (new, 17 October 2026)
+A record made from a PDF or a Word file carries the file's text above "The
+original file", opened by one note in the meta colour saying it is a machine's
+reading and that the original is the authority. Minutes and newsletters are plain
+paragraphs. A treasurer's or year-end report is a **ledger**: one data table, square
+and ruled like the archive log, label in the reading face and amount in the data
+face with tabular figures, section heads ("Income:", "As of March 31, 2022") in
+600 across the table. Preformatted text was tried first and refused: at 390px it
+hid every amount behind a sideways scroll.
+
+A web-era record's "original file" is the page itself: "Download the page as
+ks0man.com served it", the bundle of every page the old site served, with the
+issue's own file named beside it.
+
 ## Accessibility floor — unchanged, non-negotiable
 18px body (20px desktop) · line-height 1.65 · 48px targets · 3px navy focus ring
 at 2px offset · no weight under 400 · no horizontal overflow at 390px ·

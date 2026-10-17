@@ -128,7 +128,7 @@
 		<!-- /wp:heading -->
 
 		<!-- wp:paragraph {"className":"maars-archive__lede","style":{"typography":{"fontSize":"clamp(1.25rem, 1.18rem + 0.36vw, 1.5rem)","lineHeight":"1.5"}}} -->
-		<p class="maars-archive__lede" style="font-size:clamp(1.25rem, 1.18rem + 0.36vw, 1.5rem);line-height:1.5">Every dated document the Society has published and kept: [maars_archive_count] items spanning [maars_archive_span], being [maars_archive_kinds]. Newest first, 20 to a page, [maars_archive_pages per_page=20] pages in all.</p>
+		<p class="maars-archive__lede" style="font-size:clamp(1.25rem, 1.18rem + 0.36vw, 1.5rem);line-height:1.5">Every newsletter, set of minutes and report the Society published and kept: [maars_archive_count] items spanning [maars_archive_span], being [maars_archive_kinds]. Newest first, 20 to a page, [maars_archive_pages per_page=20] pages in all.</p>
 		<!-- /wp:paragraph -->
 
 		<!-- The gaps are a finding, not an omission, so they are marked with the
@@ -136,7 +136,7 @@
 		     draws it, which is why this is a paragraph and not a group wrapping a
 		     paragraph. The dates in it are prose and stay in the reading face. -->
 		<!-- wp:paragraph {"className":"maars-archive__gaps","style":{"typography":{"fontSize":"clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem)","lineHeight":"1.65"}}} -->
-		<p class="maars-archive__gaps" style="font-size:clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem);line-height:1.65">The gaps are part of the record and are not papered over. [maars_archive_gaps] The newest document of any kind is dated [maars_archive_newest], and where a year is thin, the year is thin &#8212; <a href="/archive/gaps/">what we know is missing</a>.</p>
+		<p class="maars-archive__gaps" style="font-size:clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem);line-height:1.65">[maars_archive_coverage] The newest of them is dated [maars_archive_newest_record], and where a year is thin, the year is thin &#8212; <a href="/archive/gaps/">what we know is missing</a>.</p>
 		<!-- /wp:paragraph -->
 
 	</section>
@@ -206,15 +206,16 @@
 
 	<!-- THE LOG. 20 per page, so pagination is
 	     numbered, not an infinite scroll and not a "load more": a researcher must be
-	     able to link to page 9 and come back to it. The query is explicit rather than
-	     inherited so the page length is a property of this template and not of
-	     whatever posts_per_page happens to be set to. Ordering is by post_date, which
-	     maars-core seeds from _maars_doc_date, so the list is in document order
-	     rather than import order.
+	     able to link to page 9 and come back to it. The query INHERITS the main
+	     query, and maars-core sets its length (MAARS_ARCHIVE_PER_PAGE) and order.
+	     It used to be a separate query, which paged only by ?query-21-page=N, so
+	     /archive/page/9/ answered 200 with page 1 on it -- every one of
+	     /archive/page/2/ to /15/ showed the same twenty documents. Ordering is by
+	     post_date, which is the document's own date, not the import date.
 
 	     The inline custom property is the hook maars.css documents for a template
 	     with its own fields; it is three columns now, not four. -->
-	<!-- wp:query {"queryId":21,"query":{"perPage":20,"pages":0,"offset":0,"postType":"maars_publication","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":null,"parents":[],"format":[]},"className":"maars-archive__loop maars-log","layout":{"type":"default"}} -->
+	<!-- wp:query {"queryId":21,"query":{"perPage":20,"pages":0,"offset":0,"postType":"maars_publication","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true,"taxQuery":null,"parents":[],"format":[]},"className":"maars-archive__loop maars-log","layout":{"type":"default"}} -->
 	<div class="wp-block-query maars-archive__loop maars-log" style="--maars-log-columns:9rem 12.5rem minmax(0, 1fr)">
 
 		<!-- The ruled column head. Three field names over the record's rule, in the
@@ -273,7 +274,7 @@
 				     12 Jan 2024 occupy the same width, so 20 of them make a column a
 				     reader can scan down. This is the one field on the row that is data,
 				     and it carries the data clamp rather than a frozen 18px. -->
-				<!-- wp:post-date {"format":"d M Y","isLink":false,"className":"maars-log__date","style":{"typography":{"fontSize":"clamp(1.125rem, 1.09rem + 0.18vw, 1.25rem)","lineHeight":"1.45"},"layout":{"selfStretch":"fixed","flexSize":"9rem"}},"textColor":"ink","fontFamily":"data"} /-->
+				<!-- wp:post-date {"format":"M Y","isLink":false,"className":"maars-log__date","style":{"typography":{"fontSize":"clamp(1.125rem, 1.09rem + 0.18vw, 1.25rem)","lineHeight":"1.45"},"layout":{"selfStretch":"fixed","flexSize":"9rem"}},"textColor":"ink","fontFamily":"data"} /-->
 
 				<!-- The document type is a noun, not a figure: reading face, sentence
 				     case, no tracking. Revision 1 set it in Fira Code and shouted it. -->
@@ -319,7 +320,7 @@
 				<!-- /wp:heading -->
 
 				<!-- wp:paragraph {"className":"maars-empty","style":{"typography":{"fontSize":"clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem)","lineHeight":"1.6"}}} -->
-				<p class="maars-empty" style="font-size:clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem);line-height:1.6">The archive holds [maars_archive_count] documents from [maars_archive_span]. [maars_archive_gaps] A search that comes back empty may be telling you the truth about the record rather than about your spelling. Try a single surname or a four-digit year, or <a href="/archive/">start again from the whole list</a>.</p>
+				<p class="maars-empty" style="font-size:clamp(1.125rem, 1.085rem + 0.2vw, 1.25rem);line-height:1.6">The archive holds [maars_archive_count] documents from [maars_archive_span]. [maars_archive_coverage] A search that comes back empty may be telling you the truth about the record rather than about your spelling. Try a single surname or a four-digit year, or <a href="/archive/">start again from the whole list</a>.</p>
 				<!-- /wp:paragraph -->
 
 				<!-- The same control as the one above the list, and it carries the same

@@ -1,22 +1,22 @@
-# ks0man-site — a runnable demonstration of the MAARS rebuild
+# ks0man-site — the Manhattan Area Amateur Radio Society's website
 
-This repository builds one Docker image containing WordPress, the `maars-core` plugin, the
-`maars` block theme, and a WebGL2 propagation scene. You start it with `docker compose up -d`
-and open it in a browser on your own machine.
+This repository is the code and the content of **https://ks0man.org**: WordPress, the
+`maars-core` plugin, the `maars` block theme, a WebGL2 propagation scene, and the Society's
+whole record carried over from ks0man.com. The same site also builds as one Docker image: start
+it with `docker compose up -d` and open it in a browser on your own machine.
 
-**What it is.** A working demonstration of how the rebuilt MAARS site would behave: the content
-model (publications, people, facilities), the block theme, the palette taken from the club's own
-1997 stylesheet, and — the point of the whole exercise — the machinery that makes staleness
-visible instead of hiding it.
+**What it is.** The content model (publications, people, facilities), the block theme, the
+palette taken from the club's own 1997 stylesheet, the machinery that makes staleness visible
+instead of hiding it — and every document, photograph and page of the old site.
 
-**What it is not.**
+**Where things stand.**
 
-| It is not | Because |
+| | |
 |---|---|
-| The live site | ks0man.com is the 1997 hand-written site and is still live. ks0man.org is an empty WordPress install with a sample page. This touches neither. |
-| A finished site | It ships a demonstration slice of content, not the club's 27 years of documents. See [What ships, and what does not](#what-ships-and-what-does-not). |
-| A hosting migration | Nothing here deploys anywhere. It runs on your laptop, on port 3039, and stops when you stop it. |
-| A decision | Nine questions still block a real launch and none of them are technical. See [Open questions](#open-questions-that-still-block-a-launch). |
+| The live site | https://ks0man.org runs this theme and plugin with the full archive. Content goes up through the REST tools in `tools/`; the theme and plugin through `tools/deploy_wp.py`. |
+| The old site | ks0man.com, the 1997 hand-written site, is still up. Its redirect map is ready in `migrate/` and needs access to the old domain's server to deploy. ks0man.org itself already answers the old file names: see [Old addresses](#old-addresses). |
+| The content | Everything: every file the old site served and every file in the folder the webmaster built it from. See [What ships](#what-ships-and-what-does-not). |
+| Decisions | Privacy and disclosure are decided: the Society publishes its record in full. Questions about domains, officers and the repeater are still open. See [Open questions](#open-questions).
 
 ---
 
@@ -28,12 +28,12 @@ Read this before you trust anything below it.
 |---|---|---|
 | The WebGL propagation scene actually draws | **Verified** | `pytest tests/test_webgl.py` loads the scene in headless Chromium on SwiftShader (software rasteriser, no GPU), waits for the canvas to report `data-maars-ready="1"`, then **reads the pixels back**: it fails if the image is flat, and fails again if switching bands does not change the image. PNGs are written to `tests/out/` — look at them, do not take the exit code's word for it. |
 | Every PHP file is syntactically valid | **Verified** | `php -l` on each file, run as part of `tests/test_static.py`. Checked against PHP 8.1; the image runs PHP 8.3. |
-| No developer or third-party data anywhere in the repository | **Verified** | `tests/test_static.py` greps the whole tree for address, phone, e-mail, LAN-IP and host-path patterns and fails the run. It is a gate, not a guideline. Since the Society's decision of 17 September 2026 the club's **own** record — `media/` and `content/html_archive.json` — is exempt and publishes in full; a meta-check in the same file refuses to let that exemption grow to a third path. |
+| No developer data anywhere in the repository | **Verified** | `tests/test_static.py` greps the whole tree for address, phone, e-mail, LAN-IP and host-path patterns and fails the run. It is a gate, not a guideline. Since the Society's decisions of 17 September and 16 October 2026 the club's **own** record — `media/`, `content/html_archive.json`, `content/mirror_pages.json` and `content/record_text.json` — is exempt and publishes in full; a meta-check in the same file refuses to let that exemption grow to a fifth path. |
 | File map, `theme.json`, `content/seed.json`, `docker-compose.yml` all present and parseable | **Verified** | `tests/test_static.py`. |
 | **The site running in a real WordPress** | **Verified, but not in Docker** | There is still no Docker daemon in the environment this was built in, so `docker compose up` remains untested by its author. Everything above that has been exercised: the theme and plugin run on a real **WordPress 7.1** (PHP 8.1 + SQLite) built for the purpose, and the same code is live at **https://ks0man.org** with the full archive in it. Pages were rendered and measured in headless Chromium, not asserted. |
-| Content completeness | **Verified** | 242 documents, 1998–2024, counted out of the live database; the figures the site prints are counted at render time rather than typed. |
+| Content completeness | **Verified** | Every file of the old site and of the webmaster's folder is on the live site: 267 dated documents and 405 files, checked against both sources file by file, and every page ks0man.com served is kept byte for byte. A test fails if any shipped file has no route to a reader. A 77-agent audit of the live site on 17 October 2026 confirmed 67 faults; each is fixed, and `tests/test_static.py` now checks the ones a test can see. |
 | Link integrity | **Verified for the theme** | `tests/test_static.py` resolves every internal `href` in the theme against the pages the seed creates and the routes the plugin registers, and fails on one that goes nowhere — which is how `/archive/gaps/` was found 404ing in production. A full crawl of the live site is not part of the suite. |
-| Redirects from ks0man.com | **Ready, not deployed** | `migrate/url_map.csv` and `migrate/ks0man_com.htaccess`: 432 rules, built by `tools/build_redirects.py` from what the live site actually holds, and **every one of the 406 redirect targets was requested and answered 200** before the files were written. Deploying them needs access to the old domain's server. |
+| Redirects from ks0man.com | **Ready, not deployed** | `migrate/url_map.csv` and `migrate/ks0man_com.htaccess`: 479 rules, built by `tools/build_redirects.py` from what the live site actually holds, and **every one of the 471 redirect targets on the site was requested and answered 200** before the files were written; five more go to other sites' documents and three answer 410 Gone. An old file goes to the same bytes on the new site — a photograph to the original ks0man.com served, not a smaller copy. Deploying them needs access to the old domain's server. |
 
 If the first boot fails, that is expected information, not a surprise. File it.
 
@@ -136,9 +136,11 @@ for that month. The website simply was never told. The information existed; the 
 
 The site's own accountability note about missing minutes was written in capital letters inside an
 HTML comment — where no member would ever see it, because the page had no way to say it out loud.
+It is on the page now: the old newsletters index here shows what the webmaster took off each page
+but kept in its code, under its own heading.
 
 So the design assumes the hand-off will fail again, and arranges for that failure to be visible
-rather than silent. Three mechanisms, all of them in this demonstration:
+rather than silent. Three mechanisms, all of them on the site:
 
 ### 1. Never store a date a computer can compute
 
@@ -174,8 +176,8 @@ The rule behind that: **fail to silence, not to a stale answer.** A visitor who 
 confirmed" asks on the air. A visitor who reads "KSDB-FM tower" in 2027 drives to the wrong place and
 concludes the club is dead. Wrong information on a repeater page is worse than absent information.
 
-One thing this demonstration deliberately does *not* do: it does not e-mail anybody. In the real
-deployment the overdue digest goes to the Society e-mail reflector, because Article III of the
+One thing the site deliberately does *not* do yet: it does not e-mail anybody. When it does, the
+overdue digest goes to the Society e-mail reflector, because Article III of the
 constitution says the reflector — not the website — is the official organ of the Society. Forty
 people seeing "the repeater page is 200 days overdue" produces a correction; one person seeing it in
 a private inbox produces avoidance.
@@ -191,77 +193,113 @@ a colour scheme. Both are fixed by process, not by a redesign.
 
 ## What ships, and what does not
 
-### The Society's own record, in full
+### The Society's own record, in full — everything
 
-Amended **17 September 2026**, by the Society's decision. The rule this repository shipped
-with was the opposite one, and the reasoning for the change is the club's own: this is the
-club's information about the club, every line of it stood on ks0man.com for twenty-seven
-years, and a migration that drops half of it is not a migration. The members asked for the
-whole record to be reachable.
+Two decisions by the Society, recorded because each reverses the rule before it:
 
-So the image and this repository carry:
+- **17 September 2026** — the club's own record is published in full. Every line of it stood
+  on ks0man.com for twenty-seven years, so the migration is continuity, not new exposure.
+- **16 October 2026** — *"anything we are missing needs to be added. do not skip adding
+  anything. everything needs to be there."* Material by other authors now ships as it did on
+  the old site, and so do the member lists from the webmaster's own folder, with addresses,
+  telephone numbers and e-mail, which were never on ks0man.com. The Society was told that
+  publishing those is new exposure rather than continuity, and decided to publish them.
 
-- **243 dated documents**, 1998–2024 — newsletters, meeting minutes, treasurer's reports
-  and year-end reports, including the 125 HTML-era issues transcribed in full.
-- **233 files**, 41 MB — the scans and photographs themselves, among them the
-  **25 documents that carry officer contact details** and the **18 memorial portraits**.
-  Unredacted, deliberately.
-- **Eleven pages the archive migration had left behind**, carried over from ks0man.com
-  and published at `/members/`, `/silent-keys/`, `/downloads/` and under `/events/`:
-  the member roster, twenty-nine Silent Key notices with their portraits, the Field Day
-  galleries from 1997, 1998, 2005, 2015 and 2018, and three write-ups of public-service
-  events the Society worked. `tools/prepare_pages.py` converts them;
-  `content/mirror_pages.json` is the result.
-- Club history and governance facts: the founding on 7 July 1976 at a meeting called to
-  order at 7:40 P.M.; the members' vote to be a **Society**, not a Club; the constitution
-  and SOP of 11 December 2021, including Article III (the e-mail reflector is the official
-  organ) and Article VII ("a quorum consists of the members present"); the meeting rule.
-- Technical facts about the repeater and the nets, every one of them graded `unverified`.
+So the image, this repository and https://ks0man.org carry:
+
+- **267 dated documents**, 1998–2024 — 127 newsletters, 82 sets of minutes, 52 treasurer's
+  reports and 6 year-end reports. Every year from 1998 to 2024 holds at least one. The old
+  site's "Jan. 2017" minutes were a byte-for-byte copy of February's, so there is no January
+  2017 record and that old link opens February; three sets of minutes the migration had filed
+  as newsletters are filed as minutes; the 2012 treasurer's report is March's, as its own
+  heading says.
+- **The text of every record.** The 125 issues from the years the newsletter was a web page
+  carry that page. The 142 records made from PDF and Word files carry the file's text, read by
+  machine (`tools/prepare_record_text.py`): prose for minutes and newsletters, a table of label
+  and amount for each treasurer's and year-end report, and the OCR for the eight scans with no
+  text layer. The archive's search finds what the minutes say.
+- **405 files**, 206 MB — every file the old site served **and** every file in the folder it
+  was built from (`MAARS Page.zip`), including the Field Day videos, the webmaster's Photoshop,
+  InDesign and PageMaker sources, the 1997 site graphics, and every web page of the old site
+  twice over: byte for byte as ks0man.com served it, and as the webmaster kept it.
+- **Every record page links its own file**, its kind and size, and any other format the club
+  kept it in (`maars/original-file`). A web-era issue links the bundle of pages as served and
+  names its page inside it.
+- **Pages carried over from the old site and the folder** — the roster and three earlier
+  rosters, twenty-seven Silent Key notices, the Field Day galleries, the Saturday breakfast
+  notices, the running log of announcements from the old home page, the home page as it last
+  stood, in autumn 2023, in 2015 and in the GeoCities years, notes on a repeater test site, and
+  the exam page. What the webmaster took off a page by commenting it out — retired
+  announcements, an officer's row, the note about the missing February 2023 minutes — is shown
+  at the foot of that page under its own heading.
+- **`/club-files/`** — every file outside the archive, by topic, generated from
+  `media/manifest.json`. `tests/test_static.py` fails if any shipped file has no route to a
+  reader, and if any file outside the archive has no section on that page.
+- Club history and governance facts, and the repeater and net details, graded as before.
 
 Every figure the site states about the archive is counted out of the database as the page
-renders — see `[maars_archive_*]` in `wp/plugins/maars-core/inc/tally.php`. The site
-cannot tell a reader it holds 266 documents while holding 242, which is exactly what it
-did before this was written.
+renders — see `[maars_archive_*]` in `wp/plugins/maars-core/inc/tally.php`.
 
-### What does not ship, and why
+### What is still not here
 
-Two things, and only two:
+Only what does not exist: a photograph of the Sale Barn Cafe, an index page for the 1997 Field
+Day gallery, and the GeoCities site's own sub-pages and pictures, all linked from the old pages
+and gone at the source. `/archive/gaps/` names them. Five more links, on the old links page and
+the home page, pointed at other sites' documents with the site's name missing, so they never
+opened; the webmaster's own copy of the links page has the full addresses, and the pages here
+use them.
 
-- **Twenty-four third-party documents** — ARRL bulletins, band charts, licence-study
-  material and similar work by other authors, put on the old site years ago with no record
-  of permission. They are not the Society's to give away, so the site links to the source
-  rather than hosting a copy. `tools/screen_media.py` fails if one reappears in `media/`.
-- **Two Field Day videos, 66.7 MB** — large enough that serving them from here would slow
-  every page on the site for the sake of two files. They belong on a video host, embedded.
+Roster rows the webmaster hid in the rosters' code stay hidden on the pages, as they were on the
+old site.
 
-What is still refused everywhere, archive payload included: LAN IP addresses, hostnames,
-developer host paths and credentials — anything about the machine this was built on rather
-than about the Society. `tests/test_static.py` enforces it, and was negative-tested against
-planted data to prove the gate can fail.
+What is still refused everywhere: LAN IP addresses, hostnames, developer host paths and
+credentials — anything about the machine this was built on rather than about the Society.
 
-## Generating the full content locally
+### Old addresses
 
-The club has all of the withheld material already, in its own mirror of the old site. The tool that
-turns it into seed content runs on the club's machine and its output never leaves that machine.
+ks0man.org was the old site's other name: the webmaster's pages linked `www.ks0man.org/<file>`,
+and that domain is this site now. `wp/plugins/maars-core/inc/legacy.php` answers any old address
+that would otherwise be a 404 — `/newsletter_03-01.html` opens its archive record,
+`/Francis_2007_1.jpg` the photograph as ks0man.com served it, `/events.css` says 410 Gone. Its
+map, `inc/legacy-map.php`, is generated by `tools/build_redirects.py` from the repository and
+resolved against each install's own database, so it works on the live site and in the image
+alike. Pointing ks0man.com at this site would make all of its addresses work the same way.
+
+## How the content is made, and how it reaches a site
+
+Everything in `content/` and `media/` is generated from two sources outside this repository:
+the wget mirror of ks0man.com taken on 11 September 2026, and the webmaster's folder
+(`MAARS Page.zip`, supplied on 16 October 2026). The tools that read them:
+
+| Tool | Writes |
+|---|---|
+| `tools/ingest_webmaster_files.py` | the folder's files into `media/` and `media/manifest.json` |
+| `tools/bundle_served_pages.py` | `ks0man-com-pages-as-served.zip`: every page the old site served, byte for byte |
+| `tools/prepare_html_archive.py` | `content/html_archive.json`: the 125 web-era issues |
+| `tools/prepare_pages.py` | `content/mirror_pages.json`: the carried-over pages and `/club-files/` |
+| `tools/prepare_record_text.py` | `content/record_text.json`: the text of the PDF and Word records |
+| `tools/build_redirects.py --plugin-only` | `wp/plugins/maars-core/inc/legacy-map.php` |
+
+**In the image**, `docker/entrypoint.sh` imports all of it on every boot, and every importer is
+idempotent: `import_media.php`, `import_html_archive.php`, `import_record_text.php`, then
+`seed_pages.php`. `tools/seed.php` writes the seed's own pages on the first boot only;
+`seed_pages.php` brings each one up to `content/seed.json` afterwards **unless it has been
+edited** since the tooling wrote it (`_maars_seed_hash`), so a club member's correction made in
+wp-admin is never overwritten. Set `MAARS_RESEED_PAGES=1` for one boot to update a volume an
+older image filled.
+
+**On the live site**, over REST with an application password, paced for a host that throttles
+bursts:
 
 ```
-python3 tools/build_content.py --help
+WP_USER=… WP_APP_PASSWORD='…' python3 tools/push_media.py   --site https://ks0man.org
+WP_USER=… WP_APP_PASSWORD='…' python3 tools/push_records.py --site https://ks0man.org --issues --text
+WP_USER=… WP_APP_PASSWORD='…' python3 tools/push_pages.py   --site https://ks0man.org --seed about,privacy,… --facilities maars-weekly-net
+WP_USER=… WP_APP_PASSWORD='…' python3 tools/build_redirects.py --site https://ks0man.org --verify
 ```
 
-It reads the club's local mirror of ks0man.com and writes a seed JSON in the same shape as
-`content/seed.json`. Then:
-
-1. Write it somewhere outside this repository, or to a filename that `.gitignore` covers. Do not
-   commit it. Do not add it to a branch "temporarily".
-2. Point the running container at it instead of the shipped seed. The least-effort route is a
-   `docker-compose.override.yml` that bind-mounts your file over the seed the image ships; the
-   `Dockerfile` shows where that seed lands inside the container.
-3. `docker compose down -v && docker compose up -d` so the seed runs again on a clean database.
-4. **Never push an image built from a real seed**, and never tag one with the public image name.
-   The public image is `ghcr.io/atvriders/ks0man-site` and it must only ever be built by CI from
-   what is in this repository.
-
-The same rule applies to the mirror itself: it stays on the club's machine.
+and the theme and plugin through wp-admin with `tools/deploy_wp.py`. `tools/build_content.py` is
+the study-era converter; it is no longer how content is made.
 
 ---
 
@@ -304,9 +342,14 @@ CI runs both suites and then builds and publishes the image. The workflow is
 | `wp/plugins/maars-core/inc/blocks.php` | Four server-rendered blocks: `maars/next-meeting`, `maars/dateline`, `maars/fact`, `maars/skywave` |
 | `wp/themes/maars/` | Block theme. `theme.json` carries the measured palette; `templates/` and `parts/` are plain HTML. |
 | `wp/themes/maars/assets/js/skywave.js` | The propagation scene. `window.MAARSSkywave.mount(canvas, opts)`. Raw WebGL2, no libraries. |
-| `tools/build_content.py` | Mirror to seed JSON. Runs on the club's machine only. |
+| `wp/plugins/maars-core/inc/tally.php` | The archive counted at render time: the `[maars_archive_*]` shortcodes |
+| `wp/plugins/maars-core/inc/original.php` | `maars/original-file`: a record's own file, its formats, a real link |
+| `wp/plugins/maars-core/inc/legacy.php` | Answers old ks0man.com addresses, from the generated `inc/legacy-map.php` |
+| `tools/` | The converters and importers above, and the REST tools that publish to a live site |
 | `tools/seed.php` | Turns a seed JSON into WordPress posts, terms and meta at first boot. |
-| `content/seed.json` | The demonstration content. Public-safe by construction. |
+| `content/seed.json` | The site's own pages: About, Privacy, the gaps page, the officers, the nets. |
+| `content/mirror_pages.json`, `content/html_archive.json`, `content/record_text.json` | The carried-over pages, the web-era issues, the text of the PDF and Word records |
+| `media/` | Every file, and `manifest.json` saying what each one is |
 | `tests/` | The two suites above. |
 
 No Composer, no npm, no build step, no external JavaScript. That is deliberate: the club has to be
@@ -314,23 +357,25 @@ able to open a file and read it in ten years, on whatever machine it has then.
 
 ---
 
-## Open questions that still block a launch
+## Open questions
 
 None of these are engineering problems, and none of them can be answered from the archive. The
-demonstration is arranged so that the answers drop in without a redesign — but until they are
-answered, no real site should go up.
+site is arranged so that the answers drop in without a redesign.
 
-| # | Question | Why it blocks |
+**Decided.** Privacy and disclosure — the obituaries, the roster, the observer posts, the
+officers' addresses, the treasury — are answered: on 17 September and 16 October 2026 the
+Society decided to publish its record in full, as it published it.
+
+**Still open.**
+
+| # | Question | Why it matters |
 |---|---|---|
-| 1 | Who is the registrant of record for ks0man.com and ks0man.org, at which registrar, expiring when — and can two current officers log in this week? | The club has already lost four of its own domains. If the .com registration is unrecoverable, the launch plan inverts. Everything downstream waits on this. |
-| 2 | Is ks0man.com the canonical address, with ks0man.org redirecting to it permanently? | 27 years of references are printed on paper, read aloud on nets and listed in third-party directories. A 301 fixes a browser request; it does not fix a filing cabinet. |
-| 3 | Who provisioned the WordPress at ks0man.org, and who are the two named people who hold the site afterwards — a Webmaster and a Secretary? | If a second person cannot be named, the thing being built has to change shape. |
+| 1 | Who is the registrant of record for ks0man.com and ks0man.org, at which registrar, expiring when — and can two current officers log in this week? | The club has already lost four of its own domains. |
+| 2 | Is ks0man.org now the canonical address, with ks0man.com redirecting to it? | 27 years of references are printed on paper, read aloud on nets and listed in third-party directories. The redirect map and the plugin's old-address handler are ready either way. |
+| 3 | Who are the two named people who hold the site — a Webmaster and a Secretary? | If a second person cannot be named, the thing being built has to change shape. |
 | 4 | Is the club still meeting — and is it the first or the second Friday? | The constitution and the old homepage say second. The January 2024 minutes say the Senior Center was reserved for the first. `maars_next_meeting()` implements the constitution; if the practice differs, the rule is wrong. |
-| 5 | Who are the officers, by role, for 2024, 2025 and now? | The newest slate on record is 2023–24, and not one chair of the seven standing committees is named anywhere in the corpus. |
-| 6 | Privacy, four answers: the 27 obituaries in full? The roster public, members-only, or not at all? The 17 observer posts as-is, address-free, or members-only? Per-person pages for living members? | This is the largest reputational risk in the project, and it is why the content above is missing. Nothing in these four categories imports until the answer is in writing. |
-| 7 | Financial disclosure: the 6 year-end reports public and the 49 monthly reports members-only — or all public, or all members-only? | Hiding the treasury looks like something worth hiding; a named treasurer beside a running balance accurate to the cent is a ready-made pretext. Both directions have a cost. |
-| 8 | May the personal officer addresses become role aliases, and the historical ones be stripped from the republished archive? Who receives each alias? | Determines whether the archive can be republished at all in its current form. |
-| 9 | The repeater, as of today: where is it, at what power, into what antenna at what height, which controller, whose trustee licence, what coverage? Is the UHF repeater on the air? Is the EchoLink node live? | The most-consulted fact on the site is currently in three contradictory states across three pages. Until it is answered, the repeater card stays `unverified` — which is correct, but it is not a destination. |
+| 5 | Who are the officers for 2025 and now? | The newest election on record is November 2023's, for 2024 (on `/officers/`), and not one chair of the seven standing committees is named anywhere in the corpus. |
+| 6 | The repeater, as of today: where is it, at what power, into what antenna at what height, which controller, whose trustee licence, what coverage? Is the UHF repeater on the air? Is the EchoLink node live? | The most-consulted fact on the site is in three contradictory states across three pages of the record. Until it is answered, the repeater card stays `unverified`. |
 
 Two more that are not blocking but should be recorded: who holds the physical minute book from 1976
 (the largest recoverable gap — 1977 and 1979–1997 are otherwise blank), and whether anything
@@ -348,7 +393,7 @@ the Society's record and none of which belong in a public image.
 ## Provenance
 
 Club history, governance text and archive metadata belong to the Manhattan Area Amateur Radio
-Society. The code is a demonstration written for the club's use; the club decides what licence, if
-any, it carries. Third-party reprints from the old site are not included here: only two of the
-seventeen have a clean permission answer, and clearing the rest is somebody's real job before any
-of them is republished.
+Society. The code was written for the club's use; the club decides what licence, if any, it
+carries. Material by other authors that the old site carried — articles, charts, a video — is
+republished as it was there, by the Society's decision of 16 October 2026; whether each piece may
+be republished remains the club's question to answer.

@@ -100,15 +100,31 @@ function maars_media_title( $src ) {
  * @param string $src  Original archive filename.
  * @return void
  */
+/**
+ * Where a document really came from: the old site as it was served, or the
+ * webmaster's own folder. The fact chip on every record prints this.
+ */
+function maars_media_source_path( array $item, string $src ): string {
+	$root = ( isset( $item['origin'] ) && 'webmaster-folder' === $item['origin'] ) ? 'webmaster-folder/' : 'mirror/ks0man.com/';
+	return $root . $src;
+}
+
 function maars_media_publication( array $item, $att, $src ) {
+	/* All three keys a record of this file can carry: the bare name the first
+	   images wrote, and the two provenance paths written since. Checking one
+	   of them would make a second record on the next boot. */
 	$existing = get_posts(
 		array(
 			'post_type'      => 'maars_publication',
 			'post_status'    => 'any',
 			'posts_per_page' => 1,
 			'fields'         => 'ids',
-			'meta_key'       => '_maars_source_file',
-			'meta_value'     => $src,
+			'meta_query'     => array(
+				'relation' => 'OR',
+				array( 'key' => '_maars_source_file', 'value' => $src ),
+				array( 'key' => '_maars_source_file', 'value' => 'mirror/ks0man.com/' . $src ),
+				array( 'key' => '_maars_source_file', 'value' => 'webmaster-folder/' . $src ),
+			),
 		)
 	);
 	if ( $existing ) {
@@ -131,8 +147,9 @@ function maars_media_publication( array $item, $att, $src ) {
 		return;
 	}
 
-	update_post_meta( $post, '_maars_source_file', $src );
+	update_post_meta( $post, '_maars_source_file', maars_media_source_path( $item, $src ) );
 	update_post_meta( $post, '_maars_doc_date', $date );
+	update_post_meta( $post, '_maars_verified_on', '2026-10-17' );
 	update_post_meta( $post, '_maars_grade', 'sourced' );
 	update_post_meta( $post, '_maars_attachment', (int) $att );
 
@@ -146,6 +163,77 @@ function maars_media_publication( array $item, $att, $src ) {
 	/* Re-parent the file so the document and its record are one thing. */
 	wp_update_post( array( 'ID' => (int) $att, 'post_parent' => (int) $post ) );
 }
+
+/**
+ * Hang an attachment off an existing record as the same document in another
+ * format. The record is found by the source file it was made from.
+ *
+ * @param string $of Source file name of the record's own document, e.g. "newsletter_05-19.pdf".
+ * @param int    $att Attachment ID to add.
+ * @return void
+ */
+function maars_media_attach_alternate( string $of, int $att ) {
+	$records = get_posts(
+		array(
+			'post_type'      => 'maars_publication',
+			'post_status'    => 'any',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'meta_query'     => array(
+				array(
+					'key'     => '_maars_source_file',
+					'value'   => $of,
+					'compare' => 'LIKE',
+				),
+			),
+		)
+	);
+	if ( ! $records ) {
+		WP_CLI::warning( 'alternate format has no record to join: ' . $of );
+		return;
+	}
+
+	$record = (int) $records[0];
+	$list   = array_filter( explode( ',', (string) get_post_meta( $record, '_maars_alternates', true ) ) );
+	if ( ! in_array( (string) $att, $list, true ) ) {
+		$list[] = (string) $att;
+		update_post_meta( $record, '_maars_alternates', implode( ',', $list ) );
+	}
+	wp_update_post( array( 'ID' => $att, 'post_parent' => $record ) );
+}
+
+/*
+ * THE WEBMASTER'S SOURCE FILES. The folder ks0man.com was built from holds a
+ * TrueType font, two Photoshop files, an InDesign document, a PageMaker file
+ * and a plain-text order list, and the Society asked for every file in it.
+ * WordPress's upload list refuses all six when this runs from WP-CLI, which has
+ * no signed-in user and so no unfiltered_upload. The grant below is the
+ * narrowest one that works: these extensions, these types, for the length of
+ * this import, removed again at the end. Nothing a visitor can upload changes.
+ */
+$maars_source_types = array(
+	'ttf'  => 'font/ttf',
+	'psd'  => 'image/vnd.adobe.photoshop',
+	'indd' => 'application/x-indesign',
+	'pm'   => 'application/x-pagemaker',
+	'txt'  => 'text/plain',
+);
+$maars_mimes_filter = static function ( $mimes ) use ( $maars_source_types ) {
+	return array_merge( (array) $mimes, $maars_source_types );
+};
+$maars_check_filter = static function ( $data, $file, $filename ) use ( $maars_source_types ) {
+	$ext = strtolower( pathinfo( (string) $filename, PATHINFO_EXTENSION ) );
+	if ( isset( $maars_source_types[ $ext ] ) ) {
+		return array(
+			'ext'             => $ext,
+			'type'            => $maars_source_types[ $ext ],
+			'proper_filename' => false,
+		);
+	}
+	return $data;
+};
+add_filter( 'upload_mimes', $maars_mimes_filter );
+add_filter( 'wp_check_filetype_and_ext', $maars_check_filter, 10, 3 );
 
 $maars_added   = 0;
 $maars_skipped = 0;
@@ -236,9 +324,113 @@ foreach ( $maars_items as $maars_item ) {
 	if ( 'document' === $kind && ! empty( $maars_item['title'] ) && ! empty( $maars_item['date'] ) ) {
 		maars_media_publication( $maars_item, $id, $src );
 	}
+
 	++$maars_added;
 }
 
+/*
+ * RECORDS MATCH THE MANIFEST, on every boot. Records used to be made only in
+ * the loop above, for files imported THIS boot -- so on a volume an earlier
+ * image filled, twenty-one issues the manifest has since given a title stayed
+ * bare attachments forever, and a correction to a title or a kind never
+ * reached a record that already existed. This pass makes the record for any
+ * titled document whose file is in the library, brings an existing record's
+ * title, date, kind and year into line, and deletes the record of a file the
+ * manifest marks as a copy of another.
+ */
+foreach ( $maars_items as $maars_item ) {
+	$src = isset( $maars_item['src'] ) ? (string) $maars_item['src'] : '';
+	if ( '' === $src ) {
+		continue;
+	}
+
+	$records = get_posts(
+		array(
+			'post_type'      => 'maars_publication',
+			'post_status'    => 'any',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'meta_query'     => array(
+				'relation' => 'OR',
+				array( 'key' => '_maars_source_file', 'value' => $src ),
+				array( 'key' => '_maars_source_file', 'value' => 'mirror/ks0man.com/' . $src ),
+				array( 'key' => '_maars_source_file', 'value' => 'webmaster-folder/' . $src ),
+			),
+		)
+	);
+
+	if ( ! empty( $maars_item['duplicate_of'] ) ) {
+		if ( $records ) {
+			wp_delete_post( (int) $records[0], true );
+			WP_CLI::log( 'removed the record for ' . $src . ', a copy of ' . $maars_item['duplicate_of'] );
+		}
+		continue;
+	}
+
+	if ( empty( $maars_item['title'] ) || empty( $maars_item['date'] ) ) {
+		continue;
+	}
+
+	$att = maars_media_existing( $src );
+	if ( ! $records ) {
+		if ( $att ) {
+			maars_media_publication( $maars_item, $att, $src );
+		}
+		continue;
+	}
+
+	$record = (int) $records[0];
+	$want   = array(
+		'ID'         => $record,
+		'post_title' => (string) $maars_item['title'],
+		'post_date'  => (string) $maars_item['date'] . ' 09:00:00',
+	);
+	$post = get_post( $record );
+	if ( $post && ( $post->post_title !== $want['post_title'] || substr( $post->post_date, 0, 10 ) !== (string) $maars_item['date'] ) ) {
+		$want['post_name'] = sanitize_title( $want['post_title'] );
+		wp_update_post( $want );
+	}
+	update_post_meta( $record, '_maars_doc_date', (string) $maars_item['date'] );
+	update_post_meta( $record, '_maars_source_file', maars_media_source_path( $maars_item, $src ) );
+	if ( '' === (string) get_post_meta( $record, '_maars_verified_on', true ) ) {
+		update_post_meta( $record, '_maars_verified_on', '2026-10-17' );
+	}
+	if ( ! empty( $maars_item['doc_type'] ) ) {
+		wp_set_object_terms( $record, (string) $maars_item['doc_type'], 'maars_doc_type', false );
+	}
+	if ( ! empty( $maars_item['year'] ) ) {
+		wp_set_object_terms( $record, (string) $maars_item['year'], 'maars_year', false );
+	}
+	if ( $att && (int) get_post_meta( $record, '_maars_attachment', true ) !== (int) $att ) {
+		update_post_meta( $record, '_maars_attachment', (int) $att );
+	}
+}
+
+/*
+ * The same document in another format -- the .docx the treasurer wrote before
+ * printing the PDF -- belongs to the record the PDF made, not to a record of
+ * its own. Two records for one report is a duplicate in the archive list; one
+ * record with two files is the truth.
+ *
+ * A second pass, after every record exists. Joined inside the loop, an
+ * alternate that sorts before its document ("newsletter-05-19.doc" before
+ * "newsletter-05-19.pdf") arrived before the record it belongs to, found
+ * nothing to join, and stayed loose; and a re-run never joined it, because the
+ * loop skips what is already imported. This pass is idempotent and covers both.
+ */
+foreach ( $maars_items as $maars_item ) {
+	if ( empty( $maars_item['alternate_of'] ) || empty( $maars_item['src'] ) ) {
+		continue;
+	}
+	$att = maars_media_existing( (string) $maars_item['src'] );
+	if ( $att ) {
+		maars_media_attach_alternate( (string) $maars_item['alternate_of'], (int) $att );
+	}
+}
+
+
+remove_filter( 'upload_mimes', $maars_mimes_filter );
+remove_filter( 'wp_check_filetype_and_ext', $maars_check_filter, 10 );
 
 WP_CLI::success(
 	sprintf(

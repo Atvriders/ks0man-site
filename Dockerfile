@@ -59,6 +59,15 @@ COPY tools/import_media.php /usr/src/maars/tools/import_media.php
 # once the media is in the library. Without both, a boot produces a site that
 # quietly lacks eleven pages the club has had since 1997.
 COPY tools/seed_pages.php   /usr/src/maars/tools/seed_pages.php
+# The 125 issues from the years when the newsletter WAS the web page. Without
+# these two lines the image's archive started in 2009 and the live one in 1998.
+COPY tools/import_html_archive.php /usr/src/maars/tools/import_html_archive.php
+COPY tools/lib_tokens.php  /usr/src/maars/tools/lib_tokens.php
+COPY content/html_archive.json /usr/src/maars/content/html_archive.json
+# The text of the 142 records made from PDF and Word files, without which the
+# archive's search could not find a word inside the minutes since 2013.
+COPY tools/import_record_text.php /usr/src/maars/tools/import_record_text.php
+COPY content/record_text.json /usr/src/maars/content/record_text.json
 COPY content/mirror_pages.json /usr/src/maars/content/mirror_pages.json
 COPY content/seed.json     /usr/src/maars/content/seed.json
 # The club's own photographs and governance documents, published in full:

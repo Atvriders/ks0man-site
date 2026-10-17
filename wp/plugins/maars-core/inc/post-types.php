@@ -343,3 +343,31 @@ function maars_maybe_flush_rewrites() {
 	update_option( 'maars_rewrite_version', (string) MAARS_REWRITE_VERSION );
 }
 add_action( 'init', 'maars_maybe_flush_rewrites', 99 );
+
+/**
+ * The archive lists page through the MAIN query, twenty to a page, newest first.
+ *
+ * The archive template inherits the main query so that /archive/page/9/ is page
+ * nine; this is where its length and order are set, for the archive itself and
+ * for the year and type lists, which list only archive records.
+ *
+ * @param WP_Query $query The query being built.
+ * @return void
+ */
+function maars_archive_main_query( $query ) {
+	if ( is_admin() || ! $query instanceof WP_Query || ! $query->is_main_query() ) {
+		return;
+	}
+
+	$is_archive = $query->is_post_type_archive( 'maars_publication' );
+	$is_list    = $query->is_tax( array( 'maars_year', 'maars_doc_type' ) );
+	if ( ! $is_archive && ! $is_list ) {
+		return;
+	}
+
+	$query->set( 'post_type', 'maars_publication' );
+	$query->set( 'posts_per_page', MAARS_ARCHIVE_PER_PAGE );
+	$query->set( 'orderby', 'date' );
+	$query->set( 'order', 'DESC' );
+}
+add_action( 'pre_get_posts', 'maars_archive_main_query' );
